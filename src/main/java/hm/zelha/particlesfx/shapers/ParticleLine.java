@@ -22,8 +22,12 @@ public class ParticleLine {
     private double frequency;
 
     public ParticleLine(Effect particle, Location start, Location end, double frequency) {
-        Validate.isTrue(particle.getType() == Effect.Type.PARTICLE, "Effect must be of Type.PARTICLE!");
-        Validate.isTrue(start.getWorld() == end.getWorld(), "Locations cannot be in different worlds!");
+        Validate.notNull(particle, "Particle cannot be null!");
+        Validate.isTrue(particle.getType() != Effect.Type.SOUND, "Effect must be of Type.PARTICLE or Type.VISUAL!");
+        Validate.notNull(start, "Location cannot be null!");
+        Validate.notNull(end, "Location cannot be null!");
+        Validate.notNull(start.getWorld(), "Location's world cannot be null!");
+        Validate.notNull(end.getWorld(), "Location's world cannot be null!");
         Validate.isTrue(frequency > 0.0D, "Frequency cannot be 0 or less!");
 
         this.particle = particle;

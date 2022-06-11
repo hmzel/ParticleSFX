@@ -24,7 +24,10 @@ public class ParticleCircle {
     private boolean halfCircle;
 
     public ParticleCircle(Effect particle, Location center, double xRadius, double zRadius, double pitch, double yaw, double roll, double frequency, boolean halfCircle) {
-        Validate.isTrue(particle.getType() == Effect.Type.PARTICLE, "Effect must be of Type.PARTICLE!");
+        Validate.notNull(particle, "Particle cannot be null!");
+        Validate.isTrue(particle.getType() != Effect.Type.SOUND, "Effect must be of Type.PARTICLE or Type.VISUAL!");
+        Validate.notNull(center, "Location cannot be null!");
+        Validate.notNull(center.getWorld(), "Location's world cannot be null!");
         Validate.isTrue(frequency > 0.0D, "Frequency cannot be 0 or less!");
 
         this.particle = particle;
