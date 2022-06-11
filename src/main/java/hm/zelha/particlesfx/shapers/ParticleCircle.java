@@ -1,5 +1,6 @@
-package hm.zelha.particlesfx;
+package hm.zelha.particlesfx.shapers;
 
+import hm.zelha.particlesfx.Main;
 import org.apache.commons.lang3.Validate;
 import org.bukkit.Effect;
 import org.bukkit.Location;
@@ -9,7 +10,7 @@ import org.bukkit.util.Vector;
 
 public class ParticleCircle {
 
-    //tomorrow optimize the rotation methods so they dont recalculate when its not necessary
+    //optimize the rotation methods so they dont recalculate when its not necessary
 
     private BukkitTask animator = null;
     private Effect particle;

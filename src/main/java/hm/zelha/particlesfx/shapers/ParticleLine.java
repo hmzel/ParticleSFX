@@ -1,5 +1,6 @@
-package hm.zelha.particlesfx;
+package hm.zelha.particlesfx.shapers;
 
+import hm.zelha.particlesfx.Main;
 import org.apache.commons.lang3.Validate;
 import org.bukkit.Effect;
 import org.bukkit.Location;
@@ -18,27 +19,25 @@ public class ParticleLine {
     private double pitch = 0;
     private double yaw = 0;
     private double roll = 0;
-    private double frequency = 0.25;
+    private double frequency;
 
     public ParticleLine(Effect particle, Location start, Location end, double frequency) {
-        this(particle, start, end);
-
-        Validate.isTrue(frequency > 0.0D, "Frequency cannot be 0 or less!");
-
-        this.frequency = frequency;
-    }
-
-    public ParticleLine(Effect particle, Location start, Location end) {
         Validate.isTrue(particle.getType() == Effect.Type.PARTICLE, "Effect must be of Type.PARTICLE!");
         Validate.isTrue(start.getWorld() == end.getWorld(), "Locations cannot be in different worlds!");
+        Validate.isTrue(frequency > 0.0D, "Frequency cannot be 0 or less!");
 
         this.particle = particle;
         this.originalStart = start;
         this.originalEnd = end;
         this.start = start;
         this.end = end;
+        this.frequency = frequency;
 
         start();
+    }
+
+    public ParticleLine(Effect particle, Location start, Location end) {
+        this(particle, start, end, 0.25);
     }
 
     public void start() {
