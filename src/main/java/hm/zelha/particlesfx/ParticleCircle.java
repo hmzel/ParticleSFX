@@ -19,38 +19,48 @@ public class ParticleCircle {
     private double pitch = 0;
     private double yaw = 0;
     private double roll = 0;
+    private double frequency = Math.PI / 50;
     private boolean halfCircle = false;
-    private double color = 0;
 
-    public ParticleCircle(Effect particle, Location center, double xRadius, double zRadius, double pitch, double yaw, double roll, boolean halfCircle) {
-        this(particle, center, xRadius, zRadius, pitch, yaw, roll);
-
-        this.halfCircle = halfCircle;
-    }
-
-    public ParticleCircle(Effect particle, Location center, double xRadius, double zRadius, double pitch, double yaw, double roll) {
-        this(particle, center, xRadius, zRadius);
-
-        this.pitch = pitch;
-        this.yaw = yaw;
-        this.roll = roll;
-    }
-
-    public ParticleCircle(Effect particle, Location center, double xRadius, double zRadius, boolean halfCircle) {
-        this(particle, center, xRadius, zRadius);
-
-        this.halfCircle = halfCircle;
-    }
-
-    public ParticleCircle(Effect particle, Location center, double xRadius, double zRadius) {
+    public ParticleCircle(Effect particle, Location center, double xRadius, double zRadius, double pitch, double yaw, double roll, double frequency, boolean halfCircle) {
         Validate.isTrue(particle.getType() == Effect.Type.PARTICLE, "Effect must be of Type.PARTICLE!");
+        Validate.isTrue(frequency <= 0, "Frequency cannot be 0 or less!");
 
         this.particle = particle;
         this.center = center;
         this.xRadius = xRadius;
         this.zRadius = zRadius;
+        this.pitch = pitch;
+        this.yaw = yaw;
+        this.roll = roll;
+        this.frequency = frequency;
+        this.halfCircle = halfCircle;
 
         start();
+    }
+
+    public ParticleCircle(Effect particle, Location center, double xRadius, double zRadius, double pitch, double yaw, double roll, double frequency) {
+        this(particle, center, xRadius, zRadius, pitch, yaw, roll, frequency, false);
+    }
+
+    public ParticleCircle(Effect particle, Location center, double xRadius, double zRadius, double pitch, double yaw, double roll, boolean halfCircle) {
+        this(particle, center, xRadius, zRadius, pitch, yaw, roll, Math.PI / 50, halfCircle);
+    }
+
+    public ParticleCircle(Effect particle, Location center, double xRadius, double zRadius, double pitch, double yaw, double roll) {
+        this(particle, center, xRadius, zRadius, pitch, yaw, roll, Math.PI / 50, false);
+    }
+
+    public ParticleCircle(Effect particle, Location center, double xRadius, double zRadius, double frequency) {
+        this(particle, center, xRadius, zRadius, 0, 0, 0, frequency, false);
+    }
+
+    public ParticleCircle(Effect particle, Location center, double xRadius, double zRadius, boolean halfCircle) {
+        this(particle, center, xRadius, zRadius, 0, 0, 0, Math.PI / 50, halfCircle);
+    }
+
+    public ParticleCircle(Effect particle, Location center, double xRadius, double zRadius) {
+        this(particle, center, xRadius, zRadius, 0, 0, 0, Math.PI / 50, false);
     }
 
     public void start() {
@@ -59,7 +69,7 @@ public class ParticleCircle {
         animator = new BukkitRunnable() {
             @Override
             public void run() {
-                for (double radian = 0; radian < Math.PI * ((halfCircle) ? 1 : 2); radian += Math.PI / (20 * ((xRadius + zRadius) * 0.25))) {
+                for (double radian = 0; radian < Math.PI * ((halfCircle) ? 1 : 2); radian += frequency) {
                     Vector addition = new Vector(xRadius * Math.cos(radian), 0, zRadius * Math.sin(radian));
 
                     applyPitch(addition);
@@ -144,8 +154,10 @@ public class ParticleCircle {
         this.roll = roll;
     }
 
-    public void setColor(double color) {
-        this.color = color;
+    public void setFrequency(double frequency) {
+        Validate.isTrue(frequency <= 0, "Frequency cannot be 0 or less!");
+
+        this.frequency = frequency;
     }
 
     public void setHalfCircle(boolean halfCircle) {
@@ -180,8 +192,8 @@ public class ParticleCircle {
         return roll;
     }
 
-    public double getColor() {
-        return color;
+    public double getFrequency() {
+        return frequency;
     }
 
     public boolean isHalfCircle() {
