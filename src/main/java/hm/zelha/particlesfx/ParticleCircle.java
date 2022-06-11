@@ -16,15 +16,15 @@ public class ParticleCircle {
     private Location center;
     private double xRadius;
     private double zRadius;
-    private double pitch = 0;
-    private double yaw = 0;
-    private double roll = 0;
-    private double frequency = Math.PI / 50;
-    private boolean halfCircle = false;
+    private double pitch;
+    private double yaw;
+    private double roll;
+    private double frequency;
+    private boolean halfCircle;
 
     public ParticleCircle(Effect particle, Location center, double xRadius, double zRadius, double pitch, double yaw, double roll, double frequency, boolean halfCircle) {
         Validate.isTrue(particle.getType() == Effect.Type.PARTICLE, "Effect must be of Type.PARTICLE!");
-        Validate.isTrue(frequency <= 0, "Frequency cannot be 0 or less!");
+        Validate.isTrue(frequency > 0.0D, "Frequency cannot be 0 or less!");
 
         this.particle = particle;
         this.center = center;

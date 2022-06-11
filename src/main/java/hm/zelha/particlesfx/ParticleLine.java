@@ -23,7 +23,7 @@ public class ParticleLine {
     public ParticleLine(Effect particle, Location start, Location end, double frequency) {
         this(particle, start, end);
 
-        Validate.isTrue(frequency <= 0, "Frequency cannot be 0 or less!");
+        Validate.isTrue(frequency > 0.0D, "Frequency cannot be 0 or less!");
 
         this.frequency = frequency;
     }
