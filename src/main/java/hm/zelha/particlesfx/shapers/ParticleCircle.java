@@ -1,8 +1,8 @@
 package hm.zelha.particlesfx.shapers;
 
 import hm.zelha.particlesfx.Main;
+import hm.zelha.particlesfx.particles.parents.Particle;
 import org.apache.commons.lang3.Validate;
-import org.bukkit.Effect;
 import org.bukkit.Location;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
@@ -13,7 +13,7 @@ public class ParticleCircle {
     //optimize the rotation methods so they dont recalculate when its not necessary
 
     private BukkitTask animator = null;
-    private Effect particle;
+    private Particle particle;
     private Location center;
     private double xRadius;
     private double zRadius;
@@ -23,9 +23,8 @@ public class ParticleCircle {
     private double frequency;
     private boolean halfCircle;
 
-    public ParticleCircle(Effect particle, Location center, double xRadius, double zRadius, double pitch, double yaw, double roll, double frequency, boolean halfCircle) {
+    public ParticleCircle(Particle particle, Location center, double xRadius, double zRadius, double pitch, double yaw, double roll, double frequency, boolean halfCircle) {
         Validate.notNull(particle, "Particle cannot be null!");
-        Validate.isTrue(particle.getType() != Effect.Type.SOUND, "Effect must be of Type.PARTICLE or Type.VISUAL!");
         Validate.notNull(center, "Location cannot be null!");
         Validate.notNull(center.getWorld(), "Location's world cannot be null!");
         Validate.isTrue(frequency > 0.0D, "Frequency cannot be 0 or less!");
@@ -43,27 +42,27 @@ public class ParticleCircle {
         start();
     }
 
-    public ParticleCircle(Effect particle, Location center, double xRadius, double zRadius, double pitch, double yaw, double roll, double frequency) {
+    public ParticleCircle(Particle particle, Location center, double xRadius, double zRadius, double pitch, double yaw, double roll, double frequency) {
         this(particle, center, xRadius, zRadius, pitch, yaw, roll, frequency, false);
     }
 
-    public ParticleCircle(Effect particle, Location center, double xRadius, double zRadius, double pitch, double yaw, double roll, boolean halfCircle) {
+    public ParticleCircle(Particle particle, Location center, double xRadius, double zRadius, double pitch, double yaw, double roll, boolean halfCircle) {
         this(particle, center, xRadius, zRadius, pitch, yaw, roll, Math.PI / 50, halfCircle);
     }
 
-    public ParticleCircle(Effect particle, Location center, double xRadius, double zRadius, double pitch, double yaw, double roll) {
+    public ParticleCircle(Particle particle, Location center, double xRadius, double zRadius, double pitch, double yaw, double roll) {
         this(particle, center, xRadius, zRadius, pitch, yaw, roll, Math.PI / 50, false);
     }
 
-    public ParticleCircle(Effect particle, Location center, double xRadius, double zRadius, double frequency) {
+    public ParticleCircle(Particle particle, Location center, double xRadius, double zRadius, double frequency) {
         this(particle, center, xRadius, zRadius, 0, 0, 0, frequency, false);
     }
 
-    public ParticleCircle(Effect particle, Location center, double xRadius, double zRadius, boolean halfCircle) {
+    public ParticleCircle(Particle particle, Location center, double xRadius, double zRadius, boolean halfCircle) {
         this(particle, center, xRadius, zRadius, 0, 0, 0, Math.PI / 50, halfCircle);
     }
 
-    public ParticleCircle(Effect particle, Location center, double xRadius, double zRadius) {
+    public ParticleCircle(Particle particle, Location center, double xRadius, double zRadius) {
         this(particle, center, xRadius, zRadius, 0, 0, 0, Math.PI / 50, false);
     }
 
@@ -80,7 +79,7 @@ public class ParticleCircle {
                     applyYaw(addition);
                     applyRoll(addition);
 
-                    center.getWorld().spigot().playEffect(center.add(addition), particle, 0, 0, 0, 0, 0, 0, 1, 150);
+                    particle.display(center.add(addition));
                     center.subtract(addition);
                 }
             }
@@ -134,8 +133,8 @@ public class ParticleCircle {
         v.setX(x).setY(y);
     }
 
-    public void setParticle(Effect particle) {
-        Validate.isTrue(particle.getType() == Effect.Type.PARTICLE, "Effect must be of Type.PARTICLE!");
+    public void setParticle(Particle particle) {
+        Validate.notNull(particle, "Particle cannot be null!");
 
         this.particle = particle;
     }
@@ -174,7 +173,7 @@ public class ParticleCircle {
         this.halfCircle = halfCircle;
     }
 
-    public Effect getParticle() {
+    public Particle getParticle() {
         return particle;
     }
 
