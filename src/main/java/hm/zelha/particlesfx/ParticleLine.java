@@ -74,35 +74,29 @@ public class ParticleLine {
             double x, y, z, cos, sin, angle;
             Vector v = l.clone().subtract(around).toVector();
 
-            if (this.pitch != 0) {
-                angle = Math.toRadians(this.pitch);
-                cos = Math.cos(angle);
-                sin = Math.sin(angle);
-                y = v.getY() * cos - v.getZ() * sin;
-                z = v.getY() * sin + v.getZ() * cos;
+            angle = Math.toRadians(this.pitch);
+            cos = Math.cos(angle);
+            sin = Math.sin(angle);
+            y = v.getY() * cos - v.getZ() * sin;
+            z = v.getY() * sin + v.getZ() * cos;
 
-                v.setY(y).setZ(z);
-            }
+            v.setY(y).setZ(z);
 
-            if (this.yaw != 0) {
-                angle = Math.toRadians(-this.yaw);
-                cos = Math.cos(angle);
-                sin = Math.sin(angle);
-                x = v.getX() * cos + v.getZ() * sin;
-                z = v.getX() * -sin + v.getZ() * cos;
+            angle = Math.toRadians(-this.yaw);
+            cos = Math.cos(angle);
+            sin = Math.sin(angle);
+            x = v.getX() * cos + v.getZ() * sin;
+            z = v.getX() * -sin + v.getZ() * cos;
 
-                v.setX(x).setZ(z);
-            }
+            v.setX(x).setZ(z);
 
-            if (this.roll != 0) {
-                angle = Math.toRadians(this.roll);
-                cos = Math.cos(angle);
-                sin = Math.sin(angle);
-                x = v.getX() * cos - v.getY() * sin;
-                y = v.getX() * sin + v.getY() * cos;
+            angle = Math.toRadians(this.roll);
+            cos = Math.cos(angle);
+            sin = Math.sin(angle);
+            x = v.getX() * cos - v.getY() * sin;
+            y = v.getX() * sin + v.getY() * cos;
 
-                v.setX(x).setY(y);
-            }
+            v.setX(x).setY(y);
 
             if (l.equals(originalStart)) {
                 start = around.clone().add(v);

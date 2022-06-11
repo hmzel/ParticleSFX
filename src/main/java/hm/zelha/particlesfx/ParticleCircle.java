@@ -81,8 +81,6 @@ public class ParticleCircle {
     }
 
     private void applyPitch(Vector v) {
-        if (pitch == 0) return;
-
         double y, z, cos, sin, angle;
         angle = Math.toRadians(pitch);
         cos = Math.cos(angle);
@@ -94,8 +92,6 @@ public class ParticleCircle {
     }
 
     private void applyYaw(Vector v) {
-        if (yaw == 0) return;
-
         double x, z, cos, sin, angle;
         angle = -yaw;
         angle = Math.toRadians(angle);
@@ -108,8 +104,6 @@ public class ParticleCircle {
     }
 
     private void applyRoll(Vector v) {
-        if (roll == 0) return;
-
         double x, y, cos, sin, angle;
         angle = Math.toRadians(roll);
         cos = Math.cos(angle);
