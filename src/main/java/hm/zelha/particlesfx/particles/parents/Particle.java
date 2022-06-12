@@ -47,7 +47,7 @@ public class Particle {
     private void display(Location location, Object toPlayOn) {
         int dataValue = 0;
 
-        if (data instanceof Directional.Direction) data = ((Directional.Direction) data).getValue();
+        if (data instanceof Directional.Direction) dataValue = ((Directional.Direction) data).getValue();
 
         if (toPlayOn instanceof Player) {
             ((Player) toPlayOn).spigot().playEffect(location, particle, particle.getId(), dataValue, (float) offsetX, (float) offsetY, (float) offsetZ, (float) speed, count, radius);
