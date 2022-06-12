@@ -20,6 +20,10 @@ public class ParticleSmokeDirectional extends Particle implements Directional {
         this(direction, offsetX, offsetY, offsetZ, 1);
     }
 
+    public ParticleSmokeDirectional(double offsetX, double offsetY, double offsetZ, int count) {
+        this(Direction.NONE, offsetX, offsetY, offsetZ, count);
+    }
+
     public ParticleSmokeDirectional(double offsetX, double offsetY, double offsetZ) {
         this(Direction.NONE, offsetX, offsetY, offsetZ, 1);
     }
