@@ -36,6 +36,12 @@ public class Particle {
         player.spigot().playEffect(location, particle, particle.getId(), 0, offsetX, offsetY, offsetZ, speed, count, radius);
     }
 
+    public void displayForPlayers(Location location, Player... players) {
+        for (Player player : players) {
+            player.spigot().playEffect(location, particle, particle.getId(), 0, offsetX, offsetY, offsetZ, speed, count, radius);
+        }
+    }
+
     public void setOffsetX(float offsetX) {
         this.offsetX = offsetX;
     }
