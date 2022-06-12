@@ -3,10 +3,14 @@ package hm.zelha.particlesfx.particles.parents;
 import org.apache.commons.lang3.Validate;
 import org.bukkit.Effect;
 import org.bukkit.Location;
+import org.bukkit.World;
+import org.bukkit.block.BlockFace;
+import org.bukkit.craftbukkit.v1_8_R3.CraftEffect;
 import org.bukkit.entity.Player;
 
 public class Particle {
 
+    protected Object data;
     private final Effect particle;
     private double offsetX;
     private double offsetY;
@@ -29,16 +33,28 @@ public class Particle {
     }
 
     public void display(Location location) {
-        location.getWorld().spigot().playEffect(location, particle, particle.getId(), 0, (float) offsetX, (float) offsetY, (float) offsetZ, (float) speed, count, radius);
+        display(location, location.getWorld());
     }
 
     public void displayForPlayer(Location location, Player player) {
-        player.spigot().playEffect(location, particle, particle.getId(), 0, (float) offsetX, (float) offsetY, (float) offsetZ, (float) speed, count, radius);
+        display(location, player);
     }
 
     public void displayForPlayers(Location location, Player... players) {
         for (Player player : players) {
-            player.spigot().playEffect(location, particle, particle.getId(), 0, (float) offsetX, (float) offsetY, (float) offsetZ, (float) speed, count, radius);
+            display(location, player);
+        }
+    }
+
+    private void display(Location location, Object toPlayOn) {
+        int dataValue = 0;
+
+        if (data instanceof BlockFace) data = CraftEffect.getDataValue(particle, data);
+
+        if (toPlayOn instanceof Player) {
+            ((Player) toPlayOn).spigot().playEffect(location, particle, particle.getId(), dataValue, (float) offsetX, (float) offsetY, (float) offsetZ, (float) speed, count, radius);
+        } else {
+            ((World) toPlayOn).spigot().playEffect(location, particle, particle.getId(), dataValue, (float) offsetX, (float) offsetY, (float) offsetZ, (float) speed, count, radius);
         }
     }
 
