@@ -4,8 +4,6 @@ import org.apache.commons.lang3.Validate;
 import org.bukkit.Effect;
 import org.bukkit.Location;
 import org.bukkit.World;
-import org.bukkit.block.BlockFace;
-import org.bukkit.craftbukkit.v1_8_R3.CraftEffect;
 import org.bukkit.entity.Player;
 
 public class Particle {
@@ -49,7 +47,7 @@ public class Particle {
     private void display(Location location, Object toPlayOn) {
         int dataValue = 0;
 
-        if (data instanceof BlockFace) data = CraftEffect.getDataValue(particle, data);
+        if (data instanceof Directional.Direction) data = ((Directional.Direction) data).getValue();
 
         if (toPlayOn instanceof Player) {
             ((Player) toPlayOn).spigot().playEffect(location, particle, particle.getId(), dataValue, (float) offsetX, (float) offsetY, (float) offsetZ, (float) speed, count, radius);

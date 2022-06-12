@@ -1,12 +1,10 @@
 package hm.zelha.particlesfx.particles.parents;
 
-import org.bukkit.block.BlockFace;
-
 public interface Directional {
 
-    public void setDirection(BlockFace face);
+    public void setDirection(Direction direction);
 
-    public BlockFace getDirection();
+    public Direction getDirection();
 
     /** while it is possible to get more directions than this, it's only possible to get variants of north west. pretty weird. */
     enum Direction {
