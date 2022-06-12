@@ -25,6 +25,6 @@ public class ParticleFlame extends Particle {
     }
 
     public ParticleFlame() {
-        super(Effect.FLAME, 0, 0, 0, 0, 0, 0);
+        super(Effect.FLAME, 0, 0, 0, 0, 1, 64);
     }
 }
