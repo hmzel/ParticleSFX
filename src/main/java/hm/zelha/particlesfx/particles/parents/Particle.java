@@ -45,14 +45,14 @@ public class Particle {
     }
 
     private void display(Location location, Object toPlayOn) {
-        int dataValue = 0;
+        int idValue = particle.getId();
 
-        if (data instanceof Directional.Direction) dataValue = ((Directional.Direction) data).getValue();
+        if (data instanceof Directional.Direction) idValue = ((Directional.Direction) data).getValue();
 
         if (toPlayOn instanceof Player) {
-            ((Player) toPlayOn).spigot().playEffect(location, particle, particle.getId(), dataValue, (float) offsetX, (float) offsetY, (float) offsetZ, (float) speed, count, radius);
+            ((Player) toPlayOn).spigot().playEffect(location, particle, idValue, 0, (float) offsetX, (float) offsetY, (float) offsetZ, (float) speed, count, radius);
         } else {
-            ((World) toPlayOn).spigot().playEffect(location, particle, particle.getId(), dataValue, (float) offsetX, (float) offsetY, (float) offsetZ, (float) speed, count, radius);
+            ((World) toPlayOn).spigot().playEffect(location, particle, idValue, 0, (float) offsetX, (float) offsetY, (float) offsetZ, (float) speed, count, radius);
         }
     }
 
