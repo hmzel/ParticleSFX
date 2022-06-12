@@ -39,22 +39,25 @@ public class Particle {
     }
 
     public void displayForPlayers(Location location, Player... players) {
-        for (Player player : players) {
-            display(location, player);
-        }
+        for (Player player : players) display(location, player);
     }
 
     private void display(Location location, Object toPlayOn) {
+        int count2 = 1;
         int idValue = particle.getId();
 
+        if (particle.getType() == Effect.Type.VISUAL) count2 = count;
         if (data instanceof Directional.Direction) idValue = ((Directional.Direction) data).getValue();
 
-        if (toPlayOn instanceof Player) {
-            ((Player) toPlayOn).spigot().playEffect(location, particle, idValue, 0, (float) offsetX, (float) offsetY, (float) offsetZ, (float) speed, count, radius);
-        } else {
-            ((World) toPlayOn).spigot().playEffect(location, particle, idValue, 0, (float) offsetX, (float) offsetY, (float) offsetZ, (float) speed, count, radius);
+        for (int i = 0; i != count2; i++) {
+            if (toPlayOn instanceof Player) {
+                ((Player) toPlayOn).spigot().playEffect(location, particle, idValue, 0, (float) offsetX, (float) offsetY, (float) offsetZ, (float) speed, count, radius);
+            } else {
+                ((World) toPlayOn).spigot().playEffect(location, particle, idValue, 0, (float) offsetX, (float) offsetY, (float) offsetZ, (float) speed, count, radius);
+            }
         }
     }
+
 
     public void setOffsetX(double offsetX) {
         this.offsetX = offsetX;
