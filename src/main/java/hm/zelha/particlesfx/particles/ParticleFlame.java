@@ -4,19 +4,19 @@ import hm.zelha.particlesfx.particles.parents.Particle;
 import org.bukkit.Effect;
 
 public class ParticleFlame extends Particle {
-    public ParticleFlame(float offsetX, float offsetY, float offsetZ, float speed, int count) {
+    public ParticleFlame(double offsetX, double offsetY, double offsetZ, double speed, int count) {
         super(Effect.FLAME, offsetX, offsetY, offsetZ, speed, count, 64);
     }
 
-    public ParticleFlame(float offsetX, float offsetY, float offsetZ) {
+    public ParticleFlame(double offsetX, double offsetY, double offsetZ) {
         super(Effect.FLAME, offsetX, offsetY, offsetZ, 0, 1, 64);
     }
 
-    public ParticleFlame(float speed, int count) {
+    public ParticleFlame(double speed, int count) {
         super(Effect.FLAME, 0, 0, 0, speed, count, 64);
     }
 
-    public ParticleFlame(float speed) {
+    public ParticleFlame(double speed) {
         super(Effect.FLAME, 0, 0, 0, speed, 1, 64);
     }
 

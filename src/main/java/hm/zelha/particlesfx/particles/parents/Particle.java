@@ -8,14 +8,14 @@ import org.bukkit.entity.Player;
 public class Particle {
 
     private final Effect particle;
-    private float offsetX;
-    private float offsetY;
-    private float offsetZ;
-    private float speed;
+    private double offsetX;
+    private double offsetY;
+    private double offsetZ;
+    private double speed;
     private int count;
     private int radius;
 
-    protected Particle(Effect particle, float offsetX, float offsetY, float offsetZ, float speed, int count, int radius) {
+    protected Particle(Effect particle, double offsetX, double offsetY, double offsetZ, double speed, int count, int radius) {
         Validate.notNull(particle, "Particle cannot be null!");
         Validate.isTrue(particle.getType() != Effect.Type.SOUND, "Effect must be of Type.PARTICLE or Type.VISUAL!");
 
@@ -29,32 +29,32 @@ public class Particle {
     }
 
     public void display(Location location) {
-        location.getWorld().spigot().playEffect(location, particle, particle.getId(), 0, offsetX, offsetY, offsetZ, speed, count, radius);
+        location.getWorld().spigot().playEffect(location, particle, particle.getId(), 0, (float) offsetX, (float) offsetY, (float) offsetZ, (float) speed, count, radius);
     }
 
     public void displayForPlayer(Location location, Player player) {
-        player.spigot().playEffect(location, particle, particle.getId(), 0, offsetX, offsetY, offsetZ, speed, count, radius);
+        player.spigot().playEffect(location, particle, particle.getId(), 0, (float) offsetX, (float) offsetY, (float) offsetZ, (float) speed, count, radius);
     }
 
     public void displayForPlayers(Location location, Player... players) {
         for (Player player : players) {
-            player.spigot().playEffect(location, particle, particle.getId(), 0, offsetX, offsetY, offsetZ, speed, count, radius);
+            player.spigot().playEffect(location, particle, particle.getId(), 0, (float) offsetX, (float) offsetY, (float) offsetZ, (float) speed, count, radius);
         }
     }
 
-    public void setOffsetX(float offsetX) {
+    public void setOffsetX(double offsetX) {
         this.offsetX = offsetX;
     }
 
-    public void setOffsetY(float offsetY) {
+    public void setOffsetY(double offsetY) {
         this.offsetY = offsetY;
     }
 
-    public void setOffsetZ(float offsetZ) {
+    public void setOffsetZ(double offsetZ) {
         this.offsetZ = offsetZ;
     }
 
-    public void setSpeed(float speed) {
+    public void setSpeed(double speed) {
         this.speed = speed;
     }
 
@@ -66,19 +66,19 @@ public class Particle {
         this.radius = radius;
     }
 
-    public float getOffsetX() {
+    public double getOffsetX() {
         return offsetX;
     }
 
-    public float getOffsetY() {
+    public double getOffsetY() {
         return offsetY;
     }
 
-    public float getOffsetZ() {
+    public double getOffsetZ() {
         return offsetZ;
     }
 
-    public float getSpeed() {
+    public double getSpeed() {
         return speed;
     }
 
