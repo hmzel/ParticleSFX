@@ -22,7 +22,7 @@ public class ParticleFlame extends Particle implements VelocityParticle {
     }
 
     public ParticleFlame(Vector velocity, double offsetX, double offsetY, double offsetZ) {
-        this(velocity, offsetX, offsetY, offsetZ, 0, 1);
+        this(velocity, offsetX, offsetY, offsetZ, 1, 1);
     }
 
     public ParticleFlame(double offsetX, double offsetY, double offsetZ, double speed) {
@@ -50,7 +50,7 @@ public class ParticleFlame extends Particle implements VelocityParticle {
     }
 
     public ParticleFlame(Vector velocity) {
-        this(velocity, 0, 0, 0, 0, 1);
+        this(velocity, 0, 0, 0, 1, 1);
     }
 
     public ParticleFlame() {
