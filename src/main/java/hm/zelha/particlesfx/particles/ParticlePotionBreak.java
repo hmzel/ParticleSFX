@@ -17,7 +17,7 @@ public class ParticlePotionBreak extends Particle implements PotionParticle {
     private PotionType type;
 
     public ParticlePotionBreak(PotionType type, int count) {
-        super(Effect.POTION_BREAK, 0, 0, 0, 0, count, 64);
+        super(Effect.POTION_BREAK, 0, 0, 0, 0, count, 0);
 
         this.type = type;
     }

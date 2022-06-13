@@ -1,6 +1,10 @@
 package hm.zelha.particlesfx.particles.parents;
 
+import org.bukkit.Location;
+import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
+
+import javax.annotation.Nullable;
 
 public interface VelocityParticle {
 
@@ -22,5 +26,7 @@ public interface VelocityParticle {
      */
     public void setVelocity(double x, double y, double z);
 
+    /** nullable to save resources in {@link Particle#display(Location, Player...)}}*/
+    @Nullable
     public Vector getVelocity();
 }

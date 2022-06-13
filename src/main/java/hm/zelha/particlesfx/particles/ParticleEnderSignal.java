@@ -13,7 +13,7 @@ import org.bukkit.Effect;
  */
 public class ParticleEnderSignal extends Particle {
     public ParticleEnderSignal(int count) {
-        super(Effect.ENDER_SIGNAL, 0, 0, 0, 0, count, 64);
+        super(Effect.ENDER_SIGNAL, 0, 0, 0, 0, count, 0);
     }
 
     public ParticleEnderSignal() {

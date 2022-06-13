@@ -14,7 +14,7 @@ public class ParticleSmokeDirectional extends Particle implements DirectionalPar
     private Direction direction;
 
     public ParticleSmokeDirectional(Direction direction, int count) {
-        super(Effect.SMOKE, 0, 0, 0, 0, count, 64);
+        super(Effect.SMOKE, 0, 0, 0, 0, count, 0);
 
         this.direction = direction;
     }

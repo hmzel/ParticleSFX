@@ -10,7 +10,7 @@ import org.bukkit.Effect;
  */
 public class ParticleMobspawnerFlames extends Particle {
     public ParticleMobspawnerFlames(int count) {
-        super(Effect.MOBSPAWNER_FLAMES, 0, 0, 0, 0, count, 64);
+        super(Effect.MOBSPAWNER_FLAMES, 0, 0, 0, 0, count, 0);
     }
 
     public ParticleMobspawnerFlames() {
