@@ -17,6 +17,6 @@ public class ParticleEnderSignal extends Particle {
     }
 
     public ParticleEnderSignal() {
-        super(Effect.ENDER_SIGNAL, 0, 0, 0, 0, 1, 64);
+        this(1);
     }
 }
