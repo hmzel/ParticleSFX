@@ -5,6 +5,7 @@ import org.bukkit.Effect;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
+import org.bukkit.potion.PotionType;
 
 public class Particle {
 
@@ -48,6 +49,7 @@ public class Particle {
 
         if (particle.getType() == Effect.Type.VISUAL) count2 = count;
         if (data instanceof Directional.Direction) idValue = ((Directional.Direction) data).getValue();
+        if (data instanceof PotionType) idValue = ((PotionType) data).getDamageValue();
 
         for (int i = 0; i != count2; i++) {
             if (toPlayOn instanceof Player) {
@@ -57,7 +59,6 @@ public class Particle {
             }
         }
     }
-
 
     public void setOffsetX(double offsetX) {
         this.offsetX = offsetX;
