@@ -10,7 +10,6 @@ import org.bukkit.entity.Player;
 
 public class Particle {
 
-    protected Object data;
     private final Effect particle;
     private double offsetX;
     private double offsetY;
@@ -54,7 +53,7 @@ public class Particle {
         Packet packet = null;
 
         if (particle.getType() == Effect.Type.VISUAL) count2 = count;
-        if (data instanceof DirectionalParticle.Direction) idValue = ((DirectionalParticle.Direction) data).getValue();
+        if (this instanceof DirectionalParticle) idValue = ((DirectionalParticle) this).getDirection().getValue();
         if (this instanceof PotionParticle) idValue = ((PotionParticle) this).getPotionType().getDamageValue();
 
         if (particle.getType() == Effect.Type.VISUAL) {

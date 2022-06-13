@@ -10,10 +10,13 @@ import org.bukkit.Effect;
  * Type.VISUAL effects are also locked to specific coordinates of the block they're played on because their internal system uses BlockPosition
  */
 public class ParticleSmokeDirectional extends Particle implements DirectionalParticle {
+
+    private Direction direction;
+
     public ParticleSmokeDirectional(Direction direction, int count) {
         super(Effect.SMOKE, 0, 0, 0, 0, count, 64);
 
-        super.data = direction;
+        this.direction = direction;
     }
 
     public ParticleSmokeDirectional(Direction direction) {
@@ -30,11 +33,11 @@ public class ParticleSmokeDirectional extends Particle implements DirectionalPar
 
     @Override
     public void setDirection(Direction direction) {
-        super.data = direction;
+        this.direction = direction;
     }
 
     @Override
     public Direction getDirection() {
-        return (Direction) super.data;
+        return direction;
     }
 }
