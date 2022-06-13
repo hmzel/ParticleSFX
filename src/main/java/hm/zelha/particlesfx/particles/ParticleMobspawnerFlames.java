@@ -14,6 +14,6 @@ public class ParticleMobspawnerFlames extends Particle {
     }
 
     public ParticleMobspawnerFlames() {
-        super(Effect.MOBSPAWNER_FLAMES, 0, 0, 0, 0, 1, 64);
+        this(1);
     }
 }
