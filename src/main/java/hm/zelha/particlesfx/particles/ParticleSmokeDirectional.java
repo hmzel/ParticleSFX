@@ -1,6 +1,6 @@
 package hm.zelha.particlesfx.particles;
 
-import hm.zelha.particlesfx.particles.parents.BlockDirectional;
+import hm.zelha.particlesfx.particles.parents.DirectionalParticle;
 import hm.zelha.particlesfx.particles.parents.Particle;
 import org.bukkit.Effect;
 
@@ -9,32 +9,32 @@ import org.bukkit.Effect;
  * <p></p>
  * Type.VISUAL effects are also locked to specific coordinates of the block they're played on because their internal system uses BlockPosition
  */
-public class ParticleSmokeDirectional extends Particle implements BlockDirectional {
-    public ParticleSmokeDirectional(BlockDirection direction, int count) {
+public class ParticleSmokeDirectional extends Particle implements DirectionalParticle {
+    public ParticleSmokeDirectional(Direction direction, int count) {
         super(Effect.SMOKE, 0, 0, 0, 0, count, 64);
 
         super.data = direction;
     }
 
-    public ParticleSmokeDirectional(BlockDirection direction) {
+    public ParticleSmokeDirectional(Direction direction) {
         this(direction, 1);
     }
 
     public ParticleSmokeDirectional(int count) {
-        this(BlockDirection.NONE, count);
+        this(Direction.NONE, count);
     }
 
     public ParticleSmokeDirectional() {
-        this(BlockDirection.NONE, 1);
+        this(Direction.NONE, 1);
     }
 
     @Override
-    public void setDirection(BlockDirection direction) {
+    public void setDirection(Direction direction) {
         super.data = direction;
     }
 
     @Override
-    public BlockDirection getDirection() {
-        return (BlockDirection) super.data;
+    public Direction getDirection() {
+        return (Direction) super.data;
     }
 }

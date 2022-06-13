@@ -1,13 +1,13 @@
 package hm.zelha.particlesfx.particles.parents;
 
-public interface BlockDirectional {
+public interface DirectionalParticle {
 
-    public void setDirection(BlockDirection direction);
+    public void setDirection(Direction direction);
 
-    public BlockDirection getDirection();
+    public Direction getDirection();
 
     /** while it is possible to get more directions than this, it's only possible to get variants of north west. pretty weird. */
-    enum BlockDirection {
+    enum Direction {
         NORTH(1),
         SOUTH(7),
         EAST(5),
@@ -20,7 +20,7 @@ public interface BlockDirectional {
 
         private final int value;
 
-        BlockDirection(int value) {
+        Direction(int value) {
             this.value = value;
         }
 
