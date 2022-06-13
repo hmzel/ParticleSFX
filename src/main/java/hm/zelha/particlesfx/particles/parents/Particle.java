@@ -7,6 +7,7 @@ import org.bukkit.Effect;
 import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
+import org.bukkit.util.Vector;
 
 public class Particle {
 
@@ -53,6 +54,7 @@ public class Particle {
         Packet packet = null;
 
         if (particle.getType() == Effect.Type.VISUAL) count2 = count;
+        if (this instanceof VelocityParticle) count2 = count;
         if (this instanceof DirectionalParticle) idValue = ((DirectionalParticle) this).getDirection().getValue();
         if (this instanceof PotionParticle) idValue = ((PotionParticle) this).getPotionType().getDamageValue();
 
@@ -72,6 +74,19 @@ public class Particle {
         }
 
         for (int i = 0; i != count2; i++) {
+            int trueCount = count;
+            double trueOffsetX = offsetX;
+            double trueOffsetY = offsetY;
+            double trueOffsetZ = offsetZ;
+
+            if (this instanceof VelocityParticle && ((VelocityParticle) this).getVelocity() != null) {
+                Vector velocity = ((VelocityParticle) this).getVelocity();
+                trueCount = 0;
+                trueOffsetX = velocity.getX();
+                trueOffsetY = velocity.getY();
+                trueOffsetZ = velocity.getZ();
+            }
+
             for (Player player : players) {
                 if (radius != 0 && (Math.abs(location.getX() - player.getLocation().getX()) + Math.abs(location.getY() - player.getLocation().getY()) + Math.abs(location.getZ() - player.getLocation().getZ())) > radius) {
                     continue;
@@ -80,61 +95,12 @@ public class Particle {
                 ((CraftPlayer) player).getHandle().playerConnection.sendPacket((packet != null) ? packet :
                         new PacketPlayOutWorldParticles(
                                 nmsParticle, true, (float) location.getX(), (float) location.getY(), (float) location.getZ(),
-                                (float) offsetX, (float) offsetY, (float) offsetZ, (float) speed, count
+                                (float) trueOffsetX, (float) trueOffsetY, (float) trueOffsetZ, (float) speed, trueCount
                         )
                 );
             }
         }
     }
-
-    //        public void playEffect(Location location, Effect effect, int id, int data, float offsetX, float offsetY, float offsetZ, float speed, int particleCount, int radius) {
-    //            Validate.notNull(location, "Location cannot be null");
-    //            Validate.notNull(effect, "Effect cannot be null");
-    //            Validate.notNull(location.getWorld(), "World cannot be null");
-    //            int distance;
-    //            Object packet;
-    //            if (effect.getType() != Type.PARTICLE) {
-    //                distance = effect.getId();
-    //                packet = new PacketPlayOutWorldEvent(distance, new BlockPosition(location.getBlockX(), location.getBlockY(), location.getBlockZ()), id, false);
-    //            } else {
-    //                EnumParticle particle = null;
-    //                int[] extra = null;
-    //                EnumParticle[] var14;
-    //                int var15 = (var14 = EnumParticle.values()).length;
-    //
-    //                for(int var16 = 0; var16 < var15; ++var16) {
-    //                    EnumParticle p = var14[var16];
-    //                    if (effect.getName().startsWith(p.b().replace("_", ""))) {
-    //                        particle = p;
-    //                        if (effect.getData() != null) {
-    //                            if (effect.getData().equals(Material.class)) {
-    //                                extra = new int[]{id};
-    //                            } else {
-    //                                extra = new int[]{data << 12 | id & 4095};
-    //                            }
-    //                        }
-    //                        break;
-    //                    }
-    //                }
-    //
-    //                if (extra == null) {
-    //                    extra = new int[0];
-    //                }
-    //
-    //                packet = new PacketPlayOutWorldParticles(particle, true, (float)location.getX(), (float)location.getY(), (float)location.getZ(), offsetX, offsetY, offsetZ, speed, particleCount, extra);
-    //            }
-    //
-    //            radius *= radius;
-    //            if (CraftPlayer.this.getHandle().playerConnection != null) {
-    //                if (location.getWorld().equals(CraftPlayer.this.getWorld())) {
-    //                    distance = (int)CraftPlayer.this.getLocation().distanceSquared(location);
-    //                    if (distance <= radius) {
-    //                        CraftPlayer.this.getHandle().playerConnection.sendPacket((Packet)packet);
-    //                    }
-    //
-    //                }
-    //            }
-    //        }
 
     public void setOffsetX(double offsetX) {
         this.offsetX = offsetX;
