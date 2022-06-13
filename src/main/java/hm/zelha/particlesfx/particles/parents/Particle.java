@@ -48,7 +48,7 @@ public class Particle {
         int idValue = particle.getId();
 
         if (particle.getType() == Effect.Type.VISUAL) count2 = count;
-        if (data instanceof Directional.Direction) idValue = ((Directional.Direction) data).getValue();
+        if (data instanceof BlockDirectional.BlockDirection) idValue = ((BlockDirectional.BlockDirection) data).getValue();
         if (data instanceof PotionType) idValue = ((PotionType) data).getDamageValue();
 
         for (int i = 0; i != count2; i++) {
