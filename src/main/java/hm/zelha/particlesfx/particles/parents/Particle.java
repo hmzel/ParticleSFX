@@ -7,7 +7,6 @@ import org.bukkit.Effect;
 import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
-import org.bukkit.potion.PotionType;
 
 public class Particle {
 
@@ -55,8 +54,8 @@ public class Particle {
         Packet packet = null;
 
         if (particle.getType() == Effect.Type.VISUAL) count2 = count;
-        if (data instanceof BlockDirectional.BlockDirection) idValue = ((BlockDirectional.BlockDirection) data).getValue();
-        if (data instanceof PotionType) idValue = ((PotionType) data).getDamageValue();
+        if (data instanceof DirectionalParticle.Direction) idValue = ((DirectionalParticle.Direction) data).getValue();
+        if (this instanceof PotionParticle) idValue = ((PotionParticle) this).getPotionType().getDamageValue();
 
         if (particle.getType() == Effect.Type.VISUAL) {
             packet = new PacketPlayOutWorldEvent(particle.getId(), new BlockPosition(

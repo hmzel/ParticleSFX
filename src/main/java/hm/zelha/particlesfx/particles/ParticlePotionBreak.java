@@ -13,10 +13,13 @@ import org.bukkit.potion.PotionType;
  * Type.VISUAL effects are also locked to specific coordinates of the block they're played on because their internal system uses BlockPosition
  */
 public class ParticlePotionBreak extends Particle implements PotionParticle {
+
+    private PotionType type;
+
     public ParticlePotionBreak(PotionType type, int count) {
         super(Effect.POTION_BREAK, 0, 0, 0, 0, count, 64);
 
-        super.data = type;
+        this.type = type;
     }
 
     public ParticlePotionBreak(PotionType type) {
@@ -32,12 +35,12 @@ public class ParticlePotionBreak extends Particle implements PotionParticle {
     }
 
     @Override
-    public void setPotionType(PotionType potion) {
-        super.data = potion;
+    public void setPotionType(PotionType type) {
+        this.type = type;
     }
 
     @Override
     public PotionType getPotionType() {
-        return (PotionType) data;
+        return type;
     }
 }
