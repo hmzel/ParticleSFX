@@ -2,7 +2,7 @@ package hm.zelha.particlesfx.particles.parents;
 
 import org.bukkit.potion.PotionType;
 
-public interface Potionable {
+public interface PotionParticle {
 
     public void setPotionType(PotionType potion);
 

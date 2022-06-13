@@ -1,7 +1,7 @@
 package hm.zelha.particlesfx.particles;
 
 import hm.zelha.particlesfx.particles.parents.Particle;
-import hm.zelha.particlesfx.particles.parents.Potionable;
+import hm.zelha.particlesfx.particles.parents.PotionParticle;
 import org.bukkit.Effect;
 import org.bukkit.potion.PotionType;
 
@@ -12,7 +12,7 @@ import org.bukkit.potion.PotionType;
  * <p></p>
  * Type.VISUAL effects are also locked to specific coordinates of the block they're played on because their internal system uses BlockPosition
  */
-public class ParticlePotionBreak extends Particle implements Potionable {
+public class ParticlePotionBreak extends Particle implements PotionParticle {
     public ParticlePotionBreak(PotionType type, int count) {
         super(Effect.POTION_BREAK, 0, 0, 0, 0, count, 64);
 
