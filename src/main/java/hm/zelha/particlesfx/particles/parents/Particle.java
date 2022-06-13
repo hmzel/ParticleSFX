@@ -1,5 +1,6 @@
 package hm.zelha.particlesfx.particles.parents;
 
+import hm.zelha.particlesfx.Main;
 import net.minecraft.server.v1_8_R3.*;
 import org.apache.commons.lang3.Validate;
 import org.bukkit.Bukkit;
@@ -9,8 +10,11 @@ import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
+import java.util.Random;
+
 public class Particle {
 
+    private final Random rng = Main.getRng();
     private final Effect particle;
     private double offsetX;
     private double offsetY;
@@ -78,6 +82,8 @@ public class Particle {
             double trueOffsetX = offsetX;
             double trueOffsetY = offsetY;
             double trueOffsetZ = offsetZ;
+            boolean fakeOffset = false;
+            Location addition = null;
 
             if (this instanceof VelocityParticle && ((VelocityParticle) this).getVelocity() != null) {
                 Vector velocity = ((VelocityParticle) this).getVelocity();
@@ -85,6 +91,20 @@ public class Particle {
                 trueOffsetX = velocity.getX();
                 trueOffsetY = velocity.getY();
                 trueOffsetZ = velocity.getZ();
+                fakeOffset = true;
+            }
+
+            //ColorableParticle will also use this when its added, just prepping for that
+            if (fakeOffset) {
+                //generates a random number between -offset and +offset (exactly) using some scary math
+                //this isnt exactly how its done client-side using the actual packet, but honestly i prefer this because its more controllable
+                addition = new Location(location.getWorld(),
+                        (rng.nextInt((int) (offsetX * 2)) - (int) offsetX) + ((rng.nextInt((int) ((offsetX - (int) offsetX) * 100) * 2) - (int) ((offsetX - (int) offsetX) * 100)) / 100D),
+                        (rng.nextInt((int) (offsetY * 2)) - (int) offsetY) + ((rng.nextInt((int) ((offsetY - (int) offsetY) * 100) * 2) - (int) ((offsetY - (int) offsetY) * 100)) / 100D),
+                        (rng.nextInt((int) (offsetZ * 2)) - (int) offsetZ) + ((rng.nextInt((int) ((offsetZ - (int) offsetZ) * 100) * 2) - (int) ((offsetZ - (int) offsetZ) * 100)) / 100D)
+                );
+
+                location.add(addition);
             }
 
             for (Player player : players) {
@@ -99,6 +119,8 @@ public class Particle {
                         )
                 );
             }
+
+            if (addition != null) location.subtract(addition);
         }
     }
 
