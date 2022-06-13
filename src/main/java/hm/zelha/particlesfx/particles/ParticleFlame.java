@@ -8,6 +8,14 @@ public class ParticleFlame extends Particle {
         super(Effect.FLAME, offsetX, offsetY, offsetZ, speed, count, 64);
     }
 
+    public ParticleFlame(double offsetX, double offsetY, double offsetZ, double speed) {
+        super(Effect.FLAME, offsetX, offsetY, offsetZ, speed, 1, 64);
+    }
+
+    public ParticleFlame(double offsetX, double offsetY, double offsetZ, int count) {
+        super(Effect.FLAME, offsetX, offsetY, offsetZ, 0, count, 64);
+    }
+
     public ParticleFlame(double offsetX, double offsetY, double offsetZ) {
         super(Effect.FLAME, offsetX, offsetY, offsetZ, 0, 1, 64);
     }
