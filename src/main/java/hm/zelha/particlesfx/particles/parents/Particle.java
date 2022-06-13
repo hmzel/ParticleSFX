@@ -28,9 +28,9 @@ public class Particle {
         Validate.isTrue(particle.getType() != Effect.Type.SOUND, "Effect must be of Type.PARTICLE or Type.VISUAL!");
 
         this.particle = particle;
-        this.offsetX = offsetX;
-        this.offsetY = offsetY;
-        this.offsetZ = offsetZ;
+        this.offsetX = Math.abs(offsetX);
+        this.offsetY = Math.abs(offsetY);
+        this.offsetZ = Math.abs(offsetZ);
         this.speed = speed;
         this.count = count;
         this.radius = radius;
@@ -95,7 +95,7 @@ public class Particle {
             }
 
             //ColorableParticle will also use this when its added, just prepping for that
-            if (fakeOffset) {
+            if (fakeOffset && offsetX != 0 && offsetY != 0 && offsetZ != 0) {
                 //generates a random number between -offset and +offset (exactly) using some scary math
                 //this isnt exactly how its done client-side using the actual packet, but honestly i prefer this because its more controllable
                 addition = new Location(location.getWorld(),
