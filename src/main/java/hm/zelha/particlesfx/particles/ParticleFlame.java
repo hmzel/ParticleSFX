@@ -14,7 +14,7 @@ public class ParticleFlame extends Particle implements VelocityParticle {
     public ParticleFlame(Vector velocity, double offsetX, double offsetY, double offsetZ, double speed, int count) {
         super(Effect.FLAME, offsetX, offsetY, offsetZ, speed, count, 0);
 
-        if (velocity != null) this.velocity = velocity.multiply(0.05);
+        if (velocity != null) this.velocity = velocity.multiply(0.07);
     }
 
     public ParticleFlame(double offsetX, double offsetY, double offsetZ, double speed, int count) {
@@ -59,12 +59,12 @@ public class ParticleFlame extends Particle implements VelocityParticle {
 
     @Override
     public void setVelocity(Vector vector) {
-        this.velocity = vector.multiply(0.05);
+        this.velocity = vector.multiply(0.07);
     }
 
     @Override
     public void setVelocity(double x, double y, double z) {
-        this.velocity = new Vector(x, y, z).multiply(0.05);
+        this.velocity = new Vector(x, y, z).multiply(0.07);
     }
 
     @Override@Nullable
