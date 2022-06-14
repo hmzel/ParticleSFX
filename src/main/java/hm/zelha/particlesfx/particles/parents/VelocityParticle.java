@@ -13,7 +13,7 @@ public interface VelocityParticle {
      * VelocityParticle to prevent new users from setting the velocity to 1, 1, 1 and watching the particle fly into the sun. : )
      * <p></p>
      * said decimal makes sure that every VelocityParticle implementation follows the same convention,
-     * such that a Vector with x,y,z at 1 would make the particle move 1 block in all 3 axis on average.
+     * such that a Vector with x,y,z at 1 would make the particle move 1 block in all 3 axis on average, if speed is 1.
      *
      * @param vector velocity to set
      */
@@ -24,7 +24,7 @@ public interface VelocityParticle {
      * VelocityParticle to prevent new users from setting the velocity to 1, 1, 1 and watching the particle fly into the sun. : )
      * <p></p>
      * said decimal makes sure that every VelocityParticle implementation follows the same convention,
-     * such that a Vector with x,y,z at 1 would make the particle move 1 block in all 3 axis on average.
+     * such that a Vector with x,y,z at 1 would make the particle move 1 block in all 3 axis on average, if speed is 1.
      *
      * @param x x velocity
      * @param y y velocity

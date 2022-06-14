@@ -6,6 +6,10 @@ public interface NoteParticle {
 
     public NoteColor getNoteColor();
 
+    /**
+     * it might look weird if you use NoteColor.RANDOM with other notecolors because all notecolors besides NoteColor.RANDOM
+     * are locked to 0.5, 0.5, 0.5 of the block theyre spawned at
+     */
     enum NoteColor {
         CYAN(0),
         PURPLE(4),
