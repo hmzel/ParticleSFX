@@ -70,7 +70,7 @@ public class Particle {
             ), idValue, false);
         } else {
             for (EnumParticle p : EnumParticle.values()) {
-                if (particle.getName().startsWith(p.b().replace("_", ""))) {
+                if (particle.getName().equals(p.b().replace("_", ""))) {
                     nmsParticle = p;
                     break;
                 }
