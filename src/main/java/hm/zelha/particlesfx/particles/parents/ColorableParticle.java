@@ -11,7 +11,11 @@ public interface ColorableParticle {
 
     public void setColor(int red, int green, int blue);
 
+    public void setBrightness(int brightness);
+
     /** nullable to allow for randomly colored particles without use of boolean constructors*/
     @Nullable
     public Color getColor();
+
+    public int getBrightness();
 }
