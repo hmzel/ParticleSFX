@@ -30,7 +30,8 @@ public interface NoteParticle {
         SATURATED_GREEN(22),
         GRAY(10),
         GRAY_TWO(2),
-        GRAY_THREE(18);
+        GRAY_THREE(18),
+        RANDOM(-1);
 
         private final int value;
 
