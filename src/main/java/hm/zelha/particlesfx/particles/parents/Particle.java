@@ -58,7 +58,6 @@ public class Particle {
         EnumParticle nmsParticle = null;
         Packet packet = null;
 
-        if (particle.getType() == Effect.Type.VISUAL) count2 = count;
         if (this instanceof VelocityParticle) count2 = count;
         if (this instanceof ColorableParticle && ((ColorableParticle) this).getColor() != null) count2 = count;
         if (this instanceof DirectionalParticle) idValue = ((DirectionalParticle) this).getDirection().getValue();
@@ -68,6 +67,14 @@ public class Particle {
             packet = new PacketPlayOutWorldEvent(particle.getId(), new BlockPosition(
                     location.getBlockX(), location.getBlockY(), location.getBlockZ()
             ), idValue, false);
+
+            count2 = count;
+        } else if (this instanceof NoteParticle && ((NoteParticle) this).getNoteColor() != NoteParticle.NoteColor.RANDOM) {
+            packet = new PacketPlayOutBlockAction(new BlockPosition(
+                    location.getBlockX(), location.getBlockY(), location.getBlockZ()
+            ), Blocks.NOTEBLOCK, 0, ((NoteParticle) this).getNoteColor().getValue());
+
+            count2 = count;
         } else {
             for (EnumParticle p : EnumParticle.values()) {
                 if (particle.getName().equals(p.b().replace("_", ""))) {
@@ -112,9 +119,13 @@ public class Particle {
                 }
             }
 
+            if (this instanceof NoteParticle && ((NoteParticle) this).getNoteColor() == NoteParticle.NoteColor.RANDOM) {
+                trueSpeed = 1;
+            }
+
             if (fakeOffset && offsetX != 0 && offsetY != 0 && offsetZ != 0) {
-                //generates a random number between -offset and +offset (exactly) using some scary math
-                //this isnt exactly how its done client-side using the actual packet, but honestly i prefer this because its more controllable
+/*              generates a random number between -offset and +offset (exactly) using some scary math
+                this isnt exactly how its done client-side using the actual packet, but honestly i prefer this because its more controllable */
                 addition = new Location(location.getWorld(),
                         (rng.nextInt((int) (offsetX * 2)) - (int) offsetX) + ((rng.nextInt((int) ((offsetX - (int) offsetX) * 100) * 2) - (int) ((offsetX - (int) offsetX) * 100)) / 100D),
                         (rng.nextInt((int) (offsetY * 2)) - (int) offsetY) + ((rng.nextInt((int) ((offsetY - (int) offsetY) * 100) * 2) - (int) ((offsetY - (int) offsetY) * 100)) / 100D),
