@@ -8,12 +8,12 @@ import org.bukkit.Effect;
 
 import javax.annotation.Nullable;
 
-public class ParticlePotionSwirl extends Particle implements ColorableParticle {
+public class ParticleSwirl extends Particle implements ColorableParticle {
 
     private Color color;
     private int brightness;
 
-    public ParticlePotionSwirl(@Nullable Color color, int brightness, double offsetX, double offsetY, double offsetZ, int count) {
+    public ParticleSwirl(@Nullable Color color, int brightness, double offsetX, double offsetY, double offsetZ, int count) {
         super(Effect.POTION_SWIRL, offsetX, offsetY, offsetZ, 1, count, 0);
 
         Validate.isTrue(brightness >= 0 && brightness <= 100, "Brightness must be between 0 and 100!");
@@ -22,31 +22,31 @@ public class ParticlePotionSwirl extends Particle implements ColorableParticle {
         this.brightness = brightness;
     }
 
-    public ParticlePotionSwirl(double offsetX, double offsetY, double offsetZ, int count) {
+    public ParticleSwirl(double offsetX, double offsetY, double offsetZ, int count) {
         this(null, 100, offsetX, offsetY, offsetZ, count);
     }
 
-    public ParticlePotionSwirl(double offsetX, double offsetY, double offsetZ) {
+    public ParticleSwirl(double offsetX, double offsetY, double offsetZ) {
         this(null, 100, offsetX, offsetY, offsetZ, 1);
     }
 
-    public ParticlePotionSwirl(@Nullable Color color, int brightness, int count) {
+    public ParticleSwirl(@Nullable Color color, int brightness, int count) {
         this(color, brightness, 0, 0, 0, count);
     }
 
-    public ParticlePotionSwirl(@Nullable Color color, int brightness) {
+    public ParticleSwirl(@Nullable Color color, int brightness) {
         this(color, brightness, 0, 0, 0, 1);
     }
 
-    public ParticlePotionSwirl(@Nullable Color color) {
+    public ParticleSwirl(@Nullable Color color) {
         this(color, 100, 0, 0, 0, 1);
     }
 
-    public ParticlePotionSwirl(int count) {
+    public ParticleSwirl(int count) {
         this(null, 100, 0, 0, 0, count);
     }
 
-    public ParticlePotionSwirl() {
+    public ParticleSwirl() {
         this(null, 100, 0, 0, 0, 1);
     }
 
