@@ -4,6 +4,7 @@ import hm.zelha.particlesfx.Main;
 import net.minecraft.server.v1_8_R3.*;
 import org.apache.commons.lang3.Validate;
 import org.bukkit.Bukkit;
+import org.bukkit.Color;
 import org.bukkit.Effect;
 import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
@@ -59,6 +60,7 @@ public class Particle {
 
         if (particle.getType() == Effect.Type.VISUAL) count2 = count;
         if (this instanceof VelocityParticle) count2 = count;
+        if (this instanceof ColorableParticle && ((ColorableParticle) this).getColor() != null) count2 = count;
         if (this instanceof DirectionalParticle) idValue = ((DirectionalParticle) this).getDirection().getValue();
         if (this instanceof PotionParticle) idValue = ((PotionParticle) this).getPotionType().getDamageValue();
 
@@ -82,6 +84,7 @@ public class Particle {
             double trueOffsetX = offsetX;
             double trueOffsetY = offsetY;
             double trueOffsetZ = offsetZ;
+            double trueSpeed = speed;
             boolean fakeOffset = false;
             Location addition = null;
 
@@ -94,7 +97,21 @@ public class Particle {
                 fakeOffset = true;
             }
 
-            //ColorableParticle will also use this when its added, just prepping for that
+            if (this instanceof ColorableParticle) {
+                Color color = ((ColorableParticle) this).getColor();
+
+                if (color != null) {
+                    trueCount = 0;
+                    trueSpeed = ((ColorableParticle) this).getBrightness() * 0.01;
+                    trueOffsetX = color.getRed() / 255D;
+                    trueOffsetY = color.getGreen() / 255D;
+                    trueOffsetZ = color.getBlue() / 255D;
+                    fakeOffset = true;
+                } else {
+                    trueSpeed = 1;
+                }
+            }
+
             if (fakeOffset && offsetX != 0 && offsetY != 0 && offsetZ != 0) {
                 //generates a random number between -offset and +offset (exactly) using some scary math
                 //this isnt exactly how its done client-side using the actual packet, but honestly i prefer this because its more controllable
@@ -115,7 +132,7 @@ public class Particle {
                 ((CraftPlayer) player).getHandle().playerConnection.sendPacket((packet != null) ? packet :
                         new PacketPlayOutWorldParticles(
                                 nmsParticle, true, (float) location.getX(), (float) location.getY(), (float) location.getZ(),
-                                (float) trueOffsetX, (float) trueOffsetY, (float) trueOffsetZ, (float) speed, trueCount
+                                (float) trueOffsetX, (float) trueOffsetY, (float) trueOffsetZ, (float) trueSpeed, trueCount
                         )
                 );
             }
