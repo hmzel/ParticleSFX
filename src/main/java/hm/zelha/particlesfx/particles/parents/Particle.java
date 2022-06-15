@@ -142,9 +142,9 @@ public class Particle {
 /*              generates a random number between -offset and +offset (exactly) using some scary math
                 this isnt exactly how its done client-side using the actual packet, but honestly i prefer this because its more controllable */
                 addition = new Location(location.getWorld(),
-                        ((offsetX < 0.5) ? 0 : (rng.nextInt((int) (offsetX * 2)) - (int) offsetX)) + ((offsetX == 0) ? 0 : ((rng.nextInt((int) ((offsetX - (int) offsetX) * 100) * 2) - (int) ((offsetX - (int) offsetX) * 100)) / 100D)),
-                        ((offsetY < 0.5) ? 0 : (rng.nextInt((int) (offsetY * 2)) - (int) offsetY)) + ((offsetY  == 0) ? 0 : ((rng.nextInt((int) ((offsetY - (int) offsetY) * 100) * 2) - (int) ((offsetY - (int) offsetY) * 100)) / 100D)),
-                        ((offsetZ < 0.5) ? 0 : (rng.nextInt((int) (offsetZ * 2)) - (int) offsetZ)) + ((offsetZ == 0) ? 0 : ((rng.nextInt((int) ((offsetZ - (int) offsetZ) * 100) * 2) - (int) ((offsetZ - (int) offsetZ) * 100)) / 100D))
+                        ((offsetX < 0.5) ? 0 : (rng.nextInt((int) (offsetX * 2)) - (int) offsetX)) + ((offsetX - (int) offsetX < 1) ? 0 : ((rng.nextInt((int) ((offsetX - (int) offsetX) * 100) * 2) - (int) ((offsetX - (int) offsetX) * 100)) / 100D)),
+                        ((offsetY < 0.5) ? 0 : (rng.nextInt((int) (offsetY * 2)) - (int) offsetY)) + ((offsetY - (int) offsetY < 1) ? 0 : ((rng.nextInt((int) ((offsetY - (int) offsetY) * 100) * 2) - (int) ((offsetY - (int) offsetY) * 100)) / 100D)),
+                        ((offsetZ < 0.5) ? 0 : (rng.nextInt((int) (offsetZ * 2)) - (int) offsetZ)) + ((offsetZ - (int) offsetZ < 1) ? 0 : ((rng.nextInt((int) ((offsetZ - (int) offsetZ) * 100) * 2) - (int) ((offsetZ - (int) offsetZ) * 100)) / 100D))
                 );
 
                 location.add(addition);
