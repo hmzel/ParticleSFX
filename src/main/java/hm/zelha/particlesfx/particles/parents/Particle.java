@@ -59,6 +59,7 @@ public class Particle {
         Packet packet = null;
 
         if (this instanceof VelocityParticle) count2 = count;
+        if (this instanceof SizeableParticle) count2 = count;
         if (this instanceof ColorableParticle && ((ColorableParticle) this).getColor() != null) count2 = count;
         if (this instanceof TravellingParticle && ((TravellingParticle) this).getLocationToGo() != null) count2 = count;
         if (this instanceof DirectionalParticle) idValue = ((DirectionalParticle) this).getDirection().getValue();
@@ -118,6 +119,15 @@ public class Particle {
                 } else {
                     trueSpeed = 1;
                 }
+            }
+
+            if (this instanceof SizeableParticle) {
+                trueCount = 0;
+                trueSpeed = 1;
+                trueOffsetX = -(((SizeableParticle) this).getSize()) + 2;
+                trueOffsetY = 0;
+                trueOffsetZ = 0;
+                fakeOffset = true;
             }
 
             if (this instanceof TravellingParticle && ((TravellingParticle) this).getLocationToGo() != null) fakeOffset = true;
