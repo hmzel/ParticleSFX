@@ -20,7 +20,7 @@ public class ParticleBlockBreak extends Particle implements MaterialParticle {
     }
 
     public ParticleBlockBreak(double offsetX, double offsetY, double offsetZ, double speed, int count) {
-        this(new MaterialData(1), offsetX, offsetY, offsetZ, speed, count);
+        this(new MaterialData(-13), offsetX, offsetY, offsetZ, speed, count);
     }
 
     public ParticleBlockBreak(MaterialData data, double offsetX, double offsetY, double offsetZ) {
@@ -28,15 +28,15 @@ public class ParticleBlockBreak extends Particle implements MaterialParticle {
     }
 
     public ParticleBlockBreak(double offsetX, double offsetY, double offsetZ, double speed) {
-        this(new MaterialData(1), offsetX, offsetY, offsetZ, speed, 1);
+        this(new MaterialData(-13), offsetX, offsetY, offsetZ, speed, 1);
     }
 
     public ParticleBlockBreak(double offsetX, double offsetY, double offsetZ, int count) {
-        this(new MaterialData(1), offsetX, offsetY, offsetZ, 0, count);
+        this(new MaterialData(-13), offsetX, offsetY, offsetZ, 0, count);
     }
 
     public ParticleBlockBreak(double offsetX, double offsetY, double offsetZ) {
-        this(new MaterialData(1), offsetX, offsetY, offsetZ, 0, 1);
+        this(new MaterialData(-13), offsetX, offsetY, offsetZ, 0, 1);
     }
 
     public ParticleBlockBreak(MaterialData data, double speed, int count) {
@@ -44,11 +44,11 @@ public class ParticleBlockBreak extends Particle implements MaterialParticle {
     }
 
     public ParticleBlockBreak(double speed) {
-        this(new MaterialData(1), 0, 0, 0, speed, 1);
+        this(new MaterialData(-13), 0, 0, 0, speed, 1);
     }
 
     public ParticleBlockBreak(int count) {
-        this(new MaterialData(1), 0, 0, 0, 0, count);
+        this(new MaterialData(-13), 0, 0, 0, 0, count);
     }
 
     public ParticleBlockBreak(MaterialData data) {
@@ -56,7 +56,7 @@ public class ParticleBlockBreak extends Particle implements MaterialParticle {
     }
 
     public ParticleBlockBreak() {
-        this(new MaterialData(1), 0, 0, 0, 0, 1);
+        this(new MaterialData(-13), 0, 0, 0, 0, 1);
     }
 
     @Override
