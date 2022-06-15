@@ -6,7 +6,21 @@ import org.bukkit.util.Vector;
 
 import javax.annotation.Nullable;
 
-public interface VelocityParticle {
+public interface TravellingParticle {
+
+    public void display(Location location, Location toGo);
+
+    public void displayForPlayer(Location location, Location toGo, Player player);
+
+    public void displayForPlayers(Location location, Location toGo, Player... players);
+
+    public void display(Location location, Vector velocity);
+
+    public void displayForPlayer(Location location, Vector velocity, Player player);
+
+    public void displayForPlayers(Location location, Vector velocity, Player... players);
+
+    public void setLocationToGo(@Nullable Location location);
 
     /**
      * since particle velocity is very volatile, the given velocity is automatically multiplied by a decimal in all default implementations of
@@ -31,6 +45,9 @@ public interface VelocityParticle {
      * @param z z velocity
      */
     public void setVelocity(double x, double y, double z);
+
+    @Nullable
+    public Location getLocationToGo();
 
     /** nullable to save resources in {@link Particle#display(Location, Player...)}}*/
     @Nullable
