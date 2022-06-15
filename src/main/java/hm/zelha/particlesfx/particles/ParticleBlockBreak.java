@@ -14,7 +14,7 @@ public class ParticleBlockBreak extends Particle implements MaterialParticle {
         super(Effect.TILE_BREAK, offsetX, offsetY, offsetZ, speed, count, 0);
 
         Validate.notNull(data, "Data cannot be null!");
-        Validate.isTrue(data.getItemType().isBlock(), "Material must be a block!");
+        Validate.isTrue(data.getItemTypeId() == -13 || data.getItemType().isBlock(), "Material must be a block!");
 
         this.data = data;
     }
