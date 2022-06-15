@@ -3,6 +3,8 @@ package hm.zelha.particlesfx.particles.parents;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
+import javax.annotation.Nullable;
+
 public interface TravellingParticle {
 
     public void display(Location location, Location toGo);
@@ -11,7 +13,8 @@ public interface TravellingParticle {
 
     public void displayForPlayers(Location location, Location toGo, Player... players);
 
-    public void setLocationToGo(Location location);
+    public void setLocationToGo(@Nullable Location location);
 
+    @Nullable
     public Location getLocationToGo();
 }
