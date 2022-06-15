@@ -2,6 +2,7 @@ package hm.zelha.particlesfx.particles;
 
 import hm.zelha.particlesfx.particles.parents.NoteParticle;
 import hm.zelha.particlesfx.particles.parents.Particle;
+import org.apache.commons.lang3.Validate;
 import org.bukkit.Effect;
 
 /**
@@ -22,6 +23,8 @@ public class ParticleNote extends Particle implements NoteParticle {
     public ParticleNote(NoteColor color, int count) {
         super(Effect.NOTE, 0, 0, 0, 0, count, 0);
 
+        Validate.notNull(color, "Color cannot be null!");
+
         this.color = color;
     }
 
@@ -39,6 +42,8 @@ public class ParticleNote extends Particle implements NoteParticle {
 
     @Override
     public void setNoteColor(NoteColor color) {
+        Validate.notNull(color, "Color cannot be null!");
+
         this.color = color;
     }
 
