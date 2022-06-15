@@ -154,6 +154,11 @@ public class ParticleGlyph extends Particle implements InverseTravellingParticle
         this.velocity = velocity;
     }
 
+    @Override
+    public void setVelocity(double x, double y, double z) {
+        this.velocity = new Vector(x, y, z);
+    }
+
     @Nullable
     @Override
     public Location getLocationToGo() {

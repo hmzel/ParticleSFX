@@ -25,6 +25,8 @@ public interface InverseTravellingParticle {
 
     public void setVelocity(@Nullable Vector velocity);
 
+    public void setVelocity(double x, double y, double z);
+
     @Nullable
     public Location getLocationToGo();
 
