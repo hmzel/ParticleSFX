@@ -13,7 +13,7 @@ public class ParticlePortal extends Particle implements TravellingParticle {
     private Location toGo;
 
     public ParticlePortal(Location toGo, double offsetX, double offsetY, double offsetZ, int count) {
-        super(Effect.PORTAL, offsetX, offsetY, offsetZ, 1, count, 0);
+        super(Effect.PORTAL, offsetX, offsetY, offsetZ, 0, count, 0);
 
         this.toGo = toGo;
     }
