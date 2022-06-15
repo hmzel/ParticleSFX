@@ -60,6 +60,7 @@ public class Particle {
 
         if (this instanceof VelocityParticle) count2 = count;
         if (this instanceof ColorableParticle && ((ColorableParticle) this).getColor() != null) count2 = count;
+        if (this instanceof TravellingParticle && ((TravellingParticle) this).getLocationToGo() != null) count2 = count;
         if (this instanceof DirectionalParticle) idValue = ((DirectionalParticle) this).getDirection().getValue();
         if (this instanceof PotionParticle) idValue = ((PotionParticle) this).getPotionType().getDamageValue();
 
@@ -119,9 +120,8 @@ public class Particle {
                 }
             }
 
-            if (this instanceof NoteParticle && ((NoteParticle) this).getNoteColor() == NoteParticle.NoteColor.RANDOM) {
-                trueSpeed = 1;
-            }
+            if (this instanceof TravellingParticle && ((TravellingParticle) this).getLocationToGo() != null) fakeOffset = true;
+            if (this instanceof NoteParticle && ((NoteParticle) this).getNoteColor() == NoteParticle.NoteColor.RANDOM) trueSpeed = 1;
 
             if (fakeOffset) {
 /*              generates a random number between -offset and +offset (exactly) using some scary math
@@ -135,6 +135,18 @@ public class Particle {
                 location.add(addition);
             }
 
+            Location trueLocation = location;
+
+            if (this instanceof TravellingParticle && ((TravellingParticle) this).getLocationToGo() != null) {
+                Location toGo = ((TravellingParticle) this).getLocationToGo();
+                trueSpeed = 1;
+                trueCount = 0;
+                trueOffsetX = location.getX() - toGo.getX();
+                trueOffsetY = location.getY() - toGo.getY();
+                trueOffsetZ = location.getZ() - toGo.getZ();
+                trueLocation = toGo;
+            }
+
             for (Player player : players) {
                 if (radius != 0 && (Math.abs(location.getX() - player.getLocation().getX()) + Math.abs(location.getY() - player.getLocation().getY()) + Math.abs(location.getZ() - player.getLocation().getZ())) > radius) {
                     continue;
@@ -142,7 +154,7 @@ public class Particle {
 
                 ((CraftPlayer) player).getHandle().playerConnection.sendPacket((packet != null) ? packet :
                         new PacketPlayOutWorldParticles(
-                                nmsParticle, true, (float) location.getX(), (float) location.getY(), (float) location.getZ(),
+                                nmsParticle, true, (float) trueLocation.getX(), (float) trueLocation.getY(), (float) trueLocation.getZ(),
                                 (float) trueOffsetX, (float) trueOffsetY, (float) trueOffsetZ, (float) trueSpeed, trueCount
                         )
                 );
