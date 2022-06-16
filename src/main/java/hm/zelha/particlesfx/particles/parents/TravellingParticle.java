@@ -52,4 +52,6 @@ public interface TravellingParticle {
     /** nullable to save resources in {@link Particle#display(Location, Player...)}}*/
     @Nullable
     public Vector getVelocity();
+
+    public double getVelocityControl();
 }
