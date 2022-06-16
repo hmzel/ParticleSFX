@@ -21,7 +21,7 @@ public class ParticleCrit extends Particle implements TravellingParticle {
     }
 
     public ParticleCrit(Vector velocity, double offsetX, double offsetY, double offsetZ, double speed, int count) {
-        super(Effect.CLOUD, offsetX, offsetY, offsetZ, speed, count, 0);
+        super(Effect.CRIT, offsetX, offsetY, offsetZ, speed, count, 0);
 
         if (velocity != null) this.velocity = velocity.multiply(0.75);
     }

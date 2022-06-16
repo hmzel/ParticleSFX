@@ -21,7 +21,7 @@ public class ParticleExplosionDust extends Particle implements TravellingParticl
     }
 
     public ParticleExplosionDust(Vector velocity, double offsetX, double offsetY, double offsetZ, double speed, int count) {
-        super(Effect.CLOUD, offsetX, offsetY, offsetZ, speed, count, 0);
+        super(Effect.EXPLOSION, offsetX, offsetY, offsetZ, speed, count, 0);
 
         if (velocity != null) this.velocity = velocity.multiply(0.085);
     }
