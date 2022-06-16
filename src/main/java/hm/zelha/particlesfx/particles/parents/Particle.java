@@ -100,6 +100,7 @@ public class Particle {
 
             if (this instanceof TravellingParticle && ((TravellingParticle) this).getVelocity() != null && ((TravellingParticle) this).getLocationToGo() == null) {
                 Vector velocity = ((TravellingParticle) this).getVelocity();
+                trueSpeed = 1;
                 trueCount = 0;
                 trueOffsetX = velocity.getX();
                 trueOffsetY = velocity.getY();
