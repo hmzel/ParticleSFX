@@ -58,7 +58,7 @@ public class Particle {
         EnumParticle nmsParticle = null;
         Packet packet = null;
 
-        if (this instanceof VelocityParticle) count2 = count;
+        if (this instanceof TravellingParticle) count2 = count;
         if (this instanceof SizeableParticle) count2 = count;
         if (this instanceof ColorableParticle && ((ColorableParticle) this).getColor() != null) count2 = count;
         if (this instanceof InverseTravellingParticle && ((InverseTravellingParticle) this).getLocationToGo() != null) count2 = count;
@@ -98,8 +98,8 @@ public class Particle {
             boolean fakeOffset = false;
             Location addition = null;
 
-            if (this instanceof VelocityParticle && ((VelocityParticle) this).getVelocity() != null) {
-                Vector velocity = ((VelocityParticle) this).getVelocity();
+            if (this instanceof TravellingParticle && ((TravellingParticle) this).getVelocity() != null && ((TravellingParticle) this).getLocationToGo() == null) {
+                Vector velocity = ((TravellingParticle) this).getVelocity();
                 trueCount = 0;
                 trueOffsetX = velocity.getX();
                 trueOffsetY = velocity.getY();
@@ -137,6 +137,7 @@ public class Particle {
 
             if (this instanceof InverseTravellingParticle && ((InverseTravellingParticle) this).getLocationToGo() != null) fakeOffset = true;
             if (this instanceof InverseTravellingParticle && ((InverseTravellingParticle) this).getVelocity() != null) fakeOffset = true;
+            if (this instanceof TravellingParticle && ((TravellingParticle) this).getLocationToGo() != null) fakeOffset = true;
             if (this instanceof NoteParticle && ((NoteParticle) this).getNoteColor() == NoteParticle.NoteColor.RANDOM) trueSpeed = 1;
 
             if (fakeOffset) {
@@ -161,6 +162,16 @@ public class Particle {
                 trueOffsetY = location.getY() - toGo.getY();
                 trueOffsetZ = location.getZ() - toGo.getZ();
                 trueLocation = toGo;
+            }
+
+            if (this instanceof TravellingParticle && ((TravellingParticle) this).getLocationToGo() != null && ((TravellingParticle) this).getVelocity() == null) {
+                Location toGo = ((TravellingParticle) this).getLocationToGo();
+                double control = ((TravellingParticle) this).getVelocityControl();
+                trueSpeed = 1;
+                trueCount = 0;
+                trueOffsetX = (toGo.getX() - location.getX()) * control;
+                trueOffsetY = (toGo.getY() - location.getY()) * control;
+                trueOffsetZ = (toGo.getZ() - location.getZ()) * control;
             }
 
             if (this instanceof InverseTravellingParticle && ((InverseTravellingParticle) this).getVelocity() != null && ((InverseTravellingParticle) this).getLocationToGo() == null) {
