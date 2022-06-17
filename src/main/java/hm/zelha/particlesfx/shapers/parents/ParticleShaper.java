@@ -2,6 +2,7 @@ package hm.zelha.particlesfx.shapers.parents;
 
 import hm.zelha.particlesfx.Main;
 import hm.zelha.particlesfx.particles.parents.Particle;
+import hm.zelha.particlesfx.util.RotationHandler;
 import org.apache.commons.lang3.Validate;
 import org.bukkit.Location;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -9,21 +10,17 @@ import org.bukkit.scheduler.BukkitTask;
 
 public abstract class ParticleShaper {
 
-    private BukkitTask animator = null;
-    private Particle particle;
-    private double pitch;
-    private double yaw;
-    private double roll;
-    private double frequency;
+    protected BukkitTask animator = null;
+    protected Particle particle;
+    protected RotationHandler rot;
+    protected double frequency;
 
-    private ParticleShaper(Particle particle, double pitch, double yaw, double roll, double frequency) {
+    protected ParticleShaper(Particle particle, double pitch, double yaw, double roll, double frequency) {
         Validate.notNull(particle, "Particle cannot be null!");
         Validate.isTrue(frequency > 2.0D, "Frequency cannot be 2 or less! if you only want one particle, use Particle.display().");
 
         this.particle = particle;
-        this.pitch = pitch;
-        this.yaw = yaw;
-        this.roll = roll;
+        this.rot = new RotationHandler(pitch, yaw, roll);
         this.frequency = frequency;
 
         start();
