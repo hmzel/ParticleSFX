@@ -73,9 +73,7 @@ public class ParticleLine {
         rot.add(pitch, yaw, roll);
 
         for (Location l : new Location[] {originalStart, originalEnd}) {
-            Vector v = l.clone().subtract(around).toVector();
-
-            rot.apply(v);
+            Vector v = rot.apply(l.clone().subtract(around).toVector());
 
             if (l.equals(originalStart)) {
                 start = around.clone().add(v);

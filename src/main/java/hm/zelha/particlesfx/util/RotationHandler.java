@@ -24,10 +24,18 @@ public class RotationHandler {
         this(0, 0, 0);
     }
 
-    public void apply(Vector v) {
+    public Vector apply(Vector v) {
         applyPitch(v);
         applyYaw(v);
         applyRoll(v);
+
+        return v;
+    }
+
+    public void reset() {
+        pitch = 0;
+        yaw = 0;
+        roll = 0;
     }
 
     private void applyPitch(Vector v) {

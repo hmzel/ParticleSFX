@@ -1,52 +1,34 @@
 package hm.zelha.particlesfx.shapers;
 
-import hm.zelha.particlesfx.Main;
 import hm.zelha.particlesfx.particles.parents.Particle;
+import hm.zelha.particlesfx.shapers.parents.ParticleShaper;
+import hm.zelha.particlesfx.util.RotationHandler;
 import org.apache.commons.lang3.Validate;
 import org.bukkit.Location;
-import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.util.Vector;
 
-public class ParticleCircle {
+public class ParticleCircle extends ParticleShaper {
 
-    private final double[] oldPitchCosAndSin = {0, 0};
-    private final double[] oldYawCosAndSin = {0, 0};
-    private final double[] oldRollCosAndSin = {0, 0};
-    private BukkitTask animator = null;
-    private Particle particle;
+    private final RotationHandler rot2 = new RotationHandler();
     private Location center;
+    private Location originalCenter;
     private double xRadius;
     private double zRadius;
-    private double pitch;
-    private double yaw;
-    private double roll;
-    private double oldPitch;
-    private double oldYaw;
-    private double oldRoll;
-    private double frequency;
+    private double trueFrequency;
     private boolean halfCircle;
 
     public ParticleCircle(Particle particle, Location center, double xRadius, double zRadius, double pitch, double yaw, double roll, double frequency, boolean halfCircle) {
-        Validate.notNull(particle, "Particle cannot be null!");
+        super(particle, pitch, yaw, roll, frequency);
+
         Validate.notNull(center, "Location cannot be null!");
         Validate.notNull(center.getWorld(), "Location's world cannot be null!");
-        Validate.isTrue(frequency > 2.0D, "Frequency cannot be 2 or less! if you only want one particle, use Particle.display().");
 
-        this.particle = particle;
         this.center = center;
+        this.originalCenter = center;
         this.xRadius = xRadius;
         this.zRadius = zRadius;
-        this.pitch = pitch;
-        this.yaw = yaw;
-        this.roll = roll;
-        oldPitch = pitch;
-        oldYaw = yaw;
-        oldRoll = roll;
-        this.frequency = (Math.PI * 2) / frequency;
+        this.trueFrequency = (Math.PI * 2) / frequency;
         this.halfCircle = halfCircle;
-
-        start();
     }
 
     public ParticleCircle(Particle particle, Location center, double xRadius, double zRadius, double pitch, double yaw, double roll, double frequency) {
@@ -73,148 +55,64 @@ public class ParticleCircle {
         this(particle, center, xRadius, zRadius, 0, 0, 0, Math.PI / 50, false);
     }
 
-    public void start() {
-        if (animator != null) return;
+    @Override
+    public void display() {
+        for (double radian = 0; radian < Math.PI * ((halfCircle) ? 1 : 2); radian += trueFrequency) {
+            Vector addition = rot.apply(new Vector(xRadius * Math.cos(radian), 0, zRadius * Math.sin(radian)));
 
-        animator = new BukkitRunnable() {
-            @Override
-            public void run() {
-                for (double radian = 0; radian < Math.PI * ((halfCircle) ? 1 : 2); radian += frequency) {
-                    Vector addition = new Vector(xRadius * Math.cos(radian), 0, zRadius * Math.sin(radian));
-
-                    applyPitch(addition);
-                    applyYaw(addition);
-                    applyRoll(addition);
-
-                    particle.display(center.add(addition));
-                    center.subtract(addition);
-                }
-            }
-        }.runTaskTimer(Main.getPlugin(), 0, 1);
-    }
-
-    public void stop() {
-        if (animator == null) return;
-
-        animator.cancel();
-        animator = null;
-    }
-
-    private void applyPitch(Vector v) {
-        if (pitch == 0) return;
-
-        double y, z, cos, sin, angle;
-
-        if (pitch != oldPitch) {
-            angle = Math.toRadians(pitch);
-            cos = Math.cos(angle);
-            sin = Math.sin(angle);
-            oldPitchCosAndSin[0] = cos;
-            oldPitchCosAndSin[1] = sin;
-            oldPitch = pitch;
-        } else {
-            cos = oldPitchCosAndSin[0];
-            sin = oldPitchCosAndSin[1];
+            particle.display(center.add(addition));
+            center.subtract(addition);
         }
-
-        y = v.getY() * cos - v.getZ() * sin;
-        z = v.getY() * sin + v.getZ() * cos;
-
-        v.setY(y).setZ(z);
     }
 
-    private void applyYaw(Vector v) {
-        if (yaw == 0) return;
+    @Override
+    public void rotateAroundLocation(Location around, double pitch, double yaw, double roll) {
+        rot2.add(pitch, yaw, roll);
 
-        double x, z, cos, sin, angle;
-
-        if (yaw != oldYaw) {
-            angle = Math.toRadians(-yaw);
-            cos = Math.cos(angle);
-            sin = Math.sin(angle);
-            oldYawCosAndSin[0] = cos;
-            oldYawCosAndSin[1] = sin;
-            oldYaw = yaw;
-        } else {
-            cos = oldYawCosAndSin[0];
-            sin = oldYawCosAndSin[1];
-        }
-
-        x = v.getX() * cos + v.getZ() * sin;
-        z = v.getX() * -sin + v.getZ() * cos;
-
-        v.setX(x).setZ(z);
+        center = around.clone().add(rot2.apply(originalCenter.clone().subtract(around).toVector()));
     }
 
-    private void applyRoll(Vector v) {
-        if (roll == 0) return;
-
-        double x, y, cos, sin, angle;
-
-        if (roll != oldRoll) {
-            angle = Math.toRadians(roll);
-            cos = Math.cos(angle);
-            sin = Math.sin(angle);
-            oldRollCosAndSin[0] = cos;
-            oldRollCosAndSin[1] = sin;
-            oldRoll = roll;
-        } else {
-            cos = oldRollCosAndSin[0];
-            sin = oldRollCosAndSin[1];
-        }
-
-        x = v.getX() * cos - v.getY() * sin;
-        y = v.getX() * sin + v.getY() * cos;
-
-        v.setX(x).setY(y);
-    }
-
-    public void setParticle(Particle particle) {
-        Validate.notNull(particle, "Particle cannot be null!");
-
-        this.particle = particle;
+    @Override
+    public void move(double x, double y, double z) {
+        center.add(new Vector(x, y, z));
     }
 
     public void setCenter(Location center) {
         this.center = center;
+        this.originalCenter = center;
+
+        rot2.reset();
     }
 
-    public void setxRadius(double xRadius) {
+    public void setXRadius(double xRadius) {
         this.xRadius = xRadius;
     }
 
-    public void setzRadius(double zRadius) {
+    public void setZRadius(double zRadius) {
         this.zRadius = zRadius;
     }
 
     public void setPitch(double pitch) {
-        this.pitch = pitch;
+        rot.setPitch(pitch);
     }
 
     public void setYaw(double yaw) {
-        this.yaw = yaw;
+        rot.setYaw(yaw);
     }
 
     public void setRoll(double roll) {
-        this.roll = roll;
+        rot.setRoll(roll);
     }
 
-    /**
-     *
-     * @param frequency amount of particles to display per full animation
-     */
+    @Override
     public void setFrequency(double frequency) {
-        Validate.isTrue(frequency > 2.0D, "Frequency cannot be 2 or less! if you only want one particle, use Particle.display()");
+        super.setFrequency(frequency);
 
-        this.frequency = (Math.PI * 2) / frequency;
+        this.trueFrequency = (Math.PI * 2) / frequency;
     }
 
     public void setHalfCircle(boolean halfCircle) {
         this.halfCircle = halfCircle;
-    }
-
-    public Particle getParticle() {
-        return particle;
     }
 
     public Location getCenter() {
@@ -230,19 +128,15 @@ public class ParticleCircle {
     }
 
     public double getPitch() {
-        return pitch;
+        return rot.getPitch();
     }
 
     public double getYaw() {
-        return yaw;
+        return rot.getYaw();
     }
 
     public double getRoll() {
-        return roll;
-    }
-
-    public double getFrequency() {
-        return frequency;
+        return rot.getRoll();
     }
 
     public boolean isHalfCircle() {
