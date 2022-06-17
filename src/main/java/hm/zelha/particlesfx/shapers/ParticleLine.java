@@ -2,6 +2,7 @@ package hm.zelha.particlesfx.shapers;
 
 import hm.zelha.particlesfx.Main;
 import hm.zelha.particlesfx.particles.parents.Particle;
+import hm.zelha.particlesfx.util.RotationHandler;
 import org.apache.commons.lang3.Validate;
 import org.bukkit.Location;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -10,6 +11,7 @@ import org.bukkit.util.Vector;
 
 public class ParticleLine {
 
+    private final RotationHandler rot = new RotationHandler();
     private BukkitTask animator = null;
     private Particle particle;
     private Location originalStart;
@@ -40,7 +42,7 @@ public class ParticleLine {
     }
 
     public ParticleLine(Particle particle, Location start, Location end) {
-        this(particle, start, end, 0.25);
+        this(particle, start, end, 50);
     }
 
     public void start() {
@@ -68,43 +70,12 @@ public class ParticleLine {
     }
 
     public void rotateAroundLocation(Location around, double pitch, double yaw, double roll) {
-        this.pitch += pitch;
-        this.yaw += yaw;
-        this.roll += roll;
+        rot.add(pitch, yaw, roll);
 
         for (Location l : new Location[] {originalStart, originalEnd}) {
-            double x, y, z, cos, sin, angle;
             Vector v = l.clone().subtract(around).toVector();
 
-            if (this.pitch != 0) {
-                angle = Math.toRadians(this.pitch);
-                cos = Math.cos(angle);
-                sin = Math.sin(angle);
-                y = v.getY() * cos - v.getZ() * sin;
-                z = v.getY() * sin + v.getZ() * cos;
-
-                v.setY(y).setZ(z);
-            }
-
-            if (this.yaw != 0) {
-                angle = Math.toRadians(-this.yaw);
-                cos = Math.cos(angle);
-                sin = Math.sin(angle);
-                x = v.getX() * cos + v.getZ() * sin;
-                z = v.getX() * -sin + v.getZ() * cos;
-
-                v.setX(x).setZ(z);
-            }
-
-            if (this.roll != 0) {
-                angle = Math.toRadians(this.roll);
-                cos = Math.cos(angle);
-                sin = Math.sin(angle);
-                x = v.getX() * cos - v.getY() * sin;
-                y = v.getX() * sin + v.getY() * cos;
-
-                v.setX(x).setY(y);
-            }
+            rot.apply(v);
 
             if (l.equals(originalStart)) {
                 start = around.clone().add(v);

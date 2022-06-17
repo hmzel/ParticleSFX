@@ -60,7 +60,7 @@ public abstract class ParticleShaper {
         this.particle = particle;
     }
 
-    /** @param frequency amount of particles to display per full animation */
+    /** @param frequency amount of times to display the particle per full animation */
     public void setFrequency(double frequency) {
         Validate.isTrue(frequency > 2.0D, "Frequency cannot be 2 or less! if you only want one particle, use Particle.display()");
 

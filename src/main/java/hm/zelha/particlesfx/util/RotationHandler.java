@@ -20,6 +20,10 @@ public class RotationHandler {
         this.roll = roll;
     }
 
+    public RotationHandler() {
+        this(0, 0, 0);
+    }
+
     public void apply(Vector v) {
         applyPitch(v);
         applyYaw(v);
