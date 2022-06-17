@@ -23,7 +23,7 @@ public class ParticleSmokeLarge extends Particle implements TravellingParticle {
     public ParticleSmokeLarge(Vector velocity, double offsetX, double offsetY, double offsetZ, double speed, int count) {
         super(Effect.LARGE_SMOKE, offsetX, offsetY, offsetZ, speed, count, 0);
 
-        if (velocity != null) this.velocity = velocity.multiply(0.0764);
+        if (velocity != null) this.velocity = velocity.multiply(0.06);
     }
 
     public ParticleSmokeLarge(double offsetX, double offsetY, double offsetZ, double speed, int count) {
@@ -163,12 +163,12 @@ public class ParticleSmokeLarge extends Particle implements TravellingParticle {
 
     @Override
     public void setVelocity(Vector vector) {
-        this.velocity = vector.multiply(0.0764);
+        this.velocity = vector.multiply(0.06);
     }
 
     @Override
     public void setVelocity(double x, double y, double z) {
-        this.velocity = new Vector(x, y, z).multiply(0.0764);
+        this.velocity = new Vector(x, y, z).multiply(0.06);
     }
 
     @Nullable
@@ -184,6 +184,6 @@ public class ParticleSmokeLarge extends Particle implements TravellingParticle {
 
     @Override
     public double getVelocityControl() {
-        return 0.0764;
+        return 0.06;
     }
 }
