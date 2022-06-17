@@ -10,8 +10,6 @@ import org.bukkit.util.Vector;
 
 public class ParticleCircle {
 
-    //optimize the rotation methods so they dont recalculate when its not necessary
-
     private BukkitTask animator = null;
     private Particle particle;
     private Location center;
@@ -27,7 +25,7 @@ public class ParticleCircle {
         Validate.notNull(particle, "Particle cannot be null!");
         Validate.notNull(center, "Location cannot be null!");
         Validate.notNull(center.getWorld(), "Location's world cannot be null!");
-        Validate.isTrue(frequency > 0.0D, "Frequency cannot be 0 or less!");
+        Validate.isTrue(frequency > 2.0D, "Frequency cannot be 2 or less! if you only want one particle, use Particle.display().");
 
         this.particle = particle;
         this.center = center;
@@ -36,7 +34,7 @@ public class ParticleCircle {
         this.pitch = pitch;
         this.yaw = yaw;
         this.roll = roll;
-        this.frequency = frequency;
+        this.frequency = (Math.PI * 2) / frequency;
         this.halfCircle = halfCircle;
 
         start();
@@ -163,10 +161,14 @@ public class ParticleCircle {
         this.roll = roll;
     }
 
+    /**
+     *
+     * @param frequency amount of particles to display per full animation
+     */
     public void setFrequency(double frequency) {
-        Validate.isTrue(frequency <= 0, "Frequency cannot be 0 or less!");
+        Validate.isTrue(frequency > 2.0D, "Frequency cannot be 2 or less! if you only want one particle, use Particle.display()");
 
-        this.frequency = frequency;
+        this.frequency = (Math.PI * 2) / frequency;
     }
 
     public void setHalfCircle(boolean halfCircle) {

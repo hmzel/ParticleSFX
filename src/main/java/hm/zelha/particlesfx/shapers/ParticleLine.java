@@ -27,7 +27,7 @@ public class ParticleLine {
         Validate.notNull(end, "Location cannot be null!");
         Validate.notNull(start.getWorld(), "Location's world cannot be null!");
         Validate.notNull(end.getWorld(), "Location's world cannot be null!");
-        Validate.isTrue(frequency > 0.0D, "Frequency cannot be 0 or less!");
+        Validate.isTrue(frequency > 2.0D, "Frequency cannot be 2 or less! if you only want one particle, use Particle.display().");
 
         this.particle = particle;
         this.originalStart = start;
@@ -51,9 +51,9 @@ public class ParticleLine {
             public void run() {
                 Location particleSpawn = start.clone();
                 double distance = start.distance(end);
-                Vector addition = end.clone().subtract(start).toVector().normalize().multiply(frequency);
+                Vector addition = end.clone().subtract(start).toVector().normalize().multiply(distance / frequency);
 
-                for (double length = 0; length < distance; length += frequency, particleSpawn.add(addition)) {
+                for (double length = 0; length < distance; length += distance / frequency, particleSpawn.add(addition)) {
                     particle.display(particleSpawn);
                 }
             }
@@ -157,7 +157,7 @@ public class ParticleLine {
     }
 
     public void setFrequency(double frequency) {
-        Validate.isTrue(frequency <= 0, "Frequency cannot be 0 or less!");
+        Validate.isTrue(frequency > 2.0D, "Frequency cannot be 2 or less! if you only want one particle, use Particle.display().");
 
         this.frequency = frequency;
     }
