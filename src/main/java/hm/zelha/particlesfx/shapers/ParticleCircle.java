@@ -73,6 +73,11 @@ public class ParticleCircle extends ParticleShaper {
     }
 
     @Override
+    public void rotate(double pitch, double yaw, double roll) {
+        rot.add(pitch, yaw, roll);
+    }
+
+    @Override
     public void move(double x, double y, double z) {
         center.add(new Vector(x, y, z));
     }

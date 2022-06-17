@@ -10,9 +10,10 @@ import org.bukkit.scheduler.BukkitTask;
 
 public abstract class ParticleShaper {
 
+    protected final RotationHandler rot;
+    protected final RotationHandler rot2;
     protected BukkitTask animator = null;
     protected Particle particle;
-    protected RotationHandler rot;
     protected double frequency;
 
     protected ParticleShaper(Particle particle, double pitch, double yaw, double roll, double frequency) {
@@ -21,6 +22,7 @@ public abstract class ParticleShaper {
 
         this.particle = particle;
         this.rot = new RotationHandler(pitch, yaw, roll);
+        this.rot2 = new RotationHandler();
         this.frequency = frequency;
 
         start();
@@ -47,6 +49,8 @@ public abstract class ParticleShaper {
     public abstract void display();
 
     public abstract void rotateAroundLocation(Location around, double pitch, double yaw, double roll);
+
+    public abstract void rotate(double pitch, double yaw, double roll);
 
     public abstract void move(double x, double y, double z);
 
