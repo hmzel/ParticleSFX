@@ -10,6 +10,9 @@ import org.bukkit.util.Vector;
 
 public class ParticleCircle {
 
+    private final double[] oldPitchCosAndSin = {0, 0};
+    private final double[] oldYawCosAndSin = {0, 0};
+    private final double[] oldRollCosAndSin = {0, 0};
     private BukkitTask animator = null;
     private Particle particle;
     private Location center;
@@ -18,6 +21,9 @@ public class ParticleCircle {
     private double pitch;
     private double yaw;
     private double roll;
+    private double oldPitch;
+    private double oldYaw;
+    private double oldRoll;
     private double frequency;
     private boolean halfCircle;
 
@@ -34,6 +40,9 @@ public class ParticleCircle {
         this.pitch = pitch;
         this.yaw = yaw;
         this.roll = roll;
+        oldPitch = pitch;
+        oldYaw = yaw;
+        oldRoll = roll;
         this.frequency = (Math.PI * 2) / frequency;
         this.halfCircle = halfCircle;
 
@@ -95,9 +104,19 @@ public class ParticleCircle {
         if (pitch == 0) return;
 
         double y, z, cos, sin, angle;
-        angle = Math.toRadians(pitch);
-        cos = Math.cos(angle);
-        sin = Math.sin(angle);
+
+        if (pitch != oldPitch) {
+            angle = Math.toRadians(pitch);
+            cos = Math.cos(angle);
+            sin = Math.sin(angle);
+            oldPitchCosAndSin[0] = cos;
+            oldPitchCosAndSin[1] = sin;
+            oldPitch = pitch;
+        } else {
+            cos = oldPitchCosAndSin[0];
+            sin = oldPitchCosAndSin[1];
+        }
+
         y = v.getY() * cos - v.getZ() * sin;
         z = v.getY() * sin + v.getZ() * cos;
 
@@ -108,10 +127,19 @@ public class ParticleCircle {
         if (yaw == 0) return;
 
         double x, z, cos, sin, angle;
-        angle = -yaw;
-        angle = Math.toRadians(angle);
-        cos = Math.cos(angle);
-        sin = Math.sin(angle);
+
+        if (yaw != oldYaw) {
+            angle = Math.toRadians(-yaw);
+            cos = Math.cos(angle);
+            sin = Math.sin(angle);
+            oldYawCosAndSin[0] = cos;
+            oldYawCosAndSin[1] = sin;
+            oldYaw = yaw;
+        } else {
+            cos = oldYawCosAndSin[0];
+            sin = oldYawCosAndSin[1];
+        }
+
         x = v.getX() * cos + v.getZ() * sin;
         z = v.getX() * -sin + v.getZ() * cos;
 
@@ -122,9 +150,19 @@ public class ParticleCircle {
         if (roll == 0) return;
 
         double x, y, cos, sin, angle;
-        angle = Math.toRadians(roll);
-        cos = Math.cos(angle);
-        sin = Math.sin(angle);
+
+        if (roll != oldRoll) {
+            angle = Math.toRadians(roll);
+            cos = Math.cos(angle);
+            sin = Math.sin(angle);
+            oldRollCosAndSin[0] = cos;
+            oldRollCosAndSin[1] = sin;
+            oldRoll = roll;
+        } else {
+            cos = oldRollCosAndSin[0];
+            sin = oldRollCosAndSin[1];
+        }
+
         x = v.getX() * cos - v.getY() * sin;
         y = v.getX() * sin + v.getY() * cos;
 
