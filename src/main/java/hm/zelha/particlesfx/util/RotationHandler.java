@@ -1,5 +1,7 @@
 package hm.zelha.particlesfx.util;
 
+import org.apache.commons.lang3.Validate;
+import org.bukkit.Location;
 import org.bukkit.util.Vector;
 
 public class RotationHandler {
@@ -7,6 +9,7 @@ public class RotationHandler {
     private final double[] oldPitchCosAndSin = {0, 0};
     private final double[] oldYawCosAndSin = {0, 0};
     private final double[] oldRollCosAndSin = {0, 0};
+    private List<Location> origins = new ArrayList<>();
     private double pitch;
     private double yaw;
     private double roll;
@@ -32,10 +35,29 @@ public class RotationHandler {
         return v;
     }
 
+    public void add(double pitch, double yaw, double roll) {
+        this.pitch += pitch;
+        this.yaw += yaw;
+        this.roll += roll;
+    }
+
     public void reset() {
         pitch = 0;
         yaw = 0;
         roll = 0;
+        origins = new ArrayList<>();
+    }
+
+    public void addOrigins(Location... locations) {
+        for (Location l : locations) origins.add(l.clone());
+    }
+
+    public void removeOrigin(int index) {
+        origins.remove(index);
+    }
+
+    public void moveOrigins(double x, double y, double z) {
+        for (Location l : origins) l.add(x, y, z);
     }
 
     private void applyPitch(Vector v) {
@@ -107,12 +129,6 @@ public class RotationHandler {
         v.setX(x).setY(y);
     }
 
-    public void add(double pitch, double yaw, double roll) {
-        this.pitch += pitch;
-        this.yaw += yaw;
-        this.roll += roll;
-    }
-
     public void setPitch(double pitch) {
         this.pitch = pitch;
     }
@@ -135,5 +151,9 @@ public class RotationHandler {
 
     public double getRoll() {
         return roll;
+    }
+
+    public List<Location> getOrigins() {
+        return origins;
     }
 }
