@@ -18,7 +18,7 @@ public abstract class ParticleShaper {
 
     protected ParticleShaper(Particle particle, double pitch, double yaw, double roll, double frequency) {
         Validate.notNull(particle, "Particle cannot be null!");
-        Validate.isTrue(frequency > 2.0D, "Frequency cannot be 2 or less! if you only want one particle, use Particle.display().");
+        Validate.isTrue(frequency >= 2.0D, "Frequency cannot be less than 2! if you only want one particle, use Particle.display().");
 
         this.particle = particle;
         this.rot = new RotationHandler(pitch, yaw, roll);
@@ -56,14 +56,6 @@ public abstract class ParticleShaper {
 
     public boolean isRunning() {
         return animator != null;
-    }
-
-    protected Location setXYZ(Location location, double x, double y, double z) {
-        location.setX(x);
-        location.setY(y);
-        location.setZ(z);
-
-        return location;
     }
 
     public void setParticle(Particle particle) {
