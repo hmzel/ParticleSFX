@@ -6,7 +6,6 @@ import hm.zelha.particlesfx.util.LVMath;
 import org.apache.commons.lang3.Validate;
 import org.bukkit.Location;
 import org.bukkit.World;
-import org.bukkit.util.Vector;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,8 +13,6 @@ import java.util.List;
 public class ParticleLineCompound extends ParticleShaper {
 
     private final List<Location> locations = new ArrayList<>();
-    private final Location locationHelper;
-    private final Vector vectorHelper = new Vector(0, 0, 0);
 
     public ParticleLineCompound(Particle particle, double frequency, Location... locations) {
         super(particle, 0, 0, 0, frequency);
@@ -23,7 +20,7 @@ public class ParticleLineCompound extends ParticleShaper {
         Validate.isTrue(locations.length >= 2, "Compound line must have 2 or more locations!");
 
         World world = locations[0].getWorld();
-        locationHelper = new Location(world, 0, 0, 0);
+        locationHelper.setWorld(world);
 
         for (Location l : locations) {
             Validate.isTrue(l.getWorld() != null, "Locations cannot have null worlds!");

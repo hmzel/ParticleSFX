@@ -7,11 +7,14 @@ import org.apache.commons.lang3.Validate;
 import org.bukkit.Location;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
+import org.bukkit.util.Vector;
 
 public abstract class ParticleShaper {
 
     protected final RotationHandler rot;
     protected final RotationHandler rot2;
+    protected final Location locationHelper = new Location(null, 0, 0, 0);
+    protected final Vector vectorHelper = new Vector(0, 0, 0);
     protected BukkitTask animator = null;
     protected Particle particle;
     protected double frequency;
