@@ -2,14 +2,14 @@ package hm.zelha.particlesfx.shapers;
 
 import hm.zelha.particlesfx.particles.parents.Particle;
 import hm.zelha.particlesfx.shapers.parents.ParticleShaper;
+import hm.zelha.particlesfx.util.LVMath;
 import org.apache.commons.lang3.Validate;
 import org.bukkit.Location;
-import org.bukkit.util.Vector;
+
+import java.util.Arrays;
 
 public class ParticleLine extends ParticleShaper {
 
-    private Location originalStart;
-    private Location originalEnd;
     private Location start;
     private Location end;
 
@@ -20,9 +20,10 @@ public class ParticleLine extends ParticleShaper {
         Validate.notNull(end, "Location cannot be null!");
         Validate.notNull(start.getWorld(), "Location's world cannot be null!");
         Validate.notNull(end.getWorld(), "Location's world cannot be null!");
+        rot.addOrigins(start, end);
+        rot2.addOrigins(start, end);
+        locationHelper.setWorld(start.getWorld());
 
-        this.originalStart = start;
-        this.originalEnd = end;
         this.start = start;
         this.end = end;
     }
@@ -33,49 +34,37 @@ public class ParticleLine extends ParticleShaper {
 
     @Override
     public void display() {
-        Location particleSpawn = start.clone();
         double distance = start.distance(end);
-        Vector addition = end.clone().subtract(start).toVector().normalize().multiply(distance / frequency);
+        double control = distance / frequency;
 
-        for (double length = 0; length < distance; length += distance / frequency, particleSpawn.add(addition)) {
-            particle.display(particleSpawn);
+        locationHelper.zero().add(start);
+        LVMath.subtractToVector(vectorHelper, end, start).normalize().multiply(control);
+
+        for (double length = 0; length < distance; length += control, locationHelper.add(vectorHelper)) {
+            particle.display(locationHelper);
         }
     }
 
     @Override
     public void rotateAroundLocation(Location around, double pitch, double yaw, double roll) {
         rot2.add(pitch, yaw, roll);
-
-        for (Location l : new Location[] {originalStart, originalEnd}) {
-            Vector v = rot2.apply(l.clone().subtract(around).toVector());
-
-            if (l.equals(originalStart)) {
-                start = around.clone().add(v);
-            } else {
-                end = around.clone().add(v);
-            }
-        }
+        rot2.apply(around, Arrays.asList(start, end));
+        rot2.apply(around, rot.getOrigins());
     }
 
     @Override
     public void rotate(double pitch, double yaw, double roll) {
-        Location center = originalStart.clone().add(originalEnd).multiply(0.5);
+        Location center = locationHelper.zero().add(start).add(end).multiply(0.5);
 
         rot.add(pitch, yaw, roll);
-
-        for (Location l : new Location[] {originalStart, originalEnd}) {
-            Vector v = rot.apply(l.clone().subtract(center).toVector());
-
-            if (l.equals(originalStart)) {
-                start = center.clone().add(v);
-            } else {
-                end = center.add(v);
-            }
-        }
+        rot.apply(center, Arrays.asList(start, end));
     }
 
     @Override
     public void move(double x, double y, double z) {
+        rot.moveOrigins(x, y, z);
+        rot2.moveOrigins(x, y, z);
+
         for (Location l : new Location[] {start, end}) l.add(x, y, z);
     }
 
@@ -84,9 +73,10 @@ public class ParticleLine extends ParticleShaper {
         Validate.notNull(start.getWorld(), "Location's world cannot be null!");
 
         this.start = start;
-        this.originalStart = start;
-        this.originalEnd = end;
         rot.reset();
+        rot2.reset();
+        rot.addOrigins(start, end);
+        rot2.addOrigins(start, end);
     }
 
     public void setEnd(Location end) {
@@ -94,9 +84,10 @@ public class ParticleLine extends ParticleShaper {
         Validate.notNull(end.getWorld(), "Location's world cannot be null!");
 
         this.end = end;
-        this.originalStart = start;
-        this.originalEnd = end;
         rot.reset();
+        rot2.reset();
+        rot.addOrigins(start, end);
+        rot2.addOrigins(start, end);
     }
 
     public Location getStart() {
