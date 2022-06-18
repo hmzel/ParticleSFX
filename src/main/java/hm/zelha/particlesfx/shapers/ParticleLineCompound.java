@@ -2,6 +2,7 @@ package hm.zelha.particlesfx.shapers;
 
 import hm.zelha.particlesfx.particles.parents.Particle;
 import hm.zelha.particlesfx.shapers.parents.ParticleShaper;
+import hm.zelha.particlesfx.util.LVMath;
 import org.apache.commons.lang3.Validate;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -22,8 +23,8 @@ public class ParticleLineCompound extends ParticleShaper {
 
         Validate.isTrue(locations.length >= 2, "Compound line must have 2 or more locations!");
 
-        locationHelper = new Location(locations[0].getWorld(), 0, 0, 0);
         World world = locations[0].getWorld();
+        locationHelper = new Location(world, 0, 0, 0);
 
         for (Location l : locations) {
             Validate.isTrue(l.getWorld() != null, "Locations cannot have null worlds!");
@@ -46,8 +47,8 @@ public class ParticleLineCompound extends ParticleShaper {
             double distance = start.distance(end);
             double control = distance / frequency;
 
-            setXYZ(locationHelper, start.getX(), start.getY(), start.getZ());
-            vectorHelper.setX(end.getX() - start.getX()).setY(end.getY() - start.getY()).setZ(end.getZ() - start.getZ()).normalize().multiply(control);
+            locationHelper.zero().add(start);
+            LVMath.subtractToVector(vectorHelper, end, start).normalize().multiply(control);
 
             for (double length = 0; length < distance; length += control, locationHelper.add(vectorHelper)) {
                 particle.display(locationHelper);
@@ -62,9 +63,9 @@ public class ParticleLineCompound extends ParticleShaper {
         for (int i = 0; i < locations.size(); i++) {
             Location l = originalLocations.get(i);
             Location l2 = locations.get(i);
-            Vector v = rot2.apply(vectorHelper.setX(l.getX() - around.getX()).setY(l.getY() - around.getY()).setZ(l.getZ() - around.getZ()));
+            Vector v = rot2.apply(LVMath.subtractToVector(vectorHelper, l, around));
 
-            setXYZ(l2, around.getX() + v.getX(), around.getY() + v.getY(), around.getZ() + v.getZ());
+            LVMath.additionToLocation(l2, around, v);
         }
     }
 
@@ -78,15 +79,14 @@ public class ParticleLineCompound extends ParticleShaper {
         centroid.setX(centroid.getX() / amount);
         centroid.setY(centroid.getY() / amount);
         centroid.setZ(centroid.getZ() / amount);
-
         rot.add(pitch, yaw, roll);
 
         for (int i = 0; i < amount; i++) {
             Location l = originalLocations.get(i);
             Location l2 = locations.get(i);
-            Vector v = rot.apply(vectorHelper.setX(l.getX() - centroid.getX()).setY(l.getY() - centroid.getY()).setZ(l.getZ() - centroid.getZ()));
+            Vector v = rot.apply(LVMath.subtractToVector(vectorHelper, l, centroid));
 
-            setXYZ(l2, centroid.getX() + v.getX(), centroid.getY() + v.getY(), centroid.getZ() + v.getZ());
+            LVMath.additionToLocation(l2, centroid, v);
         }
     }
 
@@ -101,6 +101,11 @@ public class ParticleLineCompound extends ParticleShaper {
 
         originalLocations.add(location);
         locations.add(location.clone());
+    }
+
+    public void removeLocation(int index) {
+        originalLocations.remove(index);
+        locations.remove(index);
     }
 
     public Location getLocation(int index) {

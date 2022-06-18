@@ -13,19 +13,19 @@ public final class LVMath {
         return vector.setX(location.getX()).setY(location.getY()).setZ(location.getZ());
     }
 
-    public static Vector subtractToVector(Vector vector, Location location, Location subtrahend) {
-        vector.setX(location.getX() - subtrahend.getX());
-        vector.setY(location.getY() - subtrahend.getY());
-        vector.setZ(location.getZ() - subtrahend.getZ());
+    public static Vector subtractToVector(Vector toSet, Location location, Location subtrahend) {
+        toSet.setX(location.getX() - subtrahend.getX());
+        toSet.setY(location.getY() - subtrahend.getY());
+        toSet.setZ(location.getZ() - subtrahend.getZ());
 
-        return vector;
+        return toSet;
     }
 
-    public static Location additionToLocation(Location location, Location toAddTo, Vector addend) {
-        location.setX(toAddTo.getX() + addend.getX());
-        location.setY(toAddTo.getY() + addend.getY());
-        location.setZ(toAddTo.getZ() + addend.getZ());
+    public static Location additionToLocation(Location toSet, Location toAddTo, Vector addend) {
+        toSet.setX(toAddTo.getX() + addend.getX());
+        toSet.setY(toAddTo.getY() + addend.getY());
+        toSet.setZ(toAddTo.getZ() + addend.getZ());
 
-        return location;
+        return toSet;
     }
 }
