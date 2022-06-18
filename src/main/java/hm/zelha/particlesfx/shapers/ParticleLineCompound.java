@@ -61,6 +61,7 @@ public class ParticleLineCompound extends ParticleShaper {
     public void rotateAroundLocation(Location around, double pitch, double yaw, double roll) {
         rot2.add(pitch, yaw, roll);
         rot2.apply(around, locations);
+        rot2.apply(around, rot.getOrigins());
     }
 
     @Override
