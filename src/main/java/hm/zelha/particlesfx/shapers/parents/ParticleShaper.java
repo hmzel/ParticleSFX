@@ -58,6 +58,14 @@ public abstract class ParticleShaper {
         return animator != null;
     }
 
+    protected Location setXYZ(Location location, double x, double y, double z) {
+        location.setX(x);
+        location.setY(y);
+        location.setZ(z);
+
+        return location;
+    }
+
     public void setParticle(Particle particle) {
         Validate.notNull(particle, "Particle cannot be null!");
 
