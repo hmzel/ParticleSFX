@@ -13,7 +13,6 @@ import java.util.List;
 
 public class ParticleLineCompound extends ParticleShaper {
 
-    private final List<Location> originalLocations = new ArrayList<>();
     private final List<Location> locations = new ArrayList<>();
     private final Location locationHelper;
     private final Vector vectorHelper = new Vector(0, 0, 0);
@@ -30,9 +29,11 @@ public class ParticleLineCompound extends ParticleShaper {
             Validate.isTrue(l.getWorld() != null, "Locations cannot have null worlds!");
             Validate.isTrue(l.getWorld().equals(world), "Locations cannot have different worlds!");
 
-            originalLocations.add(l);
-            this.locations.add(l.clone());
+            this.locations.add(l);
         }
+
+        rot.addOrigins(locations);
+        rot2.addOrigins(locations);
     }
 
     public ParticleLineCompound(Particle particle, Location... locations) {
@@ -59,52 +60,42 @@ public class ParticleLineCompound extends ParticleShaper {
     @Override
     public void rotateAroundLocation(Location around, double pitch, double yaw, double roll) {
         rot2.add(pitch, yaw, roll);
-
-        for (int i = 0; i < locations.size(); i++) {
-            Location l = originalLocations.get(i);
-            Location l2 = locations.get(i);
-            Vector v = rot2.apply(LVMath.subtractToVector(vectorHelper, l, around));
-
-            LVMath.additionToLocation(l2, around, v);
-        }
+        rot2.apply(around, locations);
     }
 
     @Override
     public void rotate(double pitch, double yaw, double roll) {
         Location centroid = locationHelper.zero();
-        int amount = originalLocations.size();
+        int amount = locations.size();
 
-        for (Location l : originalLocations) centroid.add(l);
+        for (Location l : rot.getOrigins()) centroid.add(l);
 
         centroid.setX(centroid.getX() / amount);
         centroid.setY(centroid.getY() / amount);
         centroid.setZ(centroid.getZ() / amount);
         rot.add(pitch, yaw, roll);
-
-        for (int i = 0; i < amount; i++) {
-            Location l = originalLocations.get(i);
-            Location l2 = locations.get(i);
-            Vector v = rot.apply(LVMath.subtractToVector(vectorHelper, l, centroid));
-
-            LVMath.additionToLocation(l2, centroid, v);
-        }
+        rot.apply(centroid, locations);
     }
 
     @Override
     public void move(double x, double y, double z) {
-        for (Location l : originalLocations) l.add(x, y, z);
+        rot.moveOrigins(x, y, z);
+        rot2.moveOrigins(x, y, z);
+
         for (Location l : locations) l.add(x, y, z);
     }
 
     public void addLocation(Location location) {
         Validate.isTrue(location.getWorld().equals(locations.get(0).getWorld()), "Locations cannot have different worlds!");
 
-        originalLocations.add(location);
+        rot.addOrigins(location);
+        rot2.addOrigins(location);
         locations.add(location.clone());
     }
 
     public void removeLocation(int index) {
-        originalLocations.remove(index);
+        rot.removeOrigin(index);
+        rot2.removeOrigin(index);
         locations.remove(index);
     }
 

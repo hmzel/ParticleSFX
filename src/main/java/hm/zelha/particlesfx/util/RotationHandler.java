@@ -4,8 +4,12 @@ import org.apache.commons.lang3.Validate;
 import org.bukkit.Location;
 import org.bukkit.util.Vector;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class RotationHandler {
 
+    private final Vector vectorHelper = new Vector(0, 0, 0);
     private final double[] oldPitchCosAndSin = {0, 0};
     private final double[] oldYawCosAndSin = {0, 0};
     private final double[] oldRollCosAndSin = {0, 0};
@@ -25,6 +29,18 @@ public class RotationHandler {
 
     public RotationHandler() {
         this(0, 0, 0);
+    }
+
+    public void apply(Location around, List<Location> locations) {
+        Validate.isTrue(locations.size() == origins.size(), "Given locations must mimic stored location origins!");
+
+        for (int i = 0; i < locations.size(); i++) {
+            Location l = origins.get(i);
+            Location l2 = locations.get(i);
+            Vector v = apply(LVMath.subtractToVector(vectorHelper, l, around));
+
+            LVMath.additionToLocation(l2, around, v);
+        }
     }
 
     public Vector apply(Vector v) {
