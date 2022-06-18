@@ -2,16 +2,15 @@ package hm.zelha.particlesfx.shapers;
 
 import hm.zelha.particlesfx.particles.parents.Particle;
 import hm.zelha.particlesfx.shapers.parents.ParticleShaper;
-import hm.zelha.particlesfx.util.RotationHandler;
 import org.apache.commons.lang3.Validate;
 import org.bukkit.Location;
 import org.bukkit.util.Vector;
 
+import java.util.Collections;
+
 public class ParticleCircle extends ParticleShaper {
 
-    private final RotationHandler rot2 = new RotationHandler();
     private Location center;
-    private Location originalCenter;
     private double xRadius;
     private double zRadius;
     private double trueFrequency;
@@ -22,9 +21,10 @@ public class ParticleCircle extends ParticleShaper {
 
         Validate.notNull(center, "Location cannot be null!");
         Validate.notNull(center.getWorld(), "Location's world cannot be null!");
+        locationHelper.setWorld(center.getWorld());
+        rot2.addOrigins(center);
 
         this.center = center;
-        this.originalCenter = center;
         this.xRadius = xRadius;
         this.zRadius = zRadius;
         this.trueFrequency = (Math.PI * 2) / frequency;
@@ -58,18 +58,16 @@ public class ParticleCircle extends ParticleShaper {
     @Override
     public void display() {
         for (double radian = 0; radian < Math.PI * ((halfCircle) ? 1 : 2); radian += trueFrequency) {
-            Vector addition = rot.apply(new Vector(xRadius * Math.cos(radian), 0, zRadius * Math.sin(radian)));
-
-            particle.display(center.add(addition));
-            center.subtract(addition);
+            rot.apply(vectorHelper.setX(xRadius * Math.cos(radian)).setY(0).setZ(zRadius * Math.sin(radian)));
+            particle.display(center.add(vectorHelper));
+            center.subtract(vectorHelper);
         }
     }
 
     @Override
     public void rotateAroundLocation(Location around, double pitch, double yaw, double roll) {
         rot2.add(pitch, yaw, roll);
-
-        center = around.clone().add(rot2.apply(originalCenter.clone().subtract(around).toVector()));
+        rot2.apply(around, Collections.singletonList(center));
     }
 
     @Override
@@ -84,9 +82,9 @@ public class ParticleCircle extends ParticleShaper {
 
     public void setCenter(Location center) {
         this.center = center;
-        this.originalCenter = center;
 
         rot2.reset();
+        rot2.addOrigins(center);
     }
 
     public void setXRadius(double xRadius) {
