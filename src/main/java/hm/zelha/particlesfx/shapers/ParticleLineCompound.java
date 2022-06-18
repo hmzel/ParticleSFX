@@ -86,21 +86,23 @@ public class ParticleLineCompound extends ParticleShaper {
         for (Location l : locations) l.add(x, y, z);
     }
 
+    public void moveOne(int index, double x, double y, double z) {
+        rot.getOrigins().get(index).add(x, y, z);
+        rot2.getOrigins().get(index).add(x, y, z);
+        locations.get(index).add(x, y, z);
+    }
+
     public void addLocation(Location location) {
         Validate.isTrue(location.getWorld().equals(locations.get(0).getWorld()), "Locations cannot have different worlds!");
 
         rot.addOrigins(location);
         rot2.addOrigins(location);
-        locations.add(location.clone());
+        locations.add(location);
     }
 
     public void removeLocation(int index) {
         rot.removeOrigin(index);
         rot2.removeOrigin(index);
         locations.remove(index);
-    }
-
-    public Location getLocation(int index) {
-        return locations.get(index);
     }
 }
