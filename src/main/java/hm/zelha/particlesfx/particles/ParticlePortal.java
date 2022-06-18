@@ -15,13 +15,13 @@ public class ParticlePortal extends Particle implements InverseTravellingParticl
     private Vector velocity;
 
     public ParticlePortal(Location toGo, double offsetX, double offsetY, double offsetZ, int count) {
-        super(Effect.FLYING_GLYPH, offsetX, offsetY, offsetZ, 0, count, 0);
+        super(Effect.PORTAL, offsetX, offsetY, offsetZ, 0, count, 0);
 
         this.toGo = toGo;
     }
 
     public ParticlePortal(Vector velocity, double offsetX, double offsetY, double offsetZ, int count) {
-        super(Effect.FLYING_GLYPH, offsetX, offsetY, offsetZ, 0, count, 0);
+        super(Effect.PORTAL, offsetX, offsetY, offsetZ, 0, count, 0);
 
         this.velocity = velocity;
     }
