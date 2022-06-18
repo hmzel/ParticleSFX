@@ -46,7 +46,7 @@ public class ParticleLineCompound extends ParticleShaper {
             Location start = locations.get(i);
             Location end = locations.get(i + 1);
             double distance = start.distance(end);
-            double control = distance / frequency;
+            double control = (distance / frequency) * locations.size();
 
             locationHelper.zero().add(start);
             LVMath.subtractToVector(vectorHelper, end, start).normalize().multiply(control);
