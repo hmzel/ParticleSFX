@@ -9,8 +9,12 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.util.Vector;
 
+import java.util.LinkedHashMap;
+import java.util.Map;
+
 public abstract class ParticleShaper {
 
+    protected final Map<Particle, Integer> secondaryParticles = new LinkedHashMap<>();
     protected final RotationHandler rot;
     protected final RotationHandler rot2;
     protected final Location locationHelper = new Location(null, 0, 0, 0);
@@ -18,6 +22,7 @@ public abstract class ParticleShaper {
     protected BukkitTask animator = null;
     protected Particle particle;
     protected double frequency;
+    protected double currentCount;
 
     protected ParticleShaper(Particle particle, double pitch, double yaw, double roll, double frequency) {
         Validate.notNull(particle, "Particle cannot be null!");
@@ -56,6 +61,28 @@ public abstract class ParticleShaper {
     public abstract void rotate(double pitch, double yaw, double roll);
 
     public abstract void move(double x, double y, double z);
+
+    protected Particle getCurrentParticle() {
+        Particle particle = this.particle;
+
+        for (Map.Entry<Particle, Integer> entry : secondaryParticles.entrySet()) {
+            if (currentCount >= entry.getValue()) particle = entry.getKey(); else break;
+        }
+
+        return particle;
+    }
+
+    public void addParticle(Particle particle, int particlesUntilDisplay) {
+        secondaryParticles.put(particle, particlesUntilDisplay);
+    }
+
+    public void removeParticle(int index) {
+        int i = -1;
+
+        for (Particle p : secondaryParticles.keySet()) {
+            if (i++ == index) secondaryParticles.remove(p);
+        }
+    }
 
     public boolean isRunning() {
         return animator != null;
