@@ -77,6 +77,7 @@ public class ParticleCircle extends ParticleShaper {
 
     @Override
     public void move(double x, double y, double z) {
+        rot2.getOrigins().get(0).add(x, y, z);
         center.add(new Vector(x, y, z));
     }
 

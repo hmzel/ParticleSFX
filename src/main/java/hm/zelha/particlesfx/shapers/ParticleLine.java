@@ -54,10 +54,8 @@ public class ParticleLine extends ParticleShaper {
 
     @Override
     public void rotate(double pitch, double yaw, double roll) {
-        Location center = locationHelper.zero().add(start).add(end).multiply(0.5);
-
         rot.add(pitch, yaw, roll);
-        rot.apply(center, Arrays.asList(start, end));
+        rot.apply(locationHelper.zero().add(start).add(end).multiply(0.5), Arrays.asList(start, end));
     }
 
     @Override
