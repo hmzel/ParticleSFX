@@ -22,9 +22,11 @@ public abstract class ParticleShaper {
     protected BukkitTask animator = null;
     protected Particle particle;
     protected double frequency;
-    protected double currentCount;
+    protected int particlesPerDisplay;
+    protected int currentCount = 0;
+    protected int overallCount = 0;
 
-    protected ParticleShaper(Particle particle, double pitch, double yaw, double roll, double frequency) {
+    protected ParticleShaper(Particle particle, double pitch, double yaw, double roll, double frequency, int particlesPerDisplay) {
         Validate.notNull(particle, "Particle cannot be null!");
         Validate.isTrue(frequency >= 2.0D, "Frequency cannot be less than 2! if you only want one particle, use Particle.display().");
 
@@ -32,6 +34,7 @@ public abstract class ParticleShaper {
         this.rot = new RotationHandler(pitch, yaw, roll);
         this.rot2 = new RotationHandler();
         this.frequency = frequency;
+        this.particlesPerDisplay = particlesPerDisplay;
 
         start();
     }
@@ -66,7 +69,7 @@ public abstract class ParticleShaper {
         Particle particle = this.particle;
 
         for (Map.Entry<Particle, Integer> entry : secondaryParticles.entrySet()) {
-            if (currentCount >= entry.getValue()) particle = entry.getKey(); else break;
+            if (overallCount >= entry.getValue()) particle = entry.getKey(); else break;
         }
 
         return particle;
@@ -101,11 +104,20 @@ public abstract class ParticleShaper {
         this.frequency = frequency;
     }
 
+    /** 0 means that the entire animation will be played when .display() is called */
+    public void setParticlesPerDisplay(int particlesPerDisplay) {
+        this.particlesPerDisplay = particlesPerDisplay;
+    }
+
     public Particle getParticle() {
         return particle;
     }
 
     public double getFrequency() {
         return frequency;
+    }
+
+    public int getParticlesPerDisplay() {
+        return particlesPerDisplay;
     }
 }
