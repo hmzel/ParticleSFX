@@ -23,7 +23,7 @@ public class ParticleFireworksSpark extends Particle implements TravellingPartic
     public ParticleFireworksSpark(Vector velocity, double offsetX, double offsetY, double offsetZ, double speed, int count) {
         super(Effect.FIREWORKS_SPARK, offsetX, offsetY, offsetZ, speed, count, 0);
 
-        if (velocity != null) this.velocity = velocity.multiply(0.095);
+        if (velocity != null) this.velocity = velocity.multiply(0.09);
     }
 
     public ParticleFireworksSpark(double offsetX, double offsetY, double offsetZ, double speed, int count) {
@@ -163,12 +163,12 @@ public class ParticleFireworksSpark extends Particle implements TravellingPartic
 
     @Override
     public void setVelocity(Vector vector) {
-        this.velocity = vector.multiply(0.095);
+        this.velocity = vector.multiply(0.09);
     }
 
     @Override
     public void setVelocity(double x, double y, double z) {
-        this.velocity = new Vector(x, y, z).multiply(0.095);
+        this.velocity = new Vector(x, y, z).multiply(0.09);
     }
 
     @Nullable
@@ -184,6 +184,6 @@ public class ParticleFireworksSpark extends Particle implements TravellingPartic
 
     @Override
     public double getVelocityControl() {
-        return 0.095;
+        return 0.09;
     }
 }
