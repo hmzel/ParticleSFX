@@ -16,8 +16,8 @@ public class ParticleCircle extends ParticleShaper {
     private double trueFrequency;
     private boolean halfCircle;
 
-    public ParticleCircle(Particle particle, Location center, double xRadius, double zRadius, double pitch, double yaw, double roll, double frequency, boolean halfCircle) {
-        super(particle, pitch, yaw, roll, frequency);
+    public ParticleCircle(Particle particle, Location center, double xRadius, double zRadius, double pitch, double yaw, double roll, double frequency, int particlesPerDisplay, boolean halfCircle) {
+        super(particle, pitch, yaw, roll, frequency, particlesPerDisplay);
 
         Validate.notNull(center, "Location cannot be null!");
         Validate.notNull(center.getWorld(), "Location's world cannot be null!");
@@ -32,40 +32,62 @@ public class ParticleCircle extends ParticleShaper {
     }
 
     public ParticleCircle(Particle particle, Location center, double xRadius, double zRadius, double pitch, double yaw, double roll, double frequency) {
-        this(particle, center, xRadius, zRadius, pitch, yaw, roll, frequency, false);
+        this(particle, center, xRadius, zRadius, pitch, yaw, roll, frequency, 0, false);
+    }
+
+    public ParticleCircle(Particle particle, Location center, double xRadius, double zRadius, double pitch, double yaw, double roll, int particlesPerDisplay) {
+        this(particle, center, xRadius, zRadius, pitch, yaw, roll, 50, particlesPerDisplay, false);
     }
 
     public ParticleCircle(Particle particle, Location center, double xRadius, double zRadius, double pitch, double yaw, double roll, boolean halfCircle) {
-        this(particle, center, xRadius, zRadius, pitch, yaw, roll, Math.PI / 50, halfCircle);
+        this(particle, center, xRadius, zRadius, pitch, yaw, roll, 50, 0, halfCircle);
     }
 
     public ParticleCircle(Particle particle, Location center, double xRadius, double zRadius, double pitch, double yaw, double roll) {
-        this(particle, center, xRadius, zRadius, pitch, yaw, roll, Math.PI / 50, false);
+        this(particle, center, xRadius, zRadius, pitch, yaw, roll, 50, 0, false);
     }
 
     public ParticleCircle(Particle particle, Location center, double xRadius, double zRadius, double frequency) {
-        this(particle, center, xRadius, zRadius, 0, 0, 0, frequency, false);
+        this(particle, center, xRadius, zRadius, 0, 0, 0, frequency, 0, false);
+    }
+
+    public ParticleCircle(Particle particle, Location center, double xRadius, double zRadius, int particlesPerDisplay) {
+        this(particle, center, xRadius, zRadius, 0, 0, 0, 50, particlesPerDisplay, false);
     }
 
     public ParticleCircle(Particle particle, Location center, double xRadius, double zRadius, boolean halfCircle) {
-        this(particle, center, xRadius, zRadius, 0, 0, 0, Math.PI / 50, halfCircle);
+        this(particle, center, xRadius, zRadius, 0, 0, 0, 50, 0, halfCircle);
     }
 
     public ParticleCircle(Particle particle, Location center, double xRadius, double zRadius) {
-        this(particle, center, xRadius, zRadius, 0, 0, 0, Math.PI / 50, false);
+        this(particle, center, xRadius, zRadius, 0, 0, 0, 50, 0, false);
     }
 
     @Override
     public void display() {
-        for (double radian = 0; radian < Math.PI * ((halfCircle) ? 1 : 2); radian += trueFrequency) {
+        boolean hasRan = false;
+        boolean trackCount = particlesPerDisplay > 0;
+
+        for (double radian = trueFrequency * overallCount; radian < Math.PI * ((halfCircle) ? 1 : 2); radian += trueFrequency) {
             rot.apply(vectorHelper.setX(xRadius * Math.cos(radian)).setY(0).setZ(zRadius * Math.sin(radian)));
             getCurrentParticle().display(center.add(vectorHelper));
             center.subtract(vectorHelper);
 
-            currentCount++;
+            overallCount++;
+
+            if (trackCount) {
+                currentCount++;
+                hasRan = true;
+
+                if (currentCount >= particlesPerDisplay) {
+                    currentCount = 0;
+                    break;
+                }
+            }
         }
 
-        currentCount = 0;
+        if (!trackCount) overallCount = 0;
+        if (!hasRan && trackCount) overallCount = 0;
     }
 
     @Override

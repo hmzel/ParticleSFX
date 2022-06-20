@@ -50,7 +50,7 @@ public class ParticleLineCompound extends ParticleShaper {
         int current = 0;
         int estimatedOverallCount = 0;
         boolean hasRan = false;
-        boolean trackCount = particlesPerDisplay != 0;
+        boolean trackCount = particlesPerDisplay > 0;
 
         main:
         for (int i = 0; i < locations.size() - 1; i++) {

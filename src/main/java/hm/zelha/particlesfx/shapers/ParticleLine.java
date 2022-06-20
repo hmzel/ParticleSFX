@@ -43,7 +43,7 @@ public class ParticleLine extends ParticleShaper {
     @Override
     public void display() {
         boolean hasRan = false;
-        boolean trackCount = particlesPerDisplay != 0;
+        boolean trackCount = particlesPerDisplay > 0;
         double distance = start.distance(end);
         double control = distance / frequency;
 
