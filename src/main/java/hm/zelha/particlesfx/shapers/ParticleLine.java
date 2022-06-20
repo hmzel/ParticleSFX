@@ -41,8 +41,12 @@ public class ParticleLine extends ParticleShaper {
         LVMath.subtractToVector(vectorHelper, end, start).normalize().multiply(control);
 
         for (double length = 0; length < distance; length += control, locationHelper.add(vectorHelper)) {
-            particle.display(locationHelper);
+            getCurrentParticle().display(locationHelper);
+
+            currentCount++;
         }
+
+        currentCount = 0;
     }
 
     @Override
