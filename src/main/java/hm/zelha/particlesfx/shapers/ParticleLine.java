@@ -13,8 +13,8 @@ public class ParticleLine extends ParticleShaper {
     private Location start;
     private Location end;
 
-    public ParticleLine(Particle particle, Location start, Location end, double frequency) {
-        super(particle, 0, 0, 0, frequency);
+    public ParticleLine(Particle particle, Location start, Location end, double frequency, int particlesPerDisplay) {
+        super(particle, 0, 0, 0, frequency, particlesPerDisplay);
 
         Validate.notNull(start, "Location cannot be null!");
         Validate.notNull(end, "Location cannot be null!");
@@ -28,25 +28,50 @@ public class ParticleLine extends ParticleShaper {
         this.end = end;
     }
 
+    public ParticleLine(Particle particle, Location start, Location end, double frequency) {
+        this(particle, start, end, frequency, 0);
+    }
+
+    public ParticleLine(Particle particle, Location start, Location end, int particlesPerDisplay) {
+        this(particle, start, end, 50, particlesPerDisplay);
+    }
+
     public ParticleLine(Particle particle, Location start, Location end) {
-        this(particle, start, end, 50);
+        this(particle, start, end, 50, 0);
     }
 
     @Override
     public void display() {
+        boolean hasRan = false;
+        boolean trackCount = particlesPerDisplay != 0;
         double distance = start.distance(end);
         double control = distance / frequency;
 
         locationHelper.zero().add(start);
         LVMath.subtractToVector(vectorHelper, end, start).normalize().multiply(control);
 
-        for (double length = 0; length < distance; length += control, locationHelper.add(vectorHelper)) {
-            getCurrentParticle().display(locationHelper);
-
-            currentCount++;
+        if (trackCount) {
+            locationHelper.add(vectorHelper.getX() * overallCount, vectorHelper.getY() * overallCount, vectorHelper.getZ() * overallCount);
         }
 
-        currentCount = 0;
+        for (double length = control * overallCount; length < distance; length += control, locationHelper.add(vectorHelper)) {
+            getCurrentParticle().display(locationHelper);
+
+            overallCount++;
+
+            if (trackCount) {
+                currentCount++;
+                hasRan = true;
+
+                if (currentCount >= particlesPerDisplay) {
+                    currentCount = 0;
+                    break;
+                }
+            }
+        }
+
+        if (!trackCount) overallCount = 0;
+        if (!hasRan && trackCount) overallCount = 0;
     }
 
     @Override
