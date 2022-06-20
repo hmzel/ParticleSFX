@@ -59,9 +59,13 @@ public class ParticleCircle extends ParticleShaper {
     public void display() {
         for (double radian = 0; radian < Math.PI * ((halfCircle) ? 1 : 2); radian += trueFrequency) {
             rot.apply(vectorHelper.setX(xRadius * Math.cos(radian)).setY(0).setZ(zRadius * Math.sin(radian)));
-            particle.display(center.add(vectorHelper));
+            getCurrentParticle().display(center.add(vectorHelper));
             center.subtract(vectorHelper);
+
+            currentCount++;
         }
+
+        currentCount = 0;
     }
 
     @Override
