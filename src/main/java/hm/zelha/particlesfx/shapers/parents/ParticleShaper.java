@@ -3,18 +3,23 @@ package hm.zelha.particlesfx.shapers.parents;
 import hm.zelha.particlesfx.Main;
 import hm.zelha.particlesfx.particles.parents.Particle;
 import hm.zelha.particlesfx.util.RotationHandler;
+import hm.zelha.particlesfx.util.ShapeDisplayMechanic;
 import org.apache.commons.lang3.Validate;
+import org.apache.commons.lang3.tuple.Pair;
 import org.bukkit.Location;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.util.Vector;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 public abstract class ParticleShaper {
 
-    protected final Map<Particle, Integer> secondaryParticles = new LinkedHashMap<>();
+    protected final List<Pair<Particle, Integer>> secondaryParticles = new ArrayList<>();
+    /* its actually more efficient to use a list<pair<>> here instead of a LinkedHashMap, because in order to determine the current particle using
+     * that, you have to create a new Iterator and a new LinkedEntrySet every time display() is called, which is usually hundreds of times every
+     * tick. whereas with a List<Pair<>> you can just use a for-i loop and the .get(int) method without creating any objects */
     protected final RotationHandler rot;
     protected final RotationHandler rot2;
     protected final Location locationHelper = new Location(null, 0, 0, 0);
@@ -68,23 +73,21 @@ public abstract class ParticleShaper {
     protected Particle getCurrentParticle() {
         Particle particle = this.particle;
 
-        for (Map.Entry<Particle, Integer> entry : secondaryParticles.entrySet()) {
-            if (overallCount >= entry.getValue()) particle = entry.getKey(); else break;
+        for (int i = 0; i < secondaryParticles.size(); i++) {
+            Pair<Particle, Integer> pair = secondaryParticles.get(i);
+
+            if (overallCount >= pair.getValue()) particle = pair.getKey(); else break;
         }
 
         return particle;
     }
 
     public void addParticle(Particle particle, int particlesUntilDisplay) {
-        secondaryParticles.put(particle, particlesUntilDisplay);
+        secondaryParticles.add(Pair.of(particle, particlesUntilDisplay));
     }
 
     public void removeParticle(int index) {
-        int i = -1;
-
-        for (Particle p : secondaryParticles.keySet()) {
-            if (i++ == index) secondaryParticles.remove(p);
-        }
+        secondaryParticles.remove(index);
     }
 
     public boolean isRunning() {
