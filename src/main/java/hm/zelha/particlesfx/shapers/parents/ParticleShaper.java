@@ -25,6 +25,7 @@ public abstract class ParticleShaper {
     protected final Location locationHelper = new Location(null, 0, 0, 0);
     protected final Vector vectorHelper = new Vector(0, 0, 0);
     protected BukkitTask animator = null;
+    protected ShapeDisplayMechanic mechanic = null;
     protected Particle particle;
     protected double frequency;
     protected int particlesPerDisplay;
@@ -107,6 +108,26 @@ public abstract class ParticleShaper {
         this.frequency = frequency;
     }
 
+    /**
+     * Similar to {@link java.util.function.Consumer} <p>
+     * the given mechanic will run before the location is modified to display the next particle, allowing you to modify
+     * the addition vector however you want, though doing so may be very volatile
+     * <p></p>
+     * keep in mind that all changes to the given objects will be reflected in the display() method
+     * <p></p>
+     * given Particle - particle to be displayed
+     * <p></p>
+     * given Location - the location the vector will be added to, in some cases this is the last position the particle was displayed,
+     * in others it is the center of the shape
+     * <p></p>
+     * given Vector - the vector that will be added to the location before the particle is displayed
+     *
+     * @param mechanic mechanic to run during display
+     */
+    public void setMechanic(ShapeDisplayMechanic mechanic) {
+        this.mechanic = mechanic;
+    }
+
     /** 0 means that the entire animation will be played when .display() is called */
     public void setParticlesPerDisplay(int particlesPerDisplay) {
         this.particlesPerDisplay = particlesPerDisplay;
@@ -122,5 +143,9 @@ public abstract class ParticleShaper {
 
     public int getParticlesPerDisplay() {
         return particlesPerDisplay;
+    }
+
+    public ShapeDisplayMechanic getMechanic() {
+        return mechanic;
     }
 }
