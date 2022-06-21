@@ -27,7 +27,7 @@ public class ParticleCircle extends ParticleShaper {
         this.center = center;
         this.xRadius = xRadius;
         this.zRadius = zRadius;
-        this.trueFrequency = (Math.PI * 2) / frequency;
+        this.trueFrequency = ((halfCircle) ? Math.PI : (Math.PI * 2)) / frequency;
         this.halfCircle = halfCircle;
     }
 
@@ -70,6 +70,9 @@ public class ParticleCircle extends ParticleShaper {
 
         for (double radian = trueFrequency * overallCount; radian < Math.PI * ((halfCircle) ? 1 : 2); radian += trueFrequency) {
             rot.apply(vectorHelper.setX(xRadius * Math.cos(radian)).setY(0).setZ(zRadius * Math.sin(radian)));
+            
+            if (mechanic != null) mechanic.apply(particle, center, vectorHelper);
+
             getCurrentParticle().display(center.add(vectorHelper));
             center.subtract(vectorHelper);
 

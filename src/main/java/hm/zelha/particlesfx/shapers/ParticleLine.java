@@ -54,7 +54,10 @@ public class ParticleLine extends ParticleShaper {
             locationHelper.add(vectorHelper.getX() * overallCount, vectorHelper.getY() * overallCount, vectorHelper.getZ() * overallCount);
         }
 
-        for (double length = control * overallCount; length < distance; length += control, locationHelper.add(vectorHelper)) {
+        for (double length = control * overallCount; length < distance; length += control) {
+            if (mechanic != null) mechanic.apply(particle, locationHelper, vectorHelper);
+
+            locationHelper.add(vectorHelper);
             getCurrentParticle().display(locationHelper);
 
             overallCount++;
