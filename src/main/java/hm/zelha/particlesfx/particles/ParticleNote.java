@@ -1,8 +1,12 @@
 package hm.zelha.particlesfx.particles;
 
 import hm.zelha.particlesfx.particles.parents.Particle;
+import net.minecraft.server.v1_8_R3.*;
 import org.apache.commons.lang3.Validate;
 import org.bukkit.Effect;
+import org.bukkit.Location;
+import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
+import org.bukkit.entity.Player;
 
 /**
  * due to how the internal systems work, offset is only useable if the color is NoteColor.RANDOM,
@@ -45,6 +49,42 @@ public class ParticleNote extends Particle{
         this.color = color;
     }
 
+    @Override
+    protected void display(Location location, Player... players) {
+        Validate.notNull(location, "Location cannot be null!");
+        Validate.notNull(location.getWorld(), "World cannot be null!");
+
+        int count2 = 1;
+        Packet packet = null;
+
+        if (color != NoteColor.RANDOM) {
+            packet = new PacketPlayOutBlockAction(new BlockPosition(
+                    location.getBlockX(), location.getBlockY(), location.getBlockZ()
+            ), Blocks.NOTEBLOCK, 0, color.getValue());
+
+            count2 = count;
+        }
+
+        for (int i = 0; i != count2; i++) {
+            for (Player player : players) {
+                EntityPlayer p = ((CraftPlayer) player).getHandle();
+
+                if (!location.getWorld().getName().equals(p.world.getWorld().getName())) continue;
+
+                if (radius != 0 && (Math.abs(location.getX() - p.locX) + Math.abs(location.getY() - p.locY) + Math.abs(location.getZ() - p.locZ)) > radius) {
+                    continue;
+                }
+
+                p.playerConnection.sendPacket((packet != null) ? packet :
+                        new PacketPlayOutWorldParticles(
+                                EnumParticle.NOTE, true, (float) location.getX(), (float) location.getY(), (float) location.getZ(),
+                                (float) offsetX, (float) offsetY, (float) offsetZ, (float) 1, count
+                        )
+                );
+            }
+        }
+    }
+
     public NoteColor getNoteColor() {
         return color;
     }
@@ -53,7 +93,7 @@ public class ParticleNote extends Particle{
      * it might look weird if you use NoteColor.RANDOM with other notecolors because all notecolors besides NoteColor.RANDOM
      * are locked to 0.5, 0.5, 0.5 of the block theyre spawned at
      */
-    enum NoteColor {
+    public enum NoteColor {
         CYAN(0),
         PURPLE(4),
         PURPLE_TWO(16),

@@ -67,12 +67,6 @@ public class Particle {
             ), idValue, false);
 
             count2 = count;
-        } else if (this instanceof NoteParticle && ((NoteParticle) this).getNoteColor() != NoteParticle.NoteColor.RANDOM) {
-            packet = new PacketPlayOutBlockAction(new BlockPosition(
-                    location.getBlockX(), location.getBlockY(), location.getBlockZ()
-            ), Blocks.NOTEBLOCK, 0, ((NoteParticle) this).getNoteColor().getValue());
-
-            count2 = count;
         } else {
             for (EnumParticle p : EnumParticle.values()) {
                 if (particle.getName().equals(p.b().replace("_", ""))) {
@@ -106,8 +100,6 @@ public class Particle {
             if (this instanceof MaterialParticle) {
                 extra = new int[] {((MaterialParticle) this).getMaterialData().getData() << 12 | ((MaterialParticle) this).getMaterialData().getItemTypeId() & 4095};
             }
-
-            if (this instanceof NoteParticle && ((NoteParticle) this).getNoteColor() == NoteParticle.NoteColor.RANDOM) trueSpeed = 1;
 
             if (fakeOffset) {
                 addition = generateFakeOffset();
