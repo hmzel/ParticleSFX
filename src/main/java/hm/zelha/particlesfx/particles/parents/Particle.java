@@ -59,7 +59,6 @@ public class Particle {
         Packet packet = null;
 
         if (this instanceof SizeableParticle) count2 = count;
-        if (this instanceof InverseTravellingParticle && ((InverseTravellingParticle) this).getLocationToGo() != null) count2 = count;
         if (this instanceof PotionParticle) idValue = ((PotionParticle) this).getPotionType().getDamageValue();
 
         if (particle.getType() == Effect.Type.VISUAL) {
@@ -108,36 +107,12 @@ public class Particle {
                 extra = new int[] {((MaterialParticle) this).getMaterialData().getData() << 12 | ((MaterialParticle) this).getMaterialData().getItemTypeId() & 4095};
             }
 
-            if (this instanceof InverseTravellingParticle && ((InverseTravellingParticle) this).getLocationToGo() != null) fakeOffset = true;
-            if (this instanceof InverseTravellingParticle && ((InverseTravellingParticle) this).getVelocity() != null) fakeOffset = true;
             if (this instanceof NoteParticle && ((NoteParticle) this).getNoteColor() == NoteParticle.NoteColor.RANDOM) trueSpeed = 1;
 
             if (fakeOffset) {
                 addition = generateFakeOffset();
 
                 location.add(addition);
-            }
-
-            Location trueLocation = location;
-
-            if (this instanceof InverseTravellingParticle && ((InverseTravellingParticle) this).getLocationToGo() != null && ((InverseTravellingParticle) this).getVelocity() == null) {
-                Location toGo = ((InverseTravellingParticle) this).getLocationToGo();
-                trueSpeed = 1;
-                trueCount = 0;
-                trueOffsetX = location.getX() - toGo.getX();
-                trueOffsetY = location.getY() - toGo.getY();
-                trueOffsetZ = location.getZ() - toGo.getZ();
-                trueLocation = toGo;
-            }
-
-            if (this instanceof InverseTravellingParticle && ((InverseTravellingParticle) this).getVelocity() != null && ((InverseTravellingParticle) this).getLocationToGo() == null) {
-                Vector velocity = ((InverseTravellingParticle) this).getVelocity();
-                trueSpeed = 1;
-                trueCount = 0;
-                trueOffsetX = 0 - velocity.getX();
-                trueOffsetY = 0 - velocity.getY();
-                trueOffsetZ = 0 - velocity.getZ();
-                trueLocation = location.clone().add(velocity);
             }
 
             for (Player player : players) {
@@ -147,7 +122,7 @@ public class Particle {
 
                 ((CraftPlayer) player).getHandle().playerConnection.sendPacket((packet != null) ? packet :
                         new PacketPlayOutWorldParticles(
-                                nmsParticle, true, (float) trueLocation.getX(), (float) trueLocation.getY(), (float) trueLocation.getZ(),
+                                nmsParticle, true, (float) location.getX(), (float) location.getY(), (float) location.getZ(),
                                 (float) trueOffsetX, (float) trueOffsetY, (float) trueOffsetZ, (float) trueSpeed, trueCount, extra
                         )
                 );
