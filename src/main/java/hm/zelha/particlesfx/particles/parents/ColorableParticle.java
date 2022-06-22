@@ -1,7 +1,13 @@
 package hm.zelha.particlesfx.particles.parents;
 
+import net.minecraft.server.v1_8_R3.*;
+import org.apache.commons.lang3.Validate;
 import org.bukkit.Color;
 import org.bukkit.Effect;
+import org.bukkit.Location;
+import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
+import org.bukkit.entity.Player;
+import org.bukkit.util.Vector;
 
 import javax.annotation.Nullable;
 
@@ -15,6 +21,67 @@ public class ColorableParticle extends Particle {
 
         this.color = color;
         this.brightness = brightness;
+    }
+
+    @Override
+    protected void display(Location location, Player... players) {
+        Validate.notNull(location, "Location cannot be null!");
+        Validate.notNull(location.getWorld(), "World cannot be null!");
+
+        int count2 = (color != null) ? count : 1;
+        EnumParticle nmsParticle = null;
+
+        for (int i = 0; i <= 41; i++) {
+            EnumParticle p = EnumParticle.a(i);
+
+            if (particle.getName().equals(p.b())) {
+                nmsParticle = p;
+                break;
+            }
+        }
+
+        Validate.notNull(nmsParticle, "Something went wrong determining EnumParticle!");
+
+        for (int i = 0; i != count2; i++) {
+            int trueCount = count;
+            double trueOffsetX = offsetX;
+            double trueOffsetY = offsetY;
+            double trueOffsetZ = offsetZ;
+            double trueSpeed;
+            Vector addition = null;
+
+            if (color != null) {
+                trueCount = 0;
+                trueSpeed = brightness * 0.01;
+                trueOffsetX = color.getRed() / 255D;
+                trueOffsetY = color.getGreen() / 255D;
+                trueOffsetZ = color.getBlue() / 255D;
+                addition = generateFakeOffset();
+            } else {
+                trueSpeed = 1;
+            }
+
+            if (addition != null) location.add(addition);
+
+            for (Player player : players) {
+                EntityPlayer p = ((CraftPlayer) player).getHandle();
+
+                if (!location.getWorld().getName().equals(p.world.getWorld().getName())) continue;
+
+                if (radius != 0 && (Math.abs(location.getX() - p.locX) + Math.abs(location.getY() - p.locY) + Math.abs(location.getZ() - p.locZ)) > radius) {
+                    continue;
+                }
+
+                p.playerConnection.sendPacket(
+                        new PacketPlayOutWorldParticles(
+                                nmsParticle, true, (float) location.getX(), (float) location.getY(), (float) location.getZ(),
+                                (float) trueOffsetX, (float) trueOffsetY, (float) trueOffsetZ, (float) trueSpeed, trueCount
+                        )
+                );
+            }
+
+            if (addition != null) location.subtract(addition);
+        }
     }
 
     /**

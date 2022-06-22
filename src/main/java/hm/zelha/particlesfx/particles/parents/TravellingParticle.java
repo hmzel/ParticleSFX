@@ -45,7 +45,7 @@ public class TravellingParticle extends Particle {
 
         Validate.notNull(nmsParticle, "Something went wrong determining EnumParticle!");
 
-        if (getLocationToGo() == null && getVelocity() == null) count2 = 1;
+        if (toGo == null && velocity == null) count2 = 1;
 
         for (int i = 0; i != count2; i++) {
             int count = 0;
@@ -55,12 +55,12 @@ public class TravellingParticle extends Particle {
             double trueOffsetZ = offsetZ;
             Vector addition = null;
 
-            if (getVelocity() != null) {
+            if (velocity != null) {
                 trueOffsetX = velocity.getX() * control;
                 trueOffsetY = velocity.getY() * control;
                 trueOffsetZ = velocity.getZ() * control;
                 addition = generateFakeOffset();
-            } else if (getLocationToGo() != null) {
+            } else if (toGo != null) {
                 trueOffsetX = (toGo.getX() - location.getX()) * control;
                 trueOffsetY = (toGo.getY() - location.getY()) * control;
                 trueOffsetZ = (toGo.getZ() - location.getZ()) * control;

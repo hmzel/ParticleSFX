@@ -4,7 +4,6 @@ import hm.zelha.particlesfx.Main;
 import net.minecraft.server.v1_8_R3.*;
 import org.apache.commons.lang3.Validate;
 import org.bukkit.Bukkit;
-import org.bukkit.Color;
 import org.bukkit.Effect;
 import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
@@ -60,7 +59,6 @@ public class Particle {
         Packet packet = null;
 
         if (this instanceof SizeableParticle) count2 = count;
-        if (this instanceof ColorableParticle && ((ColorableParticle) this).getColor() != null) count2 = count;
         if (this instanceof InverseTravellingParticle && ((InverseTravellingParticle) this).getLocationToGo() != null) count2 = count;
         if (this instanceof PotionParticle) idValue = ((PotionParticle) this).getPotionType().getDamageValue();
 
@@ -96,21 +94,6 @@ public class Particle {
             double trueSpeed = speed;
             boolean fakeOffset = false;
             Vector addition = null;
-
-            if (this instanceof ColorableParticle) {
-                Color color = ((ColorableParticle) this).getColor();
-
-                if (color != null) {
-                    trueCount = 0;
-                    trueSpeed = ((ColorableParticle) this).getBrightness() * 0.01;
-                    trueOffsetX = color.getRed() / 255D;
-                    trueOffsetY = color.getGreen() / 255D;
-                    trueOffsetZ = color.getBlue() / 255D;
-                    fakeOffset = true;
-                } else {
-                    trueSpeed = 1;
-                }
-            }
 
             if (this instanceof SizeableParticle) {
                 trueCount = 0;
