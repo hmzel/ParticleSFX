@@ -1,21 +1,46 @@
 package hm.zelha.particlesfx.particles.parents;
 
 import org.bukkit.Color;
+import org.bukkit.Effect;
 
 import javax.annotation.Nullable;
 
-public interface ColorableParticle {
+public class ColorableParticle extends Particle {
 
-    /** @param color color to set, null if you want random coloring */
-    public void setColor(@Nullable Color color);
+    private Color color;
+    private int brightness;
 
-    public void setColor(int red, int green, int blue);
+    protected ColorableParticle(Effect particle, @Nullable Color color, int brightness, double offsetX, double offsetY, double offsetZ, int count) {
+        super(particle, offsetX, offsetY, offsetZ, 1, count, 0);
 
-    public void setBrightness(int brightness);
+        this.color = color;
+        this.brightness = brightness;
+    }
 
-    /** nullable to allow for randomly colored particles without use of boolean constructors*/
+    /**
+     * @param color color to set, null if you want random coloring
+     */
+    public void setColor(@Nullable Color color) {
+        this.color = color;
+    }
+
+    public void setColor(int red, int green, int blue) {
+        this.color = Color.fromRGB(red, green, blue);
+    }
+
+    public void setBrightness(int brightness) {
+        this.brightness = brightness;
+    }
+
+    /**
+     * nullable to allow for randomly colored particles without use of boolean constructors
+     */
     @Nullable
-    public Color getColor();
+    public Color getColor() {
+        return color;
+    }
 
-    public int getBrightness();
+    public int getBrightness() {
+        return brightness;
+    }
 }
