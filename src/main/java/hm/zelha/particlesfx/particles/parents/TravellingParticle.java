@@ -197,17 +197,13 @@ public class TravellingParticle extends Particle {
         this.velocity = new Vector(x, y, z);
     }
 
-    /**
-     * nullable to save resources in {@link Particle#display(Location, Player...)}}
-     */
+    /** nullable to save resources */
     @Nullable
     public Location getLocationToGo() {
         return toGo;
     }
 
-    /**
-     * nullable to save resources in {@link Particle#display(Location, Player...)}}
-     */
+    /** nullable to save resources */
     @Nullable
     public Vector getVelocity() {
         return velocity;
