@@ -1,12 +1,11 @@
 package hm.zelha.particlesfx.particles;
 
-import hm.zelha.particlesfx.particles.parents.MaterialParticle;
 import hm.zelha.particlesfx.particles.parents.Particle;
 import org.apache.commons.lang3.Validate;
 import org.bukkit.Effect;
 import org.bukkit.material.MaterialData;
 
-public class ParticleBlockBreak extends Particle implements MaterialParticle {
+public class ParticleBlockBreak extends Particle {
 
     private MaterialData data;
 
@@ -59,7 +58,6 @@ public class ParticleBlockBreak extends Particle implements MaterialParticle {
         this(new MaterialData(-13), 0, 0, 0, 0, 1);
     }
 
-    @Override
     public void setMaterialData(MaterialData data) {
         Validate.notNull(data, "Data cannot be null!");
         Validate.isTrue(data.getItemType().isBlock(), "Material must be a block!");
@@ -67,7 +65,6 @@ public class ParticleBlockBreak extends Particle implements MaterialParticle {
         this.data = data;
     }
 
-    @Override
     public MaterialData getMaterialData() {
         return data;
     }
