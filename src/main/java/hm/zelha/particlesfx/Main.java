@@ -5,7 +5,7 @@ import org.bukkit.plugin.Plugin;
 
 import java.util.Random;
 
-/**only used to trick BukkitRunnables into thinking this is a plugin*/
+/** only used to trick BukkitRunnables into thinking this is a plugin */
 public final class Main {
 
     private static int arrayIndex = 0;

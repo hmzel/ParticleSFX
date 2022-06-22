@@ -62,7 +62,6 @@ public class Particle {
         if (this instanceof SizeableParticle) count2 = count;
         if (this instanceof ColorableParticle && ((ColorableParticle) this).getColor() != null) count2 = count;
         if (this instanceof InverseTravellingParticle && ((InverseTravellingParticle) this).getLocationToGo() != null) count2 = count;
-        if (this instanceof DirectionalParticle) idValue = ((DirectionalParticle) this).getDirection().getValue();
         if (this instanceof PotionParticle) idValue = ((PotionParticle) this).getPotionType().getDamageValue();
 
         if (particle.getType() == Effect.Type.VISUAL) {

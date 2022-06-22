@@ -113,7 +113,9 @@ public abstract class ParticleShaper {
      * the given mechanic will run before the location is modified to display the next particle, allowing you to modify
      * the addition vector however you want, though doing so may be very volatile
      * <p></p>
-     * keep in mind that all changes to the given objects will be reflected in the display() method
+     * keep in mind that all changes to the given objects will be reflected in the display() method <p>
+     * and, considering that the display() method is often called hundreds of times per tick, try to make sure the mechanic isnt very
+     * resource-intensive
      * <p></p>
      * given Particle - particle to be displayed
      * <p></p>
