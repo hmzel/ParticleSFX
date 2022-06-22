@@ -15,6 +15,7 @@ import java.util.Random;
 
 public class Particle {
 
+    private final Vector vectorHelper = new Vector(0, 0, 0);
     private final Random rng = Main.getRng();
     private final Effect particle;
     private double offsetX;
@@ -141,13 +142,7 @@ public class Particle {
             if (this instanceof NoteParticle && ((NoteParticle) this).getNoteColor() == NoteParticle.NoteColor.RANDOM) trueSpeed = 1;
 
             if (fakeOffset) {
-/*              generates a random number between -offset and +offset (exactly) using some scary math
-                this isnt exactly how its done client-side using the actual packet, but honestly i prefer this because its more controllable */
-                addition = new Location(location.getWorld(),
-                        ((offsetX < 1) ? 0 : rng.nextInt((int) offsetX * 2) - (int) offsetX) + (((offsetX - (int) offsetX <= 0) ? 0 : (rng.nextInt((int) ((offsetX - (int) offsetX) * 200)) - (int) ((offsetX - (int) offsetX) * 100)) / 100D)),
-                        ((offsetY < 1) ? 0 : rng.nextInt((int) offsetY * 2) - (int) offsetY) + (((offsetY - (int) offsetY <= 0) ? 0 : (rng.nextInt((int) ((offsetY - (int) offsetY) * 200)) - (int) ((offsetY - (int) offsetY) * 100)) / 100D)),
-                        ((offsetZ < 1) ? 0 : rng.nextInt((int) offsetZ * 2) - (int) offsetZ) + (((offsetZ - (int) offsetZ <= 0) ? 0 : (rng.nextInt((int) ((offsetZ - (int) offsetZ) * 200)) - (int) ((offsetZ - (int) offsetZ) * 100)) / 100D))
-                );
+                addition = generateFakeOffset();
 
                 location.add(addition);
             }
@@ -199,6 +194,22 @@ public class Particle {
 
             if (addition != null) location.subtract(addition);
         }
+    }
+
+    /**
+     * generates a random number between -offset and +offset (exactly) using some scary math <p>
+     * this isnt exactly how its done client-side using the actual packet, but honestly i prefer this because its more controllable
+     *
+     * @return a vector meant to be added to a location to mimic particle offset
+     */
+    protected Vector generateFakeOffset() {
+        return vectorHelper.setX(
+                        ((offsetX < 1) ? 0 : rng.nextInt((int) offsetX * 2) - (int) offsetX) + (((offsetX - (int) offsetX <= 0) ? 0 : (rng.nextInt((int) ((offsetX - (int) offsetX) * 200)) - (int) ((offsetX - (int) offsetX) * 100)) / 100D))
+                ).setY(
+                        ((offsetY < 1) ? 0 : rng.nextInt((int) offsetY * 2) - (int) offsetY) + (((offsetY - (int) offsetY <= 0) ? 0 : (rng.nextInt((int) ((offsetY - (int) offsetY) * 200)) - (int) ((offsetY - (int) offsetY) * 100)) / 100D))
+                ).setZ(
+                        ((offsetZ < 1) ? 0 : rng.nextInt((int) offsetZ * 2) - (int) offsetZ) + (((offsetZ - (int) offsetZ <= 0) ? 0 : (rng.nextInt((int) ((offsetZ - (int) offsetZ) * 200)) - (int) ((offsetZ - (int) offsetZ) * 100)) / 100D))
+                );
     }
 
     public void setOffsetX(double offsetX) {
