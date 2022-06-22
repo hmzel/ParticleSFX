@@ -1,7 +1,12 @@
 package hm.zelha.particlesfx.particles.parents;
 
+import net.minecraft.server.v1_8_R3.EntityPlayer;
+import net.minecraft.server.v1_8_R3.EnumParticle;
+import net.minecraft.server.v1_8_R3.PacketPlayOutWorldParticles;
+import org.apache.commons.lang3.Validate;
 import org.bukkit.Effect;
 import org.bukkit.Location;
+import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
@@ -19,6 +24,73 @@ public class TravellingParticle extends Particle {
         this.velocity = velocity;
         this.toGo = toGo;
         this.control = control;
+    }
+
+    @Override
+    protected void display(Location location, Player... players) {
+        Validate.notNull(location, "Location cannot be null!");
+        Validate.notNull(location.getWorld(), "World cannot be null!");
+
+        int count2 = count;
+        EnumParticle nmsParticle = null;
+
+        for (int i = 0; i <= 41; i++) {
+            EnumParticle p = EnumParticle.a(i);
+
+            if (particle.getName().equals(p.b())) {
+                nmsParticle = p;
+                break;
+            }
+        }
+
+        Validate.notNull(nmsParticle, "Something went wrong determining EnumParticle!");
+
+        if (getLocationToGo() == null && getVelocity() == null) count2 = 1;
+
+        for (int i = 0; i != count2; i++) {
+            int count = 0;
+            float speed = 1;
+            double trueOffsetX = offsetX;
+            double trueOffsetY = offsetY;
+            double trueOffsetZ = offsetZ;
+            Vector addition = null;
+
+            if (getVelocity() != null) {
+                trueOffsetX = velocity.getX() * control;
+                trueOffsetY = velocity.getY() * control;
+                trueOffsetZ = velocity.getZ() * control;
+                addition = generateFakeOffset();
+            } else if (getLocationToGo() != null) {
+                trueOffsetX = (toGo.getX() - location.getX()) * control;
+                trueOffsetY = (toGo.getY() - location.getY()) * control;
+                trueOffsetZ = (toGo.getZ() - location.getZ()) * control;
+                addition = generateFakeOffset();
+            } else {
+                speed = 0;
+                count = this.count;
+            }
+
+            if (addition != null) location.add(addition);
+
+            for (Player player : players) {
+                EntityPlayer p = ((CraftPlayer) player).getHandle();
+
+                if (!location.getWorld().getName().equals(p.world.getWorld().getName())) continue;
+
+                if (radius != 0 && (Math.abs(location.getX() - p.locX) + Math.abs(location.getY() - p.locY) + Math.abs(location.getZ() - p.locZ)) > radius) {
+                    continue;
+                }
+
+                p.playerConnection.sendPacket(
+                        new PacketPlayOutWorldParticles(
+                                nmsParticle, true, (float) location.getX(), (float) location.getY(), (float) location.getZ(),
+                                (float) trueOffsetX, (float) trueOffsetY, (float) trueOffsetZ, speed, count
+                        )
+                );
+            }
+
+            if (addition != null) location.subtract(addition);
+        }
     }
 
     public void display(Location location, Location toGo) {
@@ -122,7 +194,7 @@ public class TravellingParticle extends Particle {
      * @param z z velocity
      */
     public void setVelocity(double x, double y, double z) {
-
+        this.velocity = new Vector(x, y, z);
     }
 
     /**
@@ -139,9 +211,5 @@ public class TravellingParticle extends Particle {
     @Nullable
     public Vector getVelocity() {
         return velocity;
-    }
-
-    public double getVelocityControl() {
-        return control;
     }
 }
