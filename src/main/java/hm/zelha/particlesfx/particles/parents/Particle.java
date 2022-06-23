@@ -58,8 +58,6 @@ public class Particle {
         EnumParticle nmsParticle = null;
         Packet packet = null;
 
-        if (this instanceof SizeableParticle) count2 = count;
-
         if (particle.getType() == Effect.Type.VISUAL) {
             packet = new PacketPlayOutWorldEvent(particle.getId(), new BlockPosition(
                     location.getBlockX(), location.getBlockY(), location.getBlockZ()
@@ -78,29 +76,6 @@ public class Particle {
         }
 
         for (int i = 0; i != count2; i++) {
-            int trueCount = count;
-            double trueOffsetX = offsetX;
-            double trueOffsetY = offsetY;
-            double trueOffsetZ = offsetZ;
-            double trueSpeed = speed;
-            boolean fakeOffset = false;
-            Vector addition = null;
-
-            if (this instanceof SizeableParticle) {
-                trueCount = 0;
-                trueSpeed = 1;
-                trueOffsetX = -(((SizeableParticle) this).getSize()) + 2;
-                trueOffsetY = 0;
-                trueOffsetZ = 0;
-                fakeOffset = true;
-            }
-
-            if (fakeOffset) {
-                addition = generateFakeOffset();
-
-                location.add(addition);
-            }
-
             for (Player player : players) {
                 if (radius != 0 && (Math.abs(location.getX() - player.getLocation().getX()) + Math.abs(location.getY() - player.getLocation().getY()) + Math.abs(location.getZ() - player.getLocation().getZ())) > radius) {
                     continue;
@@ -109,12 +84,10 @@ public class Particle {
                 ((CraftPlayer) player).getHandle().playerConnection.sendPacket((packet != null) ? packet :
                         new PacketPlayOutWorldParticles(
                                 nmsParticle, true, (float) location.getX(), (float) location.getY(), (float) location.getZ(),
-                                (float) trueOffsetX, (float) trueOffsetY, (float) trueOffsetZ, (float) trueSpeed, trueCount
+                                (float) offsetX, (float) offsetY, (float) offsetZ, (float) speed, count
                         )
                 );
             }
-
-            if (addition != null) location.subtract(addition);
         }
     }
 
