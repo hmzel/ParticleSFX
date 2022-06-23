@@ -59,7 +59,6 @@ public class Particle {
         Packet packet = null;
 
         if (this instanceof SizeableParticle) count2 = count;
-        if (this instanceof PotionParticle) idValue = ((PotionParticle) this).getPotionType().getDamageValue();
 
         if (particle.getType() == Effect.Type.VISUAL) {
             packet = new PacketPlayOutWorldEvent(particle.getId(), new BlockPosition(
