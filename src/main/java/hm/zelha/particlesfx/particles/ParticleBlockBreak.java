@@ -1,8 +1,14 @@
 package hm.zelha.particlesfx.particles;
 
 import hm.zelha.particlesfx.particles.parents.Particle;
+import net.minecraft.server.v1_8_R3.EntityPlayer;
+import net.minecraft.server.v1_8_R3.EnumParticle;
+import net.minecraft.server.v1_8_R3.PacketPlayOutWorldParticles;
 import org.apache.commons.lang3.Validate;
 import org.bukkit.Effect;
+import org.bukkit.Location;
+import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
+import org.bukkit.entity.Player;
 import org.bukkit.material.MaterialData;
 
 public class ParticleBlockBreak extends Particle {
@@ -56,6 +62,29 @@ public class ParticleBlockBreak extends Particle {
 
     public ParticleBlockBreak() {
         this(new MaterialData(-13), 0, 0, 0, 0, 1);
+    }
+
+    @Override
+    protected void display(Location location, Player... players) {
+        Validate.notNull(location, "Location cannot be null!");
+        Validate.notNull(location.getWorld(), "World cannot be null!");
+
+        for (Player player : players) {
+            EntityPlayer p = ((CraftPlayer) player).getHandle();
+
+            if (!location.getWorld().getName().equals(p.world.getWorld().getName())) continue;
+
+            if (radius != 0 && (Math.abs(location.getX() - p.locX) + Math.abs(location.getY() - p.locY) + Math.abs(location.getZ() - p.locZ)) > radius) {
+                continue;
+            }
+
+            p.playerConnection.sendPacket(
+                    new PacketPlayOutWorldParticles(
+                            EnumParticle.BLOCK_CRACK, true, (float) location.getX(), (float) location.getY(), (float) location.getZ(),
+                            (float) offsetX, (float) offsetY, (float) offsetZ, (float) speed, count, (data.getData() << 12 | data.getItemTypeId() & 4095)
+                    )
+            );
+        }
     }
 
     public void setMaterialData(MaterialData data) {

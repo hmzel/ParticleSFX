@@ -43,12 +43,6 @@ public class ParticleNote extends Particle{
         this(NoteColor.RANDOM, 1);
     }
 
-    public void setNoteColor(NoteColor color) {
-        Validate.notNull(color, "Color cannot be null!");
-
-        this.color = color;
-    }
-
     @Override
     protected void display(Location location, Player... players) {
         Validate.notNull(location, "Location cannot be null!");
@@ -84,6 +78,13 @@ public class ParticleNote extends Particle{
             }
         }
     }
+
+    public void setNoteColor(NoteColor color) {
+        Validate.notNull(color, "Color cannot be null!");
+
+        this.color = color;
+    }
+
 
     public NoteColor getNoteColor() {
         return color;

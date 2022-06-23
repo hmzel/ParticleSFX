@@ -79,7 +79,6 @@ public class Particle {
         }
 
         for (int i = 0; i != count2; i++) {
-            int[] extra = {0};
             int trueCount = count;
             double trueOffsetX = offsetX;
             double trueOffsetY = offsetY;
@@ -97,10 +96,6 @@ public class Particle {
                 fakeOffset = true;
             }
 
-            if (this instanceof MaterialParticle) {
-                extra = new int[] {((MaterialParticle) this).getMaterialData().getData() << 12 | ((MaterialParticle) this).getMaterialData().getItemTypeId() & 4095};
-            }
-
             if (fakeOffset) {
                 addition = generateFakeOffset();
 
@@ -115,7 +110,7 @@ public class Particle {
                 ((CraftPlayer) player).getHandle().playerConnection.sendPacket((packet != null) ? packet :
                         new PacketPlayOutWorldParticles(
                                 nmsParticle, true, (float) location.getX(), (float) location.getY(), (float) location.getZ(),
-                                (float) trueOffsetX, (float) trueOffsetY, (float) trueOffsetZ, (float) trueSpeed, trueCount, extra
+                                (float) trueOffsetX, (float) trueOffsetY, (float) trueOffsetZ, (float) trueSpeed, trueCount
                         )
                 );
             }
