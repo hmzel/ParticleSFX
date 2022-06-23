@@ -54,26 +54,16 @@ public class Particle {
         Validate.notNull(location.getWorld(), "World cannot be null!");
 
         int count2 = 1;
-        int idValue = particle.getId();
         EnumParticle nmsParticle = null;
-        Packet packet = null;
 
-        if (particle.getType() == Effect.Type.VISUAL) {
-            packet = new PacketPlayOutWorldEvent(particle.getId(), new BlockPosition(
-                    location.getBlockX(), location.getBlockY(), location.getBlockZ()
-            ), idValue, false);
-
-            count2 = count;
-        } else {
-            for (EnumParticle p : EnumParticle.values()) {
-                if (particle.getName().equals(p.b().replace("_", ""))) {
-                    nmsParticle = p;
-                    break;
-                }
+        for (EnumParticle p : EnumParticle.values()) {
+            if (particle.getName().equals(p.b().replace("_", ""))) {
+                nmsParticle = p;
+                break;
             }
-
-            Validate.notNull(nmsParticle, "Something went wrong determining EnumParticle!");
         }
+
+        Validate.notNull(nmsParticle, "Something went wrong determining EnumParticle!");
 
         for (int i = 0; i != count2; i++) {
             for (Player player : players) {
@@ -81,7 +71,7 @@ public class Particle {
                     continue;
                 }
 
-                ((CraftPlayer) player).getHandle().playerConnection.sendPacket((packet != null) ? packet :
+                ((CraftPlayer) player).getHandle().playerConnection.sendPacket(
                         new PacketPlayOutWorldParticles(
                                 nmsParticle, true, (float) location.getX(), (float) location.getY(), (float) location.getZ(),
                                 (float) offsetX, (float) offsetY, (float) offsetZ, (float) speed, count

@@ -57,8 +57,8 @@ public class ParticlePotionBreak extends Particle {
 
                 p.playerConnection.sendPacket(
                         new PacketPlayOutWorldEvent(
-                                particle.getId(), new BlockPosition(location.getBlockX(),
-                                location.getBlockY(), location.getBlockZ()), type.getDamageValue(), false
+                                particle.getId(), new BlockPosition(location.getBlockX(), location.getBlockY(), location.getBlockZ()),
+                                type.getDamageValue(), false
                         )
                 );
             }
