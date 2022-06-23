@@ -53,11 +53,12 @@ public class Particle {
         Validate.notNull(location, "Location cannot be null!");
         Validate.notNull(location.getWorld(), "World cannot be null!");
 
-        int count2 = 1;
         EnumParticle nmsParticle = null;
 
-        for (EnumParticle p : EnumParticle.values()) {
-            if (particle.getName().equals(p.b().replace("_", ""))) {
+        for (int i = 0; i <= 41; i++) {
+            EnumParticle p = EnumParticle.a(i);
+
+            if (particle.getName().equals(p.b())) {
                 nmsParticle = p;
                 break;
             }
@@ -65,19 +66,21 @@ public class Particle {
 
         Validate.notNull(nmsParticle, "Something went wrong determining EnumParticle!");
 
-        for (int i = 0; i != count2; i++) {
-            for (Player player : players) {
-                if (radius != 0 && (Math.abs(location.getX() - player.getLocation().getX()) + Math.abs(location.getY() - player.getLocation().getY()) + Math.abs(location.getZ() - player.getLocation().getZ())) > radius) {
-                    continue;
-                }
+        for (Player player : players) {
+            EntityPlayer p = ((CraftPlayer) player).getHandle();
 
-                ((CraftPlayer) player).getHandle().playerConnection.sendPacket(
-                        new PacketPlayOutWorldParticles(
-                                nmsParticle, true, (float) location.getX(), (float) location.getY(), (float) location.getZ(),
-                                (float) offsetX, (float) offsetY, (float) offsetZ, (float) speed, count
-                        )
-                );
+            if (!location.getWorld().getName().equals(p.world.getWorld().getName())) continue;
+
+            if (radius != 0 && (Math.abs(location.getX() - p.locX) + Math.abs(location.getY() - p.locY) + Math.abs(location.getZ() - p.locZ)) > radius) {
+                continue;
             }
+
+            p.playerConnection.sendPacket(
+                    new PacketPlayOutWorldParticles(
+                            nmsParticle, true, (float) location.getX(), (float) location.getY(), (float) location.getZ(),
+                            (float) offsetX, (float) offsetY, (float) offsetZ, (float) speed, count
+                    )
+            );
         }
     }
 
