@@ -19,6 +19,8 @@ public class ColorableParticle extends Particle {
     protected ColorableParticle(Effect particle, @Nullable Color color, int brightness, double offsetX, double offsetY, double offsetZ, int count) {
         super(particle, offsetX, offsetY, offsetZ, 1, count, 0);
 
+        Validate.isTrue(brightness >= 0 && brightness <= 100, "Brightness must be between 0 and 100!");
+
         this.color = color;
         this.brightness = brightness;
     }
@@ -96,6 +98,8 @@ public class ColorableParticle extends Particle {
     }
 
     public void setBrightness(int brightness) {
+        Validate.isTrue(brightness >= 0 && brightness <= 100, "Brightness must be between 0 and 100!");
+
         this.brightness = brightness;
     }
 
