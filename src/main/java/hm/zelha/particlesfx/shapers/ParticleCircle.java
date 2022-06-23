@@ -14,9 +14,9 @@ public class ParticleCircle extends ParticleShaper {
     private double xRadius;
     private double zRadius;
     private double trueFrequency;
-    private boolean halfCircle;
+    private boolean halfCircle = false;
 
-    public ParticleCircle(Particle particle, Location center, double xRadius, double zRadius, double pitch, double yaw, double roll, double frequency, int particlesPerDisplay, boolean halfCircle) {
+    public ParticleCircle(Particle particle, Location center, double xRadius, double zRadius, double pitch, double yaw, double roll, double frequency, int particlesPerDisplay) {
         super(particle, pitch, yaw, roll, frequency, particlesPerDisplay);
 
         Validate.notNull(center, "Location cannot be null!");
@@ -28,39 +28,30 @@ public class ParticleCircle extends ParticleShaper {
         this.xRadius = xRadius;
         this.zRadius = zRadius;
         this.trueFrequency = ((halfCircle) ? Math.PI : (Math.PI * 2)) / frequency;
-        this.halfCircle = halfCircle;
     }
 
     public ParticleCircle(Particle particle, Location center, double xRadius, double zRadius, double pitch, double yaw, double roll, double frequency) {
-        this(particle, center, xRadius, zRadius, pitch, yaw, roll, frequency, 0, false);
+        this(particle, center, xRadius, zRadius, pitch, yaw, roll, frequency, 0);
     }
 
     public ParticleCircle(Particle particle, Location center, double xRadius, double zRadius, double pitch, double yaw, double roll, int particlesPerDisplay) {
-        this(particle, center, xRadius, zRadius, pitch, yaw, roll, 50, particlesPerDisplay, false);
-    }
-
-    public ParticleCircle(Particle particle, Location center, double xRadius, double zRadius, double pitch, double yaw, double roll, boolean halfCircle) {
-        this(particle, center, xRadius, zRadius, pitch, yaw, roll, 50, 0, halfCircle);
+        this(particle, center, xRadius, zRadius, pitch, yaw, roll, 50, particlesPerDisplay);
     }
 
     public ParticleCircle(Particle particle, Location center, double xRadius, double zRadius, double pitch, double yaw, double roll) {
-        this(particle, center, xRadius, zRadius, pitch, yaw, roll, 50, 0, false);
+        this(particle, center, xRadius, zRadius, pitch, yaw, roll, 50, 0);
     }
 
     public ParticleCircle(Particle particle, Location center, double xRadius, double zRadius, double frequency) {
-        this(particle, center, xRadius, zRadius, 0, 0, 0, frequency, 0, false);
+        this(particle, center, xRadius, zRadius, 0, 0, 0, frequency, 0);
     }
 
     public ParticleCircle(Particle particle, Location center, double xRadius, double zRadius, int particlesPerDisplay) {
-        this(particle, center, xRadius, zRadius, 0, 0, 0, 50, particlesPerDisplay, false);
-    }
-
-    public ParticleCircle(Particle particle, Location center, double xRadius, double zRadius, boolean halfCircle) {
-        this(particle, center, xRadius, zRadius, 0, 0, 0, 50, 0, halfCircle);
+        this(particle, center, xRadius, zRadius, 0, 0, 0, 50, particlesPerDisplay);
     }
 
     public ParticleCircle(Particle particle, Location center, double xRadius, double zRadius) {
-        this(particle, center, xRadius, zRadius, 0, 0, 0, 50, 0, false);
+        this(particle, center, xRadius, zRadius, 0, 0, 0, 50, 0);
     }
 
     @Override
