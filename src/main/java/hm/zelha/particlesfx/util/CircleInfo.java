@@ -1,6 +1,7 @@
 package hm.zelha.particlesfx.util;
 
-import javax.xml.stream.Location;
+import org.apache.commons.lang3.Validate;
+import org.bukkit.Location;
 
 public class CircleInfo {
 
@@ -10,10 +11,19 @@ public class CircleInfo {
     private double zRadius;
 
     public CircleInfo(Location center, double xRadius, double zRadius, double pitch, double yaw, double roll) {
+        Validate.notNull(center, "Location cannot be null!");
+        Validate.notNull(center.getWorld(), "Location's world cannot be null!");
+
         this.rot = new RotationHandler(pitch, yaw, roll);
         this.center = center;
         this.xRadius = xRadius;
         this.zRadius = zRadius;
+
+        rot.addOrigins(center);
+    }
+
+    public CircleInfo(Location center, double xRadius, double zRadius) {
+        this(center, xRadius, zRadius, 0, 0, 0);
     }
 
     public void setCenter(Location center) {
