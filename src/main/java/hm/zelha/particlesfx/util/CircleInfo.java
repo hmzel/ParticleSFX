@@ -26,6 +26,23 @@ public class CircleInfo {
         this(center, xRadius, zRadius, 0, 0, 0);
     }
 
+    public CircleInfo clone() {
+        return new CircleInfo(center.clone(), xRadius, zRadius, rot.getPitch(), rot.getYaw(), rot.getRoll());
+    }
+
+    public CircleInfo inherit(CircleInfo other) {
+        this.xRadius = other.getXRadius();
+        this.zRadius = other.getZRadius();
+
+        center.setWorld(other.getCenter().getWorld());
+        center.zero().add(other.getCenter());
+        rot.reset();
+        rot.add(other.getRotationHandler().getPitch(), other.getRotationHandler().getYaw(), other.getRotationHandler().getRoll());
+        rot.addOrigins(center);
+
+        return this;
+    }
+
     public void setCenter(Location center) {
         this.center = center;
     }
@@ -36,6 +53,18 @@ public class CircleInfo {
 
     public void setZRadius(double zRadius) {
         this.zRadius = zRadius;
+    }
+
+    public void setPitch(double pitch) {
+        rot.setPitch(pitch);
+    }
+
+    public void setYaw(double yaw) {
+        rot.setYaw(yaw);
+    }
+
+    public void setRoll(double roll) {
+        rot.setRoll(roll);
     }
 
     public RotationHandler getRotationHandler() {
@@ -52,5 +81,17 @@ public class CircleInfo {
 
     public double getZRadius() {
         return zRadius;
+    }
+
+    public double getPitch() {
+        return rot.getPitch();
+    }
+
+    public double getYaw() {
+        return rot.getYaw();
+    }
+
+    public double getRoll() {
+        return rot.getRoll();
     }
 }
