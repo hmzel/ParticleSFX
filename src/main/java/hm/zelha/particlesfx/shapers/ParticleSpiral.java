@@ -17,57 +17,55 @@ import java.util.List;
 public class ParticleSpiral extends ParticleShaper {
 
     private final List<CircleInfo> circles = new ArrayList<>();
-    private final CircleInfo circleHelper;
+    private final CircleInfo circleHelper = new CircleInfo(new Location(null, 0, 0, 0), 0, 0);
     private final Vector vectorHelper2 = new Vector(0, 0, 0);
     private double spin;
     private int count;
 
-    public ParticleSpiral(Particle particle, CircleInfo circle1, CircleInfo circle2, double spin, int count, double frequency, int particlesPerDisplay, CircleInfo... extraCircles) {
+    public ParticleSpiral(Particle particle, double spin, int count, double frequency, int particlesPerDisplay, CircleInfo... circles) {
         super(particle, 0, 0, 0, frequency, particlesPerDisplay);
 
-        Validate.notNull(circle1, "Circles cant be null!");
-        Validate.notNull(circle2, "Circles cant be null!");
+        Validate.isTrue(circles != null && circles.length >= 2, "Array must contain 2 or more CircleInfos!");
 
-        for (CircleInfo extraCircle : extraCircles) Validate.notNull(extraCircle, "Circles cant be null!");
-
-        circles.add(circle1);
-        circles.add(circle2);
-        circles.addAll(Arrays.asList(extraCircles));
-
-        World world = circle1.getCenter().getWorld();
+        World world = circles[0].getCenter().getWorld();
 
         for (CircleInfo circle : circles) {
+            Validate.notNull(circle, "Circles cant be null!");
             Validate.isTrue(circle.getCenter().getWorld().equals(world), "Circle's worlds must be the same!");
+            rot.addOrigins(circle.getCenter());
+            rot2.addOrigins(circle.getCenter());
         }
 
+        this.circles.addAll(Arrays.asList(circles));
         locationHelper.setWorld(world);
-        circleHelper = circle1.clone();
+        circleHelper.inherit(circles[0]);
+
         this.spin = spin;
         this.count = count;
     }
 
-    public ParticleSpiral(Particle particle, CircleInfo circle1, CircleInfo circle2, double spin, int count, double frequency, CircleInfo... extraCircles) {
-        this(particle, circle1, circle2, spin, count, frequency, 0, extraCircles);
+    public ParticleSpiral(Particle particle, double spin, int count, double frequency, CircleInfo... extraCircles) {
+        this(particle, spin, count, frequency, 0, extraCircles);
     }
 
-    public ParticleSpiral(Particle particle, CircleInfo circle1, CircleInfo circle2, double spin, int count, int particlesPerDisplay, CircleInfo... extraCircles) {
-        this(particle, circle1, circle2, spin, count, 100, particlesPerDisplay, extraCircles);
+    public ParticleSpiral(Particle particle, double spin, int count, int particlesPerDisplay, CircleInfo... extraCircles) {
+        this(particle, spin, count, 100, particlesPerDisplay, extraCircles);
     }
 
-    public ParticleSpiral(Particle particle, CircleInfo circle1, CircleInfo circle2, double spin, int count, CircleInfo... extraCircles) {
-        this(particle, circle1, circle2, spin, count, 100, 0, extraCircles);
+    public ParticleSpiral(Particle particle, double spin, int count, CircleInfo... extraCircles) {
+        this(particle, spin, count, 100, 0, extraCircles);
     }
 
-    public ParticleSpiral(Particle particle, CircleInfo circle1, CircleInfo circle2, double spin, CircleInfo... extraCircles) {
-        this(particle, circle1, circle2, spin, 1, 100, 0, extraCircles);
+    public ParticleSpiral(Particle particle, double spin, CircleInfo... extraCircles) {
+        this(particle, spin, 1, 100, 0, extraCircles);
     }
 
-    public ParticleSpiral(Particle particle, CircleInfo circle1, CircleInfo circle2, int count, CircleInfo... extraCircles) {
-        this(particle, circle1, circle2, 1, count, 100, 0, extraCircles);
+    public ParticleSpiral(Particle particle, int count, CircleInfo... extraCircles) {
+        this(particle, 1, count, 100, 0, extraCircles);
     }
 
-    public ParticleSpiral(Particle particle, CircleInfo circle1, CircleInfo circle2, CircleInfo... extraCircles) {
-        this(particle, circle1, circle2, 1, 1, 100, 0, extraCircles);
+    public ParticleSpiral(Particle particle, CircleInfo... extraCircles) {
+        this(particle, 1, 1, 100, 0, extraCircles);
     }
 
     @Override
@@ -97,7 +95,7 @@ public class ParticleSpiral extends ParticleShaper {
             circleHelper.inherit(circle1);
 
             for (double radian = start; radian <= end; radian += increase) {
-                //setting vectorHelper2 to where the current particle should be in correlation to the current circle's center
+                //setting vectorHelper2 to where the current particle should be in correlation to the current circle's center (locationHelper)
                 rot.apply(vectorHelper2.setX(circleHelper.getXRadius() * Math.cos(radian)).setY(0).setZ(circleHelper.getZRadius() * Math.sin(radian)));
                 getCurrentParticle().display(locationHelper.add(vectorHelper2));
                 circleHelper.getCenter().add(vectorHelper);
