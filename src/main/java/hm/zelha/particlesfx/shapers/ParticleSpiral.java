@@ -73,6 +73,9 @@ public class ParticleSpiral extends ParticleShaper {
     @Override
     public void display() {
         double increase = (((Math.PI * 2) * spin) / frequency) * count;
+        //used to avoid potential cases of dividing by zero without adding a bunch of if statements
+        //ex: ((distance / frequency) * count) is the same as (distance * control)
+        double control = (frequency / (frequency * frequency)) * count;
 
         for (int c = 0; c < count; c++)
         for (int i = 0; i < circles.size() - 1; i++) {
@@ -82,17 +85,13 @@ public class ParticleSpiral extends ParticleShaper {
             double start = (((Math.PI * 2) * spin) * i) + (((Math.PI * 2) / count) * c);
             double end = (((Math.PI * 2) * spin) * (i + 1)) + (((Math.PI * 2) / count) * c);
             //using Math.abs() because it looks wonky in cases where the rotation is negative
-            double pitchInc = Math.abs(circle1.getPitch() - circle2.getPitch());
-            double yawInc = Math.abs(circle1.getYaw() - circle2.getYaw());
-            double rollInc = Math.abs(circle1.getRoll() - circle2.getRoll());
-
-            if (pitchInc != 0) pitchInc /= frequency;
-            if (yawInc != 0) yawInc /= frequency;
-            if (rollInc != 0) rollInc /= frequency;
+            double pitchInc = Math.abs(circle1.getPitch() - circle2.getPitch()) * control;
+            double yawInc = Math.abs(circle1.getYaw() - circle2.getYaw()) * control;
+            double rollInc = Math.abs(circle1.getRoll() - circle2.getRoll()) * control;
 
             locationHelper.zero().add(circle1.getCenter());
-            //setting vectorHelper to (end - start).normalize() * ((distance / frequency) * count)
-            LVMath.subtractToVector(vectorHelper, circle2.getCenter(), circle1.getCenter()).normalize().multiply((circle1.getCenter().distance(circle2.getCenter()) / frequency) * count);
+            //setting vectorHelper to (end - start).normalize() * (distance * control)
+            LVMath.subtractToVector(vectorHelper, circle2.getCenter(), circle1.getCenter()).normalize().multiply(circle1.getCenter().distance(circle2.getCenter()) * control);
             circleHelper.inherit(circle1);
 
             for (double radian = start; radian <= end; radian += increase) {
