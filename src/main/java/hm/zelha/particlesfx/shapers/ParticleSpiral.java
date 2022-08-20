@@ -17,8 +17,9 @@ import java.util.List;
 public class ParticleSpiral extends ParticleShaper {
 
     private final List<CircleInfo> circles = new ArrayList<>();
-    private final CircleInfo circleHelper = new CircleInfo(new Location(null, 0, 0, 0), 0, 0);
+    private final List<Location> locations = new ArrayList<>();
     private final Vector vectorHelper2 = new Vector(0, 0, 0);
+    private CircleInfo circleHelper;
     private double spin;
     private int count;
 
@@ -32,14 +33,15 @@ public class ParticleSpiral extends ParticleShaper {
         for (CircleInfo circle : circles) {
             Validate.notNull(circle, "Circles cant be null!");
             Validate.isTrue(circle.getCenter().getWorld().equals(world), "Circle's worlds must be the same!");
+            locations.add(circle.getCenter());
             rot.addOrigins(circle.getCenter());
             rot2.addOrigins(circle.getCenter());
         }
 
         this.circles.addAll(Arrays.asList(circles));
         locationHelper.setWorld(world);
-        circleHelper.inherit(circles[0]);
 
+        this.circleHelper = circles[0].clone();
         this.spin = spin;
         this.count = count;
     }
@@ -109,12 +111,23 @@ public class ParticleSpiral extends ParticleShaper {
 
     @Override
     public void rotateAroundLocation(Location around, double pitch, double yaw, double roll) {
-
+        rot2.add(pitch, yaw, roll);
+        rot2.apply(around, locations);
+        rot2.apply(around, rot.getOrigins());
     }
 
     @Override
     public void rotate(double pitch, double yaw, double roll) {
+        Location centroid = locationHelper.zero();
+        int amount = circles.size();
 
+        for (int i = 0; i < amount; i++) centroid.add(rot.getOrigins().get(i));
+
+        centroid.setX(centroid.getX() / amount);
+        centroid.setY(centroid.getY() / amount);
+        centroid.setZ(centroid.getZ() / amount);
+        rot.add(pitch, yaw, roll);
+        rot.apply(centroid, locations);
     }
 
     @Override
