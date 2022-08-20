@@ -119,7 +119,10 @@ public class ParticleSpiral extends ParticleShaper {
 
     @Override
     public void move(double x, double y, double z) {
+        rot.moveOrigins(x, y, z);
+        rot2.moveOrigins(x, y, z);
 
+        for (CircleInfo circle : circles) circle.getCenter().add(x, y, z);
     }
 
     public void addCircle(CircleInfo circle) {
