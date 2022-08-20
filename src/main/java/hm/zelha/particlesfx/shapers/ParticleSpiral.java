@@ -88,6 +88,8 @@ public class ParticleSpiral extends ParticleShaper {
             double pitchInc = Math.abs(circle1.getPitch() - circle2.getPitch()) * control;
             double yawInc = Math.abs(circle1.getYaw() - circle2.getYaw()) * control;
             double rollInc = Math.abs(circle1.getRoll() - circle2.getRoll()) * control;
+            double xRadiusInc = (circle1.getXRadius() - circle2.getXRadius()) * control;
+            double zRadiusInc = (circle1.getZRadius() - circle2.getZRadius()) * control;
 
             locationHelper.zero().add(circle1.getCenter());
             //setting vectorHelper to (end - start).normalize() * (distance * control)
@@ -99,6 +101,8 @@ public class ParticleSpiral extends ParticleShaper {
                 rot.apply(vectorHelper2.setX(circleHelper.getXRadius() * Math.cos(radian)).setY(0).setZ(circleHelper.getZRadius() * Math.sin(radian)));
                 getCurrentParticle().display(locationHelper.add(vectorHelper2));
                 circleHelper.getCenter().add(vectorHelper);
+                circleHelper.setXRadius(circleHelper.getXRadius() + xRadiusInc);
+                circleHelper.setZRadius(circleHelper.getZRadius() + zRadiusInc);
                 rot.add(pitchInc, yawInc, rollInc);
                 locationHelper.zero().add(circleHelper.getCenter());
             }
