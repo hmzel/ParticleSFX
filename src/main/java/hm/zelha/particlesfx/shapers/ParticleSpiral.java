@@ -123,7 +123,11 @@ public class ParticleSpiral extends ParticleShaper {
     }
 
     public void addCircle(CircleInfo circle) {
+        Validate.notNull(circle, "Circles cant be null!");
+        Validate.isTrue(circle.getCenter().getWorld().equals(circles.get(0).getCenter().getWorld()), "Circle's worlds must be the same!");
         circles.add(circle);
+        rot.addOrigins(circle.getCenter());
+        rot2.addOrigins(circle.getCenter());
     }
 
     public List<CircleInfo> getCircles() {
