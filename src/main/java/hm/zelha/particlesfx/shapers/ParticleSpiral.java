@@ -88,8 +88,8 @@ public class ParticleSpiral extends ParticleShaper {
             double pitchInc = Math.abs(circle1.getPitch() - circle2.getPitch()) * control;
             double yawInc = Math.abs(circle1.getYaw() - circle2.getYaw()) * control;
             double rollInc = Math.abs(circle1.getRoll() - circle2.getRoll()) * control;
-            double xRadiusInc = (circle1.getXRadius() - circle2.getXRadius()) * control;
-            double zRadiusInc = (circle1.getZRadius() - circle2.getZRadius()) * control;
+            double xRadiusInc = (circle2.getXRadius() - circle1.getXRadius()) * control;
+            double zRadiusInc = (circle2.getZRadius() - circle1.getZRadius()) * control;
 
             locationHelper.zero().add(circle1.getCenter());
             //setting vectorHelper to (end - start).normalize() * (distance * control)
