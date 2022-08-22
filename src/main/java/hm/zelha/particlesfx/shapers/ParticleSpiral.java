@@ -19,6 +19,7 @@ public class ParticleSpiral extends ParticleShaper {
     private final List<CircleInfo> circles = new ArrayList<>();
     private final List<Location> locations = new ArrayList<>();
     private final Vector vectorHelper2 = new Vector(0, 0, 0);
+    private final Location locationHelper2 = new Location(null, 0, 0, 0);
     private final CircleInfo circleHelper;
     private double spin;
     private int count;
@@ -41,6 +42,7 @@ public class ParticleSpiral extends ParticleShaper {
 
         this.circles.addAll(Arrays.asList(circles));
         locationHelper.setWorld(world);
+        locationHelper2.setWorld(world);
 
         this.circleHelper = circles[0].clone();
         this.spin = spin;
@@ -121,7 +123,7 @@ public class ParticleSpiral extends ParticleShaper {
 
     @Override
     public void rotate(double pitch, double yaw, double roll) {
-        Location centroid = locationHelper.zero();
+        Location centroid = locationHelper2.zero();
         int amount = circles.size();
 
         for (int i = 0; i < amount; i++) centroid.add(rot.getOrigins().get(i));
@@ -138,7 +140,7 @@ public class ParticleSpiral extends ParticleShaper {
         rot.moveOrigins(x, y, z);
         rot2.moveOrigins(x, y, z);
 
-        for (CircleInfo circle : circles) circle.getCenter().add(x, y, z);
+        for (Location l : locations) l.add(x, y, z);
     }
 
     public void addCircle(CircleInfo circle) {
