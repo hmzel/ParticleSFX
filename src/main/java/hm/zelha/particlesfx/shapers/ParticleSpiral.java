@@ -84,6 +84,7 @@ public class ParticleSpiral extends ParticleShaper {
             CircleInfo circle1 = circles.get(i);
             CircleInfo circle2 = circles.get(i + 1);
             RotationHandler rot = circleHelper.getRotationHandler();
+            //adding (((Math.PI * 2) / count) * c) makes it so each spiral is evenly spaced
             double start = (endRotation * i) + (((Math.PI * 2) / count) * c);
             double end = (endRotation * (i + 1)) + (((Math.PI * 2) / count) * c);
             //using Math.abs() because it looks wonky in cases where the rotation is negative
@@ -144,12 +145,20 @@ public class ParticleSpiral extends ParticleShaper {
         Validate.notNull(circle, "Circles cant be null!");
         Validate.isTrue(circle.getCenter().getWorld().equals(circles.get(0).getCenter().getWorld()), "Circle's worlds must be the same!");
         circles.add(circle);
+        locations.add(circle.getCenter());
         rot.addOrigins(circle.getCenter());
         rot2.addOrigins(circle.getCenter());
     }
 
-    public List<CircleInfo> getCircles() {
-        return circles;
+    public void removeCircle(int index) {
+        circles.remove(index);
+        locations.remove(index);
+        rot.removeOrigin(index);
+        rot2.removeOrigin(index);
+    }
+
+    public CircleInfo getCircle(int index) {
+        return circles.get(index);
     }
 
     public double getSpin() {
