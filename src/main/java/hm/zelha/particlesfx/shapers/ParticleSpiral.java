@@ -74,17 +74,18 @@ public class ParticleSpiral extends ParticleShaper {
     @Override
     public void display() {
         //used to avoid potential cases of dividing by zero without adding a bunch of if statements
-        //ex: ((distance / frequency) * count) is the same as (distance * control)
-        double control = (frequency / (frequency * frequency)) * count;
-        double increase = ((Math.PI * 2) * spin) * control;
+        //ex: (((distance / frequency) * count) * circles.size()) is the same as (distance * control)
+        double control = ((frequency / (frequency * frequency)) * count) * circles.size();
+        double endRotation = (Math.PI * 2) * (spin / (circles.size() - 1));
+        double increase = endRotation * control;
 
         for (int c = 0; c < count; c++)
         for (int i = 0; i < circles.size() - 1; i++) {
             CircleInfo circle1 = circles.get(i);
             CircleInfo circle2 = circles.get(i + 1);
             RotationHandler rot = circleHelper.getRotationHandler();
-            double start = (((Math.PI * 2) * spin) * i) + (((Math.PI * 2) / count) * c);
-            double end = (((Math.PI * 2) * spin) * (i + 1)) + (((Math.PI * 2) / count) * c);
+            double start = (endRotation * i) + (((Math.PI * 2) / count) * c);
+            double end = (endRotation * (i + 1)) + (((Math.PI * 2) / count) * c);
             //using Math.abs() because it looks wonky in cases where the rotation is negative
             double pitchInc = Math.abs(circle1.getPitch() - circle2.getPitch()) * control;
             double yawInc = Math.abs(circle1.getYaw() - circle2.getYaw()) * control;
@@ -97,7 +98,7 @@ public class ParticleSpiral extends ParticleShaper {
             LVMath.subtractToVector(vectorHelper, circle2.getCenter(), circle1.getCenter()).normalize().multiply(circle1.getCenter().distance(circle2.getCenter()) * control);
             circleHelper.inherit(circle1);
 
-            for (double radian = start; ((spin > 0) ? radian <= end : radian >= end); radian += increase) {
+            for (double radian = start; ((spin > 0) ? radian < end : radian > end); radian += increase) {
                 //setting vectorHelper2 to where the current particle should be in correlation to the current circle's center (locationHelper)
                 rot.apply(vectorHelper2.setX(circleHelper.getXRadius() * Math.cos(radian)).setY(0).setZ(circleHelper.getZRadius() * Math.sin(radian)));
                 getCurrentParticle().display(locationHelper.add(vectorHelper2));
