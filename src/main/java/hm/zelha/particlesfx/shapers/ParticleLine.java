@@ -5,70 +5,89 @@ import hm.zelha.particlesfx.shapers.parents.ParticleShaper;
 import hm.zelha.particlesfx.util.LVMath;
 import org.apache.commons.lang3.Validate;
 import org.bukkit.Location;
+import org.bukkit.World;
 
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ParticleLine extends ParticleShaper {
 
-    private Location start;
-    private Location end;
+    private final List<Location> locations = new ArrayList<>();
 
-    public ParticleLine(Particle particle, Location start, Location end, double frequency, int particlesPerDisplay) {
+    public ParticleLine(Particle particle, double frequency, int particlesPerDisplay, Location... locations) {
         super(particle, 0, 0, 0, frequency, particlesPerDisplay);
 
-        Validate.notNull(start, "Location cannot be null!");
-        Validate.notNull(end, "Location cannot be null!");
-        Validate.notNull(start.getWorld(), "Location's world cannot be null!");
-        Validate.notNull(end.getWorld(), "Location's world cannot be null!");
-        rot.addOrigins(start, end);
-        rot2.addOrigins(start, end);
-        locationHelper.setWorld(start.getWorld());
+        Validate.isTrue(locations.length >= 2, "Line must have 2 or more locations!");
 
-        this.start = start;
-        this.end = end;
+        World world = locations[0].getWorld();
+        locationHelper.setWorld(world);
+
+        for (Location l : locations) {
+            Validate.isTrue(l.getWorld() != null, "Locations cannot have null worlds!");
+            Validate.isTrue(l.getWorld().equals(world), "Locations cannot have different worlds!");
+
+            this.locations.add(l);
+        }
+
+        rot.addOrigins(locations);
+        rot2.addOrigins(locations);
     }
 
-    public ParticleLine(Particle particle, Location start, Location end, double frequency) {
-        this(particle, start, end, frequency, 0);
+    public ParticleLine(Particle particle, int particlesPerDisplay, Location... locations) {
+        this(particle, 50, particlesPerDisplay, locations);
     }
 
-    public ParticleLine(Particle particle, Location start, Location end, int particlesPerDisplay) {
-        this(particle, start, end, 50, particlesPerDisplay);
+    public ParticleLine(Particle particle, double frequency, Location... locations) {
+        this(particle, frequency, 0, locations);
     }
 
-    public ParticleLine(Particle particle, Location start, Location end) {
-        this(particle, start, end, 50, 0);
+    public ParticleLine(Particle particle, Location... locations) {
+        this(particle, 50, 0, locations);
     }
 
     @Override
     public void display() {
+        int current = 0;
+        int estimatedOverallCount = 0;
         boolean hasRan = false;
         boolean trackCount = particlesPerDisplay > 0;
-        double distance = start.distance(end);
-        double control = distance / frequency;
 
-        locationHelper.zero().add(start);
-        LVMath.subtractToVector(vectorHelper, end, start).normalize().multiply(control);
+        main:
+        for (int i = 0; i < locations.size() - 1; i++) {
+            Location start = locations.get(i);
+            Location end = locations.get(i + 1);
+            double distance = start.distance(end);
+            double control = (distance / frequency) * locations.size();
 
-        if (trackCount) {
-            locationHelper.add(vectorHelper.getX() * overallCount, vectorHelper.getY() * overallCount, vectorHelper.getZ() * overallCount);
-        }
+            if (trackCount && overallCount >= estimatedOverallCount + (distance / control)) {
+                estimatedOverallCount += distance / control;
+                current = overallCount - estimatedOverallCount;
+                continue;
+            }
 
-        for (double length = control * overallCount; length < distance; length += control) {
-            if (mechanic != null) mechanic.apply(particle, locationHelper, vectorHelper);
-
-            locationHelper.add(vectorHelper);
-            getCurrentParticle().display(locationHelper);
-
-            overallCount++;
+            locationHelper.zero().add(start);
+            LVMath.subtractToVector(vectorHelper, end, start).normalize().multiply(control);
 
             if (trackCount) {
-                currentCount++;
-                hasRan = true;
+                locationHelper.add(vectorHelper.getX() * current, vectorHelper.getY() * current, vectorHelper.getZ() * current);
+            }
 
-                if (currentCount >= particlesPerDisplay) {
-                    currentCount = 0;
-                    break;
+            for (double length = control * current; length <= distance; length += control) {
+                if (mechanic != null) mechanic.apply(particle, locationHelper, vectorHelper);
+
+                locationHelper.add(vectorHelper);
+                getCurrentParticle().display(locationHelper);
+
+                overallCount++;
+
+                if (trackCount) {
+                    currentCount++;
+                    hasRan = true;
+
+                    if (currentCount >= particlesPerDisplay) {
+                        currentCount = 0;
+                        break main;
+                    }
                 }
             }
         }
@@ -80,14 +99,22 @@ public class ParticleLine extends ParticleShaper {
     @Override
     public void rotateAroundLocation(Location around, double pitch, double yaw, double roll) {
         rot2.add(pitch, yaw, roll);
-        rot2.apply(around, Arrays.asList(start, end));
+        rot2.apply(around, locations);
         rot2.apply(around, rot.getOrigins());
     }
 
     @Override
     public void rotate(double pitch, double yaw, double roll) {
+        Location centroid = locationHelper.zero();
+        int amount = locations.size();
+
+        for (Location l : rot.getOrigins()) centroid.add(l);
+
+        centroid.setX(centroid.getX() / amount);
+        centroid.setY(centroid.getY() / amount);
+        centroid.setZ(centroid.getZ() / amount);
         rot.add(pitch, yaw, roll);
-        rot.apply(locationHelper.zero().add(start).add(end).multiply(0.5), Arrays.asList(start, end));
+        rot.apply(centroid, locations);
     }
 
     @Override
@@ -95,36 +122,26 @@ public class ParticleLine extends ParticleShaper {
         rot.moveOrigins(x, y, z);
         rot2.moveOrigins(x, y, z);
 
-        for (Location l : new Location[] {start, end}) l.add(x, y, z);
+        for (Location l : locations) l.add(x, y, z);
     }
 
-    public void setStart(Location start) {
-        Validate.isTrue(start.getWorld() == end.getWorld(), "Locations cannot be in different worlds!");
-        Validate.notNull(start.getWorld(), "Location's world cannot be null!");
-
-        this.start = start;
-        rot.reset();
-        rot2.reset();
-        rot.addOrigins(start, end);
-        rot2.addOrigins(start, end);
+    public void moveOne(int index, double x, double y, double z) {
+        rot.getOrigins().get(index).add(x, y, z);
+        rot2.getOrigins().get(index).add(x, y, z);
+        locations.get(index).add(x, y, z);
     }
 
-    public void setEnd(Location end) {
-        Validate.isTrue(start.getWorld() == end.getWorld(), "Locations cannot be in different worlds!");
-        Validate.notNull(end.getWorld(), "Location's world cannot be null!");
+    public void addLocation(Location location) {
+        Validate.isTrue(location.getWorld().equals(locations.get(0).getWorld()), "Locations cannot have different worlds!");
 
-        this.end = end;
-        rot.reset();
-        rot2.reset();
-        rot.addOrigins(start, end);
-        rot2.addOrigins(start, end);
+        rot.addOrigins(location);
+        rot2.addOrigins(location);
+        locations.add(location);
     }
 
-    public Location getStart() {
-        return start;
-    }
-
-    public Location getEnd() {
-        return end;
+    public void removeLocation(int index) {
+        rot.removeOrigin(index);
+        rot2.removeOrigin(index);
+        locations.remove(index);
     }
 }
