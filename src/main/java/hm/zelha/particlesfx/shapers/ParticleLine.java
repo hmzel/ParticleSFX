@@ -144,4 +144,13 @@ public class ParticleLine extends ParticleShaper {
         rot2.removeOrigin(index);
         locations.remove(index);
     }
+
+    public double getTotalDistance() {
+        double dist = 0;
+
+        //adding the distance between every circle to totalDist
+        for (int i = 0; i < locations.size() - 1; i++) dist += locations.get(i).distance(locations.get(i + 1));
+
+        return  dist;
+    }
 }
