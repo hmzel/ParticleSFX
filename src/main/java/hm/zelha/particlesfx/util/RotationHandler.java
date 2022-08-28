@@ -51,6 +51,12 @@ public class RotationHandler {
         return v;
     }
 
+    public void set(double pitch, double yaw, double roll) {
+        this.pitch = pitch;
+        this.yaw = yaw;
+        this.roll = roll;
+    }
+
     public void add(double pitch, double yaw, double roll) {
         this.pitch += pitch;
         this.yaw += yaw;
