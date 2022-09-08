@@ -1,5 +1,6 @@
 package hm.zelha.particlesfx.particles.parents;
 
+import hm.zelha.particlesfx.particles.ParticleDust;
 import net.minecraft.server.v1_8_R3.*;
 import org.apache.commons.lang3.Validate;
 import org.bukkit.Color;
@@ -58,6 +59,10 @@ public class ColorableParticle extends Particle {
                 trueOffsetX = color.getRed() / 255D;
                 trueOffsetY = color.getGreen() / 255D;
                 trueOffsetZ = color.getBlue() / 255D;
+
+                //dont judge me
+                if (this instanceof ParticleDust) trueOffsetX -= 1;
+
                 addition = generateFakeOffset();
             } else {
                 trueSpeed = 1;
