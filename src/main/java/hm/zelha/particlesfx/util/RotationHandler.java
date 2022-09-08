@@ -9,6 +9,10 @@ import java.util.List;
 
 public class RotationHandler {
 
+    //TODO:
+    // fix the rotation
+    // back then you shouldve changed the circle, not the rotationhandler
+
     private final Vector vectorHelper = new Vector(0, 0, 0);
     private final double[] oldPitchCosAndSin = {0, 0};
     private final double[] oldYawCosAndSin = {0, 0};
@@ -82,7 +86,7 @@ public class RotationHandler {
         for (Location l : origins) l.add(x, y, z);
     }
 
-    private void applyPitch(Vector v) {
+    public void applyPitch(Vector v) {
         if (pitch == 0) return;
 
         double y, z, cos, sin, angle;
@@ -105,7 +109,7 @@ public class RotationHandler {
         v.setY(y).setZ(z);
     }
 
-    private void applyYaw(Vector v) {
+    public void applyYaw(Vector v) {
         if (yaw == 0) return;
 
         double x, z, cos, sin, angle;
@@ -128,7 +132,7 @@ public class RotationHandler {
         v.setX(x).setZ(z);
     }
 
-    private void applyRoll(Vector v) {
+    public void applyRoll(Vector v) {
         if (roll == 0) return;
 
         double x, y, cos, sin, angle;
