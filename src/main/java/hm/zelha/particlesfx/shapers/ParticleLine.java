@@ -61,7 +61,6 @@ public class ParticleLine extends ParticleShaper {
 
             if (trackCount && overallCount >= estimatedOverallCount + (distance / control)) {
                 estimatedOverallCount += distance / control;
-                current = overallCount - estimatedOverallCount;
                 continue;
             }
 
@@ -69,6 +68,8 @@ public class ParticleLine extends ParticleShaper {
             LVMath.subtractToVector(vectorHelper, end, start).normalize().multiply(control);
 
             if (trackCount) {
+                current = overallCount - estimatedOverallCount;
+
                 locationHelper.add(vectorHelper.getX() * current, vectorHelper.getY() * current, vectorHelper.getZ() * current);
             }
 
@@ -122,7 +123,7 @@ public class ParticleLine extends ParticleShaper {
         rot.moveOrigins(x, y, z);
         rot2.moveOrigins(x, y, z);
 
-        for (Location l : locations) l.add(x, y, z);
+        for (int i = 0; i < locations.size(); i++) locations.get(i).add(x, y, z);
     }
 
     public void moveOne(int index, double x, double y, double z) {
@@ -148,7 +149,7 @@ public class ParticleLine extends ParticleShaper {
     public double getTotalDistance() {
         double dist = 0;
 
-        //adding the distance between every circle to totalDist
+        //adding the distance between every circle to dist
         for (int i = 0; i < locations.size() - 1; i++) dist += locations.get(i).distance(locations.get(i + 1));
 
         return  dist;
