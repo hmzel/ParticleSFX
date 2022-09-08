@@ -77,7 +77,7 @@ public class ParticleSpiral extends ParticleShaper {
     public void display() {
         //used to avoid potential cases of dividing by zero without adding a bunch of if statements
         //ex: (((distance / frequency) * count) * circles.size()) is the same as (distance * control)
-        double control = ((frequency / (frequency * frequency)) * count) * circles.size();
+        double control = ((1 / frequency) * count) * circles.size();
         double endRotation = (Math.PI * 2) * (spin / (circles.size() - 1));
         double increase = endRotation * control;
 
@@ -98,7 +98,7 @@ public class ParticleSpiral extends ParticleShaper {
 
             locationHelper.zero().add(circle1.getCenter());
             //setting vectorHelper to (end - start).normalize() * (distance * control)
-            LVMath.subtractToVector(vectorHelper, circle2.getCenter(), circle1.getCenter()).normalize().multiply(circle1.getCenter().distance(circle2.getCenter()) * control);
+            LVMath.subtractToVector(vectorHelper, circle2.getCenter(), circle1.getCenter()).normalize().multiply(vectorHelper.length() * control);
             circleHelper.inherit(circle1);
 
             for (double radian = start; ((spin > 0) ? radian < end : radian > end); radian += increase) {
