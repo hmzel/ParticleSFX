@@ -18,7 +18,7 @@ public abstract class ParticleShaper {
 
     protected final List<Pair<Particle, Integer>> secondaryParticles = new ArrayList<>();
     /* its actually more efficient to use a list<pair<>> here instead of a LinkedHashMap, because in order to determine the current particle using
-     * that, you have to create a new Iterator and a new LinkedEntrySet every time display() is called, which would be hundreds of times every
+     * that, you have to create a new Iterator and a new LinkedEntrySet every time display() is called, which could be hundreds of times every
      * tick in normal use cases. whereas with a List<Pair<>> you can just use a for-i loop and the .get(int) method without creating any objects */
     protected final RotationHandler rot;
     protected final RotationHandler rot2;

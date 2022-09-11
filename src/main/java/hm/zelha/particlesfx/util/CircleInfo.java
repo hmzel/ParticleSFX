@@ -37,7 +37,7 @@ public class CircleInfo {
         center.setWorld(other.getCenter().getWorld());
         center.zero().add(other.getCenter());
         rot.reset();
-        rot.add(other.getRotationHandler().getPitch(), other.getRotationHandler().getYaw(), other.getRotationHandler().getRoll());
+        rot.set(other.getPitch(), other.getYaw(), other.getRoll());
         rot.addOrigins(center);
 
         return this;
