@@ -43,31 +43,34 @@ public class ParticleSphere extends ParticleShaper {
         int current = 0;
         double continuation = 0;
 
-        if (recalculate) for (double i = 0; true; i += Math.PI / (circleFrequency - 1)) {
-            //the long decimal number is used to cut PI to the 29th decimal place to prevent some weirdness that i dont even understand
-            if (i > Math.PI - 3.5897932384626433832795028841972e-9) i = Math.PI;
-
+        if (recalculate) {
             listHelper.clear();
 
             totalArea = 0;
-            double curve = Math.sin(i);
-            double circumference;
 
-            if (xRadius == zRadius) {
-                circumference = Math.PI * 2 * (xRadius * curve);
-            } else {
-                double x = xRadius * curve;
-                double z = zRadius * curve;
+            for (double i = 0; true; i += Math.PI / (circleFrequency - 1)) {
+                //the long decimal number is used to cut PI to the 29th decimal place to prevent some weirdness that i dont even understand
+                if (i > Math.PI - 3.5897932384626433832795028841972e-9) i = Math.PI;
 
-                circumference = Math.PI * 2 * Math.sqrt((Math.pow(x, 2) + Math.pow(z, 2)) / 2);
-            }
+                double curve = Math.sin(i);
+                double circumference;
 
-            listHelper.add(circumference);
-            totalArea += circumference;
+                if (xRadius == zRadius) {
+                    circumference = Math.PI * 2 * (xRadius * curve);
+                } else {
+                    double x = xRadius * curve;
+                    double z = zRadius * curve;
 
-            if (i == Math.PI) {
-                recalculate = false;
-                break;
+                    circumference = Math.PI * 2 * Math.sqrt((Math.pow(x, 2) + Math.pow(z, 2)) / 2);
+                }
+
+                listHelper.add(circumference);
+                totalArea += circumference;
+
+                if (i == Math.PI) {
+                    recalculate = false;
+                    break;
+                }
             }
         }
 
@@ -113,6 +116,22 @@ public class ParticleSphere extends ParticleShaper {
     @Override
     public void move(double x, double y, double z) {
         center.add(new Vector(x, y, z));
+    }
+
+    @Override
+    public void face(Location toFace) {
+        double xDiff = toFace.getX() - center.getX();
+        double yDiff = toFace.getY() - center.getY();
+        double zDiff = toFace.getZ() - center.getZ();
+        double distanceXZ = Math.sqrt(xDiff * xDiff + zDiff * zDiff);
+        double distanceY = Math.sqrt(distanceXZ * distanceXZ + yDiff * yDiff);
+        double yaw = Math.toDegrees(Math.acos(xDiff / distanceXZ));
+        double pitch = Math.toDegrees(Math.acos(yDiff / distanceY));
+
+        if (zDiff < 0.0D) yaw += Math.abs(180.0D - yaw) * 2.0D;
+
+        setPitch(pitch);
+        setYaw(yaw - 90);
     }
 
     public void setCenter(Location center) {
