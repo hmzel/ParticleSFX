@@ -18,8 +18,8 @@ public abstract class ParticleShaper {
 
     protected final List<Pair<Particle, Integer>> secondaryParticles = new ArrayList<>();
     /* its actually more efficient to use a list<pair<>> here instead of a LinkedHashMap, because in order to determine the current particle using
-     * that, you have to create a new Iterator and a new LinkedEntrySet every time display() is called, which could be hundreds of times every
-     * tick in normal use cases. whereas with a List<Pair<>> you can just use a for-i loop and the .get(int) method without creating any objects */
+     * that, you have to create a new Iterator and a new LinkedEntrySet every time getCurrentParticle() is called, which could be hundreds of times
+     * every tick in normal use cases. whereas with a List<Pair<>> you can just use a for-i loop and the .get(int) method without creating any objects */
     protected final RotationHandler rot;
     protected final RotationHandler rot2;
     protected final Location locationHelper = new Location(null, 0, 0, 0);
@@ -53,7 +53,7 @@ public abstract class ParticleShaper {
             public void run() {
                 display();
             }
-        }.runTaskTimerAsynchronously(Main.getPlugin(), 0, 1);
+        }.runTaskTimerAsynchronously(Main.getPlugin(), 1, 1);
     }
 
     public void stop() {
@@ -70,6 +70,8 @@ public abstract class ParticleShaper {
     public abstract void rotate(double pitch, double yaw, double roll);
 
     public abstract void move(double x, double y, double z);
+
+    public abstract void face(Location toFace);
 
     protected Particle getCurrentParticle() {
         Particle particle = this.particle;
@@ -101,11 +103,11 @@ public abstract class ParticleShaper {
         this.particle = particle;
     }
 
-    /** @param frequency amount of times to display the particle per full animation */
-    public void setFrequency(double frequency) {
-        Validate.isTrue(frequency > 2.0D, "Frequency cannot be 2 or less! if you only want one particle, use Particle.display()");
+    /** @param particleFrequency amount of times to display the particle per full animation */
+    public void setParticleFrequency(double particleFrequency) {
+        Validate.isTrue(particleFrequency > 2.0D, "Frequency cannot be less than 2! if you only want one particle, use Particle.display()");
 
-        this.frequency = frequency;
+        this.frequency = particleFrequency;
     }
 
     /**
@@ -139,7 +141,7 @@ public abstract class ParticleShaper {
         return particle;
     }
 
-    public double getFrequency() {
+    public double getParticleFrequency() {
         return frequency;
     }
 

@@ -10,6 +10,8 @@ import java.util.Collections;
 
 public class ParticleCircle extends ParticleShaper {
 
+    //TODO: make it an option to fill the circle
+
     private Location center;
     private double xRadius;
     private double zRadius;
@@ -101,9 +103,26 @@ public class ParticleCircle extends ParticleShaper {
         center.add(new Vector(x, y, z));
     }
 
+    @Override
+    public void face(Location toFace) {
+        double xDiff = toFace.getX() - center.getX();
+        double yDiff = toFace.getY() - center.getY();
+        double zDiff = toFace.getZ() - center.getZ();
+        double distanceXZ = Math.sqrt(xDiff * xDiff + zDiff * zDiff);
+        double distanceY = Math.sqrt(distanceXZ * distanceXZ + yDiff * yDiff);
+        double yaw = Math.toDegrees(Math.acos(xDiff / distanceXZ));
+        double pitch = Math.toDegrees(Math.acos(yDiff / distanceY));
+
+        if (zDiff < 0.0D) yaw += Math.abs(180.0D - yaw) * 2.0D;
+
+        setPitch(pitch);
+        setYaw(yaw - 90);
+    }
+
     public void setCenter(Location center) {
         this.center = center;
 
+        locationHelper.setWorld(center.getWorld());
         rot2.reset();
         rot2.addOrigins(center);
     }
@@ -129,10 +148,10 @@ public class ParticleCircle extends ParticleShaper {
     }
 
     @Override
-    public void setFrequency(double frequency) {
-        super.setFrequency(frequency);
+    public void setParticleFrequency(double particleFrequency) {
+        super.setParticleFrequency(particleFrequency);
 
-        this.trueFrequency = (Math.PI * 2) / frequency;
+        this.trueFrequency = (Math.PI * 2) / particleFrequency;
     }
 
     public void setHalfCircle(boolean halfCircle) {
