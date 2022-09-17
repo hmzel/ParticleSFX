@@ -136,9 +136,7 @@ public class ParticleCylinder extends ParticleShaper {
 
         for (int i = 0; i < amount; i++) centroid.add(rot.getOrigins().get(i));
 
-        centroid.setX(centroid.getX() / amount);
-        centroid.setY(centroid.getY() / amount);
-        centroid.setZ(centroid.getZ() / amount);
+        centroid.multiply(1D / amount);
         rot.add(pitch, yaw, roll);
         rot.apply(centroid, locations);
     }
@@ -149,6 +147,29 @@ public class ParticleCylinder extends ParticleShaper {
         rot2.moveOrigins(x, y, z);
 
         for (Location l : locations) l.add(x, y, z);
+    }
+
+    @Override
+    public void face(Location toFace) {
+        Location centroid = locationHelper2.zero();
+        int amount = circles.size();
+
+        for (int i = 0; i < amount; i++) centroid.add(rot.getOrigins().get(i));
+
+        centroid.multiply(1D / amount);
+
+        double xDiff = toFace.getX() - centroid.getX();
+        double yDiff = toFace.getY() - centroid.getY();
+        double zDiff = toFace.getZ() - centroid.getZ();
+        double distanceXZ = Math.sqrt(xDiff * xDiff + zDiff * zDiff);
+        double distanceY = Math.sqrt(distanceXZ * distanceXZ + yDiff * yDiff);
+        double yaw = Math.toDegrees(Math.acos(xDiff / distanceXZ));
+        double pitch = Math.toDegrees(Math.acos(yDiff / distanceY));
+
+        if (zDiff < 0.0D) yaw += Math.abs(180.0D - yaw) * 2.0D;
+
+        rot.set(pitch, yaw - 90, rot.getRoll());
+        rot.apply(centroid, locations);
     }
 
     public void addCircle(CircleInfo circle) {
