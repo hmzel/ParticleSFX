@@ -61,6 +61,7 @@ public class ParticleLineCurved extends ParticleShaper {
         this(particle, 50, 0, locations);
     }
 
+    //TODO: make this thread-safe
     @Override
     public void display() {
         int curveIndex = 0;
@@ -227,6 +228,33 @@ public class ParticleLineCurved extends ParticleShaper {
         rot2.moveOrigins(x, y, z);
 
         for (int i = 0; i < locations.size(); i++) locations.get(i).add(x, y, z);
+    }
+
+    @Override
+    public void face(Location toFace) {
+        Location centroid = locationHelper.zero();
+
+        for (int i = 0; i < locations.size(); i++) centroid.add(rot.getOrigins().get(i));
+
+        centroid.multiply(1D / locations.size());
+
+        double xDiff = toFace.getX() - centroid.getX();
+        double yDiff = toFace.getY() - centroid.getY();
+        double zDiff = toFace.getZ() - centroid.getZ();
+        double distanceXZ = Math.sqrt(xDiff * xDiff + zDiff * zDiff);
+        double distanceY = Math.sqrt(distanceXZ * distanceXZ + yDiff * yDiff);
+        double yaw = Math.toDegrees(Math.acos(xDiff / distanceXZ));
+        double pitch = Math.toDegrees(Math.acos(yDiff / distanceY));
+
+        if (zDiff < 0.0D) yaw += Math.abs(180.0D - yaw) * 2.0D;
+
+        rot.set(pitch, yaw - 90, rot.getRoll());
+        rot.apply(centroid, locations);
+
+        //TODO: improve this when you fix RotationHandler
+        for (int i = 0; i < linePitchAndYaw.size(); i++) {
+            linePitchAndYaw.set(i, calculateLinePitch(locations.get(i), locations.get(i + 1)));
+        }
     }
 
     public void moveOne(int index, double x, double y, double z) {

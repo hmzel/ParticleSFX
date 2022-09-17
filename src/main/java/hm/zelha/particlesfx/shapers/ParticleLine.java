@@ -45,6 +45,7 @@ public class ParticleLine extends ParticleShaper {
         this(particle, 50, 0, locations);
     }
 
+    //TODO: make this thread-safe
     @Override
     public void display() {
         int current = 0;
