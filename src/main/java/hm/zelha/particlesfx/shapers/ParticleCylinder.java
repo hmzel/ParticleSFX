@@ -132,11 +132,10 @@ public class ParticleCylinder extends ParticleShaper {
     @Override
     public void rotate(double pitch, double yaw, double roll) {
         Location centroid = locationHelper2.zero();
-        int amount = circles.size();
 
-        for (int i = 0; i < amount; i++) centroid.add(rot.getOrigins().get(i));
+        for (int i = 0; i < circles.size(); i++) centroid.add(rot.getOrigins().get(i));
 
-        centroid.multiply(1D / amount);
+        centroid.multiply(1D / circles.size());
         rot.add(pitch, yaw, roll);
         rot.apply(centroid, locations);
     }
@@ -152,11 +151,10 @@ public class ParticleCylinder extends ParticleShaper {
     @Override
     public void face(Location toFace) {
         Location centroid = locationHelper2.zero();
-        int amount = circles.size();
 
-        for (int i = 0; i < amount; i++) centroid.add(rot.getOrigins().get(i));
+        for (int i = 0; i < circles.size(); i++) centroid.add(rot.getOrigins().get(i));
 
-        centroid.multiply(1D / amount);
+        centroid.multiply(1D / circles.size());
 
         double xDiff = toFace.getX() - centroid.getX();
         double yDiff = toFace.getY() - centroid.getY();

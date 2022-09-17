@@ -107,13 +107,10 @@ public class ParticleLine extends ParticleShaper {
     @Override
     public void rotate(double pitch, double yaw, double roll) {
         Location centroid = locationHelper.zero();
-        int amount = locations.size();
 
-        for (Location l : rot.getOrigins()) centroid.add(l);
+        for (int i = 0; i < locations.size(); i++) centroid.add(rot.getOrigins().get(i));
 
-        centroid.setX(centroid.getX() / amount);
-        centroid.setY(centroid.getY() / amount);
-        centroid.setZ(centroid.getZ() / amount);
+        centroid.multiply(1D / locations.size());
         rot.add(pitch, yaw, roll);
         rot.apply(centroid, locations);
     }
@@ -124,6 +121,28 @@ public class ParticleLine extends ParticleShaper {
         rot2.moveOrigins(x, y, z);
 
         for (int i = 0; i < locations.size(); i++) locations.get(i).add(x, y, z);
+    }
+
+    @Override
+    public void face(Location toFace) {
+        Location centroid = locationHelper.zero();
+
+        for (int i = 0; i < locations.size(); i++) centroid.add(rot.getOrigins().get(i));
+
+        centroid.multiply(1D / locations.size());
+
+        double xDiff = toFace.getX() - centroid.getX();
+        double yDiff = toFace.getY() - centroid.getY();
+        double zDiff = toFace.getZ() - centroid.getZ();
+        double distanceXZ = Math.sqrt(xDiff * xDiff + zDiff * zDiff);
+        double distanceY = Math.sqrt(distanceXZ * distanceXZ + yDiff * yDiff);
+        double yaw = Math.toDegrees(Math.acos(xDiff / distanceXZ));
+        double pitch = Math.toDegrees(Math.acos(yDiff / distanceY));
+
+        if (zDiff < 0.0D) yaw += Math.abs(180.0D - yaw) * 2.0D;
+
+        rot.set(pitch, yaw - 90, rot.getRoll());
+        rot.apply(centroid, locations);
     }
 
     public void moveOne(int index, double x, double y, double z) {
