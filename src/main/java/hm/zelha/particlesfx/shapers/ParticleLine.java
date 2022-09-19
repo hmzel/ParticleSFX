@@ -13,6 +13,7 @@ import java.util.List;
 public class ParticleLine extends ParticleShaper {
 
     private final List<Location> locations = new ArrayList<>();
+    private final Location locationHelper2;
 
     public ParticleLine(Particle particle, double frequency, int particlesPerDisplay, Location... locations) {
         super(particle, 0, 0, 0, frequency, particlesPerDisplay);
@@ -20,6 +21,8 @@ public class ParticleLine extends ParticleShaper {
         Validate.isTrue(locations.length >= 2, "Line must have 2 or more locations!");
 
         World world = locations[0].getWorld();
+        locationHelper2 = new Location(world, 0, 0, 0);
+
         locationHelper.setWorld(world);
 
         for (Location l : locations) {
@@ -107,7 +110,7 @@ public class ParticleLine extends ParticleShaper {
 
     @Override
     public void rotate(double pitch, double yaw, double roll) {
-        Location centroid = locationHelper.zero();
+        Location centroid = locationHelper2.zero();
 
         for (int i = 0; i < locations.size(); i++) centroid.add(rot.getOrigins().get(i));
 
@@ -126,7 +129,7 @@ public class ParticleLine extends ParticleShaper {
 
     @Override
     public void face(Location toFace) {
-        Location centroid = locationHelper.zero();
+        Location centroid = locationHelper2.zero();
 
         for (int i = 0; i < locations.size(); i++) centroid.add(rot.getOrigins().get(i));
 
