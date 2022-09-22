@@ -1,28 +1,23 @@
 package hm.zelha.particlesfx.util;
 
 import org.apache.commons.lang3.Validate;
-import org.bukkit.Location;
 
 public class CircleInfo {
 
-    private final RotationHandler rot;
-    private Location center;
+    private final Rotation rot;
+    private LocationS center = null;
     private double xRadius;
     private double zRadius;
 
-    public CircleInfo(Location center, double xRadius, double zRadius, double pitch, double yaw, double roll) {
-        Validate.notNull(center, "Location cannot be null!");
-        Validate.notNull(center.getWorld(), "Location's world cannot be null!");
+    public CircleInfo(LocationS center, double xRadius, double zRadius, double pitch, double yaw, double roll) {
+        setCenter(center);
 
-        this.rot = new RotationHandler(pitch, yaw, roll);
-        this.center = center;
+        this.rot = new Rotation(pitch, yaw, roll);
         this.xRadius = xRadius;
         this.zRadius = zRadius;
-
-        rot.addOrigins(center);
     }
 
-    public CircleInfo(Location center, double xRadius, double zRadius) {
+    public CircleInfo(LocationS center, double xRadius, double zRadius) {
         this(center, xRadius, zRadius, 0, 0, 0);
     }
 
@@ -36,14 +31,17 @@ public class CircleInfo {
 
         center.setWorld(other.getCenter().getWorld());
         center.zero().add(other.getCenter());
-        rot.reset();
         rot.set(other.getPitch(), other.getYaw(), other.getRoll());
-        rot.addOrigins(center);
 
         return this;
     }
 
-    public void setCenter(Location center) {
+    public void setCenter(LocationS center) {
+        Validate.notNull(center, "Location cannot be null!");
+        Validate.notNull(center.getWorld(), "Location's world cannot be null!");
+
+        if (this.center != null) center.setChanged(true);
+
         this.center = center;
     }
 
@@ -67,11 +65,11 @@ public class CircleInfo {
         rot.setRoll(roll);
     }
 
-    public RotationHandler getRotationHandler() {
+    public Rotation getRotation() {
         return rot;
     }
 
-    public Location getCenter() {
+    public LocationS getCenter() {
         return center;
     }
 
