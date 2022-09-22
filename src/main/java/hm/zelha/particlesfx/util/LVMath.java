@@ -3,7 +3,7 @@ package hm.zelha.particlesfx.util;
 import org.bukkit.Location;
 import org.bukkit.util.Vector;
 
-/** location & vector math utils for cleaner code */
+/** location & vector math utils for cleaner code, not meant to be used outside ParticleSFX internals */
 public final class LVMath {
 
     private LVMath() {
@@ -28,9 +28,13 @@ public final class LVMath {
     }
 
     public static Location additionToLocation(Location toSet, Location toAddTo, Vector addend) {
-        toSet.setX(toAddTo.getX() + addend.getX());
-        toSet.setY(toAddTo.getY() + addend.getY());
-        toSet.setZ(toAddTo.getZ() + addend.getZ());
+        if (toSet instanceof LocationS) {
+            ((LocationS) toSet).setUnsafely(toAddTo.getX() + addend.getX(), toAddTo.getY() + addend.getY(), toAddTo.getZ() + addend.getZ());
+        } else {
+            toSet.setX(toAddTo.getX() + addend.getX());
+            toSet.setY(toAddTo.getY() + addend.getY());
+            toSet.setZ(toAddTo.getZ() + addend.getZ());
+        }
 
         return toSet;
     }
