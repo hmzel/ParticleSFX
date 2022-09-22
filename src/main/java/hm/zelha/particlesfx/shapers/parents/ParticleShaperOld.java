@@ -2,12 +2,11 @@ package hm.zelha.particlesfx.shapers.parents;
 
 import hm.zelha.particlesfx.Main;
 import hm.zelha.particlesfx.particles.parents.Particle;
-import hm.zelha.particlesfx.util.RotationHandler;
+import hm.zelha.particlesfx.util.RotationHandlerOld;
 import hm.zelha.particlesfx.util.ShapeDisplayMechanic;
 import org.apache.commons.lang3.Validate;
 import org.apache.commons.lang3.tuple.Pair;
 import org.bukkit.Location;
-import org.bukkit.World;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.util.Vector;
@@ -15,28 +14,35 @@ import org.bukkit.util.Vector;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class ParticleShaper extends RotationHandler {
+public abstract class ParticleShaperOld {
 
     protected final List<Pair<Particle, Integer>> secondaryParticles = new ArrayList<>();
     /* its actually more efficient to use a list<pair<>> here instead of a LinkedHashMap, because in order to determine the current particle using
      * that, you have to create a new Iterator and a new LinkedEntrySet every time getCurrentParticle() is called, which could be hundreds of times
      * every tick in normal use cases. whereas with a List<Pair<>> you can just use a for-i loop and the .get(int) method without creating any objects */
+    protected final RotationHandlerOld rot;
+    protected final RotationHandlerOld rot2;
     protected final Location locationHelper = new Location(null, 0, 0, 0);
     protected final Vector vectorHelper = new Vector(0, 0, 0);
     protected BukkitTask animator = null;
     protected ShapeDisplayMechanic mechanic = null;
     protected Particle particle;
-    protected double particleFrequency;
-    protected int particlesPerDisplay = 0;
+    protected double frequency;
+    protected int particlesPerDisplay;
     protected int currentCount = 0;
     protected int overallCount = 0;
 
-    public ParticleShaper(Particle particle, double particleFrequency) {
+    protected ParticleShaperOld(Particle particle, double pitch, double yaw, double roll, double frequency, int particlesPerDisplay) {
         Validate.notNull(particle, "Particle cannot be null!");
-        Validate.isTrue(particleFrequency >= 2.0D, "Frequency cannot be less than 2! if you only want one particle, use Particle.display().");
+        Validate.isTrue(frequency >= 2.0D, "Frequency cannot be less than 2! if you only want one particle, use Particle.display().");
 
         this.particle = particle;
-        this.particleFrequency = particleFrequency;
+        this.rot = new RotationHandlerOld(pitch, yaw, roll);
+        this.rot2 = new RotationHandlerOld();
+        this.frequency = frequency;
+        this.particlesPerDisplay = particlesPerDisplay;
+
+        start();
     }
 
     public void start() {
@@ -58,6 +64,14 @@ public abstract class ParticleShaper extends RotationHandler {
     }
 
     public abstract void display();
+
+    public abstract void rotateAroundLocation(Location around, double pitch, double yaw, double roll);
+
+    public abstract void rotate(double pitch, double yaw, double roll);
+
+    public abstract void move(double x, double y, double z);
+
+    public abstract void face(Location toFace);
 
     protected Particle getCurrentParticle() {
         Particle particle = this.particle;
@@ -93,7 +107,7 @@ public abstract class ParticleShaper extends RotationHandler {
     public void setParticleFrequency(double particleFrequency) {
         Validate.isTrue(particleFrequency > 2.0D, "Frequency cannot be less than 2! if you only want one particle, use Particle.display()");
 
-        this.particleFrequency = particleFrequency;
+        this.frequency = particleFrequency;
     }
 
     /**
@@ -123,18 +137,12 @@ public abstract class ParticleShaper extends RotationHandler {
         this.particlesPerDisplay = particlesPerDisplay;
     }
 
-    @Override
-    public void setWorld(World world) {
-        super.setWorld(world);
-        locationHelper.setWorld(world);
-    }
-
     public Particle getParticle() {
         return particle;
     }
 
     public double getParticleFrequency() {
-        return particleFrequency;
+        return frequency;
     }
 
     public int getParticlesPerDisplay() {
