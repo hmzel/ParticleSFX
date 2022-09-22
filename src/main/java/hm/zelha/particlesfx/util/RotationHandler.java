@@ -1,7 +1,10 @@
 package hm.zelha.particlesfx.util;
 
 import org.apache.commons.lang3.Validate;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.World;
+import org.bukkit.util.NumberConversions;
 import org.bukkit.util.Vector;
 
 import java.util.ArrayList;
@@ -9,177 +12,242 @@ import java.util.List;
 
 public class RotationHandler {
 
-    //TODO:
-    // fix the rotation
-    // back then you shouldve changed the circle, not the rotationhandler
-
+    protected final List<LocationS> locations = new ArrayList<>();
+    protected final List<Location> origins = new ArrayList<>();
+    protected final List<Location> aroundOrigins = new ArrayList<>();
+    protected final Rotation rot = new Rotation();
+    protected final Rotation rot2 = new Rotation();
+    private final Location lastRotatedAround = new Location(Bukkit.getWorld("world"), 0, 0, 0);
+    private final Location centroid = new Location(Bukkit.getWorld("world"), 0, 0, 0);
     private final Vector vectorHelper = new Vector(0, 0, 0);
-    private final double[] oldPitchCosAndSin = {0, 0};
-    private final double[] oldYawCosAndSin = {0, 0};
-    private final double[] oldRollCosAndSin = {0, 0};
-    private List<Location> origins = new ArrayList<>();
-    private double pitch;
-    private double yaw;
-    private double roll;
-    private double oldPitch = 0;
-    private double oldYaw = 0;
-    private double oldRoll = 0;
+    private final double[] arrayHelper = new double[] {0, 0};
 
-    public RotationHandler(double pitch, double yaw, double roll) {
-        this.pitch = pitch;
-        this.yaw = yaw;
-        this.roll = roll;
-    }
+    public void rotate(double pitch, double yaw, double roll) {
+        rot.add(pitch, yaw, roll);
 
-    public RotationHandler() {
-        this(0, 0, 0);
-    }
-
-    public void apply(Location around, List<Location> locations) {
-        Validate.isTrue(locations.size() == origins.size(), "Given locations must mimic stored location origins!");
+        if (locations.size() == 1) return;
 
         for (int i = 0; i < locations.size(); i++) {
-            Location l = origins.get(i);
-            Location l2 = locations.get(i);
-            Vector v = apply(LVMath.subtractToVector(vectorHelper, l, around));
+            if (locations.get(i).isChanged()) {
+                recalculateAllOrigins();
+                break;
+            }
+        }
 
-            LVMath.additionToLocation(l2, around, v);
+        calculateCentroid(origins);
+
+        for (int i = 0; i < locations.size(); i++) {
+            //set vectorHelper to origin - centroid, apply rotation to vectorHelper, set location to centroid + vectorHelper
+            LVMath.additionToLocation(locations.get(i), centroid, rot.apply(LVMath.subtractToVector(vectorHelper, origins.get(i), centroid)));
         }
     }
 
-    public Vector apply(Vector v) {
-        applyPitch(v);
-        applyYaw(v);
-        applyRoll(v);
+    //TODO: make non-circular shapes mimic circular shape behaviour when rotating around a location
+    public void rotateAroundLocation(Location around, double pitch, double yaw, double roll) {
+        Validate.isTrue(around.getWorld().equals(centroid.getWorld()), "Cant rotate around locations in different worlds!");
 
-        return v;
-    }
+        lastRotatedAround.setPitch(around.getPitch());
+        lastRotatedAround.setYaw(around.getYaw());
 
-    public void set(double pitch, double yaw, double roll) {
-        this.pitch = pitch;
-        this.yaw = yaw;
-        this.roll = roll;
-    }
-
-    public void add(double pitch, double yaw, double roll) {
-        this.pitch += pitch;
-        this.yaw += yaw;
-        this.roll += roll;
-    }
-
-    public void reset() {
-        pitch = 0;
-        yaw = 0;
-        roll = 0;
-        origins = new ArrayList<>();
-    }
-
-    public void addOrigins(Location... locations) {
-        for (Location l : locations) origins.add(l.clone());
-    }
-
-    public void removeOrigin(int index) {
-        origins.remove(index);
-    }
-
-    public void moveOrigins(double x, double y, double z) {
-        for (Location l : origins) l.add(x, y, z);
-    }
-
-    public void applyPitch(Vector v) {
-        if (pitch == 0) return;
-
-        double y, z, cos, sin, angle;
-
-        if (pitch != oldPitch) {
-            angle = Math.toRadians(pitch);
-            cos = Math.cos(angle);
-            sin = Math.sin(angle);
-            oldPitchCosAndSin[0] = cos;
-            oldPitchCosAndSin[1] = sin;
-            oldPitch = pitch;
-        } else {
-            cos = oldPitchCosAndSin[0];
-            sin = oldPitchCosAndSin[1];
+        for (int i = 0; i < locations.size(); i++) {
+            if (locations.get(i).isChanged()) {
+                if (!around.equals(lastRotatedAround)) lastRotatedAround.zero().add(around);
+                if (locations.size() != 1) recalculateAllOrigins(); else recalculateAroundOrigins();
+                break;
+            }
         }
 
-        y = v.getY() * cos - v.getZ() * sin;
-        z = v.getY() * sin + v.getZ() * cos;
-
-        v.setY(y).setZ(z);
-    }
-
-    public void applyYaw(Vector v) {
-        if (yaw == 0) return;
-
-        double x, z, cos, sin, angle;
-
-        if (yaw != oldYaw) {
-            angle = Math.toRadians(-yaw);
-            cos = Math.cos(angle);
-            sin = Math.sin(angle);
-            oldYawCosAndSin[0] = cos;
-            oldYawCosAndSin[1] = sin;
-            oldYaw = yaw;
-        } else {
-            cos = oldYawCosAndSin[0];
-            sin = oldYawCosAndSin[1];
+        if (!around.equals(lastRotatedAround)) {
+            lastRotatedAround.zero().add(around);
+            recalculateAroundOrigins();
         }
 
-        x = v.getX() * cos + v.getZ() * sin;
-        z = v.getX() * -sin + v.getZ() * cos;
+        rot2.add(pitch, yaw, roll);
 
-        v.setX(x).setZ(z);
-    }
-
-    public void applyRoll(Vector v) {
-        if (roll == 0) return;
-
-        double x, y, cos, sin, angle;
-
-        if (roll != oldRoll) {
-            angle = Math.toRadians(roll);
-            cos = Math.cos(angle);
-            sin = Math.sin(angle);
-            oldRollCosAndSin[0] = cos;
-            oldRollCosAndSin[1] = sin;
-            oldRoll = roll;
-        } else {
-            cos = oldRollCosAndSin[0];
-            sin = oldRollCosAndSin[1];
+        for (int i = 0; i < locations.size(); i++) {
+            //set vectorHelper to around origin - around, apply rotation to vectorHelper, set location to around + vectorHelper
+            LVMath.additionToLocation(locations.get(i), around, rot2.apply(LVMath.subtractToVector(vectorHelper, aroundOrigins.get(i), around)));
         }
 
-        x = v.getX() * cos - v.getY() * sin;
-        y = v.getX() * sin + v.getY() * cos;
+        if (locations.size() == 1) return;
 
-        v.setX(x).setY(y);
+        for (int i = 0; i < locations.size(); i++) {
+            //set vectorHelper to around origin - around, apply rotation to vectorHelper, set origin to around + vectorHelper
+            LVMath.additionToLocation(origins.get(i), around, rot2.apply(LVMath.subtractToVector(vectorHelper, aroundOrigins.get(i), around)));
+        }
+    }
+
+    public void face(Location toFace) {
+        if (locations.size() == 1) centroid.zero().add(locations.get(0)); else calculateCentroid(origins);
+
+        //best way to avoid duplicate code
+        double[] direction = getDirection(toFace, centroid);
+
+        rotate(direction[0] - rot.getPitch(), direction[1] - rot.getYaw(), 0);
+    }
+
+    public void faceAroundLocation(Location toFace, Location around) {
+        //best way to avoid duplicate code
+        double[] direction = getDirection(toFace, around);
+
+        rotateAroundLocation(around, direction[0] - rot2.getPitch(), direction[1] - rot2.getYaw(), 0);
+    }
+
+    public void move(double x, double y, double z) {
+        for (int i = 0; i < locations.size(); i++) locations.get(i).add(x, y, z);
+    }
+
+    public void move(Vector vector) {
+        for (int i = 0; i < locations.size(); i++) locations.get(i).add(vector);
+    }
+
+    public void move(Location location) {
+        for (int i = 0; i < locations.size(); i++) locations.get(i).add(location);
+    }
+
+    private double[] getDirection(Location toFace, Location around) {
+        LVMath.subtractToVector(vectorHelper, toFace, around);
+
+        //i genuinely have no bloody clue why this works. if anyone sees this and understands what the heck this is please tell me im very curious
+        //(code stolen from Location.setDirection(Vector) and condensed according to my code conventions)
+        //i also have to subtract 90 from pitch to make it work correctly? idk whats with that either
+        double pitch = Math.toDegrees(Math.atan(-vectorHelper.getY() / Math.sqrt(NumberConversions.square(vectorHelper.getX()) + NumberConversions.square(vectorHelper.getZ())))) - 90;
+        double yaw = Math.toDegrees((Math.atan2(-vectorHelper.getX(), vectorHelper.getZ()) + (Math.PI * 2)) % (Math.PI * 2));
+
+        arrayHelper[0] = pitch;
+        arrayHelper[1] = yaw;
+
+        return arrayHelper;
+    }
+
+    private void recalculateAllOrigins() {
+        //need to set both origins to what they would be if the rotation was 0, 0, 0
+        //aka, inverse the current rotation for rot, apply it to all locations, and set that as the origin for rot
+        //then we inverse the rotation for rot2, apply that to rot's origins using the last rotated around location,
+        //and set that as the origins for rot2
+        Rotation rotHelper = LocationS.getRotHelper();
+
+        rotHelper.set(-rot.getPitch(), -rot.getYaw(), -rot.getRoll());
+        calculateCentroid(locations);
+
+        for (int i3 = 0; i3 < locations.size(); i3++) {
+            Vector v = LVMath.subtractToVector(vectorHelper, locations.get(i3), centroid);
+
+            rotHelper.applyRoll(v);
+            rotHelper.applyYaw(v);
+            rotHelper.applyPitch(v);
+
+            LVMath.additionToLocation(origins.get(i3), centroid, v);
+        }
+
+        recalculateAroundOrigins();
+    }
+
+    private void recalculateAroundOrigins() {
+        //inverse the rotation for rot2, apply that to rot's origins using the last rotated around location,
+        //and set that as the origins for rot2
+        Rotation rotHelper = LocationS.getRotHelper();
+
+        rotHelper.set(-rot2.getPitch(), -rot2.getYaw(), -rot2.getRoll());
+
+        for (int i3 = 0; i3 < locations.size(); i3++) {
+            locations.get(i3).setChanged(false);
+
+            Vector v = LVMath.subtractToVector(vectorHelper, ((locations.size() != 1) ? origins.get(i3) : locations.get(i3)), lastRotatedAround);
+
+            rotHelper.applyRoll(v);
+            rotHelper.applyYaw(v);
+            rotHelper.applyPitch(v);
+
+            LVMath.additionToLocation(aroundOrigins.get(i3), lastRotatedAround, v);
+        }
+    }
+
+    private void calculateCentroid(List<? extends Location> locations) {
+        centroid.zero();
+
+        for (int i3 = 0; i3 < locations.size(); i3++) centroid.add(locations.get(i3));
+
+        centroid.multiply(1d / locations.size());
+    }
+
+    public void setWorld(World world) {
+        lastRotatedAround.setWorld(world);
+        centroid.setWorld(world);
+
+        for (int i = 0; i < locations.size(); i++) {
+            locations.get(i).setWorld(world);
+
+            if (origins.size() > i) origins.get(i).setWorld(world);
+
+            aroundOrigins.get(i).setWorld(world);
+        }
     }
 
     public void setPitch(double pitch) {
-        this.pitch = pitch;
+        rot.setPitch(pitch);
+        rotate(0, 0, 0);
     }
 
     public void setYaw(double yaw) {
-        this.yaw = yaw;
+        rot.setYaw(yaw);
+        rotate(0, 0, 0);
     }
 
     public void setRoll(double roll) {
-        this.roll = roll;
+        rot.setRoll(roll);
+        rotate(0, 0, 0);
+    }
+
+    public void setAroundPitch(double pitch) {
+        rot2.setPitch(pitch);
+        rotateAroundLocation(lastRotatedAround, 0, 0, 0);
+    }
+
+    public void setAroundYaw(double yaw) {
+        rot2.setYaw(yaw);
+        rotateAroundLocation(lastRotatedAround, 0, 0, 0);
+    }
+
+    public void setAroundRoll(double roll) {
+        rot2.setRoll(roll);
+        rotateAroundLocation(lastRotatedAround, 0, 0, 0);
     }
 
     public double getPitch() {
-        return pitch;
+        return rot.getPitch();
     }
 
     public double getYaw() {
-        return yaw;
+        return rot.getYaw();
     }
 
     public double getRoll() {
-        return roll;
+        return rot.getRoll();
     }
 
-    public List<Location> getOrigins() {
-        return origins;
+    public double getAroundPitch() {
+        return rot2.getPitch();
+    }
+
+    public double getAroundYaw() {
+        return rot2.getYaw();
+    }
+
+    public double getAroundRoll() {
+        return rot2.getRoll();
+    }
+
+    public int getLocationAmount() {
+        return locations.size();
+    }
+
+    public double getTotalDistance() {
+        double dist = 0;
+
+        //adding the distance between every circle to dist
+        for (int i = 0; i < locations.size() - 1; i++) dist += locations.get(i).distance(locations.get(i + 1));
+
+        return  dist;
     }
 }
