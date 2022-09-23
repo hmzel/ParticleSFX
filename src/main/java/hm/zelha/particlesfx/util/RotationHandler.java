@@ -106,13 +106,22 @@ public class RotationHandler {
     }
 
     private double[] getDirection(Location toFace, Location around) {
+        Validate.isTrue(toFace.getWorld().equals(around.getWorld()), "Locations must be in the same world!");
+
         LVMath.subtractToVector(vectorHelper, toFace, around);
 
         //i genuinely have no bloody clue why this works. if anyone sees this and understands what the heck this is please tell me im very curious
         //(code stolen from Location.setDirection(Vector) and condensed according to my code conventions)
-        //i also have to subtract 90 from pitch to make it work correctly? idk whats with that either
-        double pitch = Math.toDegrees(Math.atan(-vectorHelper.getY() / Math.sqrt(NumberConversions.square(vectorHelper.getX()) + NumberConversions.square(vectorHelper.getZ())))) - 90;
+        double pitch = Math.toDegrees(Math.atan(-vectorHelper.getY() / Math.sqrt(NumberConversions.square(vectorHelper.getX()) + NumberConversions.square(vectorHelper.getZ()))));
         double yaw = Math.toDegrees((Math.atan2(-vectorHelper.getX(), vectorHelper.getZ()) + (Math.PI * 2)) % (Math.PI * 2));
+
+        if (around.equals(centroid)) {
+            pitch -= 90;
+        } else {
+            calculateCentroid(aroundOrigins);
+
+            if (centroid.getY() > around.getY()) pitch += 90; else pitch -= 90;
+        }
 
         arrayHelper[0] = pitch;
         arrayHelper[1] = yaw;
@@ -130,14 +139,14 @@ public class RotationHandler {
         rotHelper.set(-rot.getPitch(), -rot.getYaw(), -rot.getRoll());
         calculateCentroid(locations);
 
-        for (int i3 = 0; i3 < locations.size(); i3++) {
-            Vector v = LVMath.subtractToVector(vectorHelper, locations.get(i3), centroid);
+        for (int i = 0; i < locations.size(); i++) {
+            Vector v = LVMath.subtractToVector(vectorHelper, locations.get(i), centroid);
 
             rotHelper.applyRoll(v);
             rotHelper.applyYaw(v);
             rotHelper.applyPitch(v);
 
-            LVMath.additionToLocation(origins.get(i3), centroid, v);
+            LVMath.additionToLocation(origins.get(i), centroid, v);
         }
 
         recalculateAroundOrigins();
@@ -150,23 +159,23 @@ public class RotationHandler {
 
         rotHelper.set(-rot2.getPitch(), -rot2.getYaw(), -rot2.getRoll());
 
-        for (int i3 = 0; i3 < locations.size(); i3++) {
-            locations.get(i3).setChanged(false);
+        for (int i = 0; i < locations.size(); i++) {
+            locations.get(i).setChanged(false);
 
-            Vector v = LVMath.subtractToVector(vectorHelper, ((locations.size() != 1) ? origins.get(i3) : locations.get(i3)), lastRotatedAround);
+            Vector v = LVMath.subtractToVector(vectorHelper, ((locations.size() != 1) ? origins.get(i) : locations.get(i)), lastRotatedAround);
 
             rotHelper.applyRoll(v);
             rotHelper.applyYaw(v);
             rotHelper.applyPitch(v);
 
-            LVMath.additionToLocation(aroundOrigins.get(i3), lastRotatedAround, v);
+            LVMath.additionToLocation(aroundOrigins.get(i), lastRotatedAround, v);
         }
     }
 
     private void calculateCentroid(List<? extends Location> locations) {
         centroid.zero();
 
-        for (int i3 = 0; i3 < locations.size(); i3++) centroid.add(locations.get(i3));
+        for (int i = 0; i < locations.size(); i++) centroid.add(locations.get(i));
 
         centroid.multiply(1d / locations.size());
     }
