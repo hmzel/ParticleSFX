@@ -19,6 +19,7 @@ public class RotationHandler {
     protected final Rotation rot2 = new Rotation();
     private final Location lastRotatedAround = new Location(Bukkit.getWorld("world"), 0, 0, 0);
     private final Location centroid = new Location(Bukkit.getWorld("world"), 0, 0, 0);
+    private final Location locationHelper = new Location(Bukkit.getWorld("world"), 0, 0, 0);
     private final Vector vectorHelper = new Vector(0, 0, 0);
     private final double[] arrayHelper = new double[] {0, 0};
 
@@ -44,7 +45,6 @@ public class RotationHandler {
         }
     }
 
-    //TODO: make non-circular shapes mimic circular shape behaviour when rotating around a location
     public void rotateAroundLocation(Location around, double pitch, double yaw, double roll) {
         Validate.isTrue(around.getWorld().equals(centroid.getWorld()), "Cant rotate around locations in different worlds!");
 
@@ -64,18 +64,22 @@ public class RotationHandler {
             recalculateAroundOrigins();
         }
 
-        rot2.add(pitch, yaw, roll);
-
-        for (int i = 0; i < locations.size(); i++) {
-            //set vectorHelper to around origin - around, apply rotation to vectorHelper, set location to around + vectorHelper
-            LVMath.additionToLocation(locations.get(i), around, rot2.apply(LVMath.subtractToVector(vectorHelper, aroundOrigins.get(i), around)));
+        if (locations.size() == 1) {
+            //literally just rotating the one location this line makes it seem more complicated than it is
+            LVMath.additionToLocation(locations.get(0), around, rot2.apply(LVMath.subtractToVector(vectorHelper, around, aroundOrigins.get(0))));
+            return;
         }
 
-        if (locations.size() == 1) return;
+        calculateCentroid(aroundOrigins);
+        rot2.add(pitch, yaw, roll);
+        //getting distance between origin centroid and around, rotating it, and adding it to around to get the genuine location
+        LVMath.additionToLocation(locationHelper, around, rot2.apply(LVMath.subtractToVector(vectorHelper, centroid, around)));
+        calculateCentroid(origins);
 
         for (int i = 0; i < locations.size(); i++) {
-            //set vectorHelper to around origin - around, apply rotation to vectorHelper, set origin to around + vectorHelper
-            LVMath.additionToLocation(origins.get(i), around, rot2.apply(LVMath.subtractToVector(vectorHelper, aroundOrigins.get(i), around)));
+            //getting the distance between the centroid and the location, adding that to the rotated centroid, and setting that as the location
+            LVMath.additionToLocation(locations.get(i), locationHelper, LVMath.subtractToVector(vectorHelper, locations.get(i), centroid));
+            LVMath.additionToLocation(origins.get(i), locationHelper, LVMath.subtractToVector(vectorHelper, origins.get(i), centroid));
         }
     }
 
@@ -155,22 +159,26 @@ public class RotationHandler {
     }
 
     private void recalculateAroundOrigins() {
-        //inverse the rotation for rot2, apply that to rot's origins using the last rotated around location,
-        //and set that as the origins for rot2
+        //get origin centroid, set vectorHelper to the distance between centroid and lastRotatedAround, rotate vectorHelper by the
+        //inverse of rot2, set locationHelper to lastRotatedAround + vectorHelper to get the genuine rotated centroid, set all aroundOrigins to
+        //the rotated centroid + the distance between the origin centroid and origin locations
         Rotation rotHelper = LocationS.getRotHelper();
 
+        if (locations.size() == 1) centroid.zero().add(locations.get(0)); else calculateCentroid(origins);
+
         rotHelper.set(-rot2.getPitch(), -rot2.getYaw(), -rot2.getRoll());
+        LVMath.subtractToVector(vectorHelper, centroid, lastRotatedAround);
+        rotHelper.applyRoll(vectorHelper);
+        rotHelper.applyYaw(vectorHelper);
+        rotHelper.applyPitch(vectorHelper);
+        LVMath.additionToLocation(locationHelper, lastRotatedAround, vectorHelper);
 
         for (int i = 0; i < locations.size(); i++) {
+            Location origin = (locations.size() == 1) ? locations.get(0) : origins.get(i);
+
             locations.get(i).setChanged(false);
-
-            Vector v = LVMath.subtractToVector(vectorHelper, ((locations.size() != 1) ? origins.get(i) : locations.get(i)), lastRotatedAround);
-
-            rotHelper.applyRoll(v);
-            rotHelper.applyYaw(v);
-            rotHelper.applyPitch(v);
-
-            LVMath.additionToLocation(aroundOrigins.get(i), lastRotatedAround, v);
+            //getting the distance between the centroid and the location, adding that to the rotated centroid, and setting that as the location
+            LVMath.additionToLocation(aroundOrigins.get(i), locationHelper, LVMath.subtractToVector(vectorHelper, origin, centroid));
         }
     }
 
@@ -185,6 +193,7 @@ public class RotationHandler {
     public void setWorld(World world) {
         lastRotatedAround.setWorld(world);
         centroid.setWorld(world);
+        locationHelper.setWorld(world);
 
         for (int i = 0; i < locations.size(); i++) {
             locations.get(i).setWorld(world);
