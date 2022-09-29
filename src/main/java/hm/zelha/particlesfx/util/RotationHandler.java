@@ -270,4 +270,12 @@ public class RotationHandler {
 
         return  dist;
     }
+
+    public Location getCenter() {
+        Location l = new Location(centroid.getWorld(), 0, 0, 0);
+
+        for (int i = 0; i < locations.size(); i++) l.add(locations.get(i));
+
+        return l.multiply(1d / locations.size());
+    }
 }
