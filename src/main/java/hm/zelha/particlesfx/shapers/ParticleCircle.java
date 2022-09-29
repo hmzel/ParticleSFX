@@ -15,12 +15,11 @@ public class ParticleCircle extends ParticleShaper {
     public ParticleCircle(Particle particle, LocationS center, double xRadius, double zRadius, double pitch, double yaw, double roll, double particleFrequency) {
         super(particle, particleFrequency);
 
-        setCenter(center);
-        rot.set(pitch, yaw, roll);
-
         this.xRadius = xRadius;
         this.zRadius = zRadius;
 
+        setCenter(center);
+        rot.set(pitch, yaw, roll);
         start();
     }
 
@@ -72,7 +71,7 @@ public class ParticleCircle extends ParticleShaper {
         Validate.notNull(center, "Location cannot be null!");
         Validate.notNull(center.getWorld(), "Location's world cannot be null!");
 
-        if (locations.size() != 0 && (rot2.getPitch() != 0 || rot2.getYaw() != 0 || rot2.getRoll() != 0)) {
+        if (rot2.getPitch() + rot2.getYaw() + rot2.getRoll() != 0) {
             center.setChanged(true);
         }
 

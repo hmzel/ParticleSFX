@@ -28,13 +28,10 @@ public class ParticleCylinder extends ParticleShaper {
 
         Validate.isTrue(circles != null && circles.length >= 2, "Array must contain 2 or more CircleInfos!");
 
-        World world = circles[0].getCenter().getWorld();
-
-        setCircleFrequency(circleFrequency);
-        setWorld(world);
-
         for (CircleInfo circle : circles) addCircle(circle);
 
+        setCircleFrequency(circleFrequency);
+        setWorld(this.circles.get(0).getCenter().getWorld());
         start();
     }
 
@@ -114,11 +111,6 @@ public class ParticleCylinder extends ParticleShaper {
         if (getPitch() + getYaw() + getRoll() + getAroundPitch() + getAroundYaw() + getAroundRoll() != 0) {
             circle.getCenter().setChanged(true);
         }
-
-        circles.add(circle);
-        locations.add(circle.getCenter());
-        origins.add(circle.getCenter().cloneToLocation());
-        aroundOrigins.add(circle.getCenter().cloneToLocation());
     }
 
     public void removeCircle(int index) {
