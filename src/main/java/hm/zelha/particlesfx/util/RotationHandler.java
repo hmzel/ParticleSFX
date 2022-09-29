@@ -23,9 +23,10 @@ public class RotationHandler {
     private final double[] arrayHelper = new double[] {0, 0};
 
     public void rotate(double pitch, double yaw, double roll) {
-        rot.add(pitch, yaw, roll);
-
-        if (locations.size() == 1) return;
+        if (locations.size() == 1) {
+            rot.add(pitch, yaw, roll);
+            return;
+        }
 
         for (int i = 0; i < locations.size(); i++) {
             if (locations.get(i).isChanged()) {
@@ -34,6 +35,7 @@ public class RotationHandler {
             }
         }
 
+        rot.add(pitch, yaw, roll);
         calculateCentroid(origins);
 
         for (int i = 0; i < locations.size(); i++) {
