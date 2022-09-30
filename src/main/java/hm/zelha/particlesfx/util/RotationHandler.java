@@ -266,8 +266,6 @@ public class RotationHandler {
     }
 
     public double getTotalDistance() {
-        if (locations.size() == 1) return 0;
-
         double dist = 0;
 
         //adding the distance between every circle to dist

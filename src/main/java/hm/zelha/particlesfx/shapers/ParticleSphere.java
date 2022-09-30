@@ -2,18 +2,19 @@ package hm.zelha.particlesfx.shapers;
 
 import hm.zelha.particlesfx.particles.parents.Particle;
 import hm.zelha.particlesfx.shapers.parents.ParticleShaper;
+import hm.zelha.particlesfx.util.LocationS;
 import org.apache.commons.lang3.Validate;
 import org.bukkit.Location;
-import org.bukkit.util.Vector;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class ParticleSphere extends ParticleShaper {
 
-    private final List<Double> listHelper = new ArrayList<>();
-    private Location center;
+    //maybe make this extend ParticleCircle at some point? that makes sense but doesnt at the same time so idrk. decide later
+
+    //circumference tracker
+    private final List<Double> cirTracker = new ArrayList<>();
     private double xRadius;
     private double yRadius;
     private double zRadius;
@@ -21,21 +22,18 @@ public class ParticleSphere extends ParticleShaper {
     private double totalArea = 0;
     private boolean recalculate = true;
 
-    public ParticleSphere(Particle particle, Location center, double xRadius, double yRadius, double zRadius, double pitch, double yaw, double roll, int circleFrequency, double particleFrequency, int particlesPerDisplay) {
-        super(particle, pitch, yaw, roll, particleFrequency, particlesPerDisplay);
+    public ParticleSphere(Particle particle, LocationS center, double xRadius, double yRadius, double zRadius, double pitch, double yaw, double roll, int circleFrequency, double particleFrequency) {
+        super(particle, particleFrequency);
 
-        Validate.isTrue(circleFrequency >= 3, "You cant have a sphere with only 2 points!");
-        Validate.isTrue(circleFrequency <= particleFrequency, "You can't have more circles than particles!");
-        Validate.notNull(center, "Location cannot be null!");
-        Validate.notNull(center.getWorld(), "Location's world cannot be null!");
-        locationHelper.setWorld(center.getWorld());
-        rot2.addOrigins(center);
+        setCenter(center);
+        setCircleFrequency(circleFrequency);
+        rot.set(pitch, yaw, roll);
 
-        this.center = center;
         this.xRadius = xRadius;
         this.yRadius = yRadius;
         this.zRadius = zRadius;
-        this.circleFrequency = circleFrequency;
+
+        start();
     }
 
     @Override
@@ -44,7 +42,7 @@ public class ParticleSphere extends ParticleShaper {
         double continuation = 0;
 
         if (recalculate) {
-            listHelper.clear();
+            cirTracker.clear();
 
             totalArea = 0;
 
@@ -64,7 +62,7 @@ public class ParticleSphere extends ParticleShaper {
                     circumference = Math.PI * 2 * Math.sqrt((Math.pow(x, 2) + Math.pow(z, 2)) / 2);
                 }
 
-                listHelper.add(circumference);
+                cirTracker.add(circumference);
                 totalArea += circumference;
 
                 if (i == Math.PI) {
@@ -78,7 +76,7 @@ public class ParticleSphere extends ParticleShaper {
             if (i > Math.PI - 3.5897932384626433832795028841972e-9) i = Math.PI;
 
             double curve = Math.sin(i);
-            double increase = (Math.PI * 2) / Math.floor(frequency * (listHelper.get(current) / totalArea));
+            double increase = (Math.PI * 2) / Math.floor(particleFrequency * (cirTracker.get(current) / totalArea));
 
             if (!Double.isFinite(increase)) increase = Math.PI * 2;
 
@@ -92,7 +90,7 @@ public class ParticleSphere extends ParticleShaper {
                 vectorHelper.setY(yRadius * Math.cos(i));
                 vectorHelper.setZ(Math.sin(radian) * (zRadius * curve));
                 rot.apply(vectorHelper);
-                locationHelper.zero().add(center);
+                locationHelper.zero().add(locations.get(0));
                 getCurrentParticle().display(locationHelper.add(vectorHelper));
             }
 
@@ -102,40 +100,19 @@ public class ParticleSphere extends ParticleShaper {
         }
     }
 
-    @Override
-    public void rotateAroundLocation(Location around, double pitch, double yaw, double roll) {
-        rot2.add(pitch, yaw, roll);
-        rot2.apply(around, Collections.singletonList(center));
-    }
+    public void setCenter(LocationS center) {
+        Validate.notNull(center, "Location cannot be null!");
+        Validate.notNull(center.getWorld(), "Location's world cannot be null!");
 
-    @Override
-    public void rotate(double pitch, double yaw, double roll) {
-        rot.add(pitch, yaw, roll);
-    }
+        if (rot2.getPitch() + rot2.getYaw() + rot2.getRoll() != 0) {
+            center.setChanged(true);
+        }
 
-    @Override
-    public void move(double x, double y, double z) {
-        center.add(new Vector(x, y, z));
-    }
-
-    @Override
-    public void face(Location toFace) {
-        double xDiff = toFace.getX() - center.getX();
-        double yDiff = toFace.getY() - center.getY();
-        double zDiff = toFace.getZ() - center.getZ();
-        double distanceXZ = Math.sqrt(xDiff * xDiff + zDiff * zDiff);
-        double distanceY = Math.sqrt(distanceXZ * distanceXZ + yDiff * yDiff);
-        double yaw = Math.toDegrees(Math.acos(xDiff / distanceXZ));
-        double pitch = Math.toDegrees(Math.acos(yDiff / distanceY));
-
-        if (zDiff < 0.0D) yaw += Math.abs(180.0D - yaw) * 2.0D;
-
-        setPitch(pitch);
-        setYaw(yaw - 90);
-    }
-
-    public void setCenter(Location center) {
-        this.center = center;
+        locations.clear();
+        aroundOrigins.clear();
+        locations.add(center);
+        aroundOrigins.add(center.cloneToLocation());
+        setWorld(center.getWorld());
     }
 
     public void setxRadius(double xRadius) {
@@ -152,28 +129,16 @@ public class ParticleSphere extends ParticleShaper {
         recalculate = true;
     }
 
-    public void setPitch(double pitch) {
-        rot.setPitch(pitch);
-    }
-
-    public void setYaw(double yaw) {
-        rot.setYaw(yaw);
-    }
-
-    public void setRoll(double roll) {
-        rot.setRoll(roll);
-    }
-
     public void setCircleFrequency(double circleFrequency) {
         Validate.isTrue(circleFrequency >= 3, "You cant have a sphere with only 2 points!");
-        Validate.isTrue(circleFrequency <= frequency, "You can't have more circles than particles!");
+        Validate.isTrue(circleFrequency <= particleFrequency, "You can't have more circles than particles!");
 
         this.circleFrequency = circleFrequency;
         recalculate = true;
     }
 
     public Location getCenter() {
-        return center;
+        return locations.get(0);
     }
 
     public double getxRadius() {
@@ -188,90 +153,7 @@ public class ParticleSphere extends ParticleShaper {
         return zRadius;
     }
 
-    public double getPitch() {
-        return rot.getPitch();
-    }
-
-    public double getYaw() {
-        return rot.getYaw();
-    }
-
-    public double getRoll() {
-        return rot.getRoll();
-    }
-
     public double getCircleFrequency() {
         return circleFrequency;
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//        @Override
-//    public void display() {
-//        int total = 0;
-//        int current = 0;
-//        double totalV = 0;
-//
-//        for (double i = 0; true; i += Math.PI / (circleFrequency - 1)) {
-//            if (i > Math.PI - 3.5897932384626433832795028841972e-9) i = Math.PI;
-//
-//            //starts at 0, goes to 1 at half of Math.PI, then goes back down to 0 at Math.PI
-//            //idk what to call the variables surrounding this but that explains it right?
-//            listHelper.add(((i <= Math.PI * 0.5) ? i / (Math.PI * 0.5) : (((Math.PI * 0.5) - (i - (Math.PI * 0.5))) / (Math.PI * 0.5))));
-//
-//            if (i == Math.PI) break;
-//        }
-//
-//        for (int i = 0; i < listHelper.size(); i++) totalV += listHelper.get(i);
-//        for (int i = 0; i < listHelper.size(); i++) listHelper.set(i, listHelper.get(i) / (totalV / 2));
-//
-//        for (double i = 0; true; i += Math.PI / (circleFrequency - 1)) {
-//            //i <3 double inconsistency
-//            if (i > Math.PI - 3.5897932384626433832795028841972e-9) i = Math.PI;
-//
-//            double curve = Math.sin(i);
-//            double increase = (Math.PI * 2) / Math.round(frequency * (listHelper.get(current) * 0.5));
-//
-//            if (!Double.isFinite(increase)) increase = Math.PI * 2;
-//
-//            System.out.println(increase);
-//
-//            for (double radian = 0; radian < Math.PI * 2; radian += increase) {//freq is inconsistent because this starts at 0
-//                vectorHelper.setX(Math.cos(radian) * (xRadius * curve));
-//                vectorHelper.setY(yRadius * Math.cos(i));
-//                vectorHelper.setZ(Math.sin(radian) * (zRadius * curve));
-//                rot.apply(vectorHelper);
-//                locationHelper.zero().add(center);
-//                getCurrentParticle().display(locationHelper.add(vectorHelper));
-//
-//                total++;
-//            }
-//
-//            if (i == Math.PI) break;
-//
-//            current++;
-//        }
-//
-//        listHelper.clear();
-//        System.out.println(total);
-//    }
