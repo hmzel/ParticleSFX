@@ -12,6 +12,8 @@ import java.util.List;
 
 public class RotationHandler {
 
+    //TODO: replace aroundOrigins with originalCentroid (one location)
+
     protected final List<LocationS> locations = new ArrayList<>();
     protected final List<Location> origins = new ArrayList<>();
     protected final List<Location> aroundOrigins = new ArrayList<>();
@@ -64,6 +66,8 @@ public class RotationHandler {
             recalculateAroundOrigins();
         }
 
+        rot2.add(pitch, yaw, roll);
+
         if (locations.size() == 1) {
             //literally just rotating the one location this line makes it seem more complicated than it is
             LVMath.additionToLocation(locations.get(0), around, rot2.apply(LVMath.subtractToVector(vectorHelper, around, aroundOrigins.get(0))));
@@ -71,7 +75,6 @@ public class RotationHandler {
         }
 
         calculateCentroid(aroundOrigins);
-        rot2.add(pitch, yaw, roll);
         //getting distance between origin centroid and around, rotating it, and adding it to around to get the genuine location
         LVMath.additionToLocation(locationHelper, around, rot2.apply(LVMath.subtractToVector(vectorHelper, centroid, around)));
         calculateCentroid(origins);
@@ -263,15 +266,17 @@ public class RotationHandler {
     }
 
     public double getTotalDistance() {
+        if (locations.size() == 1) return 0;
+
         double dist = 0;
 
         //adding the distance between every circle to dist
         for (int i = 0; i < locations.size() - 1; i++) dist += locations.get(i).distance(locations.get(i + 1));
 
-        return  dist;
+        return dist;
     }
 
-    public Location getCenter() {
+    public Location getClonedCenter() {
         Location l = new Location(centroid.getWorld(), 0, 0, 0);
 
         for (int i = 0; i < locations.size(); i++) l.add(locations.get(i));
