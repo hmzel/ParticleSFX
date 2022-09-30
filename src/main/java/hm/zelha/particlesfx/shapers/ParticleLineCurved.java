@@ -1,67 +1,37 @@
 package hm.zelha.particlesfx.shapers;
 
 import hm.zelha.particlesfx.particles.parents.Particle;
-import hm.zelha.particlesfx.shapers.parents.ParticleShaper;
 import hm.zelha.particlesfx.util.CurveInfo;
 import hm.zelha.particlesfx.util.LVMath;
-import hm.zelha.particlesfx.util.RotationHandler;
-import org.apache.commons.lang3.Validate;
+import hm.zelha.particlesfx.util.LocationS;
+import hm.zelha.particlesfx.util.Rotation;
 import org.bukkit.Location;
-import org.bukkit.World;
+import org.bukkit.util.NumberConversions;
 import org.bukkit.util.Vector;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ParticleLineCurved extends ParticleShaper {
+public class ParticleLineCurved extends ParticleLine {
 
-    //TODO:
-    // make this class extend ParticleLine instead of ParticleShaper and reduce code accordingly
+    //TODO: make curve rotation stuff less jank
 
-    private final List<Location> locations = new ArrayList<>();
     private final List<CurveInfo> curves = new ArrayList<>();
-    private final List<double[]> linePitchAndYaw = new ArrayList<>();
-    private final RotationHandler rot3 = new RotationHandler(0, 0, 0);
+    private final Rotation rot3 = new Rotation();
     private final Vector vectorHelper2 = new Vector(0, 0, 0);
+    private final Vector vectorHelper3 = new Vector(0, 0, 0);
+    private List<Double[]> linePitchAndYaw;
 
-    public ParticleLineCurved(Particle particle, double frequency, int particlesPerDisplay, Location... locations) {
-        super(particle, 0, 0, 0, frequency, particlesPerDisplay);
-
-        Validate.isTrue(locations.length >= 2, "Line must have 2 or more locations!");
-
-        World world = locations[0].getWorld();
-        locationHelper.setWorld(world);
-
-        for (int i = 0; i < locations.length; i++) {
-            Location l = locations[i];
-
-            Validate.isTrue(l.getWorld() != null, "Locations cannot have null worlds!");
-            Validate.isTrue(l.getWorld().equals(world), "Locations cannot have different worlds!");
-
-            this.locations.add(l);
-
-            if (i < locations.length - 1) {
-                linePitchAndYaw.add(calculateLinePitch(l, locations[i + 1]));
-            }
-        }
-
-        rot.addOrigins(locations);
-        rot2.addOrigins(locations);
+    public ParticleLineCurved(Particle particle, double frequency, LocationS... locations) {
+        super(particle, frequency, locations);
+        recalculateAllLinesPitchAndYaw();
     }
 
-    public ParticleLineCurved(Particle particle, int particlesPerDisplay, Location... locations) {
-        this(particle, 50, particlesPerDisplay, locations);
+    public ParticleLineCurved(Particle particle, LocationS... locationS) {
+        this(particle, 100, locationS);
     }
 
-    public ParticleLineCurved(Particle particle, double frequency, Location... locations) {
-        this(particle, frequency, 0, locations);
-    }
-
-    public ParticleLineCurved(Particle particle, Location... locations) {
-        this(particle, 50, 0, locations);
-    }
-
-    //TODO: make this thread-safe
+    //TODO: make this thread-safe (and improve?)
     @Override
     public void display() {
         int curveIndex = 0;
@@ -82,7 +52,7 @@ public class ParticleLineCurved extends ParticleShaper {
             Location start = locations.get(i);
             Location end = locations.get(i + 1);
             double distance = start.distance(end);
-            double control = (distance / frequency) * locations.size();
+            double control = (distance / particleFrequency) * locations.size();
 
             if (trackCount && overallCount >= estimatedOverallCount + (distance / control)) {
                 estimatedOverallCount += distance / control;
@@ -104,12 +74,12 @@ public class ParticleLineCurved extends ParticleShaper {
             }
 
             locationHelper.zero().add(start);
-            LVMath.subtractToVector(vectorHelper, end, start).normalize().multiply(control);
+            LVMath.subtractToVector(vectorHelper3, end, start).normalize().multiply(control);
 
             if (trackCount) {
                 current = overallCount - estimatedOverallCount;
 
-                locationHelper.add(vectorHelper.getX() * current, vectorHelper.getY() * current, vectorHelper.getZ() * current);
+                locationHelper.add(vectorHelper3.getX() * current, vectorHelper3.getY() * current, vectorHelper3.getZ() * current);
                 curveCurrent += control * current;
 
                 while (curveCurrent >= curveEnd) {
@@ -130,10 +100,10 @@ public class ParticleLineCurved extends ParticleShaper {
             }
 
             for (double length = control * current; length <= distance; length += control) {
-                if (mechanic != null) mechanic.apply(particle, locationHelper, vectorHelper);
+                if (mechanic != null) mechanic.apply(particle, locationHelper, vectorHelper3);
 
                 vectorHelper2.zero();
-                locationHelper.add(vectorHelper);
+                locationHelper.add(vectorHelper3);
 
                 curveCurrent += control;
 
@@ -192,108 +162,72 @@ public class ParticleLineCurved extends ParticleShaper {
     }
 
     @Override
-    public void rotateAroundLocation(Location around, double pitch, double yaw, double roll) {
-        rot2.add(pitch, yaw, roll);
-        rot2.apply(around, locations);
-        rot2.apply(around, rot.getOrigins());
-
-        //TODO: improve this when you fix RotationHandler
-        for (int i = 0; i < linePitchAndYaw.size(); i++) {
-            linePitchAndYaw.set(i, calculateLinePitch(locations.get(i), locations.get(i + 1)));
-        }
-    }
-
-    @Override
     public void rotate(double pitch, double yaw, double roll) {
-        Location centroid = locationHelper.zero();
-        int amount = locations.size();
-
-        for (Location l : rot.getOrigins()) centroid.add(l);
-
-        centroid.setX(centroid.getX() / amount);
-        centroid.setY(centroid.getY() / amount);
-        centroid.setZ(centroid.getZ() / amount);
-        rot.add(pitch, yaw, roll);
-        rot.apply(centroid, locations);
-
-        //TODO: improve this when you fix RotationHandler
-        for (int i = 0; i < linePitchAndYaw.size(); i++) {
-            linePitchAndYaw.set(i, calculateLinePitch(locations.get(i), locations.get(i + 1)));
-        }
+        super.rotate(pitch, yaw, roll);
+        recalculateAllLinesPitchAndYaw();
     }
 
     @Override
-    public void move(double x, double y, double z) {
-        rot.moveOrigins(x, y, z);
-        rot2.moveOrigins(x, y, z);
-
-        for (int i = 0; i < locations.size(); i++) locations.get(i).add(x, y, z);
+    public void rotateAroundLocation(Location around, double pitch, double yaw, double roll) {
+        super.rotateAroundLocation(around, pitch, yaw, roll);
+        recalculateAllLinesPitchAndYaw();
     }
 
     @Override
     public void face(Location toFace) {
-        Location centroid = locationHelper.zero();
+        super.face(toFace);
+        recalculateAllLinesPitchAndYaw();
+    }
 
-        for (int i = 0; i < locations.size(); i++) centroid.add(rot.getOrigins().get(i));
+    @Override
+    public void faceAroundLocation(Location toFace, Location around) {
+        super.faceAroundLocation(toFace, around);
+        recalculateAllLinesPitchAndYaw();
+    }
 
-        centroid.multiply(1D / locations.size());
-
-        double xDiff = toFace.getX() - centroid.getX();
-        double yDiff = toFace.getY() - centroid.getY();
-        double zDiff = toFace.getZ() - centroid.getZ();
-        double distanceXZ = Math.sqrt(xDiff * xDiff + zDiff * zDiff);
-        double distanceY = Math.sqrt(distanceXZ * distanceXZ + yDiff * yDiff);
-        double yaw = Math.toDegrees(Math.acos(xDiff / distanceXZ));
-        double pitch = Math.toDegrees(Math.acos(yDiff / distanceY));
-
-        if (zDiff < 0.0D) yaw += Math.abs(180.0D - yaw) * 2.0D;
-
-        rot.set(pitch, yaw - 90, rot.getRoll());
-        rot.apply(centroid, locations);
-
-        //TODO: improve this when you fix RotationHandler
-        for (int i = 0; i < linePitchAndYaw.size(); i++) {
-            linePitchAndYaw.set(i, calculateLinePitch(locations.get(i), locations.get(i + 1)));
+    //TODO: improve this
+    private void recalculateAllLinesPitchAndYaw() {
+        for (int i = 0; i < locations.size() - 2; i++) {
+            linePitchAndYaw.set(i, calculateLinePitchAndYaw(locations.get(i), locations.get(i + 1)));
         }
     }
 
-    public void moveOne(int index, double x, double y, double z) {
-        rot.getOrigins().get(index).add(x, y, z);
-        rot2.getOrigins().get(index).add(x, y, z);
-        locations.get(index).add(x, y, z);
+    private Double[] calculateLinePitchAndYaw(Location start, Location end) {
+        LVMath.subtractToVector(vectorHelper, end, start);
 
-        if (index - 1 >= 0) linePitchAndYaw.set(index - 1, calculateLinePitch(locations.get(index - 1), locations.get(index)));
+        //i genuinely have no bloody clue why this works. if anyone sees this and understands what the heck this is please tell me im very curious
+        //(code stolen from Location.setDirection(Vector) and condensed according to my code conventions)
+        double pitch = Math.toDegrees(Math.atan(-vectorHelper.getY() / Math.sqrt(NumberConversions.square(vectorHelper.getX()) + NumberConversions.square(vectorHelper.getZ()))));
+        double yaw = Math.toDegrees((Math.atan2(-vectorHelper.getX(), vectorHelper.getZ()) + (Math.PI * 2)) % (Math.PI * 2));
 
-        linePitchAndYaw.set(index, calculateLinePitch(locations.get(index), locations.get(index + 1)));
+        return new Double[] {Math.abs(pitch), yaw};
     }
 
-    private double[] calculateLinePitch(Location start, Location end) {
-        double xDiff = end.getX() - start.getX();
-        double yDiff = end.getY() - start.getY();
-        double zDiff = end.getZ() - start.getZ();
-        double distanceXZ = Math.sqrt(xDiff * xDiff + zDiff * zDiff);
-        double distanceY = Math.sqrt(distanceXZ * distanceXZ + yDiff * yDiff);
-        double pitch = Math.abs(Math.toDegrees(Math.acos(yDiff / distanceY)) - 90.0D);
-        double yaw = Math.toDegrees(Math.acos(xDiff / distanceXZ));
+    @Override
+    public void addLocation(LocationS location) {
+        super.addLocation(location);
 
-        if (zDiff < 0.0D) yaw += Math.abs(180.0D - yaw) * 2.0D;
-        if (!Double.isFinite(yaw)) yaw = 0;
+        //this method is called in ParticleLine's constructor, and at that point linePitchAndYaw hasnt been initialized yet. have to do it here
+        if (linePitchAndYaw == null) linePitchAndYaw = new ArrayList<>();
 
-        return new double[] {pitch, yaw};
-    }
+        if (locations.size() >= 2) {
+            linePitchAndYaw.add(calculateLinePitchAndYaw(locations.get(locations.size() - 2), locations.get(locations.size() - 1)));
+        }
 
-    public void addLocation(Location location) {
-        Validate.isTrue(location.getWorld().equals(locations.get(0).getWorld()), "Locations cannot have different worlds!");
+        int i = locations.size() - 1;
 
-        rot.addOrigins(location);
-        rot2.addOrigins(location);
-        locations.add(location);
-        linePitchAndYaw.add(calculateLinePitch(locations.get(locations.size() - 2), locations.get(locations.size() - 1)));
+        location.setMechanic((l) -> {
+            if (i != 0) {
+                linePitchAndYaw.set(i - 1, calculateLinePitchAndYaw(locations.get(i - 1), l));
+            }
+
+            if (locations.size() > i + 1) {
+                linePitchAndYaw.set(i, calculateLinePitchAndYaw(l, locations.get(i + 1)));
+            }
+        });
     }
 
     public void addCurve(CurveInfo curve) {
-        Validate.isTrue(curve.getLength() <= getTotalDistance(), "Length must be less than or equal to the total distance of the line!");
-
         curves.add(curve);
     }
 
@@ -301,24 +235,17 @@ public class ParticleLineCurved extends ParticleShaper {
         return curves.get(index);
     }
 
+    @Override
     public void removeLocation(int index) {
-        rot.removeOrigin(index);
-        rot2.removeOrigin(index);
-        locations.remove(index);
+        super.removeLocation(index);
         linePitchAndYaw.remove(index);
-        linePitchAndYaw.set(index, calculateLinePitch(locations.get(index), locations.get(index + 1)));
+
+        if (locations.size() != index) {
+            linePitchAndYaw.set(index - 1, calculateLinePitchAndYaw(locations.get(index - 1), locations.get(index)));
+        }
     }
 
     public void removeCurve(int index) {
         curves.remove(index);
-    }
-
-    public double getTotalDistance() {
-        double dist = 0;
-
-        //adding the distance between every circle to dist
-        for (int i = 0; i < locations.size() - 1; i++) dist += locations.get(i).distance(locations.get(i + 1));
-
-        return  dist;
     }
 }
