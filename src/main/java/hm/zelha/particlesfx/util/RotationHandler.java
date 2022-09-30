@@ -70,7 +70,7 @@ public class RotationHandler {
 
         if (locations.size() == 1) {
             //literally just rotating the one location this line makes it seem more complicated than it is
-            LVMath.additionToLocation(locations.get(0), around, rot2.apply(LVMath.subtractToVector(vectorHelper, around, aroundOrigins.get(0))));
+            LVMath.additionToLocation(locations.get(0), around, rot2.apply(LVMath.subtractToVector(vectorHelper, aroundOrigins.get(0), around)));
             return;
         }
 
