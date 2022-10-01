@@ -4,80 +4,62 @@ import hm.zelha.particlesfx.particles.parents.Particle;
 import hm.zelha.particlesfx.shapers.parents.ParticleShaper;
 import hm.zelha.particlesfx.util.CircleInfo;
 import hm.zelha.particlesfx.util.LVMath;
-import hm.zelha.particlesfx.util.RotationHandler;
+import hm.zelha.particlesfx.util.LocationS;
+import hm.zelha.particlesfx.util.Rotation;
 import org.apache.commons.lang3.Validate;
-import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.util.Vector;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class ParticleSpiral extends ParticleShaper {
 
+    //TODO: make spin equal between all circles
+
     private final List<CircleInfo> circles = new ArrayList<>();
-    private final List<Location> locations = new ArrayList<>();
     private final Vector vectorHelper2 = new Vector(0, 0, 0);
-    private final Location locationHelper2 = new Location(null, 0, 0, 0);
     private final CircleInfo circleHelper;
     private double spin;
     private int count;
 
-    public ParticleSpiral(Particle particle, double spin, int count, double frequency, int particlesPerDisplay, CircleInfo... circles) {
-        super(particle, 0, 0, 0, frequency, particlesPerDisplay);
+    public ParticleSpiral(Particle particle, double spin, int count, double particleFrequency, CircleInfo... circles) {
+        super(particle, particleFrequency);
 
-        Validate.isTrue(count != 0, "Count cant be 0 or less!");
         Validate.isTrue(circles != null && circles.length >= 2, "Array must contain 2 or more CircleInfos!");
 
-        World world = circles[0].getCenter().getWorld();
+        setCount(count);
+        setSpin(spin);
 
-        for (CircleInfo circle : circles) {
-            Validate.notNull(circle, "Circles cant be null!");
-            Validate.isTrue(circle.getCenter().getWorld().equals(world), "Circle's worlds must be the same!");
-            locations.add(circle.getCenter());
-            rot.addOrigins(circle.getCenter());
-            rot2.addOrigins(circle.getCenter());
-        }
+        for (int i = 0; i < circles.length; i++) addCircle(circles[i]);
 
-        this.circles.addAll(Arrays.asList(circles));
-        locationHelper.setWorld(world);
-        locationHelper2.setWorld(world);
+        this.circleHelper = this.circles.get(0).clone();
 
-        this.circleHelper = circles[0].clone();
-        this.spin = spin;
-        this.count = count;
-    }
-
-    public ParticleSpiral(Particle particle, double spin, int count, double frequency, CircleInfo... extraCircles) {
-        this(particle, spin, count, frequency, 0, extraCircles);
-    }
-
-    public ParticleSpiral(Particle particle, double spin, int count, int particlesPerDisplay, CircleInfo... extraCircles) {
-        this(particle, spin, count, 100, particlesPerDisplay, extraCircles);
+        setWorld(circles[0].getCenter().getWorld());
+        start();
     }
 
     public ParticleSpiral(Particle particle, double spin, int count, CircleInfo... extraCircles) {
-        this(particle, spin, count, 100, 0, extraCircles);
+        this(particle, spin, count, 100, extraCircles);
     }
 
     public ParticleSpiral(Particle particle, double spin, CircleInfo... extraCircles) {
-        this(particle, spin, 1, 100, 0, extraCircles);
+        this(particle, spin, 1, 100, extraCircles);
     }
 
     public ParticleSpiral(Particle particle, int count, CircleInfo... extraCircles) {
-        this(particle, 1, count, 100, 0, extraCircles);
+        this(particle, 1, count, 100, extraCircles);
     }
 
     public ParticleSpiral(Particle particle, CircleInfo... extraCircles) {
-        this(particle, 1, 1, 100, 0, extraCircles);
+        this(particle, 1, extraCircles.length, 100, extraCircles);
     }
 
     @Override
     public void display() {
         //used to avoid potential cases of dividing by zero without adding a bunch of if statements
         //ex: (((distance / frequency) * count) * circles.size()) is the same as (distance * control)
-        double control = ((1 / frequency) * count) * circles.size();
+        double control = ((1 / particleFrequency) * count) * circles.size();
         double endRotation = (Math.PI * 2) * (spin / (circles.size() - 1));
         double increase = endRotation * control;
 
@@ -85,7 +67,7 @@ public class ParticleSpiral extends ParticleShaper {
         for (int i = 0; i < circles.size() - 1; i++) {
             CircleInfo circle1 = circles.get(i);
             CircleInfo circle2 = circles.get(i + 1);
-            RotationHandler rot = circleHelper.getRotationHandler();
+            Rotation rot = circleHelper.getRotation();
             //adding (((Math.PI * 2) / count) * c) makes it so each spiral is evenly spaced
             double start = (endRotation * i) + (((Math.PI * 2) / count) * c);
             double end = (endRotation * (i + 1)) + (((Math.PI * 2) / count) * c);
@@ -114,68 +96,34 @@ public class ParticleSpiral extends ParticleShaper {
         }
     }
 
-    @Override
-    public void rotateAroundLocation(Location around, double pitch, double yaw, double roll) {
-        rot2.add(pitch, yaw, roll);
-        rot2.apply(around, locations);
-        rot2.apply(around, rot.getOrigins());
-    }
-
-    @Override
-    public void rotate(double pitch, double yaw, double roll) {
-        Location centroid = locationHelper2.zero();
-
-        for (int i = 0; i < circles.size(); i++) centroid.add(rot.getOrigins().get(i));
-
-        centroid.multiply(1D / circles.size());
-        rot.add(pitch, yaw, roll);
-        rot.apply(centroid, locations);
-    }
-
-    @Override
-    public void move(double x, double y, double z) {
-        rot.moveOrigins(x, y, z);
-        rot2.moveOrigins(x, y, z);
-
-        for (Location l : locations) l.add(x, y, z);
-    }
-
-    @Override
-    public void face(Location toFace) {
-        Location centroid = locationHelper2.zero();
-
-        for (int i = 0; i < circles.size(); i++) centroid.add(rot.getOrigins().get(i));
-
-        centroid.multiply(1D / circles.size());
-
-        double xDiff = toFace.getX() - centroid.getX();
-        double yDiff = toFace.getY() - centroid.getY();
-        double zDiff = toFace.getZ() - centroid.getZ();
-        double distanceXZ = Math.sqrt(xDiff * xDiff + zDiff * zDiff);
-        double distanceY = Math.sqrt(distanceXZ * distanceXZ + yDiff * yDiff);
-        double yaw = Math.toDegrees(Math.acos(xDiff / distanceXZ));
-        double pitch = Math.toDegrees(Math.acos(yDiff / distanceY));
-
-        if (zDiff < 0.0D) yaw += Math.abs(180.0D - yaw) * 2.0D;
-
-        rot.set(pitch, yaw - 90, rot.getRoll());
-        rot.apply(centroid, locations);
-    }
-
     public void addCircle(CircleInfo circle) {
         Validate.notNull(circle, "Circles cant be null!");
-        Validate.isTrue(circle.getCenter().getWorld().equals(circles.get(0).getCenter().getWorld()), "Circle's worlds must be the same!");
+
+        if (circles.size() != 0) {
+            Validate.isTrue(circle.getCenter().getWorld().equals(circles.get(0).getCenter().getWorld()), "Circle's worlds must be the same!");
+        }
+
         circles.add(circle);
-        locations.add(circle.getCenter());
-        rot.addOrigins(circle.getCenter());
-        rot2.addOrigins(circle.getCenter());
+        locations.add((LocationS) circle.getCenter());
+        origins.add(((LocationS) circle.getCenter()).cloneToLocation());
+        aroundOrigins.add(((LocationS) circle.getCenter()).cloneToLocation());
+
+        if (getPitch() + getYaw() + getRoll() + getAroundPitch() + getAroundYaw() + getAroundRoll() != 0) {
+            ((LocationS) circle.getCenter()).setChanged(true);
+        }
     }
 
     public void removeCircle(int index) {
+        Validate.isTrue(circles.size() - 1 >= 2, "List must contain 2 or more CircleInfos!");
+
         circles.remove(index);
         locations.remove(index);
-        rot.removeOrigin(index);
-        rot2.removeOrigin(index);
+        origins.remove(index);
+        aroundOrigins.remove(index);
+
+        if (getPitch() + getYaw() + getRoll() + getAroundPitch() + getAroundYaw() + getAroundRoll() != 0) {
+            locations.get(0).setChanged(true);
+        }
     }
 
     public CircleInfo getCircle(int index) {
@@ -190,11 +138,19 @@ public class ParticleSpiral extends ParticleShaper {
         return count;
     }
 
+    @Override
+    public void setWorld(World world) {
+        super.setWorld(world);
+        circleHelper.getCenter().setWorld(world);
+    }
+
     public void setSpin(double spin) {
         this.spin = spin;
     }
 
     public void setCount(int count) {
+        Validate.isTrue(count > 0, "Count cant be 0 or less!");
+
         this.count = count;
     }
 }
