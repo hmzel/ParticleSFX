@@ -23,7 +23,7 @@ public class LocationS extends Location {
     }
 
     /**
-     * only meant to be used in {@link RotationHandlerOld}, use at own risk
+     * only meant to be used in {@link RotationHandler}, use at own risk
      */
     public void setUnsafely(double x, double y, double z) {
         super.setX(x);
