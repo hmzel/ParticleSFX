@@ -36,6 +36,14 @@ public class ParticleSphere extends ParticleShaper {
         start();
     }
 
+    public ParticleSphere(Particle particle, LocationS center, double xRadius, double yRadius, double zRadius, int circleFrequency, double particleFrequency) {
+        this(particle, center, xRadius, yRadius, zRadius, 0, 0, 0, circleFrequency, particleFrequency);
+    }
+
+    public ParticleSphere(Particle particle, LocationS center, double xRadius, double yRadius, double zRadius, double particleFrequency) {
+        this(particle, center, xRadius, yRadius, zRadius, 0, 0, 0, (int) (particleFrequency / 20), particleFrequency);
+    }
+
     @Override
     public void display() {
         int current = 0;
