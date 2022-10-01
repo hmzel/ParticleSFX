@@ -19,6 +19,7 @@ public class ParticleSpiral extends ParticleShaper {
 
     private final List<CircleInfo> circles = new ArrayList<>();
     private final Vector vectorHelper2 = new Vector(0, 0, 0);
+    private final Rotation rotHelper = new Rotation();
     private final CircleInfo circleHelper;
     private double spin;
     private int count;
@@ -67,7 +68,6 @@ public class ParticleSpiral extends ParticleShaper {
         for (int i = 0; i < circles.size() - 1; i++) {
             CircleInfo circle1 = circles.get(i);
             CircleInfo circle2 = circles.get(i + 1);
-            Rotation rot = circleHelper.getRotation();
             //adding (((Math.PI * 2) / count) * c) makes it so each spiral is evenly spaced
             double start = (endRotation * i) + (((Math.PI * 2) / count) * c);
             double end = (endRotation * (i + 1)) + (((Math.PI * 2) / count) * c);
@@ -82,18 +82,25 @@ public class ParticleSpiral extends ParticleShaper {
             //setting vectorHelper to (end - start).normalize() * (distance * control)
             LVMath.subtractToVector(vectorHelper, circle2.getCenter(), circle1.getCenter()).normalize().multiply(circle1.getCenter().distance(circle2.getCenter()) * control);
             circleHelper.inherit(circle1);
+            rotHelper.set(circleHelper.getPitch(), circleHelper.getYaw(), circleHelper.getRoll());
 
             for (double radian = start; ((spin > 0) ? radian < end : radian > end); radian += increase) {
                 //setting vectorHelper2 to where the current particle should be in correlation to the current circle's center (locationHelper)
-                rot.apply(vectorHelper2.setX(circleHelper.getXRadius() * Math.cos(radian)).setY(0).setZ(circleHelper.getZRadius() * Math.sin(radian)));
+                rotHelper.apply(vectorHelper2.setX(circleHelper.getXRadius() * Math.cos(radian)).setY(0).setZ(circleHelper.getZRadius() * Math.sin(radian)));
                 getCurrentParticle().display(locationHelper.add(vectorHelper2));
                 circleHelper.getCenter().add(vectorHelper);
                 circleHelper.setXRadius(circleHelper.getXRadius() + xRadiusInc);
                 circleHelper.setZRadius(circleHelper.getZRadius() + zRadiusInc);
-                rot.add(pitchInc, yawInc, rollInc);
+                rotHelper.add(pitchInc, yawInc, rollInc);
                 locationHelper.zero().add(circleHelper.getCenter());
             }
         }
+    }
+
+    @Override
+    public void rotate(double pitch, double yaw, double roll) {
+        super.rotate(pitch, yaw, roll);
+
     }
 
     public void addCircle(CircleInfo circle) {

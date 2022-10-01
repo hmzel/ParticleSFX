@@ -5,15 +5,19 @@ import org.bukkit.Location;
 
 public class CircleInfo {
 
-    private final Rotation rot;
     private LocationS center = null;
+    private double pitch;
+    private double yaw;
+    private double roll;
     private double xRadius;
     private double zRadius;
 
     public CircleInfo(LocationS center, double xRadius, double zRadius, double pitch, double yaw, double roll) {
         setCenter(center);
 
-        this.rot = new Rotation(pitch, yaw, roll);
+        this.pitch = pitch;
+        this.yaw = yaw;
+        this.roll = roll;
         this.xRadius = xRadius;
         this.zRadius = zRadius;
     }
@@ -23,16 +27,18 @@ public class CircleInfo {
     }
 
     public CircleInfo clone() {
-        return new CircleInfo(center.clone(), xRadius, zRadius, rot.getPitch(), rot.getYaw(), rot.getRoll());
+        return new CircleInfo(center.clone(), xRadius, zRadius, pitch, yaw, roll);
     }
 
     public CircleInfo inherit(CircleInfo other) {
         this.xRadius = other.getXRadius();
         this.zRadius = other.getZRadius();
+        this.pitch = other.pitch;
+        this.yaw = other.yaw;
+        this.roll = other.roll;
 
         center.setWorld(other.getCenter().getWorld());
         center.zero().add(other.getCenter());
-        rot.set(other.getPitch(), other.getYaw(), other.getRoll());
 
         return this;
     }
@@ -55,19 +61,15 @@ public class CircleInfo {
     }
 
     public void setPitch(double pitch) {
-        rot.setPitch(pitch);
+        this.pitch = pitch;
     }
 
     public void setYaw(double yaw) {
-        rot.setYaw(yaw);
+        this.yaw = yaw;
     }
 
     public void setRoll(double roll) {
-        rot.setRoll(roll);
-    }
-
-    public Rotation getRotation() {
-        return rot;
+        this.roll = roll;
     }
 
     public Location getCenter() {
@@ -83,14 +85,14 @@ public class CircleInfo {
     }
 
     public double getPitch() {
-        return rot.getPitch();
+        return pitch;
     }
 
     public double getYaw() {
-        return rot.getYaw();
+        return yaw;
     }
 
     public double getRoll() {
-        return rot.getRoll();
+        return roll;
     }
 }
