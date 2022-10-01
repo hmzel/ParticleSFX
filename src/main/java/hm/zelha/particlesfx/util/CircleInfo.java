@@ -1,6 +1,7 @@
 package hm.zelha.particlesfx.util;
 
 import org.apache.commons.lang3.Validate;
+import org.bukkit.Location;
 
 public class CircleInfo {
 
@@ -69,7 +70,7 @@ public class CircleInfo {
         return rot;
     }
 
-    public LocationS getCenter() {
+    public Location getCenter() {
         return center;
     }
 

@@ -108,8 +108,13 @@ public class ParticleCylinder extends ParticleShaper {
             Validate.isTrue(circle.getCenter().getWorld().equals(circles.get(0).getCenter().getWorld()), "Circle's worlds must be the same!");
         }
 
+        circles.add(circle);
+        locations.add((LocationS) circle.getCenter());
+        origins.add(((LocationS) circle.getCenter()).cloneToLocation());
+        aroundOrigins.add(((LocationS) circle.getCenter()).cloneToLocation());
+
         if (getPitch() + getYaw() + getRoll() + getAroundPitch() + getAroundYaw() + getAroundRoll() != 0) {
-            circle.getCenter().setChanged(true);
+            ((LocationS) circle.getCenter()).setChanged(true);
         }
     }
 
