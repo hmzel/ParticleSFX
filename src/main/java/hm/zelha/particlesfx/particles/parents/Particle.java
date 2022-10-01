@@ -1,7 +1,8 @@
 package hm.zelha.particlesfx.particles.parents;
 
-import hm.zelha.particlesfx.Main;
-import net.minecraft.server.v1_8_R3.*;
+import net.minecraft.server.v1_8_R3.EntityPlayer;
+import net.minecraft.server.v1_8_R3.EnumParticle;
+import net.minecraft.server.v1_8_R3.PacketPlayOutWorldParticles;
 import org.apache.commons.lang3.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.Effect;
@@ -10,12 +11,12 @@ import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
-import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class Particle {
 
     private final Vector vectorHelper = new Vector(0, 0, 0);
-    private final Random rng = Main.getRng();
+    private final ThreadLocalRandom rng = ThreadLocalRandom.current();
     protected final Effect particle;
     protected double offsetX;
     protected double offsetY;
@@ -85,19 +86,13 @@ public class Particle {
     }
 
     /**
-     * generates a random number between -offset and +offset (exactly) using some scary math <p>
+     * generates a random number between -offset and +offset <p>
      * this isnt exactly how its done client-side using the actual packet, but honestly i prefer this because its more controllable
      *
      * @return a vector meant to be added to a location to mimic particle offset
      */
     protected Vector generateFakeOffset() {
-        return vectorHelper.setX(
-                        ((offsetX < 1) ? 0 : rng.nextInt((int) offsetX * 2) - (int) offsetX) + (((offsetX - (int) offsetX <= 0) ? 0 : (rng.nextInt((int) ((offsetX - (int) offsetX) * 200)) - (int) ((offsetX - (int) offsetX) * 100)) / 100D))
-                ).setY(
-                        ((offsetY < 1) ? 0 : rng.nextInt((int) offsetY * 2) - (int) offsetY) + (((offsetY - (int) offsetY <= 0) ? 0 : (rng.nextInt((int) ((offsetY - (int) offsetY) * 200)) - (int) ((offsetY - (int) offsetY) * 100)) / 100D))
-                ).setZ(
-                        ((offsetZ < 1) ? 0 : rng.nextInt((int) offsetZ * 2) - (int) offsetZ) + (((offsetZ - (int) offsetZ <= 0) ? 0 : (rng.nextInt((int) ((offsetZ - (int) offsetZ) * 200)) - (int) ((offsetZ - (int) offsetZ) * 100)) / 100D))
-                );
+        return vectorHelper.setX(rng.nextDouble(offsetX * 2) - offsetX).setY(rng.nextDouble(offsetY * 2) - offsetY).setZ(rng.nextDouble(offsetZ * 2) - offsetZ);
     }
 
     public void setOffsetX(double offsetX) {
