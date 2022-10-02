@@ -37,24 +37,25 @@ public class Particle {
     }
 
     public void display(Location location) {
-        display(location, Bukkit.getOnlinePlayers().toArray(new Player[0]));
-    }
-
-    public void displayForPlayer(Location location, Player player) {
-        display(location, player);
-    }
-
-    public void displayForPlayers(Location location, Player... players) {
         display(location, players);
     }
 
-    protected void display(Location location, Player... players) {
+    public void displayForPlayers(Location location, Player... players) {
+        listHelper.clear();
+
+        for (int i = 0; i < players.length; i++) listHelper.add((CraftPlayer) players[i]);
+
+        display(location, listHelper);
+    }
+
+    protected void display(Location location, List<CraftPlayer> players) {
         Validate.notNull(location, "Location cannot be null!");
         Validate.notNull(location.getWorld(), "World cannot be null!");
 
-        for (Player player : players) {
-            EntityPlayer p = ((CraftPlayer) player).getHandle();
+        for (int i = 0; i < players.size(); i++) {
+            EntityPlayer p = players.get(i).getHandle();
 
+            if (p == null) continue;
             if (!location.getWorld().getName().equals(p.world.getWorld().getName())) continue;
 
             if (radius != 0 && (Math.abs(location.getX() - p.locX) + Math.abs(location.getY() - p.locY) + Math.abs(location.getZ() - p.locZ)) > radius) {

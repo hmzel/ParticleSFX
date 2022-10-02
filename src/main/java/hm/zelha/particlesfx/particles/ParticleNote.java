@@ -5,7 +5,8 @@ import net.minecraft.server.v1_8_R3.*;
 import org.apache.commons.lang3.Validate;
 import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
-import org.bukkit.entity.Player;
+
+import java.util.List;
 
 /**
  * due to how the internal systems work, offset is only useable if the color is NoteColor.RANDOM,
@@ -43,7 +44,7 @@ public class ParticleNote extends Particle{
     }
 
     @Override
-    protected void display(Location location, Player... players) {
+    protected void display(Location location, List<CraftPlayer> players) {
         Validate.notNull(location, "Location cannot be null!");
         Validate.notNull(location.getWorld(), "World cannot be null!");
 
@@ -59,9 +60,10 @@ public class ParticleNote extends Particle{
         }
 
         for (int i = 0; i != count2; i++) {
-            for (Player player : players) {
-                EntityPlayer p = ((CraftPlayer) player).getHandle();
+            for (int i2 = 0; i2 < players.size(); i2++) {
+                EntityPlayer p = players.get(i2).getHandle();
 
+                if (p == null) continue;
                 if (!location.getWorld().getName().equals(p.world.getWorld().getName())) continue;
 
                 if (radius != 0 && (Math.abs(location.getX() - p.locX) + Math.abs(location.getY() - p.locY) + Math.abs(location.getZ() - p.locZ)) > radius) {

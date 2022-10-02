@@ -7,8 +7,9 @@ import net.minecraft.server.v1_8_R3.PacketPlayOutWorldParticles;
 import org.apache.commons.lang3.Validate;
 import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
-import org.bukkit.entity.Player;
 import org.bukkit.material.MaterialData;
+
+import java.util.List;
 
 public class ParticleBlockBreak extends Particle {
 
@@ -64,13 +65,14 @@ public class ParticleBlockBreak extends Particle {
     }
 
     @Override
-    protected void display(Location location, Player... players) {
+    protected void display(Location location, List<CraftPlayer> players) {
         Validate.notNull(location, "Location cannot be null!");
         Validate.notNull(location.getWorld(), "World cannot be null!");
 
-        for (Player player : players) {
-            EntityPlayer p = ((CraftPlayer) player).getHandle();
+        for (int i = 0; i < players.size(); i++) {
+            EntityPlayer p = players.get(i).getHandle();
 
+            if (p == null)
             if (!location.getWorld().getName().equals(p.world.getWorld().getName())) continue;
 
             if (radius != 0 && (Math.abs(location.getX() - p.locX) + Math.abs(location.getY() - p.locY) + Math.abs(location.getZ() - p.locZ)) > radius) {

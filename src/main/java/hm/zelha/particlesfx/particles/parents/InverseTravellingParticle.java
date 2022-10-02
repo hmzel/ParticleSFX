@@ -10,6 +10,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
 import javax.annotation.Nullable;
+import java.util.List;
 
 /** some travelling particles have to be handled differently due to internal minecraft jank */
 public class InverseTravellingParticle extends Particle {
@@ -25,7 +26,7 @@ public class InverseTravellingParticle extends Particle {
     }
 
     @Override
-    protected void display(Location location, Player... players) {
+    protected void display(Location location, List<CraftPlayer> players) {
         Validate.notNull(location, "Location cannot be null!");
         Validate.notNull(location.getWorld(), "World cannot be null!");
 
@@ -63,9 +64,10 @@ public class InverseTravellingParticle extends Particle {
                 trueCount = count;
             }
 
-            for (Player player : players) {
-                EntityPlayer p = ((CraftPlayer) player).getHandle();
+            for (int i2 = 0; i2 < players.size(); i2++) {
+                EntityPlayer p = players.get(i2).getHandle();
 
+                if (p == null) continue;
                 if (!location.getWorld().getName().equals(p.world.getWorld().getName())) continue;
 
                 if (radius != 0 && (Math.abs(location.getX() - p.locX) + Math.abs(location.getY() - p.locY) + Math.abs(location.getZ() - p.locZ)) > radius) {
