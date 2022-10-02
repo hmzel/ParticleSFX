@@ -98,18 +98,6 @@ public class InverseTravellingParticle extends Particle {
         this.velocity = oldVelocity;
     }
 
-    public void displayForPlayer(Location location, Location toGo, Player player) {
-        Location old = this.toGo;
-        Vector oldVelocity = velocity;
-        this.velocity = null;
-        this.toGo = toGo;
-
-        displayForPlayers(location);
-
-        this.toGo = old;
-        this.velocity = oldVelocity;
-    }
-
     public void displayForPlayers(Location location, Location toGo, Player... players) {
         Location old = this.toGo;
         Vector oldVelocity = velocity;
@@ -129,18 +117,6 @@ public class InverseTravellingParticle extends Particle {
         this.velocity = velocity;
 
         display(location);
-
-        this.toGo = oldToGo;
-        this.velocity = old;
-    }
-
-    public void displayForPlayer(Location location, Vector velocity, Player player) {
-        Vector old = this.velocity;
-        Location oldToGo = toGo;
-        this.toGo = null;
-        this.velocity = velocity;
-
-        displayForPlayer(location, player);
 
         this.toGo = oldToGo;
         this.velocity = old;

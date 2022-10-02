@@ -6,14 +6,20 @@ import net.minecraft.server.v1_8_R3.PacketPlayOutWorldParticles;
 import org.apache.commons.lang3.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.craftbukkit.v1_8_R3.CraftServer;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Particle {
 
+    private final List<CraftPlayer> players = ((CraftServer) Bukkit.getServer()).getOnlinePlayers();
+    private final List<CraftPlayer> listHelper = new ArrayList<>();
+    private final ThreadLocalRandom rng = ThreadLocalRandom.current();
     private final Vector vectorHelper = new Vector(0, 0, 0);
     private final ThreadLocalRandom rng = ThreadLocalRandom.current();
     protected final EnumParticle particle;
