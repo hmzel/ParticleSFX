@@ -1,5 +1,6 @@
 package hm.zelha.particlesfx.util;
 
+import hm.zelha.particlesfx.shapers.parents.RotationHandler;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.util.Vector;

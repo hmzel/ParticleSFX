@@ -1,5 +1,8 @@
-package hm.zelha.particlesfx.util;
+package hm.zelha.particlesfx.shapers.parents;
 
+import hm.zelha.particlesfx.util.LVMath;
+import hm.zelha.particlesfx.util.LocationS;
+import hm.zelha.particlesfx.util.Rotation;
 import org.apache.commons.lang3.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;

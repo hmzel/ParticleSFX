@@ -97,12 +97,6 @@ public class ParticleSpiral extends ParticleShaper {
         }
     }
 
-    @Override
-    public void rotate(double pitch, double yaw, double roll) {
-        super.rotate(pitch, yaw, roll);
-
-    }
-
     public void addCircle(CircleInfo circle) {
         Validate.notNull(circle, "Circles cant be null!");
 

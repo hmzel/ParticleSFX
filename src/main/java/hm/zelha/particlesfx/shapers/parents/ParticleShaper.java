@@ -2,7 +2,6 @@ package hm.zelha.particlesfx.shapers.parents;
 
 import hm.zelha.particlesfx.Main;
 import hm.zelha.particlesfx.particles.parents.Particle;
-import hm.zelha.particlesfx.util.RotationHandler;
 import hm.zelha.particlesfx.util.ShapeDisplayMechanic;
 import org.apache.commons.lang3.Validate;
 import org.apache.commons.lang3.tuple.Pair;
@@ -15,7 +14,7 @@ import org.bukkit.util.Vector;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class ParticleShaper extends RotationHandler {
+public abstract class ParticleShaper extends RotationHandler implements Shape {
 
     protected final List<Pair<Particle, Integer>> secondaryParticles = new ArrayList<>();
     /* its actually more efficient to use a list<pair<>> here instead of a LinkedHashMap, because in order to determine the current particle using
