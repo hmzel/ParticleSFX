@@ -1,11 +1,11 @@
 package hm.zelha.particlesfx.particles;
 
 import hm.zelha.particlesfx.particles.parents.Particle;
-import org.bukkit.Effect;
+import net.minecraft.server.v1_8_R3.EnumParticle;
 
 public class ParticleDripLava extends Particle {
     public ParticleDripLava(double offsetX, double offsetY, double offsetZ, int count) {
-        super(Effect.LAVADRIP, offsetX, offsetY, offsetZ, 0, count, 0);
+        super(EnumParticle.DRIP_LAVA, offsetX, offsetY, offsetZ, 0, count, 0);
     }
 
     public ParticleDripLava(double offsetX, double offsetY, double offsetZ) {

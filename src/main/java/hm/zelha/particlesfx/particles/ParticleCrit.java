@@ -1,17 +1,17 @@
 package hm.zelha.particlesfx.particles;
 
 import hm.zelha.particlesfx.particles.parents.TravellingParticle;
-import org.bukkit.Effect;
+import net.minecraft.server.v1_8_R3.EnumParticle;
 import org.bukkit.Location;
 import org.bukkit.util.Vector;
 
 public class ParticleCrit extends TravellingParticle {
     public ParticleCrit(Location toGo, double offsetX, double offsetY, double offsetZ, int count) {
-        super(Effect.CRIT, 0.75, null, toGo, offsetX, offsetY, offsetZ, count);
+        super(EnumParticle.CRIT, 0.75, null, toGo, offsetX, offsetY, offsetZ, count);
     }
 
     public ParticleCrit(Vector velocity, double offsetX, double offsetY, double offsetZ, int count) {
-        super(Effect.CRIT, 0.75, velocity, null, offsetX, offsetY, offsetZ, count);
+        super(EnumParticle.CRIT, 0.75, velocity, null, offsetX, offsetY, offsetZ, count);
     }
 
     public ParticleCrit(Location toGo, double offsetX, double offsetY, double offsetZ) {

@@ -1,17 +1,17 @@
 package hm.zelha.particlesfx.particles;
 
 import hm.zelha.particlesfx.particles.parents.TravellingParticle;
-import org.bukkit.Effect;
+import net.minecraft.server.v1_8_R3.EnumParticle;
 import org.bukkit.Location;
 import org.bukkit.util.Vector;
 
 public class ParticleSnowDust extends TravellingParticle {
     public ParticleSnowDust(Location toGo, double offsetX, double offsetY, double offsetZ, int count) {
-        super(Effect.SNOW_SHOVEL, 0.085, null, toGo, offsetX, offsetY, offsetZ, count);
+        super(EnumParticle.SNOW_SHOVEL, 0.085, null, toGo, offsetX, offsetY, offsetZ, count);
     }
 
     public ParticleSnowDust(Vector velocity, double offsetX, double offsetY, double offsetZ, int count) {
-        super(Effect.SNOW_SHOVEL, 0.085, velocity, null, offsetX, offsetY, offsetZ, count);
+        super(EnumParticle.SNOW_SHOVEL, 0.085, velocity, null, offsetX, offsetY, offsetZ, count);
     }
 
     public ParticleSnowDust(Location toGo, double offsetX, double offsetY, double offsetZ) {

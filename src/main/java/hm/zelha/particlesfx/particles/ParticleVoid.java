@@ -1,11 +1,11 @@
 package hm.zelha.particlesfx.particles;
 
 import hm.zelha.particlesfx.particles.parents.Particle;
-import org.bukkit.Effect;
+import net.minecraft.server.v1_8_R3.EnumParticle;
 
 public class ParticleVoid extends Particle {
     public ParticleVoid(double offsetX, double offsetY, double offsetZ, int count) {
-        super(Effect.VOID_FOG, offsetX, offsetY, offsetZ, 0, count, 0);
+        super(EnumParticle.SUSPENDED_DEPTH, offsetX, offsetY, offsetZ, 0, count, 0);
     }
 
     public ParticleVoid(double offsetX, double offsetY, double offsetZ) {

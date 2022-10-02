@@ -1,17 +1,17 @@
 package hm.zelha.particlesfx.particles;
 
 import hm.zelha.particlesfx.particles.parents.InverseTravellingParticle;
-import org.bukkit.Effect;
+import net.minecraft.server.v1_8_R3.EnumParticle;
 import org.bukkit.Location;
 import org.bukkit.util.Vector;
 
 public class ParticleGlyph extends InverseTravellingParticle {
     public ParticleGlyph(Location toGo, double offsetX, double offsetY, double offsetZ, int count) {
-        super(Effect.FLYING_GLYPH, null, toGo, offsetX, offsetY, offsetZ, count);
+        super(EnumParticle.ENCHANTMENT_TABLE, null, toGo, offsetX, offsetY, offsetZ, count);
     }
 
     public ParticleGlyph(Vector velocity, double offsetX, double offsetY, double offsetZ, int count) {
-        super(Effect.FLYING_GLYPH, velocity, null, offsetX, offsetY, offsetZ, count);
+        super(EnumParticle.ENCHANTMENT_TABLE, velocity, null, offsetX, offsetY, offsetZ, count);
     }
 
     public ParticleGlyph(Location toGo, double offsetX, double offsetY, double offsetZ) {

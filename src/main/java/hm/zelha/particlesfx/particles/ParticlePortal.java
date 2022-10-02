@@ -1,17 +1,17 @@
 package hm.zelha.particlesfx.particles;
 
 import hm.zelha.particlesfx.particles.parents.InverseTravellingParticle;
-import org.bukkit.Effect;
+import net.minecraft.server.v1_8_R3.EnumParticle;
 import org.bukkit.Location;
 import org.bukkit.util.Vector;
 
 public class ParticlePortal extends InverseTravellingParticle {
     public ParticlePortal(Location toGo, double offsetX, double offsetY, double offsetZ, int count) {
-        super(Effect.PORTAL, null, toGo, offsetX, offsetY, offsetZ, count);
+        super(EnumParticle.PORTAL, null, toGo, offsetX, offsetY, offsetZ, count);
     }
 
     public ParticlePortal(Vector velocity, double offsetX, double offsetY, double offsetZ, int count) {
-        super(Effect.PORTAL, velocity, null, offsetX, offsetY, offsetZ, count);
+        super(EnumParticle.PORTAL, velocity, null, offsetX, offsetY, offsetZ, count);
     }
 
     public ParticlePortal(Location toGo, double offsetX, double offsetY, double offsetZ) {

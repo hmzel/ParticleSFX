@@ -3,6 +3,7 @@ package hm.zelha.particlesfx.particles;
 import hm.zelha.particlesfx.particles.parents.Particle;
 import net.minecraft.server.v1_8_R3.BlockPosition;
 import net.minecraft.server.v1_8_R3.EntityPlayer;
+import net.minecraft.server.v1_8_R3.EnumParticle;
 import net.minecraft.server.v1_8_R3.PacketPlayOutWorldEvent;
 import org.apache.commons.lang3.Validate;
 import org.bukkit.Effect;
@@ -23,7 +24,7 @@ public class ParticlePotionBreak extends Particle {
     private PotionType type;
 
     public ParticlePotionBreak(PotionType type, int count) {
-        super(Effect.POTION_BREAK, 0, 0, 0, 0, count, 0);
+        super(EnumParticle.HEART, 0, 0, 0, 0, count, 0);
 
         this.type = type;
     }
@@ -57,7 +58,7 @@ public class ParticlePotionBreak extends Particle {
 
                 p.playerConnection.sendPacket(
                         new PacketPlayOutWorldEvent(
-                                particle.getId(), new BlockPosition(location.getBlockX(), location.getBlockY(), location.getBlockZ()),
+                                Effect.POTION_BREAK.getId(), new BlockPosition(location.getBlockX(), location.getBlockY(), location.getBlockZ()),
                                 type.getDamageValue(), false
                         )
                 );

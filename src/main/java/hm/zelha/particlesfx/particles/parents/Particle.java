@@ -5,7 +5,6 @@ import net.minecraft.server.v1_8_R3.EnumParticle;
 import net.minecraft.server.v1_8_R3.PacketPlayOutWorldParticles;
 import org.apache.commons.lang3.Validate;
 import org.bukkit.Bukkit;
-import org.bukkit.Effect;
 import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
@@ -17,7 +16,7 @@ public class Particle {
 
     private final Vector vectorHelper = new Vector(0, 0, 0);
     private final ThreadLocalRandom rng = ThreadLocalRandom.current();
-    protected final Effect particle;
+    protected final EnumParticle particle;
     protected double offsetX;
     protected double offsetY;
     protected double offsetZ;
@@ -25,9 +24,8 @@ public class Particle {
     protected int count;
     protected int radius;
 
-    protected Particle(Effect particle, double offsetX, double offsetY, double offsetZ, double speed, int count, int radius) {
+    protected Particle(EnumParticle particle, double offsetX, double offsetY, double offsetZ, double speed, int count, int radius) {
         Validate.notNull(particle, "Particle cannot be null!");
-        Validate.isTrue(particle.getType() != Effect.Type.SOUND, "Effect must be of Type.PARTICLE or Type.VISUAL!");
 
         this.particle = particle;
         this.offsetX = Math.abs(offsetX);
@@ -54,19 +52,6 @@ public class Particle {
         Validate.notNull(location, "Location cannot be null!");
         Validate.notNull(location.getWorld(), "World cannot be null!");
 
-        EnumParticle nmsParticle = null;
-
-        for (int i = 0; i <= 41; i++) {
-            EnumParticle p = EnumParticle.a(i);
-
-            if (particle.getName().equals(p.b())) {
-                nmsParticle = p;
-                break;
-            }
-        }
-
-        Validate.notNull(nmsParticle, "Something went wrong determining EnumParticle!");
-
         for (Player player : players) {
             EntityPlayer p = ((CraftPlayer) player).getHandle();
 
@@ -78,7 +63,7 @@ public class Particle {
 
             p.playerConnection.sendPacket(
                     new PacketPlayOutWorldParticles(
-                            nmsParticle, true, (float) location.getX(), (float) location.getY(), (float) location.getZ(),
+                            particle, true, (float) location.getX(), (float) location.getY(), (float) location.getZ(),
                             (float) offsetX, (float) offsetY, (float) offsetZ, (float) speed, count
                     )
             );

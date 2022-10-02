@@ -1,11 +1,11 @@
 package hm.zelha.particlesfx.particles;
 
 import hm.zelha.particlesfx.particles.parents.Particle;
-import org.bukkit.Effect;
+import net.minecraft.server.v1_8_R3.EnumParticle;
 
 public class ParticleHeart extends Particle {
     public ParticleHeart(double offsetX, double offsetY, double offsetZ, int count) {
-        super(Effect.HEART, offsetX, offsetY, offsetZ, 1, count, 0);
+        super(EnumParticle.HEART, offsetX, offsetY, offsetZ, 1, count, 0);
     }
 
     public ParticleHeart(double offsetX, double offsetY, double offsetZ) {

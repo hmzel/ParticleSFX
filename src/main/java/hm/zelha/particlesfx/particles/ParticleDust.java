@@ -1,14 +1,14 @@
 package hm.zelha.particlesfx.particles;
 
 import hm.zelha.particlesfx.particles.parents.ColorableParticle;
+import net.minecraft.server.v1_8_R3.EnumParticle;
 import org.bukkit.Color;
-import org.bukkit.Effect;
 
 import javax.annotation.Nullable;
 
 public class ParticleDust extends ColorableParticle {
     public ParticleDust(@Nullable Color color, int brightness, double offsetX, double offsetY, double offsetZ, int count) {
-        super(Effect.COLOURED_DUST, color, brightness, offsetX, offsetY, offsetZ, count);
+        super(EnumParticle.REDSTONE, color, brightness, offsetX, offsetY, offsetZ, count);
     }
 
     public ParticleDust(double offsetX, double offsetY, double offsetZ, int count) {

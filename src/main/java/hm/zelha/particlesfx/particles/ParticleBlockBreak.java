@@ -5,7 +5,6 @@ import net.minecraft.server.v1_8_R3.EntityPlayer;
 import net.minecraft.server.v1_8_R3.EnumParticle;
 import net.minecraft.server.v1_8_R3.PacketPlayOutWorldParticles;
 import org.apache.commons.lang3.Validate;
-import org.bukkit.Effect;
 import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
@@ -16,7 +15,7 @@ public class ParticleBlockBreak extends Particle {
     private MaterialData data;
 
     public ParticleBlockBreak(MaterialData data, double offsetX, double offsetY, double offsetZ, double speed, int count) {
-        super(Effect.TILE_BREAK, offsetX, offsetY, offsetZ, speed, count, 0);
+        super(EnumParticle.BLOCK_CRACK, offsetX, offsetY, offsetZ, speed, count, 0);
 
         Validate.notNull(data, "Data cannot be null!");
         Validate.isTrue(data.getItemTypeId() == -13 || data.getItemType().isBlock(), "Material must be a block!");

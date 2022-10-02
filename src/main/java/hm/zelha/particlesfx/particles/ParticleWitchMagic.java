@@ -1,11 +1,11 @@
 package hm.zelha.particlesfx.particles;
 
 import hm.zelha.particlesfx.particles.parents.Particle;
-import org.bukkit.Effect;
+import net.minecraft.server.v1_8_R3.EnumParticle;
 
 public class ParticleWitchMagic extends Particle {
     public ParticleWitchMagic(double offsetX, double offsetY, double offsetZ, int count) {
-        super(Effect.WITCH_MAGIC, offsetX, offsetY, offsetZ, 1, count, 0);
+        super(EnumParticle.SPELL_WITCH, offsetX, offsetY, offsetZ, 1, count, 0);
     }
 
     public ParticleWitchMagic(double offsetX, double offsetY, double offsetZ) {

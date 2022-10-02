@@ -1,10 +1,11 @@
 package hm.zelha.particlesfx.particles.parents;
 
 import hm.zelha.particlesfx.particles.ParticleDust;
-import net.minecraft.server.v1_8_R3.*;
+import net.minecraft.server.v1_8_R3.EntityPlayer;
+import net.minecraft.server.v1_8_R3.EnumParticle;
+import net.minecraft.server.v1_8_R3.PacketPlayOutWorldParticles;
 import org.apache.commons.lang3.Validate;
 import org.bukkit.Color;
-import org.bukkit.Effect;
 import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
@@ -17,13 +18,11 @@ public class ColorableParticle extends Particle {
     private Color color;
     private int brightness;
 
-    protected ColorableParticle(Effect particle, @Nullable Color color, int brightness, double offsetX, double offsetY, double offsetZ, int count) {
+    protected ColorableParticle(EnumParticle particle, @Nullable Color color, int brightness, double offsetX, double offsetY, double offsetZ, int count) {
         super(particle, offsetX, offsetY, offsetZ, 1, count, 0);
 
-        Validate.isTrue(brightness >= 0 && brightness <= 100, "Brightness must be between 0 and 100!");
-
         this.color = color;
-        this.brightness = brightness;
+        setBrightness(brightness);
     }
 
     @Override
@@ -32,18 +31,6 @@ public class ColorableParticle extends Particle {
         Validate.notNull(location.getWorld(), "World cannot be null!");
 
         int count2 = (color != null) ? count : 1;
-        EnumParticle nmsParticle = null;
-
-        for (int i = 0; i <= 41; i++) {
-            EnumParticle p = EnumParticle.a(i);
-
-            if (particle.getName().equals(p.b())) {
-                nmsParticle = p;
-                break;
-            }
-        }
-
-        Validate.notNull(nmsParticle, "Something went wrong determining EnumParticle!");
 
         for (int i = 0; i != count2; i++) {
             int trueCount = count;
@@ -81,7 +68,7 @@ public class ColorableParticle extends Particle {
 
                 p.playerConnection.sendPacket(
                         new PacketPlayOutWorldParticles(
-                                nmsParticle, true, (float) location.getX(), (float) location.getY(), (float) location.getZ(),
+                                particle, true, (float) location.getX(), (float) location.getY(), (float) location.getZ(),
                                 (float) trueOffsetX, (float) trueOffsetY, (float) trueOffsetZ, (float) trueSpeed, trueCount
                         )
                 );

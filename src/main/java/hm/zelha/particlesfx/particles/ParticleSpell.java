@@ -1,11 +1,11 @@
 package hm.zelha.particlesfx.particles;
 
 import hm.zelha.particlesfx.particles.parents.Particle;
-import org.bukkit.Effect;
+import net.minecraft.server.v1_8_R3.EnumParticle;
 
 public class ParticleSpell extends Particle {
     public ParticleSpell(double offsetX, double offsetY, double offsetZ, int count) {
-        super(Effect.INSTANT_SPELL, offsetX, offsetY, offsetZ, 1, count, 0);
+        super(EnumParticle.SPELL_INSTANT, offsetX, offsetY, offsetZ, 1, count, 0);
     }
 
     public ParticleSpell(double offsetX, double offsetY, double offsetZ) {

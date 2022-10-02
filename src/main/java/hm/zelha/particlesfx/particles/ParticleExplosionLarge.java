@@ -1,9 +1,10 @@
 package hm.zelha.particlesfx.particles;
 
 import hm.zelha.particlesfx.particles.parents.Particle;
-import net.minecraft.server.v1_8_R3.*;
+import net.minecraft.server.v1_8_R3.EntityPlayer;
+import net.minecraft.server.v1_8_R3.EnumParticle;
+import net.minecraft.server.v1_8_R3.PacketPlayOutWorldParticles;
 import org.apache.commons.lang3.Validate;
-import org.bukkit.Effect;
 import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
@@ -14,7 +15,7 @@ public class ParticleExplosionLarge extends Particle {
     private double size;
 
     public ParticleExplosionLarge(double size, double offsetX, double offsetY, double offsetZ, int count) {
-        super(Effect.EXPLOSION_LARGE, offsetX, offsetY, offsetZ, 0, count, 0);
+        super(EnumParticle.EXPLOSION_LARGE, offsetX, offsetY, offsetZ, 0, count, 0);
 
         this.size = size;
     }
@@ -68,7 +69,7 @@ public class ParticleExplosionLarge extends Particle {
 
                 p.playerConnection.sendPacket(
                         new PacketPlayOutWorldParticles(
-                                EnumParticle.EXPLOSION_LARGE, true, (float) location.getX(), (float) location.getY(), (float) location.getZ(),
+                                particle, true, (float) location.getX(), (float) location.getY(), (float) location.getZ(),
                                 (float) -(size) + 2, 0, 0, (float) 1, 0
                         )
                 );

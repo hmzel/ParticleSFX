@@ -3,7 +3,6 @@ package hm.zelha.particlesfx.particles;
 import hm.zelha.particlesfx.particles.parents.Particle;
 import net.minecraft.server.v1_8_R3.*;
 import org.apache.commons.lang3.Validate;
-import org.bukkit.Effect;
 import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
@@ -24,7 +23,7 @@ public class ParticleNote extends Particle{
     private NoteColor color;
 
     public ParticleNote(NoteColor color, int count) {
-        super(Effect.NOTE, 0, 0, 0, 0, count, 0);
+        super(EnumParticle.NOTE, 0, 0, 0, 0, count, 0);
 
         Validate.notNull(color, "Color cannot be null!");
 

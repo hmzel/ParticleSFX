@@ -1,11 +1,11 @@
 package hm.zelha.particlesfx.particles;
 
 import hm.zelha.particlesfx.particles.parents.Particle;
-import org.bukkit.Effect;
+import net.minecraft.server.v1_8_R3.EnumParticle;
 
 public class ParticleExplosionHuge extends Particle {
     public ParticleExplosionHuge(double offsetX, double offsetY, double offsetZ, int count) {
-        super(Effect.EXPLOSION_HUGE, offsetX, offsetY, offsetZ, 0, count, 0);
+        super(EnumParticle.EXPLOSION_HUGE, offsetX, offsetY, offsetZ, 0, count, 0);
     }
 
     public ParticleExplosionHuge(double offsetX, double offsetY, double offsetZ) {

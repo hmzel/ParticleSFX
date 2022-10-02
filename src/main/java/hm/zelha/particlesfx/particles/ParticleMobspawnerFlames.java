@@ -3,6 +3,7 @@ package hm.zelha.particlesfx.particles;
 import hm.zelha.particlesfx.particles.parents.Particle;
 import net.minecraft.server.v1_8_R3.BlockPosition;
 import net.minecraft.server.v1_8_R3.EntityPlayer;
+import net.minecraft.server.v1_8_R3.EnumParticle;
 import net.minecraft.server.v1_8_R3.PacketPlayOutWorldEvent;
 import org.apache.commons.lang3.Validate;
 import org.bukkit.Effect;
@@ -17,7 +18,7 @@ import org.bukkit.entity.Player;
  */
 public class ParticleMobspawnerFlames extends Particle {
     public ParticleMobspawnerFlames(int count) {
-        super(Effect.MOBSPAWNER_FLAMES, 0, 0, 0, 0, count, 0);
+        super(EnumParticle.HEART, 0, 0, 0, 0, count, 0);
     }
 
     public ParticleMobspawnerFlames() {
@@ -41,8 +42,8 @@ public class ParticleMobspawnerFlames extends Particle {
 
                 p.playerConnection.sendPacket(
                         new PacketPlayOutWorldEvent(
-                                particle.getId(), new BlockPosition(location.getBlockX(), location.getBlockY(), location.getBlockZ()),
-                                particle.getId(), false
+                                Effect.MOBSPAWNER_FLAMES.getId(), new BlockPosition(location.getBlockX(), location.getBlockY(), location.getBlockZ()),
+                                Effect.MOBSPAWNER_FLAMES.getId(), false
                         )
                 );
             }

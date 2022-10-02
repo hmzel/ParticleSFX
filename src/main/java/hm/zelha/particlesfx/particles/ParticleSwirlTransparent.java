@@ -1,14 +1,14 @@
 package hm.zelha.particlesfx.particles;
 
 import hm.zelha.particlesfx.particles.parents.ColorableParticle;
+import net.minecraft.server.v1_8_R3.EnumParticle;
 import org.bukkit.Color;
-import org.bukkit.Effect;
 
 import javax.annotation.Nullable;
 
 public class ParticleSwirlTransparent extends ColorableParticle {
     public ParticleSwirlTransparent(@Nullable Color color, int brightness, double offsetX, double offsetY, double offsetZ, int count) {
-        super(Effect.POTION_SWIRL_TRANSPARENT, color, brightness, offsetX, offsetY, offsetZ, count);
+        super(EnumParticle.SPELL_MOB_AMBIENT, color, brightness, offsetX, offsetY, offsetZ, count);
     }
 
     public ParticleSwirlTransparent(double offsetX, double offsetY, double offsetZ, int count) {

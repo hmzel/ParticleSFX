@@ -4,7 +4,6 @@ import net.minecraft.server.v1_8_R3.EntityPlayer;
 import net.minecraft.server.v1_8_R3.EnumParticle;
 import net.minecraft.server.v1_8_R3.PacketPlayOutWorldParticles;
 import org.apache.commons.lang3.Validate;
-import org.bukkit.Effect;
 import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
@@ -18,7 +17,7 @@ public class TravellingParticle extends Particle {
     private Vector velocity;
     private final double control;
 
-    protected TravellingParticle(Effect particle, double control, Vector velocity, Location toGo, double offsetX, double offsetY, double offsetZ, int count) {
+    protected TravellingParticle(EnumParticle particle, double control, Vector velocity, Location toGo, double offsetX, double offsetY, double offsetZ, int count) {
         super(particle, offsetX, offsetY, offsetZ, 1, count, 0);
 
         this.velocity = velocity;
@@ -32,18 +31,6 @@ public class TravellingParticle extends Particle {
         Validate.notNull(location.getWorld(), "World cannot be null!");
 
         int count2 = count;
-        EnumParticle nmsParticle = null;
-
-        for (int i = 0; i <= 41; i++) {
-            EnumParticle p = EnumParticle.a(i);
-
-            if (particle.getName().equals(p.b())) {
-                nmsParticle = p;
-                break;
-            }
-        }
-
-        Validate.notNull(nmsParticle, "Something went wrong determining EnumParticle!");
 
         if (toGo == null && velocity == null) count2 = 1;
 
@@ -83,7 +70,7 @@ public class TravellingParticle extends Particle {
 
                 p.playerConnection.sendPacket(
                         new PacketPlayOutWorldParticles(
-                                nmsParticle, true, (float) location.getX(), (float) location.getY(), (float) location.getZ(),
+                                particle, true, (float) location.getX(), (float) location.getY(), (float) location.getZ(),
                                 (float) trueOffsetX, (float) trueOffsetY, (float) trueOffsetZ, speed, count
                         )
                 );

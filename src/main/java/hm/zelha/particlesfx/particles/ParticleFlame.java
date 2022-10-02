@@ -1,17 +1,17 @@
 package hm.zelha.particlesfx.particles;
 
 import hm.zelha.particlesfx.particles.parents.TravellingParticle;
-import org.bukkit.Effect;
+import net.minecraft.server.v1_8_R3.EnumParticle;
 import org.bukkit.Location;
 import org.bukkit.util.Vector;
 
 public class ParticleFlame extends TravellingParticle {
     public ParticleFlame(Location toGo, double offsetX, double offsetY, double offsetZ, int count) {
-        super(Effect.FLAME, 0.07, null, toGo, offsetX, offsetY, offsetZ, count);
+        super(EnumParticle.FLAME, 0.07, null, toGo, offsetX, offsetY, offsetZ, count);
     }
 
     public ParticleFlame(Vector velocity, double offsetX, double offsetY, double offsetZ, int count) {
-        super(Effect.FLAME, 0.07, velocity, null, offsetX, offsetY, offsetZ, count);
+        super(EnumParticle.FLAME, 0.07, velocity, null, offsetX, offsetY, offsetZ, count);
     }
 
     public ParticleFlame(Location toGo, double offsetX, double offsetY, double offsetZ) {
