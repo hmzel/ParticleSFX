@@ -38,8 +38,10 @@ public class ParticleMobspawnerFlames extends Particle {
                 if (p == null) continue;
                 if (!location.getWorld().getName().equals(p.world.getWorld().getName())) continue;
 
-                if (radius != 0 && (Math.abs(location.getX() - p.locX) + Math.abs(location.getY() - p.locY) + Math.abs(location.getZ() - p.locZ)) > radius) {
-                    continue;
+                if (radius != 0) {
+                    double distance = Math.sqrt(Math.pow(location.getX() - p.locX, 2) + Math.pow(location.getY() - p.locY, 2) + Math.pow(location.getZ() - p.locZ, 2));
+
+                    if (distance > radius) continue;
                 }
 
                 p.playerConnection.sendPacket(
