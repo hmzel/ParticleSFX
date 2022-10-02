@@ -35,15 +35,14 @@ public class InverseTravellingParticle extends Particle {
         if (toGo == null && velocity == null) count2 = 1;
 
         for (int i = 0; i != count2; i++) {
-            double trueSpeed = 1;
-            int trueCount = 0;
+            int count = 0;
+            float speed = 1;
             double trueOffsetX = offsetX;
             double trueOffsetY = offsetY;
             double trueOffsetZ = offsetZ;
             Vector addition = null;
 
             if (toGo != null || velocity != null) addition = generateFakeOffset();
-
             if (addition != null) location.add(addition);
 
             Location trueLocation = location;
@@ -60,8 +59,8 @@ public class InverseTravellingParticle extends Particle {
                 location.add(velocity);
                 addition.add(velocity);
             } else {
-                trueSpeed = 0;
-                trueCount = count;
+                speed = 0;
+                count = this.count;
             }
 
             for (int i2 = 0; i2 < players.size(); i2++) {
@@ -79,7 +78,7 @@ public class InverseTravellingParticle extends Particle {
                 p.playerConnection.sendPacket(
                         new PacketPlayOutWorldParticles(
                                 particle, true, (float) trueLocation.getX(), (float) trueLocation.getY(), (float) trueLocation.getZ(),
-                                (float) trueOffsetX, (float) trueOffsetY, (float) trueOffsetZ, (float) trueSpeed, trueCount
+                                (float) trueOffsetX, (float) trueOffsetY, (float) trueOffsetZ, speed, count
                         )
                 );
             }
@@ -141,18 +140,17 @@ public class InverseTravellingParticle extends Particle {
     }
 
     /**
-     * since particle velocity is very volatile, the given velocity is automatically multiplied by a decimal in all default implementations of
-     * VelocityParticle to prevent new users from setting the velocity to 1, 1, 1 and watching the particle fly into the sun. : )
-     * <p></p>
-     * said decimal makes sure that every VelocityParticle implementation follows the same convention,
-     * such that a Vector with x,y,z at 1 would make the particle move 1 block in all 3 axis on average, if speed is 1.
-     *
      * @param velocity velocity to set
      */
     public void setVelocity(@Nullable Vector velocity) {
         this.velocity = velocity;
     }
 
+    /**
+     * @param x x velocity
+     * @param y y velocity
+     * @param z z velocity
+     */
     public void setVelocity(double x, double y, double z) {
         this.velocity = new Vector(x, y, z);
     }

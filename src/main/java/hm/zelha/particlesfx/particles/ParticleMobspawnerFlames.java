@@ -44,6 +44,7 @@ public class ParticleMobspawnerFlames extends Particle {
                     if (distance > radius) continue;
                 }
 
+                //i wish BlockPositions were mutable
                 p.playerConnection.sendPacket(
                         new PacketPlayOutWorldEvent(
                                 Effect.MOBSPAWNER_FLAMES.getId(), new BlockPosition(location.getBlockX(), location.getBlockY(), location.getBlockZ()),

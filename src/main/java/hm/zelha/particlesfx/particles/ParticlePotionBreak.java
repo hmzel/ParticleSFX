@@ -60,6 +60,7 @@ public class ParticlePotionBreak extends Particle {
                     if (distance > radius) continue;
                 }
 
+                //i wish BlockPositions were mutable
                 p.playerConnection.sendPacket(
                         new PacketPlayOutWorldEvent(
                                 Effect.POTION_BREAK.getId(), new BlockPosition(location.getBlockX(), location.getBlockY(), location.getBlockZ()),

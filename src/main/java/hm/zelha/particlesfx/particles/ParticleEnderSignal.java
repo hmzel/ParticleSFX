@@ -21,6 +21,7 @@ import java.util.List;
  * Type.VISUAL effects are also locked to specific coordinates of the block they're played on because their internal system uses BlockPosition
  */
 public class ParticleEnderSignal extends Particle {
+
     public ParticleEnderSignal(int count) {
         super(EnumParticle.HEART, 0, 0, 0, 0, count, 0);
     }
@@ -47,6 +48,7 @@ public class ParticleEnderSignal extends Particle {
                     if (distance > radius) continue;
                 }
 
+                //i wish BlockPositions were mutable
                 p.playerConnection.sendPacket(
                         new PacketPlayOutWorldEvent(
                                 Effect.ENDER_SIGNAL.getId(), new BlockPosition(location.getBlockX(), location.getBlockY(), location.getBlockZ()),

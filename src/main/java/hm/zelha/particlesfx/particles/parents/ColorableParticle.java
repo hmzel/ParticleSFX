@@ -30,9 +30,7 @@ public class ColorableParticle extends Particle {
         Validate.notNull(location, "Location cannot be null!");
         Validate.notNull(location.getWorld(), "World cannot be null!");
 
-        int count2 = (color != null) ? count : 1;
-
-        for (int i = 0; i != count2; i++) {
+        for (int i = 0; i != ((color != null) ? count : 1); i++) {
             int trueCount = count;
             double trueOffsetX = offsetX;
             double trueOffsetY = offsetY;
@@ -51,11 +49,11 @@ public class ColorableParticle extends Particle {
                 if (this instanceof ParticleDust) trueOffsetX -= 1;
 
                 addition = generateFakeOffset();
+
+                location.add(addition);
             } else {
                 trueSpeed = 1;
             }
-
-            if (addition != null) location.add(addition);
 
             for (int i2 = 0; i2 < players.size(); i2++) {
                 EntityPlayer p = players.get(i2).getHandle();
