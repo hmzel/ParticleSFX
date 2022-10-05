@@ -85,7 +85,13 @@ public class Particle {
      * @return a vector meant to be added to a location to mimic particle offset
      */
     protected Vector generateFakeOffset() {
-        return vectorHelper.setX(rng.nextDouble(offsetX * 2) - offsetX).setY(rng.nextDouble(offsetY * 2) - offsetY).setZ(rng.nextDouble(offsetZ * 2) - offsetZ);
+        vectorHelper.zero();
+
+        if (offsetX != 0) vectorHelper.setX(rng.nextDouble(offsetX * 2) - offsetX);
+        if (offsetY != 0) vectorHelper.setY(rng.nextDouble(offsetY * 2) - offsetY);
+        if (offsetZ != 0) vectorHelper.setZ(rng.nextDouble(offsetZ * 2) - offsetZ);
+
+        return vectorHelper;
     }
 
     public void setOffsetX(double offsetX) {
