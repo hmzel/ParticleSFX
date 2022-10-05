@@ -210,6 +210,11 @@ public class RotationHandler {
         }
     }
 
+    public void setRotation(double pitch, double yaw, double roll) {
+        rot.set(pitch, yaw, roll);
+        rotate(0, 0, 0);
+    }
+
     public void setPitch(double pitch) {
         rot.setPitch(pitch);
         rotate(0, 0, 0);
@@ -223,6 +228,11 @@ public class RotationHandler {
     public void setRoll(double roll) {
         rot.setRoll(roll);
         rotate(0, 0, 0);
+    }
+
+    public void setAroundRotation(double pitch, double yaw, double roll) {
+        rot2.set(pitch, yaw, roll);
+        rotateAroundLocation(lastRotatedAround, 0, 0, 0);
     }
 
     public void setAroundPitch(double pitch) {

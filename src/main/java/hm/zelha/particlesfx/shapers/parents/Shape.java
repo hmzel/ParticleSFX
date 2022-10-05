@@ -28,11 +28,15 @@ public interface Shape {
 
     public void setWorld(World world);
 
+    public void setRotation(double pitch, double yaw, double roll);
+
     public void setPitch(double pitch);
 
     public void setYaw(double yaw);
 
     public void setRoll(double roll);
+
+    public void setAroundRotation(double pitch, double yaw, double roll);
 
     public void setAroundPitch(double pitch);
 
