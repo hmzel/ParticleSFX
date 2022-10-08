@@ -14,7 +14,7 @@ import org.bukkit.util.Vector;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class ParticleShaper extends RotationHandler implements Shape {
+public abstract class ParticleShaper extends RotationHandler {
 
     protected final List<Pair<Particle, Integer>> secondaryParticles = new ArrayList<>();
     /* its actually more efficient to use a list<pair<>> here instead of a LinkedHashMap, because in order to determine the current particle using
