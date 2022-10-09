@@ -88,11 +88,7 @@ public class ParticleLine extends ParticleShaper {
 
         locations.add(location);
         origins.add(location.cloneToLocation());
-        aroundOrigins.add(location.cloneToLocation());
-
-        if (getPitch() + getYaw() + getRoll() + getAroundPitch() + getAroundYaw() + getAroundRoll() != 0) {
-            location.setChanged(true);
-        }
+        location.setChanged(true);
     }
 
     public void removeLocation(int index) {
@@ -100,11 +96,7 @@ public class ParticleLine extends ParticleShaper {
 
         locations.remove(index);
         origins.remove(index);
-        aroundOrigins.remove(index);
-
-        if (getPitch() + getYaw() + getRoll() + getAroundPitch() + getAroundYaw() + getAroundRoll() != 0) {
-            locations.get(0).setChanged(true);
-        }
+        locations.get(0).setChanged(true);
     }
 
     public Location getLocation(int index) {

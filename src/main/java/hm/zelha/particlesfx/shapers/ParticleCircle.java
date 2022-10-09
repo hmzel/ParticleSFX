@@ -71,15 +71,11 @@ public class ParticleCircle extends ParticleShaper {
         Validate.notNull(center, "Location cannot be null!");
         Validate.notNull(center.getWorld(), "Location's world cannot be null!");
 
-        if (rot2.getPitch() + rot2.getYaw() + rot2.getRoll() != 0) {
-            center.setChanged(true);
-        }
-
         locations.clear();
-        aroundOrigins.clear();
         locations.add(center);
-        aroundOrigins.add(center.cloneToLocation());
+        originalCentroid.zero().add(center);
         setWorld(center.getWorld());
+        center.setChanged(true);
     }
 
     public void setXRadius(double xRadius) {

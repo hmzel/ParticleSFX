@@ -107,11 +107,7 @@ public class ParticleSpiral extends ParticleShaper {
         circles.add(circle);
         locations.add((LocationS) circle.getCenter());
         origins.add(((LocationS) circle.getCenter()).cloneToLocation());
-        aroundOrigins.add(((LocationS) circle.getCenter()).cloneToLocation());
-
-        if (getPitch() + getYaw() + getRoll() + getAroundPitch() + getAroundYaw() + getAroundRoll() != 0) {
-            ((LocationS) circle.getCenter()).setChanged(true);
-        }
+        ((LocationS) circle.getCenter()).setChanged(true);
     }
 
     public void removeCircle(int index) {
@@ -120,11 +116,7 @@ public class ParticleSpiral extends ParticleShaper {
         circles.remove(index);
         locations.remove(index);
         origins.remove(index);
-        aroundOrigins.remove(index);
-
-        if (getPitch() + getYaw() + getRoll() + getAroundPitch() + getAroundYaw() + getAroundRoll() != 0) {
-            locations.get(0).setChanged(true);
-        }
+        locations.get(0).setChanged(true);
     }
 
     public CircleInfo getCircle(int index) {
