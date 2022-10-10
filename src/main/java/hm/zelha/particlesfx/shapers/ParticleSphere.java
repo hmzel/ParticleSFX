@@ -112,11 +112,12 @@ public class ParticleSphere extends ParticleShaper {
         Validate.notNull(center, "Location cannot be null!");
         Validate.notNull(center.getWorld(), "Location's world cannot be null!");
 
-        locations.clear();
         locations.add(center);
-        originalCentroid.zero().add(center);
         setWorld(center.getWorld());
+        originalCentroid.zero().add(center);
         center.setChanged(true);
+
+        if (locations.size() > 1) locations.remove(0);
     }
 
     public void setxRadius(double xRadius) {

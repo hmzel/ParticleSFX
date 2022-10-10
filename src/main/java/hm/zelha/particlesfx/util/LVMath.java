@@ -38,4 +38,16 @@ public final class LVMath {
 
         return toSet;
     }
+
+    public static Location additionToLocation2(Location toSet, Location toAddTo, Vector addend) {
+        if (toSet instanceof LocationS) {
+            ((LocationS) toSet).setUnsafely2(toAddTo.getX() + addend.getX(), toAddTo.getY() + addend.getY(), toAddTo.getZ() + addend.getZ());
+        } else {
+            toSet.setX(toAddTo.getX() + addend.getX());
+            toSet.setY(toAddTo.getY() + addend.getY());
+            toSet.setZ(toAddTo.getZ() + addend.getZ());
+        }
+
+        return toSet;
+    }
 }

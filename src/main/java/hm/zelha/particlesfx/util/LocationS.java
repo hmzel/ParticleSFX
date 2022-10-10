@@ -5,6 +5,8 @@ import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.util.Vector;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.function.Consumer;
 
 /** S for SAFE! <p></p>
@@ -16,11 +18,23 @@ import java.util.function.Consumer;
 public class LocationS extends Location {
 
     private static final Rotation rotHelper = new Rotation(0, 0, 0);
+    private final Map<ParticleShapeCompound, Consumer<Location>> recalcMechanics = new HashMap<>();
     private Consumer<Location> mechanic = null;
     private boolean changed = false;
 
     public LocationS(World world, double x, double y, double z) {
         super(world, x, y, z);
+    }
+
+    /**
+     * only meant to be used in {@link ParticleShapeCompound}, use at own risk
+     */
+    public void setUnsafely2(double x, double y, double z) {
+        super.setX(x);
+        super.setY(y);
+        super.setZ(z);
+
+        this.changed = true;
     }
 
     /**
@@ -30,6 +44,26 @@ public class LocationS extends Location {
         super.setX(x);
         super.setY(y);
         super.setZ(z);
+
+        for (Consumer<Location> mechanic : recalcMechanics.values()) mechanic.accept(this);
+    }
+
+    /**
+     * WARNING: DO NOT USE OUTSIDE PARTICLESFX INTERNALS. <p></p>
+     *
+     * DO NOT COME TO ME ABOUT EVERYTHING SCREWING UP IF YOU DO
+     */
+    public void addRecalcMechanic(ParticleShapeCompound owner, Consumer<Location> mechanic) {
+        recalcMechanics.put(owner, mechanic);
+    }
+
+    /**
+     * WARNING: DO NOT USE OUTSIDE PARTICLESFX INTERNALS. <p></p>
+     *
+     * DO NOT COME TO ME ABOUT EVERYTHING SCREWING UP IF YOU DO
+     */
+    public void removeRecalcMechanic(ParticleShapeCompound owner) {
+        recalcMechanics.remove(owner);
     }
 
     /**
@@ -45,28 +79,36 @@ public class LocationS extends Location {
     public void setX(double x) {
         super.setX(x);
         changed = true;
+
         if (mechanic != null) mechanic.accept(this);
+        for (Consumer<Location> mechanic : recalcMechanics.values()) mechanic.accept(this);
     }
 
     @Override
     public void setY(double y) {
         super.setY(y);
         changed = true;
+
         if (mechanic != null) mechanic.accept(this);
+        for (Consumer<Location> mechanic : recalcMechanics.values()) mechanic.accept(this);
     }
 
     @Override
     public void setZ(double z) {
         super.setZ(z);
         changed = true;
+
         if (mechanic != null) mechanic.accept(this);
+        for (Consumer<Location> mechanic : recalcMechanics.values()) mechanic.accept(this);
     }
 
     @Override
     public Location add(Vector vec) {
         super.add(vec);
         changed = true;
+
         if (mechanic != null) mechanic.accept(this);
+        for (Consumer<Location> mechanic : recalcMechanics.values()) mechanic.accept(this);
 
         return this;
     }
@@ -75,7 +117,9 @@ public class LocationS extends Location {
     public Location add(Location vec) {
         super.add(vec);
         changed = true;
+
         if (mechanic != null) mechanic.accept(this);
+        for (Consumer<Location> mechanic : recalcMechanics.values()) mechanic.accept(this);
 
         return this;
     }
@@ -84,7 +128,9 @@ public class LocationS extends Location {
     public Location add(double x, double y, double z) {
         super.add(x, y, z);
         changed = true;
+
         if (mechanic != null) mechanic.accept(this);
+        for (Consumer<Location> mechanic : recalcMechanics.values()) mechanic.accept(this);
 
         return this;
     }
@@ -93,7 +139,9 @@ public class LocationS extends Location {
     public Location subtract(Vector vec) {
         super.subtract(vec);
         changed = true;
+
         if (mechanic != null) mechanic.accept(this);
+        for (Consumer<Location> mechanic : recalcMechanics.values()) mechanic.accept(this);
 
         return this;
     }
@@ -102,7 +150,9 @@ public class LocationS extends Location {
     public Location subtract(Location vec) {
         super.subtract(vec);
         changed = true;
+
         if (mechanic != null) mechanic.accept(this);
+        for (Consumer<Location> mechanic : recalcMechanics.values()) mechanic.accept(this);
 
         return this;
     }
@@ -111,7 +161,9 @@ public class LocationS extends Location {
     public Location subtract(double x, double y, double z) {
         super.subtract(x, y, z);
         changed = true;
+
         if (mechanic != null) mechanic.accept(this);
+        for (Consumer<Location> mechanic : recalcMechanics.values()) mechanic.accept(this);
 
         return this;
     }
@@ -120,7 +172,9 @@ public class LocationS extends Location {
     public Location multiply(double m) {
         super.multiply(m);
         changed = true;
+
         if (mechanic != null) mechanic.accept(this);
+        for (Consumer<Location> mechanic : recalcMechanics.values()) mechanic.accept(this);
 
         return this;
     }
@@ -129,7 +183,9 @@ public class LocationS extends Location {
     public Location zero() {
         super.zero();
         changed = true;
+
         if (mechanic != null) mechanic.accept(this);
+        for (Consumer<Location> mechanic : recalcMechanics.values()) mechanic.accept(this);
 
         return this;
     }
@@ -145,6 +201,10 @@ public class LocationS extends Location {
 
         l.setMechanic(mechanic);
 
+        for (Map.Entry<ParticleShapeCompound, Consumer<Location>> entry : recalcMechanics.entrySet()) {
+            l.addRecalcMechanic(entry.getKey(), entry.getValue());
+        }
+
         return l;
     }
 
@@ -158,6 +218,12 @@ public class LocationS extends Location {
 
     public void setChanged(boolean changed) {
         this.changed = changed;
+
+        if (changed) {
+            for (Consumer<Location> mechanic : recalcMechanics.values()) {
+                mechanic.accept(this);
+            }
+        }
     }
 
     public static Rotation getRotHelper() {
