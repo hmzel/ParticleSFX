@@ -55,9 +55,10 @@ public class ParticleSphere extends ParticleShaper {
         double loopEndFix = Math.PI - 3.5897932384626433832795028841972e-9;
         double loopStart = limitation;
         double loopEnd = Math.PI;
+        double increase = (Math.PI - limitation) / (circleFrequency - 1);
 
         if (limitInverse) {
-            loopEnd = Math.PI - limitation;
+            loopEnd -= limitation;
             //cutting loopEnd down to the 29th decimal. reason already stated
             loopEndFix = loopEnd - ((loopEnd) - (((int) ((loopEnd) * 29)) / 29D));
             loopStart = 0;
@@ -68,7 +69,7 @@ public class ParticleSphere extends ParticleShaper {
 
             totalArea = 0;
 
-            for (double i = loopStart; true; i += loopEnd / (circleFrequency - 1)) {
+            for (double i = loopStart; true; i += increase) {
                 if (i > loopEndFix) i = loopEnd;
 
                 double curve = Math.sin(i);
@@ -93,15 +94,15 @@ public class ParticleSphere extends ParticleShaper {
             }
         }
 
-        for (double i = loopStart; true; i += loopEnd / (circleFrequency - 1)) {
+        for (double i = loopStart; true; i += increase) {
             if (i > loopEndFix) i = loopEnd;
 
             double curve = Math.sin(i);
-            double increase = (Math.PI * 2) / Math.floor(particleFrequency * (cirTracker.get(current) / totalArea));
+            double circleInc = (Math.PI * 2) / Math.floor(particleFrequency * (cirTracker.get(current) / totalArea));
 
-            if (!Double.isFinite(increase)) increase = Math.PI * 2;
+            if (!Double.isFinite(circleInc)) circleInc = Math.PI * 2;
 
-            for (double radian = continuation; true; radian += increase) {
+            for (double radian = continuation; true; radian += circleInc) {
                 if (radian > (Math.PI * 2) + continuation) {
                     continuation = radian - Math.PI * 2;
                     break;
