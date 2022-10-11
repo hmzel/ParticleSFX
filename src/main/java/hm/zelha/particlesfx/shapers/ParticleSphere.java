@@ -19,7 +19,9 @@ public class ParticleSphere extends ParticleShaper {
     private double yRadius;
     private double zRadius;
     private double circleFrequency;
+    private double limit = 0;
     private double totalArea = 0;
+    private boolean limitInverse = false;
     private boolean recalculate = true;
 
     public ParticleSphere(Particle particle, LocationS center, double xRadius, double yRadius, double zRadius, double pitch, double yaw, double roll, int circleFrequency, double particleFrequency) {
@@ -48,15 +50,26 @@ public class ParticleSphere extends ParticleShaper {
     public void display() {
         int current = 0;
         double continuation = 0;
+        double limitation = Math.PI * limit / 100;
+        //the long decimal number is used to cut PI to the 29th decimal place to prevent some double weirdness that i dont even understand
+        double loopEndFix = Math.PI - 3.5897932384626433832795028841972e-9;
+        double loopStart = limitation;
+        double loopEnd = Math.PI;
+
+        if (limitInverse) {
+            loopEnd = Math.PI - limitation;
+            //cutting loopEnd down to the 29th decimal. reason already stated
+            loopEndFix = loopEnd - ((loopEnd) - (((int) ((loopEnd) * 29)) / 29D));
+            loopStart = 0;
+        }
 
         if (recalculate) {
             cirTracker.clear();
 
             totalArea = 0;
 
-            for (double i = 0; true; i += Math.PI / (circleFrequency - 1)) {
-                //the long decimal number is used to cut PI to the 29th decimal place to prevent some weirdness that i dont even understand
-                if (i > Math.PI - 3.5897932384626433832795028841972e-9) i = Math.PI;
+            for (double i = loopStart; true; i += loopEnd / (circleFrequency - 1)) {
+                if (i > loopEndFix) i = loopEnd;
 
                 double curve = Math.sin(i);
                 double circumference;
@@ -73,15 +86,15 @@ public class ParticleSphere extends ParticleShaper {
                 cirTracker.add(circumference);
                 totalArea += circumference;
 
-                if (i == Math.PI) {
+                if (i == loopEnd) {
                     recalculate = false;
                     break;
                 }
             }
         }
 
-        for (double i = 0; true; i += Math.PI / (circleFrequency - 1)) {
-            if (i > Math.PI - 3.5897932384626433832795028841972e-9) i = Math.PI;
+        for (double i = loopStart; true; i += loopEnd / (circleFrequency - 1)) {
+            if (i > loopEndFix) i = loopEnd;
 
             double curve = Math.sin(i);
             double increase = (Math.PI * 2) / Math.floor(particleFrequency * (cirTracker.get(current) / totalArea));
@@ -102,7 +115,7 @@ public class ParticleSphere extends ParticleShaper {
                 getCurrentParticle().display(locationHelper.add(vectorHelper));
             }
 
-            if (i == Math.PI) break;
+            if (i == loopEnd) break;
 
             current++;
         }
@@ -142,6 +155,23 @@ public class ParticleSphere extends ParticleShaper {
         recalculate = true;
     }
 
+    /**
+     * @param limit percentage of the sphere that should generate, such that 0 would be the entire sphere and 50 would be a half sphere.
+     */
+    public void setLimit(double limit) {
+        Validate.isTrue(limit >= 0 && limit <= 100, "Limit is meant to be a percentage, and cannot be below 0 or above 100");
+
+        this.limit = limit;
+        recalculate = true;
+    }
+
+    /**
+     * @param limitInverse determines if the limit cuts off the top or the bottom. default false (top)
+     */
+    public void setLimitInverse(boolean limitInverse) {
+        this.limitInverse = limitInverse;
+    }
+
     public Location getCenter() {
         return locations.get(0);
     }
@@ -160,5 +190,19 @@ public class ParticleSphere extends ParticleShaper {
 
     public double getCircleFrequency() {
         return circleFrequency;
+    }
+
+    /**
+     * @return percentage of the sphere that should generate, such that 0 would be the entire sphere and 50 would be a half sphere.
+     */
+    public double getLimit() {
+        return limit;
+    }
+
+    /**
+     * @return if the limit cuts off the top or the bottom. default false (top)
+     */
+    public boolean isLimitInverse() {
+        return limitInverse;
     }
 }
