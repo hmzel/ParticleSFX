@@ -10,7 +10,8 @@ public class ParticleCircle extends ParticleShaper {
 
     private double xRadius;
     private double zRadius;
-    private boolean halfCircle = false;
+    private double limit = 0;
+    private boolean limitInverse = false;
 
     public ParticleCircle(Particle particle, LocationS center, double xRadius, double zRadius, double pitch, double yaw, double roll, double particleFrequency) {
         super(particle, particleFrequency);
@@ -37,12 +38,20 @@ public class ParticleCircle extends ParticleShaper {
 
     @Override
     public void display() {
-        Location center = locations.get(0);
-        double trueFrequency = ((halfCircle) ? Math.PI : (Math.PI * 2)) / particleFrequency;
+        Location center = getCenter();
+        double limitation = Math.PI * 2 * limit / 100;
+        double loopEnd = Math.PI * 2;
+        double loopStart = limitation;
         boolean hasRan = false;
+        double increase = ((Math.PI * 2) - limitation) / particleFrequency;
         boolean trackCount = particlesPerDisplay > 0;
 
-        for (double radian = trueFrequency * overallCount; radian < Math.PI * ((halfCircle) ? 1 : 2); radian += trueFrequency) {
+        if (limitInverse) {
+            loopEnd -= limitation;
+            loopStart = 0;
+        }
+
+        for (double radian = loopStart + (increase * overallCount); radian < loopEnd; radian += increase) {
             rot.apply(vectorHelper.setX(xRadius * Math.cos(radian)).setY(0).setZ(zRadius * Math.sin(radian)));
 
             if (mechanic != null) mechanic.apply(particle, center, vectorHelper);
@@ -87,8 +96,20 @@ public class ParticleCircle extends ParticleShaper {
         this.zRadius = zRadius;
     }
 
-    public void setHalfCircle(boolean halfCircle) {
-        this.halfCircle = halfCircle;
+    /**
+     * @param limit percentage of the sphere that should generate, such that 0 would be the entire sphere and 50 would be a half sphere.
+     */
+    public void setLimit(double limit) {
+        Validate.isTrue(limit >= 0 && limit <= 100, "Limit is meant to be a percentage, and cannot be below 0 or above 100");
+
+        this.limit = limit;
+    }
+
+    /**
+     * @param limitInverse determines if the limit cuts off the top or the bottom. default false (top)
+     */
+    public void setLimitInverse(boolean limitInverse) {
+        this.limitInverse = limitInverse;
     }
 
     public Location getCenter() {
@@ -103,7 +124,17 @@ public class ParticleCircle extends ParticleShaper {
         return zRadius;
     }
 
-    public boolean isHalfCircle() {
-        return halfCircle;
+    /**
+     * @return percentage of the sphere that should generate, such that 0 would be the entire sphere and 50 would be a half sphere.
+     */
+    public double getLimit() {
+        return limit;
+    }
+
+    /**
+     * @return if the limit cuts off the top or the bottom. default false (top)
+     */
+    public boolean isLimitInverse() {
+        return limitInverse;
     }
 }
