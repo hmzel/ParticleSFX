@@ -3,56 +3,65 @@ package hm.zelha.particlesfx.util;
 import hm.zelha.particlesfx.shapers.parents.ParticleShaper;
 import hm.zelha.particlesfx.shapers.parents.RotationHandler;
 import org.apache.commons.lang3.Validate;
-import org.apache.commons.lang3.tuple.MutablePair;
-import org.apache.commons.lang3.tuple.Pair;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 
 import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 public class ParticleShapeCompound extends RotationHandler {
 
-    //List<Pair<>> is honestly just easier to use in this situation
-    private final List<Pair<RotationHandler, Integer>> shapeLocationIndex = new ArrayList<>();
+    private final Map<RotationHandler, Integer> shapeLocationIndex = new LinkedHashMap<>();
     private boolean recalc = false;
 
     public ParticleShapeCompound(RotationHandler... shapes) {
-        for (int i = 0; i < shapes.length; i++) addShape(shapes[i]);
+        for (int i = 0; i < shapes.length; i++) {
+            addShape(shapes[i]);
+        }
     }
 
     public void start() {
-        for (int i = 0; i < shapeLocationIndex.size(); i++) {
-            RotationHandler shape = shapeLocationIndex.get(i).getKey();
+        for (RotationHandler shape : shapeLocationIndex.keySet()) {
+            if (shape instanceof ParticleShapeCompound) {
+                ((ParticleShapeCompound) shape).start();
+            }
 
-            if (shape instanceof ParticleShapeCompound) ((ParticleShapeCompound) shape).start();
-            if (shape instanceof ParticleShaper) ((ParticleShaper) shape).start();
+            if (shape instanceof ParticleShaper) {
+                ((ParticleShaper) shape).start();
+            }
         }
     }
 
     public void stop() {
-        for (int i = 0; i < shapeLocationIndex.size(); i++) {
-            RotationHandler shape = shapeLocationIndex.get(i).getKey();
+        for (RotationHandler shape : shapeLocationIndex.keySet()) {
+            if (shape instanceof ParticleShapeCompound) {
+                ((ParticleShapeCompound) shape).stop();
+            }
 
-            if (shape instanceof ParticleShapeCompound) ((ParticleShapeCompound) shape).stop();
-            if (shape instanceof ParticleShaper) ((ParticleShaper) shape).stop();
+            if (shape instanceof ParticleShaper) {
+                ((ParticleShaper) shape).stop();
+            }
         }
     }
 
     public void display() {
-        for (int i = 0; i < shapeLocationIndex.size(); i++) {
-            RotationHandler shape = shapeLocationIndex.get(i).getKey();
+        for (RotationHandler shape : shapeLocationIndex.keySet()) {
+            if (shape instanceof ParticleShapeCompound) {
+                ((ParticleShapeCompound) shape).display();
+            }
 
-            if (shape instanceof ParticleShapeCompound) ((ParticleShapeCompound) shape).display();
-            if (shape instanceof ParticleShaper) ((ParticleShaper) shape).display();
+            if (shape instanceof ParticleShaper) {
+                ((ParticleShaper) shape).display();
+            }
         }
     }
 
     @Override
     public void rotate(double pitch, double yaw, double roll) {
-        for (int i = 0; i < shapeLocationIndex.size(); i++) {
-            if (shapeLocationIndex.get(i).getKey().getLocationAmount() == 1) {
-                shapeLocationIndex.get(i).getKey().rotate(pitch, yaw, roll);
+        for (RotationHandler shape : shapeLocationIndex.keySet()) {
+            if (shape.getLocationAmount() == 1) {
+                shape.rotate(pitch, yaw, roll);
             }
         }
 
@@ -75,7 +84,9 @@ public class ParticleShapeCompound extends RotationHandler {
         lastRotatedAround.setYaw(around.getYaw());
 
         if (recalc) {
-            if (!around.equals(lastRotatedAround)) lastRotatedAround.zero().add(around);
+            if (!around.equals(lastRotatedAround)) {
+                lastRotatedAround.zero().add(around);
+            }
 
             recalculateAllOrigins();
         }
@@ -86,7 +97,6 @@ public class ParticleShapeCompound extends RotationHandler {
         }
 
         rot2.add(pitch, yaw, roll);
-
         //getting distance between original centroid and around, rotating it, and adding it to around to get the genuine location
         LVMath.additionToLocation(rhLocationHelper, around, rot2.apply(LVMath.subtractToVector(rhVectorHelper, originalCentroid, around)));
         calculateCentroid(origins);
@@ -107,31 +117,30 @@ public class ParticleShapeCompound extends RotationHandler {
      * i might later. at some point. we'll see. but im already going insane enough trying to make this spawn of hell.
      */
     private ArrayListSafe<LocationS> reflectLocations(RotationHandler shape) {
-        ArrayListSafe<LocationS> list = null;
-
         try {
             Field f = RotationHandler.class.getDeclaredField("locations");
 
             f.setAccessible(true);
 
-            list = (ArrayListSafe<LocationS>) f.get(shape);
+            return (ArrayListSafe<LocationS>) f.get(shape);
         } catch (NoSuchFieldException | IllegalAccessException e) {
+            Bukkit.getLogger().severe("Something went wrong getting shape's locations, this should never happen");
             e.printStackTrace();
+
+            return null;
         }
-
-        Validate.notNull(list, "Something went wrong getting locations!");
-
-        return list;
     }
 
     public void addShape(RotationHandler shape) {
         Validate.notNull(shape, "Shape cannot be null!");
 
-        for (Pair<RotationHandler, Integer> pair : shapeLocationIndex) {
-            Validate.isTrue(shape != pair.getKey(), "ParticleShapeCompounds can't hold the same shape twice!");
+        for (RotationHandler mapShape : shapeLocationIndex.keySet()) {
+            Validate.isTrue(shape != mapShape, "ParticleShapeCompounds can't hold the same shape twice!");
         }
 
         ArrayListSafe<LocationS> locations = reflectLocations(shape);
+
+        if (locations == null) return;
 
         if (!this.locations.isEmpty()) {
             Validate.isTrue(locations.get(0).getWorld().equals(this.locations.get(0).getWorld()), "Locations cannot have differing worlds!");
@@ -140,33 +149,36 @@ public class ParticleShapeCompound extends RotationHandler {
         }
 
         if (shapeLocationIndex.isEmpty()) {
-            shapeLocationIndex.add(new MutablePair<>(shape, shape.getLocationAmount() - 1));
+            shapeLocationIndex.put(shape, shape.getLocationAmount() - 1);
         } else {
-            shapeLocationIndex.add(new MutablePair<>(shape, shapeLocationIndex.get(shapeLocationIndex.size() - 1).getValue() + shape.getLocationAmount()));
+            RotationHandler last = (RotationHandler) shapeLocationIndex.keySet().toArray()[shapeLocationIndex.size() - 1];
+
+            shapeLocationIndex.put(shape, shapeLocationIndex.get(last) + shape.getLocationAmount());
         }
 
         locations.addAddMechanics(this, (owner, added) -> {
             boolean locationAdded = false;
 
-            for (Pair<RotationHandler, Integer> pair : shapeLocationIndex) {
-                if (owner == pair.getKey()) {
-                    this.locations.add(pair.getValue(), added);
-                    this.origins.add(pair.getValue(), added.cloneToLocation());
+            for (Map.Entry<RotationHandler, Integer> entry : shapeLocationIndex.entrySet()) {
+                if (owner == entry.getKey()) {
+                    this.locations.add(entry.getValue(), added);
+                    this.origins.add(entry.getValue(), added.cloneToLocation());
 
                     locationAdded = true;
                 }
 
-                if (locationAdded) pair.setValue(pair.getValue() + 1);
+                if (locationAdded) entry.setValue(entry.getValue() + 1);
             }
         });
 
         locations.addRemoveMechanics(this, (owner, index) -> {
+            RotationHandler last = null;
             boolean locationRemoved = false;
 
-            for (Pair<RotationHandler, Integer> pair : shapeLocationIndex) {
-                if (owner == pair.getKey()) {
+            for (Map.Entry<RotationHandler, Integer> entry : shapeLocationIndex.entrySet()) {
+                if (owner == entry.getKey()) {
                     //adding index to the last pair's index to get the index of the locations in the list
-                    int removeIndex = shapeLocationIndex.get(shapeLocationIndex.lastIndexOf(pair) - 1).getValue() + index;
+                    int removeIndex = shapeLocationIndex.get(last) + index;
 
                     this.locations.remove(removeIndex);
                     origins.remove(removeIndex);
@@ -174,7 +186,9 @@ public class ParticleShapeCompound extends RotationHandler {
                     locationRemoved = true;
                 }
 
-                if (locationRemoved) pair.setValue(pair.getValue() - 1);
+                if (locationRemoved) entry.setValue(entry.getValue() - 1);
+
+                last = entry.getKey();
             }
         });
 
@@ -191,23 +205,32 @@ public class ParticleShapeCompound extends RotationHandler {
 
     public void removeShape(int index) {
         ArrayListSafe<LocationS> locations = reflectLocations(getShape(index));
-        int locAmount = getShape(index).getLocationAmount();
+        RotationHandler[] arrayKeySet = shapeLocationIndex.keySet().toArray(new RotationHandler[0]);
+        int locAmount = arrayKeySet[index].getLocationAmount();
         int firstIndex;
 
-        if (index > 0) firstIndex = shapeLocationIndex.get(index - 1).getValue() + 1; else firstIndex = 0;
+        if (locations == null) return;
+
+        if (index > 0) {
+            //getting the location index of the last shape and adding 1
+            firstIndex = shapeLocationIndex.get(arrayKeySet[index - 1]) + 1;
+        } else {
+            firstIndex = 0;
+        }
 
         locations.removeMechanics(this);
 
-        for (int i = firstIndex; i <= shapeLocationIndex.get(index).getValue(); i++) {
-            locations.get(i).removeRecalcMechanic(this);
+        for (LocationS l : locations) {
+            l.removeRecalcMechanic(this);
             this.locations.remove(firstIndex);
             origins.remove(firstIndex);
         }
 
-        shapeLocationIndex.remove(index);
+        shapeLocationIndex.remove(arrayKeySet[index]);
 
         for (int i = index; i < shapeLocationIndex.size(); i++) {
-            shapeLocationIndex.get(i).setValue(shapeLocationIndex.get(i).getValue() - locAmount);
+            //subtracting locAmount from all shape location indexes at 'index' and beyond
+            shapeLocationIndex.put(arrayKeySet[i], shapeLocationIndex.get(arrayKeySet[i]) - locAmount);
         }
 
         if (getPitch() + getYaw() + getRoll() + getAroundPitch() + getAroundYaw() + getAroundRoll() != 0) {
@@ -216,7 +239,7 @@ public class ParticleShapeCompound extends RotationHandler {
     }
 
     public RotationHandler getShape(int index) {
-        return shapeLocationIndex.get(index).getKey();
+        return (RotationHandler) shapeLocationIndex.keySet().toArray()[index];
     }
 
     public int getShapeAmount() {
