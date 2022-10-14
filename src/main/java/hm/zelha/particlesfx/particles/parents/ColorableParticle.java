@@ -46,7 +46,9 @@ public class ColorableParticle extends Particle {
                 trueOffsetZ = color.getBlue() / 255D;
 
                 //dont judge me
-                if (this instanceof ParticleDust) trueOffsetX -= 1;
+                if (this instanceof ParticleDust && color.getRed() == 0) {
+                    trueOffsetX = 0.0001;
+                }
 
                 addition = generateFakeOffset();
 
