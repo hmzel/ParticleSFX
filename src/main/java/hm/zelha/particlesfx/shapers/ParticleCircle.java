@@ -2,7 +2,7 @@ package hm.zelha.particlesfx.shapers;
 
 import hm.zelha.particlesfx.particles.parents.Particle;
 import hm.zelha.particlesfx.shapers.parents.ParticleShaper;
-import hm.zelha.particlesfx.util.LocationS;
+import hm.zelha.particlesfx.util.LocationSafe;
 import org.apache.commons.lang3.Validate;
 import org.bukkit.Location;
 
@@ -13,7 +13,7 @@ public class ParticleCircle extends ParticleShaper {
     private double limit = 0;
     private boolean limitInverse = false;
 
-    public ParticleCircle(Particle particle, LocationS center, double xRadius, double zRadius, double pitch, double yaw, double roll, double particleFrequency) {
+    public ParticleCircle(Particle particle, LocationSafe center, double xRadius, double zRadius, double pitch, double yaw, double roll, double particleFrequency) {
         super(particle, particleFrequency);
 
         this.xRadius = xRadius;
@@ -24,15 +24,15 @@ public class ParticleCircle extends ParticleShaper {
         start();
     }
 
-    public ParticleCircle(Particle particle, LocationS center, double xRadius, double zRadius, double pitch, double yaw, double roll) {
+    public ParticleCircle(Particle particle, LocationSafe center, double xRadius, double zRadius, double pitch, double yaw, double roll) {
         this(particle, center, xRadius, zRadius, pitch, yaw, roll, 50);
     }
 
-    public ParticleCircle(Particle particle, LocationS center, double xRadius, double zRadius, double particleFrequency) {
+    public ParticleCircle(Particle particle, LocationSafe center, double xRadius, double zRadius, double particleFrequency) {
         this(particle, center, xRadius, zRadius, 0, 0, 0, particleFrequency);
     }
 
-    public ParticleCircle(Particle particle, LocationS center, double xRadius, double zRadius) {
+    public ParticleCircle(Particle particle, LocationSafe center, double xRadius, double zRadius) {
         this(particle, center, xRadius, zRadius, 0, 0, 0, 50);
     }
 
@@ -76,7 +76,7 @@ public class ParticleCircle extends ParticleShaper {
         if (!hasRan && trackCount) overallCount = 0;
     }
 
-    public void setCenter(LocationS center) {
+    public void setCenter(LocationSafe center) {
         Validate.notNull(center, "Location cannot be null!");
         Validate.notNull(center.getWorld(), "Location's world cannot be null!");
 

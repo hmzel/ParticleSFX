@@ -18,7 +18,7 @@ import java.util.Map;
  * if you're wondering why i did it this way, its because i didnt want anyone potentially messing with any public methods
  * i might make in order to accomplish this, so i made it really hard to mess with haha
  */
-public class ArrayListSafe<L extends LocationS> extends ArrayList<L> {
+public class ArrayListSafe<L extends LocationSafe> extends ArrayList<L> {
 
     private final Map<ParticleShapeCompound, addMechanic> addMechanics = new HashMap<>();
     private final Map<ParticleShapeCompound, removeMechanic> removeMechanics = new HashMap<>();
@@ -74,7 +74,7 @@ public class ArrayListSafe<L extends LocationS> extends ArrayList<L> {
 
 
     public interface addMechanic {
-        public void accept(RotationHandler owner, LocationS added);
+        public void accept(RotationHandler owner, LocationSafe added);
     }
 
 

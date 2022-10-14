@@ -98,13 +98,13 @@ public class ParticleShapeCompound extends RotationHandler implements Shape {
      *
      * i might later. at some point. we'll see. but im already going insane enough trying to make this spawn of hell.
      */
-    private ArrayListSafe<LocationS> reflectLocations(Shape shape) {
+    private ArrayListSafe<LocationSafe> reflectLocations(Shape shape) {
         try {
             Field f = RotationHandler.class.getDeclaredField("locations");
 
             f.setAccessible(true);
 
-            return (ArrayListSafe<LocationS>) f.get(shape);
+            return (ArrayListSafe<LocationSafe>) f.get(shape);
         } catch (NoSuchFieldException | IllegalAccessException e) {
             Bukkit.getLogger().severe("Something went wrong getting shape's locations, this should never happen");
             e.printStackTrace();
@@ -120,7 +120,7 @@ public class ParticleShapeCompound extends RotationHandler implements Shape {
             Validate.isTrue(shape != mapShape, "ParticleShapeCompounds can't hold the same shape twice!");
         }
 
-        ArrayListSafe<LocationS> locations = reflectLocations(shape);
+        ArrayListSafe<LocationSafe> locations = reflectLocations(shape);
 
         if (locations == null) return;
 
@@ -174,7 +174,7 @@ public class ParticleShapeCompound extends RotationHandler implements Shape {
             }
         });
 
-        for (LocationS l : locations) {
+        for (LocationSafe l : locations) {
             l.addRecalcMechanic(this, (location) -> recalc = true);
             this.locations.add(l);
             origins.add(l.cloneToLocation());
@@ -187,7 +187,7 @@ public class ParticleShapeCompound extends RotationHandler implements Shape {
 
     public void removeShape(int index) {
         Shape[] arrayKeySet = shapeLocationIndex.keySet().toArray(new Shape[0]);
-        ArrayListSafe<LocationS> locations = reflectLocations(arrayKeySet[index]);
+        ArrayListSafe<LocationSafe> locations = reflectLocations(arrayKeySet[index]);
         int locAmount = arrayKeySet[index].getLocationAmount();
         int firstIndex;
 
@@ -202,7 +202,7 @@ public class ParticleShapeCompound extends RotationHandler implements Shape {
 
         locations.removeMechanics(this);
 
-        for (LocationS l : locations) {
+        for (LocationSafe l : locations) {
             l.removeRecalcMechanic(this);
             this.locations.remove(firstIndex);
             origins.remove(firstIndex);

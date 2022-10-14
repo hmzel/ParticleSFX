@@ -9,20 +9,19 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Consumer;
 
-/** S for SAFE! <p></p>
- *
+/**
  * This class is meant to allow me to keep locations mutable without shapes going completely bonkers if they're modified <p></p>
  *
  * This class also extends {@link Location} so you can use it in the same way as that class
  */
-public class LocationS extends Location {
+public class LocationSafe extends Location {
 
     private static final Rotation rotHelper = new Rotation(0, 0, 0);
     private final Map<ParticleShapeCompound, Consumer<Location>> recalcMechanics = new HashMap<>();
     private Consumer<Location> mechanic = null;
     private boolean changed = false;
 
-    public LocationS(World world, double x, double y, double z) {
+    public LocationSafe(World world, double x, double y, double z) {
         super(world, x, y, z);
     }
 
@@ -196,8 +195,8 @@ public class LocationS extends Location {
     }
 
     @Override
-    public LocationS clone() {
-        LocationS l = new LocationS(getWorld(), getX(), getY(), getZ());
+    public LocationSafe clone() {
+        LocationSafe l = new LocationSafe(getWorld(), getX(), getY(), getZ());
 
         l.setMechanic(mechanic);
 

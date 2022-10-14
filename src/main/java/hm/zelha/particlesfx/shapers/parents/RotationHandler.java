@@ -2,7 +2,7 @@ package hm.zelha.particlesfx.shapers.parents;
 
 import hm.zelha.particlesfx.util.ArrayListSafe;
 import hm.zelha.particlesfx.util.LVMath;
-import hm.zelha.particlesfx.util.LocationS;
+import hm.zelha.particlesfx.util.LocationSafe;
 import hm.zelha.particlesfx.util.Rotation;
 import org.apache.commons.lang3.Validate;
 import org.bukkit.Bukkit;
@@ -16,7 +16,7 @@ import java.util.List;
 
 public class RotationHandler {
 
-    protected final List<LocationS> locations = new ArrayListSafe<>(this);
+    protected final List<LocationSafe> locations = new ArrayListSafe<>(this);
     protected final List<Location> origins = new ArrayList<>();
     protected final Rotation rot = new Rotation();
     protected final Rotation rot2 = new Rotation();
@@ -121,7 +121,7 @@ public class RotationHandler {
         //aka, inverse the current rotation for rot, apply it to all locations, and set that as the origin for rot
         //then we inverse the rotation for rot2, apply that to rot's origins using the last rotated around location,
         //and set that as the origins for rot2
-        Rotation rotHelper = LocationS.getRotHelper();
+        Rotation rotHelper = LocationSafe.getRotHelper();
 
         rotHelper.set(-rot.getPitch(), -rot.getYaw(), -rot.getRoll());
         calculateCentroid(locations);
@@ -142,7 +142,7 @@ public class RotationHandler {
     protected void recalcOriginCentroid() {
         //get origin centroid, set vectorHelper to the distance between centroid and lastRotatedAround, rotate vectorHelper by the
         //inverse of rot2, set originalCentroid to lastRotatedAround + vectorHelper
-        Rotation rotHelper = LocationS.getRotHelper();
+        Rotation rotHelper = LocationSafe.getRotHelper();
 
         if (locations.size() == 1) centroid.zero().add(locations.get(0)); else calculateCentroid(origins);
 

@@ -3,7 +3,7 @@ package hm.zelha.particlesfx.shapers;
 import hm.zelha.particlesfx.particles.parents.Particle;
 import hm.zelha.particlesfx.shapers.parents.ParticleShaper;
 import hm.zelha.particlesfx.util.LVMath;
-import hm.zelha.particlesfx.util.LocationS;
+import hm.zelha.particlesfx.util.LocationSafe;
 import org.apache.commons.lang3.Validate;
 import org.bukkit.Location;
 
@@ -11,7 +11,7 @@ public class ParticleLine extends ParticleShaper {
 
     //TODO: improve display()
 
-    public ParticleLine(Particle particle, double frequency, LocationS... locations) {
+    public ParticleLine(Particle particle, double frequency, LocationSafe... locations) {
         super(particle, frequency);
 
         Validate.isTrue(locations.length >= 2, "Line must have 2 or more locations!");
@@ -22,7 +22,7 @@ public class ParticleLine extends ParticleShaper {
         start();
     }
 
-    public ParticleLine(Particle particle, LocationS... locations) {
+    public ParticleLine(Particle particle, LocationSafe... locations) {
         this(particle, 50);
     }
 
@@ -78,7 +78,7 @@ public class ParticleLine extends ParticleShaper {
         if (!hasRan && trackCount) overallCount = 0;
     }
 
-    public void addLocation(LocationS location) {
+    public void addLocation(LocationSafe location) {
         Validate.notNull(location, "Location can't be null!");
         Validate.notNull(location.getWorld(), "Locations cannot have null worlds!");
 

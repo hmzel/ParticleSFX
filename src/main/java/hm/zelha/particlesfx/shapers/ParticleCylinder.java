@@ -4,7 +4,7 @@ import hm.zelha.particlesfx.particles.parents.Particle;
 import hm.zelha.particlesfx.shapers.parents.ParticleShaper;
 import hm.zelha.particlesfx.util.CircleInfo;
 import hm.zelha.particlesfx.util.LVMath;
-import hm.zelha.particlesfx.util.LocationS;
+import hm.zelha.particlesfx.util.LocationSafe;
 import hm.zelha.particlesfx.util.Rotation;
 import org.apache.commons.lang3.Validate;
 import org.bukkit.Bukkit;
@@ -19,7 +19,7 @@ public class ParticleCylinder extends ParticleShaper {
     // make it so using rotation methods every tick doesnt cause wacky stuff to happen if all locations are evenly spaced
 
     private final List<CircleInfo> circles = new ArrayList<>();
-    private final CircleInfo circleHelper = new CircleInfo(new LocationS(Bukkit.getWorld("world"), 0, 0, 0), 0, 0);
+    private final CircleInfo circleHelper = new CircleInfo(new LocationSafe(Bukkit.getWorld("world"), 0, 0, 0), 0, 0);
     private final Rotation rotHelper = new Rotation();
     private int circleFrequency;
 
@@ -109,9 +109,9 @@ public class ParticleCylinder extends ParticleShaper {
         }
 
         circles.add(circle);
-        locations.add((LocationS) circle.getCenter());
-        origins.add(((LocationS) circle.getCenter()).cloneToLocation());
-        ((LocationS) circle.getCenter()).setChanged(true);
+        locations.add((LocationSafe) circle.getCenter());
+        origins.add(((LocationSafe) circle.getCenter()).cloneToLocation());
+        ((LocationSafe) circle.getCenter()).setChanged(true);
     }
 
     public void removeCircle(int index) {

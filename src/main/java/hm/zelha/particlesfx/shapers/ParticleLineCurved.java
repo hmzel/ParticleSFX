@@ -3,7 +3,7 @@ package hm.zelha.particlesfx.shapers;
 import hm.zelha.particlesfx.particles.parents.Particle;
 import hm.zelha.particlesfx.util.CurveInfo;
 import hm.zelha.particlesfx.util.LVMath;
-import hm.zelha.particlesfx.util.LocationS;
+import hm.zelha.particlesfx.util.LocationSafe;
 import hm.zelha.particlesfx.util.Rotation;
 import org.bukkit.Location;
 import org.bukkit.util.NumberConversions;
@@ -22,13 +22,13 @@ public class ParticleLineCurved extends ParticleLine {
     private final Vector vectorHelper3 = new Vector(0, 0, 0);
     private List<Double[]> linePitchAndYaw;
 
-    public ParticleLineCurved(Particle particle, double frequency, LocationS... locations) {
+    public ParticleLineCurved(Particle particle, double frequency, LocationSafe... locations) {
         super(particle, frequency, locations);
         recalculateAllLinesPitchAndYaw();
     }
 
-    public ParticleLineCurved(Particle particle, LocationS... locationS) {
-        this(particle, 100, locationS);
+    public ParticleLineCurved(Particle particle, LocationSafe... locations) {
+        this(particle, 100, locations);
     }
 
     //TODO: make this thread-safe (and improve?)
@@ -204,7 +204,7 @@ public class ParticleLineCurved extends ParticleLine {
     }
 
     @Override
-    public void addLocation(LocationS location) {
+    public void addLocation(LocationSafe location) {
         super.addLocation(location);
 
         //this method is called in ParticleLine's constructor, and at that point linePitchAndYaw hasnt been initialized yet. have to do it here

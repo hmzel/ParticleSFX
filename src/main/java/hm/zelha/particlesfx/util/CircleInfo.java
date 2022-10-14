@@ -5,14 +5,14 @@ import org.bukkit.Location;
 
 public class CircleInfo {
 
-    private LocationS center = null;
+    private LocationSafe center = null;
     private double pitch;
     private double yaw;
     private double roll;
     private double xRadius;
     private double zRadius;
 
-    public CircleInfo(LocationS center, double xRadius, double zRadius, double pitch, double yaw, double roll) {
+    public CircleInfo(LocationSafe center, double xRadius, double zRadius, double pitch, double yaw, double roll) {
         setCenter(center);
 
         this.pitch = pitch;
@@ -22,7 +22,7 @@ public class CircleInfo {
         this.zRadius = zRadius;
     }
 
-    public CircleInfo(LocationS center, double xRadius, double zRadius) {
+    public CircleInfo(LocationSafe center, double xRadius, double zRadius) {
         this(center, xRadius, zRadius, 0, 0, 0);
     }
 
@@ -43,7 +43,7 @@ public class CircleInfo {
         return this;
     }
 
-    public void setCenter(LocationS center) {
+    public void setCenter(LocationSafe center) {
         Validate.notNull(center, "Location cannot be null!");
         Validate.notNull(center.getWorld(), "Location's world cannot be null!");
 

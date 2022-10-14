@@ -2,7 +2,7 @@ package hm.zelha.particlesfx.shapers;
 
 import hm.zelha.particlesfx.particles.parents.Particle;
 import hm.zelha.particlesfx.shapers.parents.ParticleShaper;
-import hm.zelha.particlesfx.util.LocationS;
+import hm.zelha.particlesfx.util.LocationSafe;
 import org.apache.commons.lang3.Validate;
 import org.bukkit.Location;
 
@@ -24,7 +24,7 @@ public class ParticleSphere extends ParticleShaper {
     private boolean limitInverse = false;
     private boolean recalculate = true;
 
-    public ParticleSphere(Particle particle, LocationS center, double xRadius, double yRadius, double zRadius, double pitch, double yaw, double roll, int circleFrequency, double particleFrequency) {
+    public ParticleSphere(Particle particle, LocationSafe center, double xRadius, double yRadius, double zRadius, double pitch, double yaw, double roll, int circleFrequency, double particleFrequency) {
         super(particle, particleFrequency);
 
         setCenter(center);
@@ -38,11 +38,11 @@ public class ParticleSphere extends ParticleShaper {
         start();
     }
 
-    public ParticleSphere(Particle particle, LocationS center, double xRadius, double yRadius, double zRadius, int circleFrequency, double particleFrequency) {
+    public ParticleSphere(Particle particle, LocationSafe center, double xRadius, double yRadius, double zRadius, int circleFrequency, double particleFrequency) {
         this(particle, center, xRadius, yRadius, zRadius, 0, 0, 0, circleFrequency, particleFrequency);
     }
 
-    public ParticleSphere(Particle particle, LocationS center, double xRadius, double yRadius, double zRadius, double particleFrequency) {
+    public ParticleSphere(Particle particle, LocationSafe center, double xRadius, double yRadius, double zRadius, double particleFrequency) {
         this(particle, center, xRadius, yRadius, zRadius, 0, 0, 0, (int) (particleFrequency / 20), particleFrequency);
     }
 
@@ -122,7 +122,7 @@ public class ParticleSphere extends ParticleShaper {
         }
     }
 
-    public void setCenter(LocationS center) {
+    public void setCenter(LocationSafe center) {
         Validate.notNull(center, "Location cannot be null!");
         Validate.notNull(center.getWorld(), "Location's world cannot be null!");
 

@@ -4,7 +4,7 @@ import hm.zelha.particlesfx.particles.parents.Particle;
 import hm.zelha.particlesfx.shapers.parents.ParticleShaper;
 import hm.zelha.particlesfx.util.CircleInfo;
 import hm.zelha.particlesfx.util.LVMath;
-import hm.zelha.particlesfx.util.LocationS;
+import hm.zelha.particlesfx.util.LocationSafe;
 import hm.zelha.particlesfx.util.Rotation;
 import org.apache.commons.lang3.Validate;
 import org.bukkit.World;
@@ -105,9 +105,9 @@ public class ParticleSpiral extends ParticleShaper {
         }
 
         circles.add(circle);
-        locations.add((LocationS) circle.getCenter());
-        origins.add(((LocationS) circle.getCenter()).cloneToLocation());
-        ((LocationS) circle.getCenter()).setChanged(true);
+        locations.add((LocationSafe) circle.getCenter());
+        origins.add(((LocationSafe) circle.getCenter()).cloneToLocation());
+        ((LocationSafe) circle.getCenter()).setChanged(true);
     }
 
     public void removeCircle(int index) {
