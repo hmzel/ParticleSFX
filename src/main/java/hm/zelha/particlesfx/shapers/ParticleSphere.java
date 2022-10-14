@@ -65,33 +65,7 @@ public class ParticleSphere extends ParticleShaper {
         }
 
         if (recalculate) {
-            cirTracker.clear();
-
-            totalArea = 0;
-
-            for (double i = loopStart; true; i += increase) {
-                if (i > loopEndFix) i = loopEnd;
-
-                double curve = Math.sin(i);
-                double circumference;
-
-                if (xRadius == zRadius) {
-                    circumference = Math.PI * 2 * (xRadius * curve);
-                } else {
-                    double x = xRadius * curve;
-                    double z = zRadius * curve;
-
-                    circumference = Math.PI * 2 * Math.sqrt((Math.pow(x, 2) + Math.pow(z, 2)) / 2);
-                }
-
-                cirTracker.add(circumference);
-                totalArea += circumference;
-
-                if (i == loopEnd) {
-                    recalculate = false;
-                    break;
-                }
-            }
+            recalcCircumferenceAndArea(limitation, loopEndFix, loopStart, loopEnd, increase);
         }
 
         for (double i = loopStart; true; i += increase) {
@@ -119,6 +93,43 @@ public class ParticleSphere extends ParticleShaper {
             if (i == loopEnd) break;
 
             current++;
+        }
+    }
+
+    private void recalcCircumferenceAndArea(double limitation, double loopEndFix, double loopStart, double loopEnd, double increase) {
+        if (limitInverse) {
+            loopEnd -= limitation;
+            //cutting loopEnd down to the 29th decimal. reason already stated
+            loopEndFix = loopEnd - ((loopEnd) - (((int) ((loopEnd) * 29)) / 29D));
+            loopStart = 0;
+        }
+
+        cirTracker.clear();
+
+        totalArea = 0;
+
+        for (double i = loopStart; true; i += increase) {
+            if (i > loopEndFix) i = loopEnd;
+
+            double curve = Math.sin(i);
+            double circumference;
+
+            if (xRadius == zRadius) {
+                circumference = Math.PI * 2 * (xRadius * curve);
+            } else {
+                double x = xRadius * curve;
+                double z = zRadius * curve;
+
+                circumference = Math.PI * 2 * Math.sqrt((Math.pow(x, 2) + Math.pow(z, 2)) / 2);
+            }
+
+            cirTracker.add(circumference);
+            totalArea += circumference;
+
+            if (i == loopEnd) {
+                recalculate = false;
+                break;
+            }
         }
     }
 
