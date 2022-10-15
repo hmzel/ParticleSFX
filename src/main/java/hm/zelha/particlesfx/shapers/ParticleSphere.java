@@ -48,7 +48,7 @@ public class ParticleSphere extends ParticleShaper {
 
     @Override
     public void display() {
-        int current = 0;
+        int currentCir = 0;
         double continuation = 0;
         double limitation = Math.PI * limit / 100;
         //the long decimal number is used to cut PI to the 29th decimal place to prevent some double weirdness that i dont even understand
@@ -56,6 +56,9 @@ public class ParticleSphere extends ParticleShaper {
         double loopStart = limitation;
         double loopEnd = Math.PI;
         double increase = (Math.PI - limitation) / (circleFrequency - 1);
+        boolean hasRan = false;
+        boolean trackCount = particlesPerDisplay > 0;
+        double current = overallCount;
 
         if (limitInverse) {
             loopEnd -= limitation;
@@ -68,11 +71,12 @@ public class ParticleSphere extends ParticleShaper {
             recalcCircumferenceAndArea(limitation, loopEndFix, loopStart, loopEnd, increase);
         }
 
+        main:
         for (double i = loopStart; true; i += increase) {
             if (i > loopEndFix) i = loopEnd;
 
             double curve = Math.sin(i);
-            double circleInc = (Math.PI * 2) / Math.floor(particleFrequency * (cirTracker.get(current) / totalArea));
+            double circleInc = (Math.PI * 2) / Math.floor(particleFrequency * (cirTracker.get(currentCir) / totalArea));
 
             if (!Double.isFinite(circleInc)) circleInc = Math.PI * 2;
 
@@ -82,18 +86,38 @@ public class ParticleSphere extends ParticleShaper {
                     break;
                 }
 
+                if (trackCount && current != 0) {
+                    current--;
+                    continue;
+                }
+
                 vectorHelper.setX(Math.cos(radian) * (xRadius * curve));
                 vectorHelper.setY(yRadius * Math.cos(i));
                 vectorHelper.setZ(Math.sin(radian) * (zRadius * curve));
                 rot.apply(vectorHelper);
                 locationHelper.zero().add(locations.get(0));
                 getCurrentParticle().display(locationHelper.add(vectorHelper));
+
+                overallCount++;
+
+                if (trackCount) {
+                    currentCount++;
+                    hasRan = true;
+
+                    if (currentCount >= particlesPerDisplay) {
+                        currentCount = 0;
+                        break main;
+                    }
+                }
             }
 
             if (i == loopEnd) break;
 
-            current++;
+            currentCir++;
         }
+
+        if (!trackCount) overallCount = 0;
+        if (!hasRan && trackCount) overallCount = 0;
     }
 
     private void recalcCircumferenceAndArea(double limitation, double loopEndFix, double loopStart, double loopEnd, double increase) {
