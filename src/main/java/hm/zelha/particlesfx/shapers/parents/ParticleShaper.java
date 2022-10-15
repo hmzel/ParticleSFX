@@ -132,6 +132,10 @@ public abstract class ParticleShaper extends RotationHandler implements Shape {
         return particle;
     }
 
+    public Pair<Particle, Integer> getSecondaryParticle(int index) {
+        return secondaryParticles.get(index);
+    }
+
     public double getParticleFrequency() {
         return particleFrequency;
     }
@@ -142,5 +146,9 @@ public abstract class ParticleShaper extends RotationHandler implements Shape {
 
     public ShapeDisplayMechanic getMechanic() {
         return mechanic;
+    }
+
+    public int getSecondaryParticleAmount() {
+        return secondaryParticles.size();
     }
 }
