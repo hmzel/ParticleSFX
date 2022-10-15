@@ -124,11 +124,11 @@ public class ParticleShapeCompound extends RotationHandler implements Shape {
 
         if (locations == null) return;
 
-        if (this.locations.isEmpty()) {
+        if (!this.locations.isEmpty()) {
+            Validate.isTrue(locations.get(0).getWorld().equals(this.locations.get(0).getWorld()), "Locations cannot have differing worlds!");
+        } else {
             setWorld(locations.get(0).getWorld());
         }
-
-        Validate.isTrue(locations.get(0).getWorld().equals(this.locations.get(0).getWorld()), "Locations cannot have differing worlds!");
 
         if (shapeLocationIndex.isEmpty()) {
             shapeLocationIndex.put(shape, shape.getLocationAmount() - 1);
