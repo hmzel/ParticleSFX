@@ -11,7 +11,8 @@ import java.util.List;
 
 public class ParticleSphere extends ParticleShaper {
 
-    //maybe make this extend ParticleCircle at some point? that makes sense but doesnt at the same time so idrk. decide later
+    //TODO: see if theres any way to improve particlesPerDisplay in this class
+    // maybe make this extend ParticleCircle at some point? that makes sense but doesnt at the same time so idrk. decide later
 
     //circumference tracker
     private final List<Double> cirTracker = new ArrayList<>();
@@ -90,6 +91,8 @@ public class ParticleSphere extends ParticleShaper {
                     current--;
                     continue;
                 }
+
+                if (mechanic != null) mechanic.apply(particle, locationHelper, vectorHelper);
 
                 vectorHelper.setX(Math.cos(radian) * (xRadius * curve));
                 vectorHelper.setY(yRadius * Math.cos(i));
