@@ -1,6 +1,5 @@
 package hm.zelha.particlesfx.particles.parents;
 
-import hm.zelha.particlesfx.particles.ParticleDust;
 import net.minecraft.server.v1_8_R3.EntityPlayer;
 import net.minecraft.server.v1_8_R3.EnumParticle;
 import net.minecraft.server.v1_8_R3.PacketPlayOutWorldParticles;
@@ -15,8 +14,8 @@ import java.util.List;
 
 public class ColorableParticle extends Particle {
 
-    private Color color;
-    private int brightness;
+    protected Color color;
+    protected int brightness;
 
     protected ColorableParticle(EnumParticle particle, @Nullable Color color, int brightness, double offsetX, double offsetY, double offsetZ, int count) {
         super(particle, offsetX, offsetY, offsetZ, 1, count, 0);
@@ -44,12 +43,6 @@ public class ColorableParticle extends Particle {
                 trueOffsetX = color.getRed() / 255D;
                 trueOffsetY = color.getGreen() / 255D;
                 trueOffsetZ = color.getBlue() / 255D;
-
-                //dont judge me
-                if (this instanceof ParticleDust && color.getRed() == 0) {
-                    trueOffsetX = 0.0001;
-                }
-
                 addition = generateFakeOffset();
 
                 location.add(addition);
