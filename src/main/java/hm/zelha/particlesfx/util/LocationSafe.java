@@ -26,25 +26,20 @@ public class LocationSafe extends Location {
     }
 
     /**
-     * only meant to be used in {@link ParticleShapeCompound}, use at own risk
+     * only meant to be used in {@link RotationHandler} or {@link ParticleShapeCompound}, use at own risk
      */
-    public void setUnsafely2(double x, double y, double z) {
+    public void setUnsafely(double x, double y, double z, boolean causedByCompound) {
         super.setX(x);
         super.setY(y);
         super.setZ(z);
 
-        this.changed = true;
-    }
-
-    /**
-     * only meant to be used in {@link RotationHandler}, use at own risk
-     */
-    public void setUnsafely(double x, double y, double z) {
-        super.setX(x);
-        super.setY(y);
-        super.setZ(z);
-
-        for (Consumer<Location> mechanic : recalcMechanics.values()) mechanic.accept(this);
+        if (causedByCompound) {
+            this.changed = true;
+        } else {
+            for (Consumer<Location> mechanic : recalcMechanics.values()) {
+                mechanic.accept(this);
+            }
+        }
     }
 
     /**

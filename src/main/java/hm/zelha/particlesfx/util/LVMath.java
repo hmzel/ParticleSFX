@@ -27,9 +27,9 @@ public final class LVMath {
         return toSet;
     }
 
-    public static Location additionToLocation(Location toSet, Location toAddTo, Vector addend) {
+    public static Location additionToLocation(Location toSet, Location toAddTo, Vector addend, boolean causedByCompound) {
         if (toSet instanceof LocationSafe) {
-            ((LocationSafe) toSet).setUnsafely(toAddTo.getX() + addend.getX(), toAddTo.getY() + addend.getY(), toAddTo.getZ() + addend.getZ());
+            ((LocationSafe) toSet).setUnsafely(toAddTo.getX() + addend.getX(), toAddTo.getY() + addend.getY(), toAddTo.getZ() + addend.getZ(), causedByCompound);
         } else {
             toSet.setX(toAddTo.getX() + addend.getX());
             toSet.setY(toAddTo.getY() + addend.getY());
@@ -39,15 +39,7 @@ public final class LVMath {
         return toSet;
     }
 
-    public static Location additionToLocation2(Location toSet, Location toAddTo, Vector addend) {
-        if (toSet instanceof LocationSafe) {
-            ((LocationSafe) toSet).setUnsafely2(toAddTo.getX() + addend.getX(), toAddTo.getY() + addend.getY(), toAddTo.getZ() + addend.getZ());
-        } else {
-            toSet.setX(toAddTo.getX() + addend.getX());
-            toSet.setY(toAddTo.getY() + addend.getY());
-            toSet.setZ(toAddTo.getZ() + addend.getZ());
-        }
-
-        return toSet;
+    public static Location additionToLocation(Location toSet, Location toAddTo, Vector addend) {
+        return additionToLocation(toSet, toAddTo, addend, false);
     }
 }
