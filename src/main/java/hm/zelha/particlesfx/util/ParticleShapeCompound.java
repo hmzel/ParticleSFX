@@ -9,6 +9,7 @@ import org.bukkit.Location;
 import java.lang.reflect.Field;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.logging.Level;
 
 public class ParticleShapeCompound extends RotationHandler implements Shape {
 
@@ -54,7 +55,7 @@ public class ParticleShapeCompound extends RotationHandler implements Shape {
 
         for (int i = 0; i < locations.size(); i++) {
             //set vectorHelper to origin - centroid, apply rotation to vectorHelper, set location to centroid + vectorHelper
-            LVMath.additionToLocation2(locations.get(i), centroid, rot.apply(LVMath.subtractToVector(rhVectorHelper, origins.get(i), centroid)));
+            LVMath.additionToLocation(locations.get(i), centroid, rot.apply(LVMath.subtractToVector(rhVectorHelper, origins.get(i), centroid)), true);
         }
     }
 
@@ -80,13 +81,13 @@ public class ParticleShapeCompound extends RotationHandler implements Shape {
 
         rot2.add(pitch, yaw, roll);
         //getting distance between original centroid and around, rotating it, and adding it to around to get the genuine location
-        LVMath.additionToLocation(rhLocationHelper, around, rot2.apply(LVMath.subtractToVector(rhVectorHelper, originalCentroid, around)));
+        LVMath.additionToLocation(rhLocationHelper, around, rot2.apply(LVMath.subtractToVector(rhVectorHelper, originalCentroid, around)), true);
         calculateCentroid(origins);
 
         for (int i = 0; i < locations.size(); i++) {
             //getting the distance between the centroid and the location, adding that to the rotated centroid, and setting that as the location
-            LVMath.additionToLocation2(locations.get(i), rhLocationHelper, LVMath.subtractToVector(rhVectorHelper, locations.get(i), centroid));
-            LVMath.additionToLocation2(origins.get(i), rhLocationHelper, LVMath.subtractToVector(rhVectorHelper, origins.get(i), centroid));
+            LVMath.additionToLocation(locations.get(i), rhLocationHelper, LVMath.subtractToVector(rhVectorHelper, locations.get(i), centroid), true);
+            LVMath.additionToLocation(origins.get(i), rhLocationHelper, LVMath.subtractToVector(rhVectorHelper, origins.get(i), centroid), true);
         }
     }
 
@@ -105,9 +106,8 @@ public class ParticleShapeCompound extends RotationHandler implements Shape {
             f.setAccessible(true);
 
             return (ArrayListSafe<LocationSafe>) f.get(shape);
-        } catch (NoSuchFieldException | IllegalAccessException e) {
-            Bukkit.getLogger().severe("Something went wrong getting shape's locations, this should never happen");
-            e.printStackTrace();
+        } catch (NoSuchFieldException | IllegalAccessException ex) {
+            Bukkit.getLogger().log(Level.SEVERE, "Something went wrong getting shape's locations, this should never happen", ex);
 
             return null;
         }
