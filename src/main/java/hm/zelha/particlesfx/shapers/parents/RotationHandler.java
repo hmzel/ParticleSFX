@@ -69,7 +69,14 @@ public class RotationHandler {
     }
 
     public void face(Location toFace) {
-        if (locations.size() == 1) centroid.zero().add(locations.get(0)); else calculateCentroid(origins);
+        if (locations.size() == 1) {
+            centroid.zero().add(locations.get(0));
+        } else {
+            calculateCentroid(origins);
+        }
+
+        //if we don't recalculate now getDirection() may be off if locations were changed by outside influence
+        recalculateIfNeeded(null);
 
         double[] direction = getDirection(toFace, centroid);
 
@@ -77,6 +84,9 @@ public class RotationHandler {
     }
 
     public void faceAroundLocation(Location toFace, Location around) {
+        //if we don't recalculate now getDirection() may be off if locations were changed by outside influence
+        recalculateIfNeeded(around);
+
         double[] direction = getDirection(toFace, around);
 
         rotateAroundLocation(around, direction[0] - rot2.getPitch(), direction[1] - rot2.getYaw(), 0);
