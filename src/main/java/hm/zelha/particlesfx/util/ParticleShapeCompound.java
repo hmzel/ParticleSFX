@@ -48,7 +48,7 @@ public class ParticleShapeCompound extends RotationHandler implements Shape {
             }
         }
 
-        if (recalc) recalculateAllOrigins();
+        if (recalc) recalculateOrigins();
 
         rot.add(pitch, yaw, roll);
         calculateCentroid(origins);
@@ -71,12 +71,12 @@ public class ParticleShapeCompound extends RotationHandler implements Shape {
                 lastRotatedAround.zero().add(around);
             }
 
-            recalculateAllOrigins();
+            recalculateOrigins();
         }
 
         if (!around.equals(lastRotatedAround)) {
             lastRotatedAround.zero().add(around);
-            recalcOriginCentroid();
+            recalculateOrigins();
         }
 
         rot2.add(pitch, yaw, roll);
