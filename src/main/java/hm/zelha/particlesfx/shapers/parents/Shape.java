@@ -40,6 +40,18 @@ public interface Shape {
 
     public void setAroundRoll(double roll);
 
+    public double getPitch();
+
+    public double getYaw();
+
+    public double getRoll();
+
+    public double getAroundPitch();
+
+    public double getAroundYaw();
+
+    public double getAroundRoll();
+
     public int getLocationAmount();
 
     public double getTotalDistance();
