@@ -48,7 +48,7 @@ public class ParticleShapeCompound extends RotationHandler implements Shape {
             }
         }
 
-        if (recalc) recalculateIfNeeded();
+        if (recalc) recalculateIfNeeded(null);
 
         rot.add(pitch, yaw, roll);
         calculateCentroid(origins);
@@ -63,21 +63,7 @@ public class ParticleShapeCompound extends RotationHandler implements Shape {
     public void rotateAroundLocation(Location around, double pitch, double yaw, double roll) {
         Validate.isTrue(around.getWorld().equals(centroid.getWorld()), "Cant rotate around locations in different worlds!");
 
-        lastRotatedAround.setPitch(around.getPitch());
-        lastRotatedAround.setYaw(around.getYaw());
-
-        if (recalc) {
-            if (!around.equals(lastRotatedAround)) {
-                lastRotatedAround.zero().add(around);
-            }
-
-            recalculateIfNeeded();
-        }
-
-        if (!around.equals(lastRotatedAround)) {
-            lastRotatedAround.zero().add(around);
-            recalculateIfNeeded();
-        }
+        if (recalc) recalculateIfNeeded(around);
 
         rot2.add(pitch, yaw, roll);
         //getting distance between original centroid and around, rotating it, and adding it to around to get the genuine location

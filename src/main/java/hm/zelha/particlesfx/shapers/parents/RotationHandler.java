@@ -11,6 +11,7 @@ import org.bukkit.World;
 import org.bukkit.util.NumberConversions;
 import org.bukkit.util.Vector;
 
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,7 +35,7 @@ public class RotationHandler {
             return;
         }
 
-        recalculateIfNeeded();
+        recalculateIfNeeded(null);
         rot.add(pitch, yaw, roll);
         calculateCentroid(origins);
 
@@ -47,15 +48,7 @@ public class RotationHandler {
     public void rotateAroundLocation(Location around, double pitch, double yaw, double roll) {
         Validate.isTrue(around.getWorld().equals(centroid.getWorld()), "Cant rotate around locations in different worlds!");
 
-        lastRotatedAround.setPitch(around.getPitch());
-        lastRotatedAround.setYaw(around.getYaw());
-        recalculateIfNeeded();
-
-        if (!around.equals(lastRotatedAround)) {
-            lastRotatedAround.zero().add(around);
-            recalculateIfNeeded();
-        }
-
+        recalculateIfNeeded(around);
         rot2.add(pitch, yaw, roll);
 
         if (locations.size() == 1) {
@@ -101,8 +94,9 @@ public class RotationHandler {
         for (int i = 0; i < locations.size(); i++) locations.get(i).add(location);
     }
 
-    protected void recalculateIfNeeded() {
+    protected void recalculateIfNeeded(@Nullable Location around) {
         boolean recalculate = false;
+        boolean aroundHasChanged = false;
 
         for (int i = 0; i < locations.size(); i++) {
             if (locations.get(i).isChanged()) {
@@ -112,28 +106,39 @@ public class RotationHandler {
             }
         }
 
-        if (recalculate) {
-            if (locations.size() != 1) {
-                //need to set both origins to what they would be if the rotation was 0, 0, 0
-                //aka, inverse the current rotation for rot, apply it to all locations, and set that as the origin for rot
-                //then we inverse the rotation for rot2, apply that to rot's origins using the last rotated around location,
-                //and set that as the origins for rot2
-                Rotation rotHelper = LocationSafe.getRotHelper();
+        if (around != null) {
+            lastRotatedAround.setPitch(around.getPitch());
+            lastRotatedAround.setYaw(around.getYaw());
 
-                rotHelper.set(-rot.getPitch(), -rot.getYaw(), -rot.getRoll());
-                calculateCentroid(locations);
+            if (!around.equals(lastRotatedAround)) {
+                aroundHasChanged = true;
 
-                for (int i = 0; i < locations.size(); i++) {
-                    Vector v = LVMath.subtractToVector(rhVectorHelper, locations.get(i), centroid);
-
-                    rotHelper.applyRoll(v);
-                    rotHelper.applyYaw(v);
-                    rotHelper.applyPitch(v);
-
-                    LVMath.additionToLocation(origins.get(i), centroid, v);
-                }
+                lastRotatedAround.zero().add(around);
             }
+        }
 
+        if (locations.size() != 1 && recalculate) {
+            //need to set both origins to what they would be if the rotation was 0, 0, 0
+            //aka, inverse the current rotation for rot, apply it to all locations, and set that as the origin for rot
+            //then we inverse the rotation for rot2, apply that to rot's origins using the last rotated around location,
+            //and set that as the origins for rot2
+            Rotation rotHelper = LocationSafe.getRotHelper();
+
+            rotHelper.set(-rot.getPitch(), -rot.getYaw(), -rot.getRoll());
+            calculateCentroid(locations);
+
+            for (int i = 0; i < locations.size(); i++) {
+                Vector v = LVMath.subtractToVector(rhVectorHelper, locations.get(i), centroid);
+
+                rotHelper.applyRoll(v);
+                rotHelper.applyYaw(v);
+                rotHelper.applyPitch(v);
+
+                LVMath.additionToLocation(origins.get(i), centroid, v);
+            }
+        }
+
+        if (recalculate || aroundHasChanged) {
             //get origin centroid, set vectorHelper to the distance between centroid and lastRotatedAround, rotate vectorHelper by the
             //inverse of rot2, set originalCentroid to lastRotatedAround + vectorHelper
             Rotation rotHelper = LocationSafe.getRotHelper();
