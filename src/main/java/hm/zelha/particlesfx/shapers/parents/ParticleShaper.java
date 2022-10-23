@@ -101,7 +101,7 @@ public abstract class ParticleShaper extends RotationHandler implements Shape {
      * the addition vector however you want, though doing so may be very volatile
      * <p></p>
      * keep in mind that all changes to the given objects will be reflected in the display() method <p>
-     * and, considering that the display() method is often called hundreds of times per tick, try to make sure the mechanic isnt very
+     * and, considering that the display() method is often called many times per tick, try to make sure the mechanic isnt very
      * resource-intensive
      * <p></p>
      * given Particle - particle to be displayed
@@ -109,7 +109,8 @@ public abstract class ParticleShaper extends RotationHandler implements Shape {
      * given Location - the location the vector will be added to, in some cases this is the last position the particle was displayed,
      * in others it is the center of the shape
      * <p></p>
-     * given Vector - the vector that will be added to the location before the particle is displayed
+     * given Vector - the vector that will be added to the location before the particle is displayed, the vector is passed to the mechanic
+     * before rotation is applied, in cases where rotation is used in display()
      *
      * @param mechanic mechanic to run during display
      */

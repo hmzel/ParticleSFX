@@ -52,10 +52,13 @@ public class ParticleCircle extends ParticleShaper {
         }
 
         for (double radian = loopStart + (increase * overallCount); radian < loopEnd; radian += increase) {
-            rot.apply(vectorHelper.setX(xRadius * Math.cos(radian)).setY(0).setZ(zRadius * Math.sin(radian)));
+            vectorHelper.setX(xRadius * Math.cos(radian));
+            vectorHelper.setY(0);
+            vectorHelper.setZ(zRadius * Math.sin(radian));
 
             if (mechanic != null) mechanic.apply(particle, center, vectorHelper);
 
+            rot.apply(vectorHelper);
             locationHelper.zero().add(center);
             getCurrentParticle().display(locationHelper.add(vectorHelper));
 

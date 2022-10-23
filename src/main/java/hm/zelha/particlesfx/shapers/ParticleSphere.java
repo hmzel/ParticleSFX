@@ -92,11 +92,12 @@ public class ParticleSphere extends ParticleShaper {
                     continue;
                 }
 
-                if (mechanic != null) mechanic.apply(particle, locationHelper, vectorHelper);
-
                 vectorHelper.setX(Math.cos(radian) * (xRadius * curve));
                 vectorHelper.setY(yRadius * Math.cos(i));
                 vectorHelper.setZ(Math.sin(radian) * (zRadius * curve));
+
+                if (mechanic != null) mechanic.apply(particle, locations.get(0), vectorHelper);
+
                 rot.apply(vectorHelper);
                 locationHelper.zero().add(locations.get(0));
                 getCurrentParticle().display(locationHelper.add(vectorHelper));
