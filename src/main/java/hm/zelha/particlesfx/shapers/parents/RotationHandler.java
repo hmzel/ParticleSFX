@@ -223,20 +223,20 @@ public class RotationHandler {
         rotate(0, 0, roll - rot.getRoll());
     }
 
-    public void setAroundRotation(double pitch, double yaw, double roll) {
-        rotateAroundLocation(lastRotatedAround, pitch - rot2.getPitch(), yaw - rot2.getYaw(), roll - rot2.getRoll());
+    public void setAroundRotation(Location around, double pitch, double yaw, double roll) {
+        rotateAroundLocation(around, pitch - rot2.getPitch(), yaw - rot2.getYaw(), roll - rot2.getRoll());
     }
 
-    public void setAroundPitch(double pitch) {
-        rotateAroundLocation(lastRotatedAround, pitch - rot2.getPitch(), 0, 0);
+    public void setAroundPitch(Location around, double pitch) {
+        rotateAroundLocation(around, pitch - rot2.getPitch(), 0, 0);
     }
 
-    public void setAroundYaw(double yaw) {
-        rotateAroundLocation(lastRotatedAround, 0, yaw - rot2.getYaw(), 0);
+    public void setAroundYaw(Location around, double yaw) {
+        rotateAroundLocation(around, 0, yaw - rot2.getYaw(), 0);
     }
 
-    public void setAroundRoll(double roll) {
-        rotateAroundLocation(lastRotatedAround, 0, 0, roll - rot2.getRoll());
+    public void setAroundRoll(Location around, double roll) {
+        rotateAroundLocation(around, 0, 0, roll - rot2.getRoll());
     }
 
     public double getPitch() {

@@ -36,13 +36,13 @@ public interface Shape {
 
     public void setRoll(double roll);
 
-    public void setAroundRotation(double pitch, double yaw, double roll);
+    public void setAroundRotation(Location around, double pitch, double yaw, double roll);
 
-    public void setAroundPitch(double pitch);
+    public void setAroundPitch(Location around, double pitch);
 
-    public void setAroundYaw(double yaw);
+    public void setAroundYaw(Location around, double yaw);
 
-    public void setAroundRoll(double roll);
+    public void setAroundRoll(Location around, double roll);
 
     public double getPitch();
 
