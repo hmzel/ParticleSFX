@@ -44,13 +44,13 @@ public class ParticleShapeCompound extends RotationHandler implements Shape {
 
     @Override
     public void rotate(double pitch, double yaw, double roll) {
+        super.rotate(pitch, yaw, roll);
+
         for (Shape shape : shapeLocationIndex.keySet()) {
             if (shape.getLocationAmount() == 1) {
-                shape.rotate(pitch, yaw, roll);
+                shape.setRotation(rot.getPitch(), rot.getYaw(), rot.getRoll());
             }
         }
-
-        super.rotate(pitch, yaw, roll);
     }
 
     @Override
