@@ -10,7 +10,7 @@ public class ParticleSFX {
     public static double[] getDirection(Location toFace, Location location) {
         Validate.isTrue(toFace.getWorld().equals(location.getWorld()), "Locations must be in the same world!");
 
-        double x = toFace.getX() - location.getZ();
+        double x = toFace.getX() - location.getX();
         double y = toFace.getY() - location.getY();
         double z = toFace.getZ() - location.getZ();
         //i genuinely have no bloody clue why this works. if anyone sees this and understands what the heck this is please tell me im very curious
