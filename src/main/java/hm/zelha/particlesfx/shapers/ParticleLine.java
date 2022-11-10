@@ -16,14 +16,16 @@ public class ParticleLine extends ParticleShaper {
 
         Validate.isTrue(locations.length >= 2, "Line must have 2 or more locations!");
 
-        for (int i = 0; i < locations.length; i++) addLocation(locations[i]);
+        for (int i = 0; i < locations.length; i++) {
+            addLocation(locations[i]);
+        }
 
         setWorld(super.locations.get(0).getWorld());
         start();
     }
 
     public ParticleLine(Particle particle, LocationSafe... locations) {
-        this(particle, 50);
+        this(particle, 50, locations);
     }
 
     @Override
@@ -55,7 +57,9 @@ public class ParticleLine extends ParticleShaper {
             }
 
             for (double length = control * current; length <= distance; length += control) {
-                if (mechanic != null) mechanic.apply(particle, locationHelper, vectorHelper);
+                if (mechanic != null) {
+                    mechanic.apply(particle, locationHelper, vectorHelper);
+                }
 
                 locationHelper.add(vectorHelper);
                 getCurrentParticle().display(locationHelper);
@@ -74,8 +78,9 @@ public class ParticleLine extends ParticleShaper {
             }
         }
 
-        if (!trackCount) overallCount = 0;
-        if (!hasRan && trackCount) overallCount = 0;
+        if (!trackCount || !hasRan) {
+            overallCount = 0;
+        }
     }
 
     public void addLocation(LocationSafe location) {

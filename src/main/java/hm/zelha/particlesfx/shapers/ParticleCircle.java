@@ -56,7 +56,9 @@ public class ParticleCircle extends ParticleShaper {
             vectorHelper.setY(0);
             vectorHelper.setZ(zRadius * Math.sin(radian));
 
-            if (mechanic != null) mechanic.apply(particle, center, vectorHelper);
+            if (mechanic != null) {
+                mechanic.apply(particle, center, vectorHelper);
+            }
 
             rot.apply(vectorHelper);
             locationHelper.zero().add(center);
@@ -75,8 +77,9 @@ public class ParticleCircle extends ParticleShaper {
             }
         }
 
-        if (!trackCount) overallCount = 0;
-        if (!hasRan && trackCount) overallCount = 0;
+        if (!trackCount || !hasRan) {
+            overallCount = 0;
+        }
     }
 
     public void setCenter(LocationSafe center) {
@@ -88,7 +91,9 @@ public class ParticleCircle extends ParticleShaper {
         originalCentroid.zero().add(center);
         center.setChanged(true);
 
-        if (locations.size() > 1) locations.remove(0);
+        if (locations.size() > 1) {
+            locations.remove(0);
+        }
     }
 
     public void setXRadius(double xRadius) {

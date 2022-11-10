@@ -32,7 +32,9 @@ public class ParticleSpiral extends ParticleShaper {
         setCount(count);
         setSpin(spin);
 
-        for (int i = 0; i < circles.length; i++) addCircle(circles[i]);
+        for (int i = 0; i < circles.length; i++) {
+            addCircle(circles[i]);
+        }
 
         this.circleHelper = this.circles.get(0).clone();
 
@@ -64,35 +66,38 @@ public class ParticleSpiral extends ParticleShaper {
         double endRotation = (Math.PI * 2) * (spin / (circles.size() - 1));
         double increase = endRotation * control;
 
-        for (int c = 0; c < count; c++)
-        for (int i = 0; i < circles.size() - 1; i++) {
-            CircleInfo circle1 = circles.get(i);
-            CircleInfo circle2 = circles.get(i + 1);
-            //adding (((Math.PI * 2) / count) * c) makes it so each spiral is evenly spaced
-            double start = (endRotation * i) + (((Math.PI * 2) / count) * c);
-            double end = (endRotation * (i + 1)) + (((Math.PI * 2) / count) * c);
-            //using Math.abs() because it looks wonky in cases where the rotation is negative
-            double pitchInc = Math.abs(circle1.getPitch() - circle2.getPitch()) * control;
-            double yawInc = Math.abs(circle1.getYaw() - circle2.getYaw()) * control;
-            double rollInc = Math.abs(circle1.getRoll() - circle2.getRoll()) * control;
-            double xRadiusInc = (circle2.getXRadius() - circle1.getXRadius()) * control;
-            double zRadiusInc = (circle2.getZRadius() - circle1.getZRadius()) * control;
+        for (int c = 0; c < count; c++) {
+            for (int i = 0; i < circles.size() - 1; i++) {
+                CircleInfo circle1 = circles.get(i);
+                CircleInfo circle2 = circles.get(i + 1);
+                //adding (((Math.PI * 2) / count) * c) makes it so each spiral is evenly spaced
+                double start = (endRotation * i) + (((Math.PI * 2) / count) * c);
+                double end = (endRotation * (i + 1)) + (((Math.PI * 2) / count) * c);
+                //using Math.abs() because it looks wonky in cases where the rotation is negative
+                double pitchInc = Math.abs(circle1.getPitch() - circle2.getPitch()) * control;
+                double yawInc = Math.abs(circle1.getYaw() - circle2.getYaw()) * control;
+                double rollInc = Math.abs(circle1.getRoll() - circle2.getRoll()) * control;
+                double xRadiusInc = (circle2.getXRadius() - circle1.getXRadius()) * control;
+                double zRadiusInc = (circle2.getZRadius() - circle1.getZRadius()) * control;
 
-            locationHelper.zero().add(circle1.getCenter());
-            //setting vectorHelper to (end - start).normalize() * (distance * control)
-            LVMath.subtractToVector(vectorHelper, circle2.getCenter(), circle1.getCenter()).normalize().multiply(circle1.getCenter().distance(circle2.getCenter()) * control);
-            circleHelper.inherit(circle1);
-            rotHelper.set(circleHelper.getPitch(), circleHelper.getYaw(), circleHelper.getRoll());
+                locationHelper.zero().add(circle1.getCenter());
+                //setting vectorHelper to (end - start).normalize() * (distance * control)
+                LVMath.subtractToVector(vectorHelper, circle2.getCenter(), circle1.getCenter());
+                vectorHelper.normalize();
+                vectorHelper.multiply(circle1.getCenter().distance(circle2.getCenter()) * control);
+                circleHelper.inherit(circle1);
+                rotHelper.set(circleHelper.getPitch(), circleHelper.getYaw(), circleHelper.getRoll());
 
-            for (double radian = start; ((spin > 0) ? radian < end : radian > end); radian += increase) {
-                //setting vectorHelper2 to where the current particle should be in correlation to the current circle's center (locationHelper)
-                rotHelper.apply(vectorHelper2.setX(circleHelper.getXRadius() * Math.cos(radian)).setY(0).setZ(circleHelper.getZRadius() * Math.sin(radian)));
-                getCurrentParticle().display(locationHelper.add(vectorHelper2));
-                circleHelper.getCenter().add(vectorHelper);
-                circleHelper.setXRadius(circleHelper.getXRadius() + xRadiusInc);
-                circleHelper.setZRadius(circleHelper.getZRadius() + zRadiusInc);
-                rotHelper.add(pitchInc, yawInc, rollInc);
-                locationHelper.zero().add(circleHelper.getCenter());
+                for (double radian = start; ((spin > 0) ? radian < end : radian > end); radian += increase) {
+                    //setting vectorHelper2 to where the current particle should be in correlation to the current circle's center (locationHelper)
+                    rotHelper.apply(vectorHelper2.setX(circleHelper.getXRadius() * Math.cos(radian)).setY(0).setZ(circleHelper.getZRadius() * Math.sin(radian)));
+                    getCurrentParticle().display(locationHelper.add(vectorHelper2));
+                    circleHelper.getCenter().add(vectorHelper);
+                    circleHelper.setXRadius(circleHelper.getXRadius() + xRadiusInc);
+                    circleHelper.setZRadius(circleHelper.getZRadius() + zRadiusInc);
+                    rotHelper.add(pitchInc, yawInc, rollInc);
+                    locationHelper.zero().add(circleHelper.getCenter());
+                }
             }
         }
     }

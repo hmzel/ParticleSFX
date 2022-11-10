@@ -67,6 +67,7 @@ public class ParticleLineCurved extends ParticleLine {
                     curveCurrent -= curveEnd;
                     curveApex = curve.getApexPosition();
                     curveEnd = curve.getLength();
+
                     rot3.set(linePitchAndYaw.get(i)[0], linePitchAndYaw.get(i)[1] + 90, curve.getRoll());
                 }
 
@@ -78,9 +79,9 @@ public class ParticleLineCurved extends ParticleLine {
 
             if (trackCount) {
                 current = overallCount - estimatedOverallCount;
+                curveCurrent += control * current;
 
                 locationHelper.add(vectorHelper3.getX() * current, vectorHelper3.getY() * current, vectorHelper3.getZ() * current);
-                curveCurrent += control * current;
 
                 while (curveCurrent >= curveEnd) {
                     curveIndex++;
@@ -91,6 +92,7 @@ public class ParticleLineCurved extends ParticleLine {
                     curveCurrent -= curveEnd;
                     curveApex = curve.getApexPosition();
                     curveEnd = curve.getLength();
+
                     rot3.set(linePitchAndYaw.get(i)[0], linePitchAndYaw.get(i)[1] + 90, curve.getRoll());
                 }
             }
@@ -100,7 +102,9 @@ public class ParticleLineCurved extends ParticleLine {
             }
 
             for (double length = control * current; length <= distance; length += control) {
-                if (mechanic != null) mechanic.apply(particle, locationHelper, vectorHelper3);
+                if (mechanic != null) {
+                    mechanic.apply(particle, locationHelper, vectorHelper3);
+                }
 
                 vectorHelper2.zero();
                 locationHelper.add(vectorHelper3);
@@ -116,6 +120,7 @@ public class ParticleLineCurved extends ParticleLine {
                     curveCurrent -= curveEnd;
                     curveApex = curve.getApexPosition();
                     curveEnd = curve.getLength();
+
                     rot3.set(linePitchAndYaw.get(i)[0], linePitchAndYaw.get(i)[1] + 90, curve.getRoll());
                 }
 
@@ -157,8 +162,9 @@ public class ParticleLineCurved extends ParticleLine {
             }
         }
 
-        if (!trackCount) overallCount = 0;
-        if (!hasRan && trackCount) overallCount = 0;
+        if (!trackCount || !hasRan) {
+            overallCount = 0;
+        }
     }
 
     @Override
@@ -208,7 +214,9 @@ public class ParticleLineCurved extends ParticleLine {
         super.addLocation(location);
 
         //this method is called in ParticleLine's constructor, and at that point linePitchAndYaw hasnt been initialized yet. have to do it here
-        if (linePitchAndYaw == null) linePitchAndYaw = new ArrayList<>();
+        if (linePitchAndYaw == null) {
+            linePitchAndYaw = new ArrayList<>();
+        }
 
         if (locations.size() >= 2) {
             linePitchAndYaw.add(calculateLinePitchAndYaw(locations.get(locations.size() - 2), locations.get(locations.size() - 1)));

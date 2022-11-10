@@ -64,7 +64,9 @@ public abstract class ParticleShaper extends RotationHandler implements Shape {
         for (int i = 0; i < secondaryParticles.size(); i++) {
             Pair<Particle, Integer> pair = secondaryParticles.get(i);
 
-            if (overallCount >= pair.getValue()) particle = pair.getKey(); else break;
+            if (overallCount < pair.getValue()) break;
+
+            particle = pair.getKey();
         }
 
         return particle;

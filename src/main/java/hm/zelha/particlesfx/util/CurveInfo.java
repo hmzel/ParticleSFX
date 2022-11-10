@@ -10,7 +10,6 @@ public class CurveInfo {
     private double apexPosition;
 
     public CurveInfo(double height, double length, double roll, double apexPosition) {
-
         Validate.isTrue(length > 0, "Length must be greater than 0!");
         Validate.isTrue(apexPosition < length && apexPosition >= 0, "Apex must be within the line!");
 
@@ -59,7 +58,9 @@ public class CurveInfo {
     }
 
     public void setRoll(double roll) {
-        while (roll >= 360) roll -= 360;
+        while (roll >= 360) {
+            roll -= 360;
+        }
 
         this.roll = roll;
     }

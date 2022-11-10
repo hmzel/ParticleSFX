@@ -28,7 +28,9 @@ public class ParticleCylinder extends ParticleShaper {
 
         Validate.isTrue(circles != null && circles.length >= 2, "Array must contain 2 or more CircleInfos!");
 
-        for (CircleInfo circle : circles) addCircle(circle);
+        for (CircleInfo circle : circles) {
+            addCircle(circle);
+        }
 
         setCircleFrequency(circleFrequency);
         setWorld(this.circles.get(0).getCenter().getWorld());
@@ -42,15 +44,12 @@ public class ParticleCylinder extends ParticleShaper {
     @Override
     public void display() {
         double increase = (Math.PI * 2) / (particleFrequency / circleFrequency);
-        double totalDist = 0;
+        double totalDist = getTotalDistance();
         double distToTravel = 0;
         double continuation = 0;
 
         circleHelper.inherit(circles.get(0));
         rotHelper.set(circleHelper.getPitch(), circleHelper.getYaw(), circleHelper.getRoll());
-
-        //adding the distance between every circle to totalDist
-        for (int i = 0; i < locations.size() - 1; i++) totalDist += locations.get(i).distance(locations.get(i + 1));
 
         for (int i = 0, circle = 0; i < circleFrequency; i++) {
             CircleInfo circle1 = circles.get(circle);
@@ -75,7 +74,9 @@ public class ParticleCylinder extends ParticleShaper {
 
             double control = distToTravel / circle1.getCenter().distance(circle2.getCenter());
 
-            if (!Double.isFinite(control)) control = 1;
+            if (!Double.isFinite(control)) {
+                control = 1;
+            }
 
             //setting vectorHelper to (end - start) / (absolute vector sum / distToTravel)
             LVMath.divide(LVMath.subtractToVector(vectorHelper, circle2.getCenter(), circle1.getCenter()), (Math.abs(vectorHelper.getX()) + Math.abs(vectorHelper.getY()) + Math.abs(vectorHelper.getZ())) * ((distToTravel != 0) ? (1 / distToTravel) : 0));
@@ -91,6 +92,7 @@ public class ParticleCylinder extends ParticleShaper {
                     continuation = radian - Math.PI * 2;
                     break;
                 }
+
                 //setting vectorHelper2 to where the current particle should be in correlation to the current circle's center (locationHelper)
                 rotHelper.apply(vectorHelper.setX(circleHelper.getXRadius() * Math.cos(radian)).setY(0).setZ(circleHelper.getZRadius() * Math.sin(radian)));
                 getCurrentParticle().display(locationHelper.add(vectorHelper));

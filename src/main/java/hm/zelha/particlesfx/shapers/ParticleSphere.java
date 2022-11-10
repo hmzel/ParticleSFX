@@ -69,17 +69,21 @@ public class ParticleSphere extends ParticleShaper {
         }
 
         if (recalculate) {
-            recalcCircumferenceAndArea(limitation, loopEndFix, loopStart, loopEnd, increase);
+            recalcCircumferenceAndArea(loopEndFix, loopStart, loopEnd, increase);
         }
 
         main:
         for (double i = loopStart; true; i += increase) {
-            if (i > loopEndFix) i = loopEnd;
+            if (i > loopEndFix) {
+                i = loopEnd;
+            }
 
             double curve = Math.sin(i);
             double circleInc = (Math.PI * 2) / Math.floor(particleFrequency * (cirTracker.get(currentCir) / totalArea));
 
-            if (!Double.isFinite(circleInc)) circleInc = Math.PI * 2;
+            if (!Double.isFinite(circleInc)) {
+                circleInc = Math.PI * 2;
+            }
 
             for (double radian = continuation; true; radian += circleInc) {
                 if (radian > (Math.PI * 2) + continuation) {
@@ -96,7 +100,9 @@ public class ParticleSphere extends ParticleShaper {
                 vectorHelper.setY(yRadius * Math.cos(i));
                 vectorHelper.setZ(Math.sin(radian) * (zRadius * curve));
 
-                if (mechanic != null) mechanic.apply(particle, locations.get(0), vectorHelper);
+                if (mechanic != null) {
+                    mechanic.apply(particle, locations.get(0), vectorHelper);
+                }
 
                 rot.apply(vectorHelper);
                 locationHelper.zero().add(locations.get(0));
@@ -120,24 +126,20 @@ public class ParticleSphere extends ParticleShaper {
             currentCir++;
         }
 
-        if (!trackCount) overallCount = 0;
-        if (!hasRan && trackCount) overallCount = 0;
+        if (!trackCount || !hasRan) {
+            overallCount = 0;
+        }
     }
 
-    private void recalcCircumferenceAndArea(double limitation, double loopEndFix, double loopStart, double loopEnd, double increase) {
-        if (limitInverse) {
-            loopEnd -= limitation;
-            //cutting loopEnd down to the 29th decimal. reason already stated
-            loopEndFix = loopEnd - ((loopEnd) - (((int) ((loopEnd) * 29)) / 29D));
-            loopStart = 0;
-        }
-
+    private void recalcCircumferenceAndArea(double loopEndFix, double loopStart, double loopEnd, double increase) {
         cirTracker.clear();
 
         totalArea = 0;
 
         for (double i = loopStart; true; i += increase) {
-            if (i > loopEndFix) i = loopEnd;
+            if (i > loopEndFix) {
+                i = loopEnd;
+            }
 
             double curve = Math.sin(i);
             double circumference;
@@ -170,7 +172,9 @@ public class ParticleSphere extends ParticleShaper {
         originalCentroid.zero().add(center);
         center.setChanged(true);
 
-        if (locations.size() > 1) locations.remove(0);
+        if (locations.size() > 1) {
+            locations.remove(0);
+        }
     }
 
     public void setxRadius(double xRadius) {

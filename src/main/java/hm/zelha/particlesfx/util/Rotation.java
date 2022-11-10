@@ -114,19 +114,25 @@ public class Rotation {
     }
 
     public void setPitch(double pitch) {
-        if (!Double.isFinite(pitch)) pitch = 0;
+        if (!Double.isFinite(pitch)) {
+            pitch = 0;
+        }
 
         this.pitch = pitch;
     }
 
     public void setYaw(double yaw) {
-        if (!Double.isFinite(yaw)) yaw = 0;
+        if (!Double.isFinite(yaw)) {
+            yaw = 0;
+        }
 
         this.yaw = yaw;
     }
 
     public void setRoll(double roll) {
-        if (!Double.isFinite(roll)) roll = 0;
+        if (!Double.isFinite(roll)) {
+            roll = 0;
+        }
 
         this.roll = roll;
     }

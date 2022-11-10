@@ -167,7 +167,9 @@ public class ParticleShapeCompound extends RotationHandler implements Shape {
                     locationAdded = true;
                 }
 
-                if (locationAdded) entry.setValue(entry.getValue() + 1);
+                if (locationAdded) {
+                    entry.setValue(entry.getValue() + 1);
+                }
             }
         });
 
@@ -186,7 +188,9 @@ public class ParticleShapeCompound extends RotationHandler implements Shape {
                     locationRemoved = true;
                 }
 
-                if (locationRemoved) entry.setValue(entry.getValue() - 1);
+                if (locationRemoved) {
+                    entry.setValue(entry.getValue() - 1);
+                }
 
                 last = entry.getKey();
             }

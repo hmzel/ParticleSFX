@@ -47,7 +47,9 @@ public class CircleInfo {
         Validate.notNull(center, "Location cannot be null!");
         Validate.notNull(center.getWorld(), "Location's world cannot be null!");
 
-        if (this.center != null) center.setChanged(true);
+        if (this.center != null) {
+            center.setChanged(true);
+        }
 
         this.center = center;
     }

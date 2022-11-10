@@ -74,8 +74,13 @@ public class LocationSafe extends Location {
         super.setX(x);
         changed = true;
 
-        if (mechanic != null) mechanic.accept(this);
-        for (Consumer<Location> mechanic : recalcMechanics.values()) mechanic.accept(this);
+        if (mechanic != null) {
+            mechanic.accept(this);
+        }
+
+        for (Consumer<Location> mechanic : recalcMechanics.values()) {
+            mechanic.accept(this);
+        }
     }
 
     @Override
@@ -83,8 +88,13 @@ public class LocationSafe extends Location {
         super.setY(y);
         changed = true;
 
-        if (mechanic != null) mechanic.accept(this);
-        for (Consumer<Location> mechanic : recalcMechanics.values()) mechanic.accept(this);
+        if (mechanic != null) {
+            mechanic.accept(this);
+        }
+
+        for (Consumer<Location> mechanic : recalcMechanics.values()) {
+            mechanic.accept(this);
+        }
     }
 
     @Override
@@ -92,8 +102,13 @@ public class LocationSafe extends Location {
         super.setZ(z);
         changed = true;
 
-        if (mechanic != null) mechanic.accept(this);
-        for (Consumer<Location> mechanic : recalcMechanics.values()) mechanic.accept(this);
+        if (mechanic != null) {
+            mechanic.accept(this);
+        }
+
+        for (Consumer<Location> mechanic : recalcMechanics.values()) {
+            mechanic.accept(this);
+        }
     }
 
     @Override
@@ -101,8 +116,13 @@ public class LocationSafe extends Location {
         super.add(vec);
         changed = true;
 
-        if (mechanic != null) mechanic.accept(this);
-        for (Consumer<Location> mechanic : recalcMechanics.values()) mechanic.accept(this);
+        if (mechanic != null) {
+            mechanic.accept(this);
+        }
+
+        for (Consumer<Location> mechanic : recalcMechanics.values()) {
+            mechanic.accept(this);
+        }
 
         return this;
     }
@@ -112,8 +132,13 @@ public class LocationSafe extends Location {
         super.add(vec);
         changed = true;
 
-        if (mechanic != null) mechanic.accept(this);
-        for (Consumer<Location> mechanic : recalcMechanics.values()) mechanic.accept(this);
+        if (mechanic != null) {
+            mechanic.accept(this);
+        }
+
+        for (Consumer<Location> mechanic : recalcMechanics.values()) {
+            mechanic.accept(this);
+        }
 
         return this;
     }
@@ -123,8 +148,13 @@ public class LocationSafe extends Location {
         super.add(x, y, z);
         changed = true;
 
-        if (mechanic != null) mechanic.accept(this);
-        for (Consumer<Location> mechanic : recalcMechanics.values()) mechanic.accept(this);
+        if (mechanic != null) {
+            mechanic.accept(this);
+        }
+
+        for (Consumer<Location> mechanic : recalcMechanics.values()) {
+            mechanic.accept(this);
+        }
 
         return this;
     }
@@ -134,8 +164,13 @@ public class LocationSafe extends Location {
         super.subtract(vec);
         changed = true;
 
-        if (mechanic != null) mechanic.accept(this);
-        for (Consumer<Location> mechanic : recalcMechanics.values()) mechanic.accept(this);
+        if (mechanic != null) {
+            mechanic.accept(this);
+        }
+
+        for (Consumer<Location> mechanic : recalcMechanics.values()) {
+            mechanic.accept(this);
+        }
 
         return this;
     }
@@ -145,8 +180,13 @@ public class LocationSafe extends Location {
         super.subtract(vec);
         changed = true;
 
-        if (mechanic != null) mechanic.accept(this);
-        for (Consumer<Location> mechanic : recalcMechanics.values()) mechanic.accept(this);
+        if (mechanic != null) {
+            mechanic.accept(this);
+        }
+
+        for (Consumer<Location> mechanic : recalcMechanics.values()) {
+            mechanic.accept(this);
+        }
 
         return this;
     }
@@ -156,8 +196,13 @@ public class LocationSafe extends Location {
         super.subtract(x, y, z);
         changed = true;
 
-        if (mechanic != null) mechanic.accept(this);
-        for (Consumer<Location> mechanic : recalcMechanics.values()) mechanic.accept(this);
+        if (mechanic != null) {
+            mechanic.accept(this);
+        }
+
+        for (Consumer<Location> mechanic : recalcMechanics.values()) {
+            mechanic.accept(this);
+        }
 
         return this;
     }
@@ -167,8 +212,13 @@ public class LocationSafe extends Location {
         super.multiply(m);
         changed = true;
 
-        if (mechanic != null) mechanic.accept(this);
-        for (Consumer<Location> mechanic : recalcMechanics.values()) mechanic.accept(this);
+        if (mechanic != null) {
+            mechanic.accept(this);
+        }
+
+        for (Consumer<Location> mechanic : recalcMechanics.values()) {
+            mechanic.accept(this);
+        }
 
         return this;
     }
@@ -178,8 +228,13 @@ public class LocationSafe extends Location {
         super.zero();
         changed = true;
 
-        if (mechanic != null) mechanic.accept(this);
-        for (Consumer<Location> mechanic : recalcMechanics.values()) mechanic.accept(this);
+        if (mechanic != null) {
+            mechanic.accept(this);
+        }
+
+        for (Consumer<Location> mechanic : recalcMechanics.values()) {
+            mechanic.accept(this);
+        }
 
         return this;
     }

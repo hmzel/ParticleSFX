@@ -93,15 +93,21 @@ public class RotationHandler {
     }
 
     public void move(double x, double y, double z) {
-        for (int i = 0; i < locations.size(); i++) locations.get(i).add(x, y, z);
+        for (int i = 0; i < locations.size(); i++) {
+            locations.get(i).add(x, y, z);
+        }
     }
 
     public void move(Vector vector) {
-        for (int i = 0; i < locations.size(); i++) locations.get(i).add(vector);
+        for (int i = 0; i < locations.size(); i++) {
+            locations.get(i).add(vector);
+        }
     }
 
     public void move(Location location) {
-        for (int i = 0; i < locations.size(); i++) locations.get(i).add(location);
+        for (int i = 0; i < locations.size(); i++) {
+            locations.get(i).add(location);
+        }
     }
 
     protected void recalculateIfNeeded(@Nullable Location around) {
@@ -128,10 +134,8 @@ public class RotationHandler {
         }
 
         if (locations.size() != 1 && recalculate) {
-            //need to set both origins to what they would be if the rotation was 0, 0, 0
+            //need to set origins to what they would be if the rotation was 0, 0, 0
             //aka, inverse the current rotation for rot, apply it to all locations, and set that as the origin for rot
-            //then we inverse the rotation for rot2, apply that to rot's origins using the last rotated around location,
-            //and set that as the origins for rot2
             Rotation rotHelper = LocationSafe.getRotHelper();
 
             rotHelper.set(-rot.getPitch(), -rot.getYaw(), -rot.getRoll());
@@ -171,7 +175,9 @@ public class RotationHandler {
     protected void calculateCentroid(List<? extends Location> locations) {
         centroid.zero();
 
-        for (int i = 0; i < locations.size(); i++) centroid.add(locations.get(i));
+        for (int i = 0; i < locations.size(); i++) {
+            centroid.add(locations.get(i));
+        }
 
         centroid.multiply(1d / locations.size());
     }
@@ -186,7 +192,11 @@ public class RotationHandler {
         double pitch = Math.toDegrees(Math.atan(-rhVectorHelper.getY() / Math.sqrt(NumberConversions.square(rhVectorHelper.getX()) + NumberConversions.square(rhVectorHelper.getZ()))));
         double yaw = Math.toDegrees((Math.atan2(-rhVectorHelper.getX(), rhVectorHelper.getZ()) + (Math.PI * 2)) % (Math.PI * 2));
 
-        if (originalCentroid.getY() > around.getY()) pitch += 90; else pitch -= 90;
+        if (originalCentroid.getY() > around.getY()) {
+            pitch += 90;
+        } else {
+            pitch -= 90;
+        }
 
         arrayHelper[0] = pitch;
         arrayHelper[1] = yaw;
@@ -203,7 +213,9 @@ public class RotationHandler {
         for (int i = 0; i < locations.size(); i++) {
             locations.get(i).setWorld(world);
 
-            if (origins.size() > i) origins.get(i).setWorld(world);
+            if (origins.size() > i) {
+                origins.get(i).setWorld(world);
+            }
         }
     }
 
@@ -275,7 +287,9 @@ public class RotationHandler {
         double dist = 0;
 
         //adding the distance between every circle to dist
-        for (int i = 0; i < locations.size() - 1; i++) dist += locations.get(i).distance(locations.get(i + 1));
+        for (int i = 0; i < locations.size() - 1; i++) {
+            dist += locations.get(i).distance(locations.get(i + 1));
+        }
 
         return dist;
     }
@@ -283,7 +297,9 @@ public class RotationHandler {
     public Location getClonedCenter() {
         Location l = new Location(centroid.getWorld(), 0, 0, 0);
 
-        for (int i = 0; i < locations.size(); i++) l.add(locations.get(i));
+        for (int i = 0; i < locations.size(); i++) {
+            l.add(locations.get(i));
+        }
 
         return l.multiply(1d / locations.size());
     }
