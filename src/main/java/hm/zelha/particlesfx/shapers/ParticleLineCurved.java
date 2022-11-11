@@ -127,16 +127,13 @@ public class ParticleLineCurved extends ParticleLine {
                 if (curve != null && curve.getHeight() != 0) {
                     double height = curve.getHeight();
 
-                    if (curveCurrent > curveApex) {
-                        //idk what to call this variable it basically determines the decrement of the curve
-                        double v = (((curveEnd - curveApex) - (curveEnd - curveCurrent)) / (curveEnd - curveApex));
-
-                        vectorHelper2.setY(height - (height * v) * Math.sin(Math.PI - ((Math.PI / 2) * v)));
+                    if (curveCurrent <= curveApex) {
+                        vectorHelper2.setY(height * Math.sin(Math.PI / 2 * curveCurrent / curveApex));
                     } else {
-                        //determines increment this time
-                        double v = ((curveApex - curveCurrent) / curveApex);
+                        //idk what to call this variable it basically determines the decrement of the curve
+                        double v = (curveCurrent - curveApex) / (curveEnd - curveApex);
 
-                        vectorHelper2.setY(height - (height * v * Math.sin((Math.PI / 2) * v)));
+                        vectorHelper2.setY(height - height * v * Math.sin(Math.PI / 2 * v));
                     }
 
                     rot3.applyRoll(vectorHelper2);
