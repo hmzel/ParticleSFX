@@ -6,7 +6,6 @@ import hm.zelha.particlesfx.util.LVMath;
 import hm.zelha.particlesfx.util.LocationSafe;
 import hm.zelha.particlesfx.util.Rotation;
 import org.bukkit.Location;
-import org.bukkit.util.NumberConversions;
 import org.bukkit.util.Vector;
 
 import java.util.ArrayList;
@@ -20,11 +19,9 @@ public class ParticleLineCurved extends ParticleLine {
     private final Rotation rot3 = new Rotation();
     private final Vector vectorHelper2 = new Vector(0, 0, 0);
     private final Vector vectorHelper3 = new Vector(0, 0, 0);
-    private List<Double[]> linePitchAndYaw;
 
     public ParticleLineCurved(Particle particle, double frequency, LocationSafe... locations) {
         super(particle, frequency, locations);
-        recalculateAllLinesPitchAndYaw();
     }
 
     public ParticleLineCurved(Particle particle, LocationSafe... locations) {
@@ -67,8 +64,6 @@ public class ParticleLineCurved extends ParticleLine {
                     curveCurrent -= curveEnd;
                     curveApex = curve.getApexPosition();
                     curveEnd = curve.getLength();
-
-                    rot3.set(linePitchAndYaw.get(i)[0], linePitchAndYaw.get(i)[1] + 90, curve.getRoll());
                 }
 
                 continue;
@@ -92,13 +87,7 @@ public class ParticleLineCurved extends ParticleLine {
                     curveCurrent -= curveEnd;
                     curveApex = curve.getApexPosition();
                     curveEnd = curve.getLength();
-
-                    rot3.set(linePitchAndYaw.get(i)[0], linePitchAndYaw.get(i)[1] + 90, curve.getRoll());
                 }
-            }
-
-            if (curve != null && curve.getHeight() != 0) {
-                rot3.set(linePitchAndYaw.get(i)[0], linePitchAndYaw.get(i)[1] + 90, curve.getRoll());
             }
 
             for (double length = control * current; length <= distance; length += control) {
@@ -120,8 +109,6 @@ public class ParticleLineCurved extends ParticleLine {
                     curveCurrent -= curveEnd;
                     curveApex = curve.getApexPosition();
                     curveEnd = curve.getLength();
-
-                    rot3.set(linePitchAndYaw.get(i)[0], linePitchAndYaw.get(i)[1] + 90, curve.getRoll());
                 }
 
                 if (curve != null && curve.getHeight() != 0) {
@@ -136,9 +123,8 @@ public class ParticleLineCurved extends ParticleLine {
                         vectorHelper2.setY(height - height * v * Math.sin(Math.PI / 2 * v));
                     }
 
-                    rot3.applyRoll(vectorHelper2);
-                    rot3.applyYaw(vectorHelper2);
-                    rot3.applyPitch(vectorHelper2);
+                    rot3.set(curve.getPitch(), curve.getYaw(), curve.getRoll());
+                    rot3.apply(vectorHelper2);
                     locationHelper.add(vectorHelper2);
                 }
 
@@ -164,90 +150,12 @@ public class ParticleLineCurved extends ParticleLine {
         }
     }
 
-    @Override
-    public void rotate(double pitch, double yaw, double roll) {
-        super.rotate(pitch, yaw, roll);
-        recalculateAllLinesPitchAndYaw();
-    }
-
-    @Override
-    public void rotateAroundLocation(Location around, double pitch, double yaw, double roll) {
-        super.rotateAroundLocation(around, pitch, yaw, roll);
-        recalculateAllLinesPitchAndYaw();
-    }
-
-    @Override
-    public void face(Location toFace) {
-        super.face(toFace);
-        recalculateAllLinesPitchAndYaw();
-    }
-
-    @Override
-    public void faceAroundLocation(Location toFace, Location around) {
-        super.faceAroundLocation(toFace, around);
-        recalculateAllLinesPitchAndYaw();
-    }
-
-    //TODO: improve this
-    private void recalculateAllLinesPitchAndYaw() {
-        for (int i = 0; i < locations.size() - 2; i++) {
-            linePitchAndYaw.set(i, calculateLinePitchAndYaw(locations.get(i), locations.get(i + 1)));
-        }
-    }
-
-    private Double[] calculateLinePitchAndYaw(Location start, Location end) {
-        LVMath.subtractToVector(vectorHelper, end, start);
-
-        //i genuinely have no bloody clue why this works. if anyone sees this and understands what the heck this is please tell me im very curious
-        //(code stolen from Location.setDirection(Vector) and condensed according to my code conventions)
-        double pitch = Math.toDegrees(Math.atan(-vectorHelper.getY() / Math.sqrt(NumberConversions.square(vectorHelper.getX()) + NumberConversions.square(vectorHelper.getZ()))));
-        double yaw = Math.toDegrees((Math.atan2(-vectorHelper.getX(), vectorHelper.getZ()) + (Math.PI * 2)) % (Math.PI * 2));
-
-        return new Double[] {Math.abs(pitch), yaw};
-    }
-
-    @Override
-    public void addLocation(LocationSafe location) {
-        super.addLocation(location);
-
-        //this method is called in ParticleLine's constructor, and at that point linePitchAndYaw hasnt been initialized yet. have to do it here
-        if (linePitchAndYaw == null) {
-            linePitchAndYaw = new ArrayList<>();
-        }
-
-        if (locations.size() >= 2) {
-            linePitchAndYaw.add(calculateLinePitchAndYaw(locations.get(locations.size() - 2), locations.get(locations.size() - 1)));
-        }
-
-        int i = locations.size() - 1;
-
-        location.setMechanic((l) -> {
-            if (i != 0) {
-                linePitchAndYaw.set(i - 1, calculateLinePitchAndYaw(locations.get(i - 1), l));
-            }
-
-            if (locations.size() > i + 1) {
-                linePitchAndYaw.set(i, calculateLinePitchAndYaw(l, locations.get(i + 1)));
-            }
-        });
-    }
-
     public void addCurve(CurveInfo curve) {
         curves.add(curve);
     }
 
     public CurveInfo getCurve(int index) {
         return curves.get(index);
-    }
-
-    @Override
-    public void removeLocation(int index) {
-        super.removeLocation(index);
-        linePitchAndYaw.remove(index);
-
-        if (locations.size() != index) {
-            linePitchAndYaw.set(index - 1, calculateLinePitchAndYaw(locations.get(index - 1), locations.get(index)));
-        }
     }
 
     public void removeCurve(int index) {

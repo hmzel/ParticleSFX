@@ -6,29 +6,33 @@ public class CurveInfo {
 
     private double height;
     private double length;
-    private double roll;
     private double apexPosition;
+    private double pitch;
+    private double yaw;
+    private double roll;
 
-    public CurveInfo(double height, double length, double roll, double apexPosition) {
+    public CurveInfo(double height, double length, double apexPosition, double pitch, double yaw, double roll) {
         Validate.isTrue(length > 0, "Length must be greater than 0!");
         Validate.isTrue(apexPosition < length && apexPosition >= 0, "Apex must be within the line!");
 
         this.height = height;
         this.length = length;
-        this.roll = roll;
         this.apexPosition = apexPosition;
+        this.pitch = pitch;
+        this.yaw = yaw;
+        this.roll = roll;
     }
 
-    public CurveInfo(double height, double length, double roll) {
-        this(height, length, roll, length / 2);
+    public CurveInfo(double height, double length, double apexPosition) {
+        this(height, length, apexPosition, 0, 0, 0);
     }
 
     public CurveInfo(double height, double length) {
-        this(height, length, 0, length / 2);
+        this(height, length, length / 2, 0, 0, 0);
     }
 
     public CurveInfo clone() {
-        return new CurveInfo(height, length, roll, apexPosition);
+        return new CurveInfo(height, length, pitch, yaw, roll, apexPosition);
     }
 
     public double getHeight() {
@@ -39,12 +43,20 @@ public class CurveInfo {
         return length;
     }
 
-    public double getRoll() {
-        return roll;
-    }
-
     public double getApexPosition() {
         return apexPosition;
+    }
+
+    public double getPitch() {
+        return pitch;
+    }
+
+    public double getYaw() {
+        return yaw;
+    }
+
+    public double getRoll() {
+        return roll;
     }
 
     public void setHeight(double height) {
@@ -57,17 +69,21 @@ public class CurveInfo {
         this.length = length;
     }
 
-    public void setRoll(double roll) {
-        while (roll >= 360) {
-            roll -= 360;
-        }
-
-        this.roll = roll;
-    }
-
     public void setApexPosition(double apexPosition) {
         Validate.isTrue(apexPosition < length && apexPosition >= 0, "Apex must be within the line!");
 
         this.apexPosition = apexPosition;
+    }
+
+    public void setPitch(double pitch) {
+        this.pitch = pitch;
+    }
+
+    public void setYaw(double yaw) {
+        this.yaw = yaw;
+    }
+
+    public void setRoll(double roll) {
+        this.roll = roll;
     }
 }
