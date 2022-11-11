@@ -96,6 +96,8 @@ public class ParticleSphere extends ParticleShaper {
                     continue;
                 }
 
+                Particle particle = getCurrentParticle();
+
                 vectorHelper.setX(Math.cos(radian) * (xRadius * curve));
                 vectorHelper.setY(yRadius * Math.cos(i));
                 vectorHelper.setZ(Math.sin(radian) * (zRadius * curve));
@@ -106,7 +108,7 @@ public class ParticleSphere extends ParticleShaper {
 
                 rot.apply(vectorHelper);
                 locationHelper.zero().add(locations.get(0));
-                getCurrentParticle().display(locationHelper.add(vectorHelper));
+                particle.display(locationHelper.add(vectorHelper));
 
                 overallCount++;
 

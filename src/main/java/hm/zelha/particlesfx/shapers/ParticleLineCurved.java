@@ -70,6 +70,8 @@ public class ParticleLineCurved extends ParticleLine {
             }
 
             for (double length = control * current; length <= distance; length += control) {
+                Particle particle = getCurrentParticle();
+
                 if (mechanic != null) {
                     mechanic.apply(particle, locationHelper, vectorHelper);
                 }
@@ -111,7 +113,7 @@ public class ParticleLineCurved extends ParticleLine {
                     locationHelper.add(vectorHelper2);
                 }
 
-                getCurrentParticle().display(locationHelper);
+                particle.display(locationHelper);
                 locationHelper.subtract(vectorHelper2);
 
                 overallCount++;
