@@ -13,7 +13,7 @@ import java.util.List;
 
 public class ParticleLineCurved extends ParticleLine {
 
-    //TODO: make curve rotation stuff less jank
+    //TODO: add an option for curves to rotate with the line
 
     private final List<CurveInfo> curves = new ArrayList<>();
     private final Rotation rot3 = new Rotation();
@@ -38,6 +38,7 @@ public class ParticleLineCurved extends ParticleLine {
         boolean hasRan = false;
         boolean trackCount = particlesPerDisplay > 0;
         double curveApex = 0, curveEnd = 0, curveCurrent = 0;
+        double control = getTotalDistance() / particleFrequency;
 
         if (curve != null) {
             curveApex = curve.getApexPosition();
@@ -49,7 +50,6 @@ public class ParticleLineCurved extends ParticleLine {
             Location start = locations.get(i);
             Location end = locations.get(i + 1);
             double distance = start.distance(end);
-            double control = (distance / particleFrequency) * locations.size();
 
             if (trackCount && overallCount >= estimatedOverallCount + (distance / control)) {
                 estimatedOverallCount += distance / control;

@@ -30,6 +30,7 @@ public class ParticleLine extends ParticleShaper {
 
     @Override
     public void display() {
+        double control = getTotalDistance() / particleFrequency;
         int current = 0;
         int estimatedOverallCount = 0;
         boolean hasRan = false;
@@ -40,7 +41,6 @@ public class ParticleLine extends ParticleShaper {
             Location start = locations.get(i);
             Location end = locations.get(i + 1);
             double distance = start.distance(end);
-            double control = (distance / particleFrequency) * locations.size();
 
             if (trackCount && overallCount >= estimatedOverallCount + (distance / control)) {
                 estimatedOverallCount += distance / control;
