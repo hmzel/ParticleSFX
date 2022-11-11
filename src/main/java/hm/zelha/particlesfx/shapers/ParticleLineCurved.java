@@ -18,7 +18,6 @@ public class ParticleLineCurved extends ParticleLine {
     private final List<CurveInfo> curves = new ArrayList<>();
     private final Rotation rot3 = new Rotation();
     private final Vector vectorHelper2 = new Vector(0, 0, 0);
-    private final Vector vectorHelper3 = new Vector(0, 0, 0);
 
     public ParticleLineCurved(Particle particle, double frequency, LocationSafe... locations) {
         super(particle, frequency, locations);
@@ -31,8 +30,8 @@ public class ParticleLineCurved extends ParticleLine {
     //TODO: make this thread-safe (and improve?)
     @Override
     public void display() {
+        CurveInfo curve = null;
         int curveIndex = 0;
-        CurveInfo curve = (curves.isEmpty()) ? null : curves.get(0);
         int current = 0;
         int estimatedOverallCount = 0;
         boolean hasRan = false;
@@ -40,7 +39,8 @@ public class ParticleLineCurved extends ParticleLine {
         double curveApex = 0, curveEnd = 0, curveCurrent = 0;
         double control = getTotalDistance() / particleFrequency;
 
-        if (curve != null) {
+        if (!curves.isEmpty()) {
+            curve = curves.get(curveIndex);
             curveApex = curve.getApexPosition();
             curveEnd = curve.getLength();
         }
@@ -55,56 +55,39 @@ public class ParticleLineCurved extends ParticleLine {
                 estimatedOverallCount += distance / control;
                 curveCurrent += distance;
 
-                while (curveCurrent >= curveEnd) {
-                    curveIndex++;
-                    curve = (curveIndex >= curves.size()) ? null : curves.get(curveIndex);
-
-                    if (curve == null) break;
-
-                    curveCurrent -= curveEnd;
-                    curveApex = curve.getApexPosition();
-                    curveEnd = curve.getLength();
-                }
-
                 continue;
             }
 
             locationHelper.zero().add(start);
-            LVMath.subtractToVector(vectorHelper3, end, start).normalize().multiply(control);
+            LVMath.subtractToVector(vectorHelper, end, start).normalize().multiply(control);
 
+            //separated from previous if statement to prevent multiple unused .normalize() calls
             if (trackCount) {
                 current = overallCount - estimatedOverallCount;
                 curveCurrent += control * current;
 
-                locationHelper.add(vectorHelper3.getX() * current, vectorHelper3.getY() * current, vectorHelper3.getZ() * current);
-
-                while (curveCurrent >= curveEnd) {
-                    curveIndex++;
-                    curve = (curveIndex >= curves.size()) ? null : curves.get(curveIndex);
-
-                    if (curve == null) break;
-
-                    curveCurrent -= curveEnd;
-                    curveApex = curve.getApexPosition();
-                    curveEnd = curve.getLength();
-                }
+                locationHelper.add(vectorHelper.getX() * current, vectorHelper.getY() * current, vectorHelper.getZ() * current);
             }
 
             for (double length = control * current; length <= distance; length += control) {
                 if (mechanic != null) {
-                    mechanic.apply(particle, locationHelper, vectorHelper3);
+                    mechanic.apply(particle, locationHelper, vectorHelper);
                 }
 
                 vectorHelper2.zero();
-                locationHelper.add(vectorHelper3);
+                locationHelper.add(vectorHelper);
 
                 curveCurrent += control;
 
                 while (curveCurrent >= curveEnd) {
                     curveIndex++;
-                    curve = (curveIndex >= curves.size()) ? null : curves.get(curveIndex);
 
-                    if (curve == null) break;
+                    if (curveIndex < curves.size()) {
+                        curve = curves.get(curveIndex);
+                    } else {
+                        curve = null;
+                        break;
+                    }
 
                     curveCurrent -= curveEnd;
                     curveApex = curve.getApexPosition();
@@ -154,11 +137,15 @@ public class ParticleLineCurved extends ParticleLine {
         curves.add(curve);
     }
 
+    public void removeCurve(int index) {
+        curves.remove(index);
+    }
+
     public CurveInfo getCurve(int index) {
         return curves.get(index);
     }
 
-    public void removeCurve(int index) {
-        curves.remove(index);
+    public int getCurveAmount() {
+        return curves.size();
     }
 }
