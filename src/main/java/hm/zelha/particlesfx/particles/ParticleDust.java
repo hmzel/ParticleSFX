@@ -71,9 +71,17 @@ public class ParticleDust extends ColorableParticle {
                     trueOffsetY = Float.MAX_VALUE * (color.getGreen() / 255D);
                     trueOffsetZ = Float.MAX_VALUE * (color.getBlue() / 255D);
 
-                    if (trueOffsetX == 0) trueOffsetX = Float.MIN_VALUE;
-                    if (trueOffsetY == 0) trueOffsetY = Float.MIN_VALUE;
-                    if (trueOffsetZ == 0) trueOffsetZ = Float.MIN_VALUE;
+                    if (trueOffsetX == 0) {
+                        trueOffsetX = Float.MIN_VALUE;
+                    }
+
+                    if (trueOffsetY == 0) {
+                        trueOffsetY = Float.MIN_VALUE;
+                    }
+
+                    if (trueOffsetZ == 0) {
+                        trueOffsetZ = Float.MIN_VALUE;
+                    }
                 } else {
                     trueSpeed = brightness * 0.01;
                     trueOffsetX = color.getRed() / 255D;
@@ -112,7 +120,9 @@ public class ParticleDust extends ColorableParticle {
                 );
             }
 
-            if (addition != null) location.subtract(addition);
+            if (addition != null) {
+                location.subtract(addition);
+            }
         }
     }
 

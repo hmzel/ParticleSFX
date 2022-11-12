@@ -17,10 +17,6 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class Particle {
 
-    private final List<CraftPlayer> players = ((CraftServer) Bukkit.getServer()).getOnlinePlayers();
-    private final List<CraftPlayer> listHelper = new ArrayList<>();
-    private final ThreadLocalRandom rng = ThreadLocalRandom.current();
-    private final Vector vectorHelper = new Vector(0, 0, 0);
     protected final EnumParticle particle;
     protected double offsetX;
     protected double offsetY;
@@ -28,6 +24,10 @@ public class Particle {
     protected double speed;
     protected int count;
     protected int radius;
+    private final List<CraftPlayer> players = ((CraftServer) Bukkit.getServer()).getOnlinePlayers();
+    private final List<CraftPlayer> listHelper = new ArrayList<>();
+    private final ThreadLocalRandom rng = ThreadLocalRandom.current();
+    private final Vector vectorHelper = new Vector(0, 0, 0);
 
     protected Particle(EnumParticle particle, double offsetX, double offsetY, double offsetZ, double speed, int count, int radius) {
         Validate.notNull(particle, "Particle cannot be null!");
@@ -48,7 +48,9 @@ public class Particle {
     public void displayForPlayers(Location location, Player... players) {
         listHelper.clear();
 
-        for (int i = 0; i < players.length; i++) listHelper.add((CraftPlayer) players[i]);
+        for (int i = 0; i < players.length; i++) {
+            listHelper.add((CraftPlayer) players[i]);
+        }
 
         display(location, listHelper);
     }
@@ -87,9 +89,17 @@ public class Particle {
     protected Vector generateFakeOffset() {
         vectorHelper.zero();
 
-        if (offsetX != 0) vectorHelper.setX(rng.nextDouble(offsetX * 2) - offsetX);
-        if (offsetY != 0) vectorHelper.setY(rng.nextDouble(offsetY * 2) - offsetY);
-        if (offsetZ != 0) vectorHelper.setZ(rng.nextDouble(offsetZ * 2) - offsetZ);
+        if (offsetX != 0) {
+            vectorHelper.setX(rng.nextDouble(offsetX * 2) - offsetX);
+        }
+
+        if (offsetY != 0) {
+            vectorHelper.setY(rng.nextDouble(offsetY * 2) - offsetY);
+        }
+
+        if (offsetZ != 0) {
+            vectorHelper.setZ(rng.nextDouble(offsetZ * 2) - offsetZ);
+        }
 
         return vectorHelper;
     }

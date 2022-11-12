@@ -72,7 +72,7 @@ public class ParticleBlockBreak extends Particle {
         for (int i = 0; i < players.size(); i++) {
             EntityPlayer p = players.get(i).getHandle();
 
-            if (p == null)
+            if (p == null) continue;
             if (!location.getWorld().getName().equals(p.world.getWorld().getName())) continue;
 
             if (radius != 0) {

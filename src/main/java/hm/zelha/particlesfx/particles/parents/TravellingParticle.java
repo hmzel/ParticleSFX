@@ -33,7 +33,9 @@ public class TravellingParticle extends Particle {
 
         int count2 = count;
 
-        if (toGo == null && velocity == null) count2 = 1;
+        if (toGo == null && velocity == null) {
+            count2 = 1;
+        }
 
         for (int i = 0; i != count2; i++) {
             int count = 0;
@@ -81,7 +83,9 @@ public class TravellingParticle extends Particle {
                 );
             }
 
-            if (addition != null) location.subtract(addition);
+            if (addition != null) {
+                location.subtract(addition);
+            }
         }
     }
 

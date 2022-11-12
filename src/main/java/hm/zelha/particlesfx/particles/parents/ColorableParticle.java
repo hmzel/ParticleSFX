@@ -70,7 +70,9 @@ public class ColorableParticle extends Particle {
                 );
             }
 
-            if (addition != null) location.subtract(addition);
+            if (addition != null) {
+                location.subtract(addition);
+            }
         }
     }
 

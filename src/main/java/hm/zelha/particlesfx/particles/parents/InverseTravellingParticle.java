@@ -32,7 +32,9 @@ public class InverseTravellingParticle extends Particle {
 
         int count2 = count;
 
-        if (toGo == null && velocity == null) count2 = 1;
+        if (toGo == null && velocity == null) {
+            count2 = 1;
+        }
 
         for (int i = 0; i != count2; i++) {
             int count = 0;
@@ -42,8 +44,10 @@ public class InverseTravellingParticle extends Particle {
             double trueOffsetZ = offsetZ;
             Vector addition = null;
 
-            if (toGo != null || velocity != null) addition = generateFakeOffset();
-            if (addition != null) location.add(addition);
+            if (toGo != null || velocity != null) {
+                addition = generateFakeOffset();
+                location.add(addition);
+            }
 
             Location trueLocation = location;
 
@@ -83,7 +87,9 @@ public class InverseTravellingParticle extends Particle {
                 );
             }
 
-            if (addition != null) location.subtract(addition);
+            if (addition != null) {
+                location.subtract(addition);
+            }
         }
     }
 
