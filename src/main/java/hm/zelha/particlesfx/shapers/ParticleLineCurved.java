@@ -18,6 +18,7 @@ public class ParticleLineCurved extends ParticleLine {
     private final List<CurveInfo> curves = new ArrayList<>();
     private final Rotation rot3 = new Rotation();
     private final Vector vectorHelper2 = new Vector(0, 0, 0);
+    private boolean rotateCurves = true;
 
     public ParticleLineCurved(Particle particle, double frequency, LocationSafe... locations) {
         super(particle, frequency, locations);
@@ -135,12 +136,39 @@ public class ParticleLineCurved extends ParticleLine {
         }
     }
 
+    @Override
+    public void rotate(double pitch, double yaw, double roll) {
+        super.rotate(pitch, yaw, roll);
+
+        if (rotateCurves) {
+            for (CurveInfo curve : curves) {
+                curve.setPitch(curve.getPitch() + pitch);
+                curve.setYaw(curve.getYaw() + yaw);
+                curve.setRoll(curve.getRoll() + roll);
+            }
+        }
+    }
+
     public void addCurve(CurveInfo curve) {
         curves.add(curve);
     }
 
     public void removeCurve(int index) {
         curves.remove(index);
+    }
+
+    /**
+     * @param rotateCurves whether curves are rotated with the shape, defaults to true
+     */
+    public void setRotateCurves(boolean rotateCurves) {
+        this.rotateCurves = rotateCurves;
+    }
+
+    /**
+     * @return whether curves are rotated with the shape, defaults to true
+     */
+    public boolean isRotatingCurves() {
+        return rotateCurves;
     }
 
     public CurveInfo getCurve(int index) {
