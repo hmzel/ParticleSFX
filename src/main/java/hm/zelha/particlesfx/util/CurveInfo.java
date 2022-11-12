@@ -32,7 +32,7 @@ public class CurveInfo {
     }
 
     public CurveInfo clone() {
-        return new CurveInfo(height, length, pitch, yaw, roll, apexPosition);
+        return new CurveInfo(height, length, apexPosition, pitch, yaw, roll);
     }
 
     public double getHeight() {

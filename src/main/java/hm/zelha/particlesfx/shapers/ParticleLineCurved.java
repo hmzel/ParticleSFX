@@ -1,10 +1,12 @@
 package hm.zelha.particlesfx.shapers;
 
 import hm.zelha.particlesfx.particles.parents.Particle;
+import hm.zelha.particlesfx.shapers.parents.Shape;
 import hm.zelha.particlesfx.util.CurveInfo;
 import hm.zelha.particlesfx.util.LVMath;
 import hm.zelha.particlesfx.util.LocationSafe;
 import hm.zelha.particlesfx.util.Rotation;
+import org.apache.commons.lang3.tuple.Pair;
 import org.bukkit.Location;
 import org.bukkit.util.Vector;
 
@@ -147,6 +149,32 @@ public class ParticleLineCurved extends ParticleLine {
                 curve.setRoll(curve.getRoll() + roll);
             }
         }
+    }
+
+    @Override
+    public Shape clone() {
+        LocationSafe[] locations = new LocationSafe[this.locations.size()];
+
+        for (int i = 0; i < getLocationAmount(); i++) {
+            locations[i] = this.locations.get(i).clone();
+        }
+
+        ParticleLineCurved clone = new ParticleLineCurved(particle, particleFrequency, locations);
+
+        for (Pair<Particle, Integer> pair : secondaryParticles) {
+            clone.addParticle(pair.getKey(), pair.getValue());
+        }
+
+        clone.setMechanic(mechanic);
+        clone.setParticlesPerDisplay(particlesPerDisplay);
+
+        for (CurveInfo curve : curves) {
+            clone.addCurve(curve.clone());
+        }
+
+        clone.setRotateCurves(rotateCurves);
+
+        return clone;
     }
 
     public void addCurve(CurveInfo curve) {
