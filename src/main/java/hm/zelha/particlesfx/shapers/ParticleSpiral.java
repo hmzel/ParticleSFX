@@ -2,11 +2,13 @@ package hm.zelha.particlesfx.shapers;
 
 import hm.zelha.particlesfx.particles.parents.Particle;
 import hm.zelha.particlesfx.shapers.parents.ParticleShaper;
+import hm.zelha.particlesfx.shapers.parents.Shape;
 import hm.zelha.particlesfx.util.CircleInfo;
 import hm.zelha.particlesfx.util.LVMath;
 import hm.zelha.particlesfx.util.LocationSafe;
 import hm.zelha.particlesfx.util.Rotation;
 import org.apache.commons.lang3.Validate;
+import org.apache.commons.lang3.tuple.Pair;
 import org.bukkit.World;
 import org.bukkit.util.Vector;
 
@@ -97,6 +99,26 @@ public class ParticleSpiral extends ParticleShaper {
                 }
             }
         }
+    }
+
+    @Override
+    public Shape clone() {
+        CircleInfo[] circles = new CircleInfo[this.circles.size()];
+
+        for (int i = 0; i < this.circles.size(); i++) {
+            circles[i] = this.circles.get(i).clone();
+        }
+
+        ParticleSpiral clone = new ParticleSpiral(particle, spin, count, particleFrequency, circles);
+
+        for (Pair<Particle, Integer> pair : secondaryParticles) {
+            clone.addParticle(pair.getKey(), pair.getValue());
+        }
+
+        clone.setMechanic(mechanic);
+        clone.setParticlesPerDisplay(particlesPerDisplay);
+
+        return clone;
     }
 
     public void addCircle(CircleInfo circle) {
