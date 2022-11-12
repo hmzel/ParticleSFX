@@ -110,7 +110,7 @@ public class RotationHandler {
         }
     }
 
-    protected void recalculateIfNeeded(@Nullable Location around) {
+    protected boolean recalculateIfNeeded(@Nullable Location around) {
         boolean recalculate = false;
         boolean aroundHasChanged = false;
 
@@ -170,6 +170,8 @@ public class RotationHandler {
             rotHelper.applyPitch(rhVectorHelper);
             LVMath.additionToLocation(originalCentroid, lastRotatedAround, rhVectorHelper);
         }
+
+        return recalculate;
     }
 
     protected void calculateCentroid(List<? extends Location> locations) {

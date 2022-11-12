@@ -71,7 +71,7 @@ public class ParticleShapeCompound extends RotationHandler implements Shape {
     }
 
     @Override
-    protected void recalculateIfNeeded(@Nullable Location around) {
+    protected boolean recalculateIfNeeded(@Nullable Location around) {
         boolean aroundHasChanged = false;
 
         if (around != null) {
@@ -124,6 +124,8 @@ public class ParticleShapeCompound extends RotationHandler implements Shape {
             rotHelper.applyPitch(rhVectorHelper);
             LVMath.additionToLocation(originalCentroid, lastRotatedAround, rhVectorHelper);
         }
+
+        return recalc;
     }
 
     /**
