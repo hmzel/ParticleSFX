@@ -128,6 +128,8 @@ public class ParticleCylinder extends ParticleShaper {
 
         ParticleCylinder clone = new ParticleCylinder(particle, circleFrequency, particleFrequency, circles);
 
+        clone.setRotateCircles(rotateCircles);
+
         for (Pair<Particle, Integer> pair : secondaryParticles) {
             clone.addParticle(pair.getKey(), pair.getValue());
         }

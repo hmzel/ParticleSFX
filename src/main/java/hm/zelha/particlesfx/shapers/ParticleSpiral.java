@@ -17,12 +17,11 @@ import java.util.List;
 
 public class ParticleSpiral extends ParticleShaper {
 
-    //TODO: make spin equal between all circles
-
     private final List<CircleInfo> circles = new ArrayList<>();
     private final Vector vectorHelper2 = new Vector(0, 0, 0);
     private final Rotation rotHelper = new Rotation();
     private final CircleInfo circleHelper;
+    private boolean rotateCircles = true;
     private double spin;
     private int count;
 
@@ -102,6 +101,19 @@ public class ParticleSpiral extends ParticleShaper {
     }
 
     @Override
+    public void rotate(double pitch, double yaw, double roll) {
+        super.rotate(pitch, yaw, roll);
+
+        if (rotateCircles) {
+            for (CircleInfo circle : circles) {
+                circle.setPitch(circle.getPitch() + pitch);
+                circle.setYaw(circle.getYaw() + yaw);
+                circle.setRoll(circle.getRoll() + roll);
+            }
+        }
+    }
+
+    @Override
     public Shape clone() {
         CircleInfo[] circles = new CircleInfo[this.circles.size()];
 
@@ -110,6 +122,8 @@ public class ParticleSpiral extends ParticleShaper {
         }
 
         ParticleSpiral clone = new ParticleSpiral(particle, spin, count, particleFrequency, circles);
+
+        clone.setRotateCircles(rotateCircles);
 
         for (Pair<Particle, Integer> pair : secondaryParticles) {
             clone.addParticle(pair.getKey(), pair.getValue());
@@ -143,18 +157,6 @@ public class ParticleSpiral extends ParticleShaper {
         locations.get(0).setChanged(true);
     }
 
-    public CircleInfo getCircle(int index) {
-        return circles.get(index);
-    }
-
-    public double getSpin() {
-        return spin;
-    }
-
-    public int getCount() {
-        return count;
-    }
-
     @Override
     public void setWorld(World world) {
         super.setWorld(world);
@@ -169,5 +171,31 @@ public class ParticleSpiral extends ParticleShaper {
         Validate.isTrue(count > 0, "Count cant be 0 or less!");
 
         this.count = count;
+    }
+
+    /**
+     * @param rotateCircles whether circles are rotated with the shape, defaults to true
+     */
+    public void setRotateCircles(boolean rotateCircles) {
+        this.rotateCircles = rotateCircles;
+    }
+
+    /**
+     * @return whether circles are rotated with the shape, defaults to true
+     */
+    public boolean isRotatingCircles() {
+        return rotateCircles;
+    }
+
+    public CircleInfo getCircle(int index) {
+        return circles.get(index);
+    }
+
+    public double getSpin() {
+        return spin;
+    }
+
+    public int getCount() {
+        return count;
     }
 }
