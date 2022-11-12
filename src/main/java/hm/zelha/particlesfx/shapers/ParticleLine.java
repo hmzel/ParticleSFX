@@ -2,9 +2,11 @@ package hm.zelha.particlesfx.shapers;
 
 import hm.zelha.particlesfx.particles.parents.Particle;
 import hm.zelha.particlesfx.shapers.parents.ParticleShaper;
+import hm.zelha.particlesfx.shapers.parents.Shape;
 import hm.zelha.particlesfx.util.LVMath;
 import hm.zelha.particlesfx.util.LocationSafe;
 import org.apache.commons.lang3.Validate;
+import org.apache.commons.lang3.tuple.Pair;
 import org.bukkit.Location;
 
 public class ParticleLine extends ParticleShaper {
@@ -83,6 +85,26 @@ public class ParticleLine extends ParticleShaper {
         if (!trackCount || !hasRan) {
             overallCount = 0;
         }
+    }
+
+    @Override
+    public Shape clone() {
+        LocationSafe[] locations = new LocationSafe[this.locations.size()];
+
+        for (int i = 0; i < getLocationAmount(); i++) {
+            locations[i] = this.locations.get(i).clone();
+        }
+
+        ParticleLine clone = new ParticleLine(particle, particleFrequency, locations);
+
+        for (Pair<Particle, Integer> pair : secondaryParticles) {
+            clone.addParticle(pair.getKey(), pair.getValue());
+        }
+
+        clone.setMechanic(mechanic);
+        clone.setParticlesPerDisplay(particlesPerDisplay);
+
+        return clone;
     }
 
     public void addLocation(LocationSafe location) {
