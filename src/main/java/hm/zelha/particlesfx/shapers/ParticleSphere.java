@@ -163,10 +163,10 @@ public class ParticleSphere extends ParticleShaper {
             double circumference;
 
             if (xRadius == zRadius) {
-                circumference = Math.PI * 2 * (xRadius * curve);
+                circumference = Math.PI * 2 * Math.abs(xRadius * curve);
             } else {
-                double x = xRadius * curve;
-                double z = zRadius * curve;
+                double x = Math.abs(xRadius * curve);
+                double z = Math.abs(zRadius * curve);
 
                 circumference = Math.PI * 2 * Math.sqrt((Math.pow(x, 2) + Math.pow(z, 2)) / 2);
             }
