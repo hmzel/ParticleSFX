@@ -24,18 +24,21 @@ public class ParticleShapeCompound extends RotationHandler implements Shape {
         }
     }
 
+    @Override
     public void start() {
         for (Shape shape : shapeLocationIndex.keySet()) {
             shape.start();
         }
     }
 
+    @Override
     public void stop() {
         for (Shape shape : shapeLocationIndex.keySet()) {
             shape.stop();
         }
     }
 
+    @Override
     public void display() {
         for (Shape shape : shapeLocationIndex.keySet()) {
             shape.display();
@@ -51,6 +54,20 @@ public class ParticleShapeCompound extends RotationHandler implements Shape {
                 shape.setRotation(rot.getPitch(), rot.getYaw(), rot.getRoll());
             }
         }
+    }
+
+    @Override
+    public Shape clone() {
+        Shape[] shapes = new Shape[shapeLocationIndex.size()];
+
+        int i = 0;
+
+        for (Shape shape : shapeLocationIndex.keySet()) {
+            shapes[i] = shape.clone();
+            i++;
+        }
+
+        return new ParticleShapeCompound(shapes);
     }
 
     @Override
