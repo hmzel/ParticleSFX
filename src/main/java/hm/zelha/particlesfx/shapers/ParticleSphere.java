@@ -2,8 +2,10 @@ package hm.zelha.particlesfx.shapers;
 
 import hm.zelha.particlesfx.particles.parents.Particle;
 import hm.zelha.particlesfx.shapers.parents.ParticleShaper;
+import hm.zelha.particlesfx.shapers.parents.Shape;
 import hm.zelha.particlesfx.util.LocationSafe;
 import org.apache.commons.lang3.Validate;
+import org.apache.commons.lang3.tuple.Pair;
 import org.bukkit.Location;
 
 import java.util.ArrayList;
@@ -16,10 +18,10 @@ public class ParticleSphere extends ParticleShaper {
 
     //circumference tracker
     private final List<Double> cirTracker = new ArrayList<>();
+    private int circleFrequency;
     private double xRadius;
     private double yRadius;
     private double zRadius;
-    private double circleFrequency;
     private double limit = 0;
     private double totalArea = 0;
     private boolean limitInverse = false;
@@ -133,6 +135,20 @@ public class ParticleSphere extends ParticleShaper {
         }
     }
 
+    @Override
+    public Shape clone() {
+        ParticleSphere clone = new ParticleSphere(particle, locations.get(0).clone(), xRadius, yRadius, zRadius, getPitch(), getYaw(), getRoll(), circleFrequency, particleFrequency);
+
+        for (Pair<Particle, Integer> pair : secondaryParticles) {
+            clone.addParticle(pair.getKey(), pair.getValue());
+        }
+
+        clone.setMechanic(mechanic);
+        clone.setParticlesPerDisplay(particlesPerDisplay);
+
+        return clone;
+    }
+
     private void recalcCircumferenceAndArea(double loopEndFix, double loopStart, double loopEnd, double increase) {
         cirTracker.clear();
 
@@ -193,7 +209,7 @@ public class ParticleSphere extends ParticleShaper {
         recalculate = true;
     }
 
-    public void setCircleFrequency(double circleFrequency) {
+    public void setCircleFrequency(int circleFrequency) {
         Validate.isTrue(circleFrequency >= 3, "You cant have a sphere with only 2 points!");
         Validate.isTrue(circleFrequency <= particleFrequency, "You can't have more circles than particles!");
 
@@ -234,7 +250,7 @@ public class ParticleSphere extends ParticleShaper {
         return zRadius;
     }
 
-    public double getCircleFrequency() {
+    public int getCircleFrequency() {
         return circleFrequency;
     }
 
