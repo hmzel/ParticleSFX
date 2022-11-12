@@ -23,6 +23,7 @@ public class ParticleCylinder extends ParticleShaper {
     private final List<CircleInfo> circles = new ArrayList<>();
     private final CircleInfo circleHelper = new CircleInfo(new LocationSafe(Bukkit.getWorld("world"), 0, 0, 0), 0, 0);
     private final Rotation rotHelper = new Rotation();
+    private boolean rotateCircles = true;
     private int circleFrequency;
 
     public ParticleCylinder(Particle particle, int circleFrequency, double particleFrequency, CircleInfo... circles) {
@@ -105,6 +106,19 @@ public class ParticleCylinder extends ParticleShaper {
     }
 
     @Override
+    public void rotate(double pitch, double yaw, double roll) {
+        super.rotate(pitch, yaw, roll);
+
+        if (rotateCircles) {
+            for (CircleInfo circle : circles) {
+                circle.setPitch(circle.getPitch() + pitch);
+                circle.setYaw(circle.getYaw() + yaw);
+                circle.setRoll(circle.getRoll() + roll);
+            }
+        }
+    }
+
+    @Override
     public Shape clone() {
         CircleInfo[] circles = new CircleInfo[this.circles.size()];
 
@@ -156,6 +170,20 @@ public class ParticleCylinder extends ParticleShaper {
     public void setWorld(World world) {
         super.setWorld(world);
         circleHelper.getCenter().setWorld(world);
+    }
+
+    /**
+     * @param rotateCircles whether circles are rotated with the shape, defaults to true
+     */
+    public void setRotateCircles(boolean rotateCircles) {
+        this.rotateCircles = rotateCircles;
+    }
+
+    /**
+     * @return whether circles are rotated with the shape, defaults to true
+     */
+    public boolean isRotatingCircles() {
+        return rotateCircles;
     }
 
     public CircleInfo getCircle(int index) {
