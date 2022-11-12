@@ -43,7 +43,7 @@ public class ParticleCylinder extends ParticleShaper {
 
     @Override
     public void display() {
-        double increase = (Math.PI * 2) / (particleFrequency / circleFrequency);
+        double increase = Math.PI * 2 / particleFrequency * circleFrequency;
         double totalDist = getTotalDistance();
         double distToTravel = 0;
         double continuation = 0;
@@ -78,8 +78,7 @@ public class ParticleCylinder extends ParticleShaper {
                 control = 1;
             }
 
-            //setting vectorHelper to (end - start) / (absolute vector sum / distToTravel)
-            LVMath.divide(LVMath.subtractToVector(vectorHelper, circle2.getCenter(), circle1.getCenter()), (Math.abs(vectorHelper.getX()) + Math.abs(vectorHelper.getY()) + Math.abs(vectorHelper.getZ())) * ((distToTravel != 0) ? (1 / distToTravel) : 0));
+            LVMath.subtractToVector(vectorHelper, circle2.getCenter(), circle1.getCenter()).normalize().multiply(distToTravel);
             circleHelper.getCenter().add(vectorHelper);
             //adding pitch, yaw, roll, x and z radius changes based on (circle2 - circle1) * (current position / distance between circles)
             circleHelper.setXRadius(circleHelper.getXRadius() + ((circle2.getXRadius() - circle1.getXRadius()) * control));

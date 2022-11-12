@@ -81,10 +81,7 @@ public class ParticleSpiral extends ParticleShaper {
                 double zRadiusInc = (circle2.getZRadius() - circle1.getZRadius()) * control;
 
                 locationHelper.zero().add(circle1.getCenter());
-                //setting vectorHelper to (end - start).normalize() * (distance * control)
-                LVMath.subtractToVector(vectorHelper, circle2.getCenter(), circle1.getCenter());
-                vectorHelper.normalize();
-                vectorHelper.multiply(circle1.getCenter().distance(circle2.getCenter()) * control);
+                LVMath.subtractToVector(vectorHelper, circle2.getCenter(), circle1.getCenter()).multiply(control);
                 circleHelper.inherit(circle1);
                 rotHelper.set(circleHelper.getPitch(), circleHelper.getYaw(), circleHelper.getRoll());
 
