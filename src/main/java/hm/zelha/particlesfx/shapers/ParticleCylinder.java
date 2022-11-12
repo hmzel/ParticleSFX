@@ -10,20 +10,25 @@ import hm.zelha.particlesfx.util.Rotation;
 import org.apache.commons.lang3.Validate;
 import org.apache.commons.lang3.tuple.Pair;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.World;
 
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ParticleCylinder extends ParticleShaper {
 
-    //TODO: make particles depend on radius like in ParticleSphere
-    // make it so using rotation methods every tick doesnt cause wacky stuff to happen if all locations are evenly spaced
+    //TODO: make it so using rotation methods every tick doesnt cause wacky stuff to happen if all locations are evenly spaced
 
     private final List<CircleInfo> circles = new ArrayList<>();
+    //circumference tracker
+    private final List<Double> cirTracker = new ArrayList<>();
     private final CircleInfo circleHelper = new CircleInfo(new LocationSafe(Bukkit.getWorld("world"), 0, 0, 0), 0, 0);
     private final Rotation rotHelper = new Rotation();
     private boolean rotateCircles = true;
+    private boolean recalculate = true;
+    private double totalArea = 0;
     private int circleFrequency;
 
     public ParticleCylinder(Particle particle, int circleFrequency, double particleFrequency, CircleInfo... circles) {
@@ -46,15 +51,28 @@ public class ParticleCylinder extends ParticleShaper {
 
     @Override
     public void display() {
-        double increase = Math.PI * 2 / particleFrequency * circleFrequency;
         double totalDist = getTotalDistance();
         double distToTravel = 0;
         double continuation = 0;
+        int circle = 0;
+
+        //need to do this here to make sure circumference & total area aren't screwed up by outside modification of locations
+        recalculateIfNeeded(null);
+
+        for (int i = 0; i < circles.size(); i++) {
+            if (circles.get(i).isModified()) {
+                recalculate = true;
+            }
+        }
+
+        if (recalculate) {
+            recalcCircumferenceAndArea();
+        }
 
         circleHelper.inherit(circles.get(0));
         rotHelper.set(circleHelper.getPitch(), circleHelper.getYaw(), circleHelper.getRoll());
 
-        for (int i = 0, circle = 0; i < circleFrequency; i++) {
+        for (int i = 0; i < circleFrequency; i++) {
             CircleInfo circle1 = circles.get(circle);
             CircleInfo circle2 = circles.get(circle + 1);
             double distance = circleHelper.getCenter().distance(circle2.getCenter());
@@ -88,6 +106,12 @@ public class ParticleCylinder extends ParticleShaper {
             circleHelper.setZRadius(circleHelper.getZRadius() + ((circle2.getZRadius() - circle1.getZRadius()) * control));
             rotHelper.add((circle2.getPitch() - circle1.getPitch()) * control, (circle2.getYaw() - circle1.getYaw()) * control, (circle2.getRoll() - circle1.getRoll()) * control);
             locationHelper.zero().add(circleHelper.getCenter());
+
+            double increase = (Math.PI * 2) / Math.floor(particleFrequency * (cirTracker.get(i) / totalArea));
+
+            if (!Double.isFinite(increase)) {
+                increase = Math.PI * 2;
+            }
 
             for (double radian = continuation; true; radian += increase) {
                 if (radian > (Math.PI * 2) + continuation) {
@@ -140,6 +164,76 @@ public class ParticleCylinder extends ParticleShaper {
         return clone;
     }
 
+    @Override
+    protected boolean recalculateIfNeeded(@Nullable Location around) {
+        boolean recalc = super.recalculateIfNeeded(around);
+
+        if (recalc) {
+            recalculate = true;
+        }
+
+        return recalc;
+    }
+
+    private void recalcCircumferenceAndArea() {
+        cirTracker.clear();
+
+        totalArea = 0;
+        recalculate = false;
+        double totalDist = getTotalDistance();
+        double distToTravel = 0;
+        int circle = 0;
+
+        circleHelper.inherit(circles.get(0));
+
+        for (int i = 0; i < circleFrequency; i++) {
+            CircleInfo circle1 = circles.get(circle);
+            CircleInfo circle2 = circles.get(circle + 1);
+            double distance = circleHelper.getCenter().distance(circle2.getCenter());
+
+            while (distToTravel > distance) {
+                //i think this only happens because of double inconsistency so its fine to just ignore
+                //in every case where this breaks the while loop the final circle winds up exactly where it should be,
+                //anything off has to be in the millionths of a decimal
+                if (circle + 2 >= circles.size()) break;
+
+                distToTravel -= distance;
+                circle++;
+                circle1 = circles.get(circle);
+                circle2 = circles.get(circle + 1);
+                distance = circle1.getCenter().distance(circle2.getCenter());
+
+                circleHelper.inherit(circle1);
+            }
+
+            double control = distToTravel / circle1.getCenter().distance(circle2.getCenter());
+
+            if (!Double.isFinite(control)) {
+                control = 1;
+            }
+
+            LVMath.subtractToVector(vectorHelper, circle2.getCenter(), circle1.getCenter()).normalize().multiply(distToTravel);
+            circleHelper.getCenter().add(vectorHelper);
+            //adding x and z radius changes based on (circle2 - circle1) * (current position / distance between circles)
+            circleHelper.setXRadius(circleHelper.getXRadius() + ((circle2.getXRadius() - circle1.getXRadius()) * control));
+            circleHelper.setZRadius(circleHelper.getZRadius() + ((circle2.getZRadius() - circle1.getZRadius()) * control));
+
+            distToTravel = totalDist / (circleFrequency - 1);
+            double xRadius = Math.abs(circleHelper.getXRadius());
+            double zRadius = Math.abs(circleHelper.getZRadius());
+            double circumference;
+
+            if (xRadius == zRadius) {
+                circumference = Math.PI * 2 * xRadius;
+            } else {
+                circumference = Math.PI * 2 * Math.sqrt((Math.pow(xRadius, 2) + Math.pow(zRadius, 2)) / 2);
+            }
+
+            cirTracker.add(circumference);
+            totalArea += circumference;
+        }
+    }
+
     public void addCircle(CircleInfo circle) {
         Validate.notNull(circle, "Circles cant be null!");
 
@@ -151,6 +245,8 @@ public class ParticleCylinder extends ParticleShaper {
         locations.add((LocationSafe) circle.getCenter());
         origins.add(((LocationSafe) circle.getCenter()).cloneToLocation());
         ((LocationSafe) circle.getCenter()).setChanged(true);
+
+        recalculate = true;
     }
 
     public void removeCircle(int index) {
@@ -160,12 +256,15 @@ public class ParticleCylinder extends ParticleShaper {
         locations.remove(index);
         origins.remove(index);
         locations.get(0).setChanged(true);
+
+        recalculate = true;
     }
 
     public void setCircleFrequency(int circleFrequency) {
         Validate.isTrue(circleFrequency > 1, "circleFrequency must be greater than 1! if you only want one circle, use ParticleCircle");
 
         this.circleFrequency = circleFrequency;
+        recalculate = true;
     }
 
     @Override

@@ -6,6 +6,7 @@ import org.bukkit.Location;
 public class CircleInfo {
 
     private LocationSafe center = null;
+    private boolean modified = false;
     private double pitch;
     private double yaw;
     private double roll;
@@ -56,10 +57,12 @@ public class CircleInfo {
 
     public void setXRadius(double xRadius) {
         this.xRadius = xRadius;
+        modified = true;
     }
 
     public void setZRadius(double zRadius) {
         this.zRadius = zRadius;
+        modified = true;
     }
 
     public void setPitch(double pitch) {
@@ -96,5 +99,13 @@ public class CircleInfo {
 
     public double getRoll() {
         return roll;
+    }
+
+    public boolean isModified() {
+        boolean modified = this.modified;
+
+        this.modified = false;
+
+        return modified;
     }
 }
