@@ -2,8 +2,10 @@ package hm.zelha.particlesfx.shapers;
 
 import hm.zelha.particlesfx.particles.parents.Particle;
 import hm.zelha.particlesfx.shapers.parents.ParticleShaper;
+import hm.zelha.particlesfx.shapers.parents.Shape;
 import hm.zelha.particlesfx.util.LocationSafe;
 import org.apache.commons.lang3.Validate;
+import org.apache.commons.lang3.tuple.Pair;
 import org.bukkit.Location;
 
 public class ParticleCircle extends ParticleShaper {
@@ -82,6 +84,22 @@ public class ParticleCircle extends ParticleShaper {
         if (!trackCount || !hasRan) {
             overallCount = 0;
         }
+    }
+
+    @Override
+    public Shape clone() {
+        ParticleCircle clone = new ParticleCircle(particle, locations.get(0).clone(), xRadius, zRadius, getPitch(), getYaw(), getRoll(), particleFrequency);
+
+        for (Pair<Particle, Integer> pair : secondaryParticles) {
+            clone.addParticle(pair.getKey(), pair.getValue());
+        }
+
+        clone.setMechanic(mechanic);
+        clone.setParticlesPerDisplay(particlesPerDisplay);
+        clone.setLimit(limit);
+        clone.setLimitInverse(limitInverse);
+
+        return clone;
     }
 
     public void setCenter(LocationSafe center) {

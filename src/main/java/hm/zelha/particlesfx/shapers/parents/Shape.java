@@ -26,6 +26,8 @@ public interface Shape {
 
     public void move(Location location);
 
+    public Shape clone();
+
     public void setWorld(World world);
 
     public void setRotation(double pitch, double yaw, double roll);

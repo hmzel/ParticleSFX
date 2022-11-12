@@ -58,6 +58,8 @@ public abstract class ParticleShaper extends RotationHandler implements Shape {
 
     public abstract void display();
 
+    public abstract Shape clone();
+
     protected Particle getCurrentParticle() {
         Particle particle = this.particle;
 
