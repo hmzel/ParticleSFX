@@ -7,6 +7,9 @@ import org.bukkit.util.NumberConversions;
 /** contains static utility methods with various functions */
 public class ParticleSFX {
 
+    private ParticleSFX() {
+    }
+
     public static double[] getDirection(Location toFace, Location location) {
         Validate.isTrue(toFace.getWorld().equals(location.getWorld()), "Locations must be in the same world!");
 

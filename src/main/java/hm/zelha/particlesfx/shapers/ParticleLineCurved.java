@@ -15,8 +15,6 @@ import java.util.List;
 
 public class ParticleLineCurved extends ParticleLine {
 
-    //TODO: add an option for curves to rotate with the line
-
     private final List<CurveInfo> curves = new ArrayList<>();
     private final Rotation rot3 = new Rotation();
     private final Vector vectorHelper2 = new Vector(0, 0, 0);

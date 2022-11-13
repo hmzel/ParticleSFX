@@ -55,6 +55,9 @@ public class ParticleCylinder extends ParticleShaper {
         double distToTravel = 0;
         double continuation = 0;
         int circle = 0;
+        int current = overallCount;
+        boolean hasRan = false;
+        boolean trackCount = particlesPerDisplay > 0;
 
         //need to do this here to make sure circumference & total area aren't screwed up by outside modification of locations
         recalculateIfNeeded(null);
@@ -72,10 +75,27 @@ public class ParticleCylinder extends ParticleShaper {
         circleHelper.inherit(circles.get(0));
         rotHelper.set(circleHelper.getPitch(), circleHelper.getYaw(), circleHelper.getRoll());
 
-        for (int i = 0; i < circleFrequency; i++) {
+        main:
+        for (int i = 0; i < circleFrequency; i++, distToTravel = totalDist / (circleFrequency - 1)) {
             CircleInfo circle1 = circles.get(circle);
             CircleInfo circle2 = circles.get(circle + 1);
             double distance = circleHelper.getCenter().distance(circle2.getCenter());
+            double particleAmount = Math.floor(particleFrequency * (cirTracker.get(i) / totalArea));
+
+            if (particleAmount <= 0) {
+                particleAmount = 1;
+            }
+
+            if (trackCount) {
+                if (current >= particleAmount) {
+                    current -= particleAmount;
+                    continue;
+                }
+
+                if (!hasRan) {
+                    distToTravel *= i;
+                }
+            }
 
             while (distToTravel > distance) {
                 //i think this only happens because of double inconsistency so its fine to just ignore
@@ -105,27 +125,49 @@ public class ParticleCylinder extends ParticleShaper {
             circleHelper.setXRadius(circleHelper.getXRadius() + ((circle2.getXRadius() - circle1.getXRadius()) * control));
             circleHelper.setZRadius(circleHelper.getZRadius() + ((circle2.getZRadius() - circle1.getZRadius()) * control));
             rotHelper.add((circle2.getPitch() - circle1.getPitch()) * control, (circle2.getYaw() - circle1.getYaw()) * control, (circle2.getRoll() - circle1.getRoll()) * control);
-            locationHelper.zero().add(circleHelper.getCenter());
 
-            double increase = (Math.PI * 2) / Math.floor(particleFrequency * (cirTracker.get(i) / totalArea));
+            double increase = Math.PI * 2 / particleAmount;
+            double start = 0;
 
             if (!Double.isFinite(increase)) {
                 increase = Math.PI * 2;
             }
 
-            for (double radian = continuation; true; radian += increase) {
+            if (trackCount) {
+                start = increase * current;
+            }
+
+            for (double radian = start + continuation; true; radian += increase) {
                 if (radian > (Math.PI * 2) + continuation) {
                     continuation = radian - Math.PI * 2;
                     break;
                 }
 
                 //setting vectorHelper2 to where the current particle should be in correlation to the current circle's center (locationHelper)
-                rotHelper.apply(vectorHelper.setX(circleHelper.getXRadius() * Math.cos(radian)).setY(0).setZ(circleHelper.getZRadius() * Math.sin(radian)));
-                getCurrentParticle().display(locationHelper.add(vectorHelper));
-                locationHelper.subtract(vectorHelper);
+                vectorHelper.zero();
+                vectorHelper.setX(circleHelper.getXRadius() * Math.cos(radian)).setY(0).setZ(circleHelper.getZRadius() * Math.sin(radian));
+                rotHelper.apply(vectorHelper);
+                locationHelper.zero().add(circleHelper.getCenter()).add(vectorHelper);
+                getCurrentParticle().display(locationHelper);
+
+                overallCount++;
+
+                if (trackCount) {
+                    currentCount++;
+                    hasRan = true;
+
+                    if (currentCount >= particlesPerDisplay) {
+                        currentCount = 0;
+                        break main;
+                    }
+                }
             }
 
-            distToTravel = totalDist / (circleFrequency - 1);
+            current = 0;
+        }
+
+        if (!trackCount || !hasRan) {
+            overallCount = 0;
         }
     }
 
