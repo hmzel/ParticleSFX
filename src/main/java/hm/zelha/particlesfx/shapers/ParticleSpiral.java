@@ -104,10 +104,20 @@ public class ParticleSpiral extends ParticleShaper {
                 }
 
                 for (double radian = start; ((spin > 0) ? radian < end : radian > end); radian += increase) {
-                    //setting vectorHelper2 to where the current particle should be in correlation to the current circle's center (locationHelper)
-                    rotHelper.apply(vectorHelper2.setX(circleHelper.getXRadius() * Math.cos(radian)).setY(0).setZ(circleHelper.getZRadius() * Math.sin(radian)));
-                    locationHelper.zero().add(circleHelper.getCenter()).add(vectorHelper2);
-                    getCurrentParticle().display(locationHelper);
+                    Particle particle = getCurrentParticle();
+
+                    vectorHelper2.setX(circleHelper.getXRadius() * Math.cos(radian));
+                    vectorHelper2.setY(0);
+                    vectorHelper2.setZ(circleHelper.getZRadius() * Math.sin(radian));
+                    locationHelper.zero().add(circleHelper.getCenter());
+
+                    if (mechanic != null) {
+                        mechanic.apply(particle, locationHelper, vectorHelper2);
+                    }
+
+                    rotHelper.apply(vectorHelper2);
+                    locationHelper.add(vectorHelper2);
+                    particle.display(locationHelper);
                     circleHelper.getCenter().add(vectorHelper);
                     circleHelper.setXRadius(circleHelper.getXRadius() + xRadiusInc);
                     circleHelper.setZRadius(circleHelper.getZRadius() + zRadiusInc);
