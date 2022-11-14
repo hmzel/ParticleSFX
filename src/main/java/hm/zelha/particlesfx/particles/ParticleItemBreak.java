@@ -14,7 +14,7 @@ import java.util.List;
 
 /**
  * this particle can have the material of any tangible item, regardless of if it can break or not <p>
- * ex: stone works fine, but water will not because it isn't an item you can have in your hand. <p></p>
+ * ex: stone works fine, but air will not because it isn't an item you can have in your hand. <p></p>
  *
  * warning: the speed of this particle is inconsistent due to gravity and other internal factors that aren't accounted for
  */
@@ -23,13 +23,13 @@ public class ParticleItemBreak extends TravellingParticle {
     private MaterialData data;
 
     public ParticleItemBreak(MaterialData data, Vector velocity, double offsetX, double offsetY, double offsetZ, int count) {
-        super(EnumParticle.BLOCK_DUST, 0.105, velocity, null, offsetX, offsetY, offsetZ, count);
+        super(EnumParticle.ITEM_CRACK, 0.105, velocity, null, offsetX, offsetY, offsetZ, count);
 
         setMaterialData(data);
     }
 
     public ParticleItemBreak(MaterialData data, Location toGo, double offsetX, double offsetY, double offsetZ, int count) {
-        super(EnumParticle.BLOCK_DUST, 0.105, null, toGo, offsetX, offsetY, offsetZ, count);
+        super(EnumParticle.ITEM_CRACK, 0.105, null, toGo, offsetX, offsetY, offsetZ, count);
 
         setMaterialData(data);
     }
