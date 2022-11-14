@@ -143,12 +143,20 @@ public class ParticleCylinder extends ParticleShaper {
                     break;
                 }
 
-                //setting vectorHelper2 to where the current particle should be in correlation to the current circle's center (locationHelper)
-                vectorHelper.zero();
-                vectorHelper.setX(circleHelper.getXRadius() * Math.cos(radian)).setY(0).setZ(circleHelper.getZRadius() * Math.sin(radian));
+                Particle particle = getCurrentParticle();
+
+                vectorHelper.setX(circleHelper.getXRadius() * Math.cos(radian));
+                vectorHelper.setY(0);
+                vectorHelper.setZ(circleHelper.getZRadius() * Math.sin(radian));
+                locationHelper.zero().add(circleHelper.getCenter());
+
+                if (mechanic != null) {
+                    mechanic.apply(particle, locationHelper, vectorHelper);
+                }
+
                 rotHelper.apply(vectorHelper);
-                locationHelper.zero().add(circleHelper.getCenter()).add(vectorHelper);
-                getCurrentParticle().display(locationHelper);
+                locationHelper.add(vectorHelper);
+                particle.display(locationHelper);
 
                 overallCount++;
 
