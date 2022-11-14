@@ -14,16 +14,16 @@ import java.util.List;
 
 public class TravellingParticle extends Particle {
 
-    private Location toGo;
-    private Vector velocity;
-    private final double control;
+    protected final double control;
+    protected Location toGo;
+    protected Vector velocity;
 
     protected TravellingParticle(EnumParticle particle, double control, Vector velocity, Location toGo, double offsetX, double offsetY, double offsetZ, int count) {
         super(particle, offsetX, offsetY, offsetZ, 1, count, 0);
 
+        this.control = control;
         this.velocity = velocity;
         this.toGo = toGo;
-        this.control = control;
     }
 
     @Override
