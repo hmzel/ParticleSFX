@@ -103,6 +103,10 @@ public class ParticleItemBreak extends TravellingParticle {
         this(data, (Location) null, 0, 0, 0, 1);
     }
 
+    public ParticleItemBreak() {
+        this(new MaterialData(-13), (Location) null, 0, 0, 0, 1);
+    }
+
     @Override
     protected void display(Location location, List<CraftPlayer> players) {
         Validate.notNull(location, "Location cannot be null!");
