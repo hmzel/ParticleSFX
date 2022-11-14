@@ -13,6 +13,9 @@ import org.bukkit.util.Vector;
 import java.util.List;
 
 /**
+ * this particle can have the material of any tangible item, regardless of if it can break or not <p>
+ * ex: stone works fine, but water will not because it isn't an item you can have in your hand. <p></p>
+ *
  * warning: the speed of this particle is inconsistent due to gravity and other internal factors that aren't accounted for
  */
 public class ParticleItemBreak extends TravellingParticle {
@@ -172,7 +175,6 @@ public class ParticleItemBreak extends TravellingParticle {
 
     public void setMaterialData(MaterialData data) {
         Validate.notNull(data, "Data cannot be null!");
-        Validate.isTrue(data.getItemType().isBlock(), "Material must be a block!");
 
         this.data = data;
     }
