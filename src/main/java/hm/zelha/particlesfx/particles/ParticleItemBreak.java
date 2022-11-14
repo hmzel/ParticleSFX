@@ -15,91 +15,91 @@ import java.util.List;
 /**
  * warning: the speed of this particle is inconsistent due to gravity and other internal factors that aren't accounted for
  */
-public class ParticleBlockBreak extends TravellingParticle {
+public class ParticleItemBreak extends TravellingParticle {
 
     private MaterialData data;
 
-    public ParticleBlockBreak(MaterialData data, Vector velocity, double offsetX, double offsetY, double offsetZ, int count) {
+    public ParticleItemBreak(MaterialData data, Vector velocity, double offsetX, double offsetY, double offsetZ, int count) {
         super(EnumParticle.BLOCK_DUST, 0.105, velocity, null, offsetX, offsetY, offsetZ, count);
 
         setMaterialData(data);
     }
 
-    public ParticleBlockBreak(MaterialData data, Location toGo, double offsetX, double offsetY, double offsetZ, int count) {
+    public ParticleItemBreak(MaterialData data, Location toGo, double offsetX, double offsetY, double offsetZ, int count) {
         super(EnumParticle.BLOCK_DUST, 0.105, null, toGo, offsetX, offsetY, offsetZ, count);
 
         setMaterialData(data);
     }
 
-    public ParticleBlockBreak(Vector velocity, double offsetX, double offsetY, double offsetZ, int count) {
+    public ParticleItemBreak(Vector velocity, double offsetX, double offsetY, double offsetZ, int count) {
         this(new MaterialData(-13), velocity, offsetX, offsetY, offsetZ, count);
     }
 
-    public ParticleBlockBreak(Location toGo, double offsetX, double offsetY, double offsetZ, int count) {
+    public ParticleItemBreak(Location toGo, double offsetX, double offsetY, double offsetZ, int count) {
         this(new MaterialData(-13), toGo, offsetX, offsetY, offsetZ, count);
     }
 
-    public ParticleBlockBreak(MaterialData data, double offsetX, double offsetY, double offsetZ, int count) {
+    public ParticleItemBreak(MaterialData data, double offsetX, double offsetY, double offsetZ, int count) {
         this(data, (Location) null, offsetX, offsetY, offsetZ, count);
     }
 
-    public ParticleBlockBreak(MaterialData data, Vector velocity, double offsetX, double offsetY, double offsetZ) {
+    public ParticleItemBreak(MaterialData data, Vector velocity, double offsetX, double offsetY, double offsetZ) {
         this(data, velocity, offsetX, offsetY, offsetZ, 1);
     }
 
-    public ParticleBlockBreak(MaterialData data, Location toGo, double offsetX, double offsetY, double offsetZ) {
+    public ParticleItemBreak(MaterialData data, Location toGo, double offsetX, double offsetY, double offsetZ) {
         this(data, toGo, offsetX, offsetY, offsetZ, 1);
     }
 
-    public ParticleBlockBreak(Vector velocity, double offsetX, double offsetY, double offsetZ) {
+    public ParticleItemBreak(Vector velocity, double offsetX, double offsetY, double offsetZ) {
         this(new MaterialData(-13), velocity, offsetX, offsetY, offsetZ, 1);
     }
 
-    public ParticleBlockBreak(Location toGo, double offsetX, double offsetY, double offsetZ) {
+    public ParticleItemBreak(Location toGo, double offsetX, double offsetY, double offsetZ) {
         this(new MaterialData(-13), toGo, offsetX, offsetY, offsetZ, 1);
     }
 
-    public ParticleBlockBreak(MaterialData data, double offsetX, double offsetY, double offsetZ) {
+    public ParticleItemBreak(MaterialData data, double offsetX, double offsetY, double offsetZ) {
         this(data, (Location) null, offsetX, offsetY, offsetZ, 1);
     }
 
-    public ParticleBlockBreak(MaterialData data, Vector velocity, int count) {
+    public ParticleItemBreak(MaterialData data, Vector velocity, int count) {
         this(data, velocity, 0, 0, 0, count);
     }
 
-    public ParticleBlockBreak(MaterialData data, Location toGo, int count) {
+    public ParticleItemBreak(MaterialData data, Location toGo, int count) {
         this(data, toGo, 0, 0, 0, count);
     }
 
-    public ParticleBlockBreak(Vector velocity, int count) {
+    public ParticleItemBreak(Vector velocity, int count) {
         this(new MaterialData(-13), velocity, 0, 0, 0, count);
     }
 
-    public ParticleBlockBreak(Location toGo, int count) {
+    public ParticleItemBreak(Location toGo, int count) {
         this(new MaterialData(-13), toGo, 0, 0, 0, count);
     }
 
-    public ParticleBlockBreak(MaterialData data, int count) {
+    public ParticleItemBreak(MaterialData data, int count) {
         this(data, (Location) null, 0, 0, 0, count);
     }
 
-    public ParticleBlockBreak(MaterialData data, Vector velocity) {
+    public ParticleItemBreak(MaterialData data, Vector velocity) {
         this(data, velocity, 0, 0, 0, 1);
     }
 
-    public ParticleBlockBreak(MaterialData data, Location toGo) {
+    public ParticleItemBreak(MaterialData data, Location toGo) {
         this(data, toGo, 0, 0, 0, 1);
     }
 
-    public ParticleBlockBreak(Vector velocity) {
+    public ParticleItemBreak(Vector velocity) {
         this(new MaterialData(-13), velocity, 0, 0, 0, 1);
     }
 
-    public ParticleBlockBreak(Location toGo) {
+    public ParticleItemBreak(Location toGo) {
         this(new MaterialData(-13), toGo, 0, 0, 0, 1);
     }
 
-    public ParticleBlockBreak(MaterialData data) {
+    public ParticleItemBreak(MaterialData data) {
         this(data, (Location) null, 0, 0, 0, 1);
     }
 
@@ -155,7 +155,7 @@ public class ParticleBlockBreak extends TravellingParticle {
                 p.playerConnection.sendPacket(
                         new PacketPlayOutWorldParticles(
                                 particle, true, (float) location.getX(), (float) location.getY(), (float) location.getZ(),
-                                (float) trueOffsetX, (float) trueOffsetY, (float) trueOffsetZ, speed, count, (data.getData() << 12 | data.getItemTypeId() & 4095)
+                                (float) trueOffsetX, (float) trueOffsetY, (float) trueOffsetZ, speed, count, data.getItemTypeId(), data.getData()
                         )
                 );
             }
