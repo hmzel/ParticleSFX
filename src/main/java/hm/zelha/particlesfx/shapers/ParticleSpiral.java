@@ -63,7 +63,7 @@ public class ParticleSpiral extends ParticleShaper {
     public void display() {
         //used to avoid potential cases of dividing by zero without adding a bunch of if statements
         //ex: (((distance / frequency) * count) * circles.size()) is the same as (distance * control)
-        double control = ((1 / particleFrequency) * count) * circles.size();
+        double control = ((1 / particleFrequency) * count) * (circles.size() - 1);
         double endRotation = (Math.PI * 2) * (spin / (circles.size() - 1));
         double increase = endRotation * control;
 
