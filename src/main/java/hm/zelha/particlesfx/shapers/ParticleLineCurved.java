@@ -1,7 +1,6 @@
 package hm.zelha.particlesfx.shapers;
 
 import hm.zelha.particlesfx.particles.parents.Particle;
-import hm.zelha.particlesfx.shapers.parents.Shape;
 import hm.zelha.particlesfx.util.CurveInfo;
 import hm.zelha.particlesfx.util.LVMath;
 import hm.zelha.particlesfx.util.LocationSafe;
@@ -150,7 +149,7 @@ public class ParticleLineCurved extends ParticleLine {
     }
 
     @Override
-    public Shape clone() {
+    public ParticleLineCurved clone() {
         LocationSafe[] locations = new LocationSafe[this.locations.size()];
 
         for (int i = 0; i < getLocationAmount(); i++) {

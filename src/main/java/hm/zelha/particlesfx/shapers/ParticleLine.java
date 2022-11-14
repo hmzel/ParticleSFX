@@ -2,7 +2,6 @@ package hm.zelha.particlesfx.shapers;
 
 import hm.zelha.particlesfx.particles.parents.Particle;
 import hm.zelha.particlesfx.shapers.parents.ParticleShaper;
-import hm.zelha.particlesfx.shapers.parents.Shape;
 import hm.zelha.particlesfx.util.LVMath;
 import hm.zelha.particlesfx.util.LocationSafe;
 import org.apache.commons.lang3.Validate;
@@ -88,7 +87,7 @@ public class ParticleLine extends ParticleShaper {
     }
 
     @Override
-    public Shape clone() {
+    public ParticleLine clone() {
         LocationSafe[] locations = new LocationSafe[this.locations.size()];
 
         for (int i = 0; i < getLocationAmount(); i++) {

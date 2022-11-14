@@ -2,7 +2,6 @@ package hm.zelha.particlesfx.shapers;
 
 import hm.zelha.particlesfx.particles.parents.Particle;
 import hm.zelha.particlesfx.shapers.parents.ParticleShaper;
-import hm.zelha.particlesfx.shapers.parents.Shape;
 import hm.zelha.particlesfx.util.CircleInfo;
 import hm.zelha.particlesfx.util.LVMath;
 import hm.zelha.particlesfx.util.LocationSafe;
@@ -159,7 +158,7 @@ public class ParticleSpiral extends ParticleShaper {
     }
 
     @Override
-    public Shape clone() {
+    public ParticleSpiral clone() {
         CircleInfo[] circles = new CircleInfo[this.circles.size()];
 
         for (int i = 0; i < this.circles.size(); i++) {
