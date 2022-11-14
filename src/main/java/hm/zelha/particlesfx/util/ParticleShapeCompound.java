@@ -9,6 +9,7 @@ import org.bukkit.util.Vector;
 
 import javax.annotation.Nullable;
 import java.lang.reflect.Field;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.logging.Level;
@@ -16,6 +17,7 @@ import java.util.logging.Level;
 public class ParticleShapeCompound extends RotationHandler implements Shape {
 
     private final Map<Shape, Integer> shapeLocationIndex = new LinkedHashMap<>();
+    private final Map<String, Shape> nameMap = new HashMap<>();
     private boolean recalc = false;
 
     public ParticleShapeCompound(Shape... shapes) {
@@ -57,7 +59,7 @@ public class ParticleShapeCompound extends RotationHandler implements Shape {
     }
 
     @Override
-    public Shape clone() {
+    public ParticleShapeCompound clone() {
         Shape[] shapes = new Shape[shapeLocationIndex.size()];
 
         int i = 0;
@@ -150,6 +152,11 @@ public class ParticleShapeCompound extends RotationHandler implements Shape {
         }
     }
 
+    public void addShape(Shape shape, String name) {
+        nameMap.put(name, shape);
+        addShape(shape);
+    }
+
     public void addShape(Shape shape) {
         Validate.notNull(shape, "Shape cannot be null!");
 
@@ -226,17 +233,34 @@ public class ParticleShapeCompound extends RotationHandler implements Shape {
         }
     }
 
+    public void removeShape(String name) {
+        if (!nameMap.containsKey(name)) return;
+
+        Shape shape = nameMap.get(name);
+        int i = 0;
+
+        for (Shape mapShape : shapeLocationIndex.keySet()) {
+            if (mapShape == shape) {
+                removeShape(i);
+                return;
+            }
+
+            i++;
+        }
+    }
+
     public void removeShape(int index) {
-        Shape[] arrayKeySet = shapeLocationIndex.keySet().toArray(new Shape[0]);
-        ArrayListSafe<LocationSafe> locations = reflectLocations(arrayKeySet[index]);
-        int locAmount = arrayKeySet[index].getLocationAmount();
+        Shape[] shapes = shapeLocationIndex.keySet().toArray(new Shape[0]);
+        Shape shape = shapes[index];
+        ArrayListSafe<LocationSafe> locations = reflectLocations(shape);
+        int locAmount = shape.getLocationAmount();
         int firstIndex;
 
         if (locations == null) return;
 
         if (index > 0) {
             //getting the location index of the last shape and adding 1
-            firstIndex = shapeLocationIndex.get(arrayKeySet[index - 1]) + 1;
+            firstIndex = shapeLocationIndex.get(shapes[index - 1]) + 1;
         } else {
             firstIndex = 0;
         }
@@ -249,16 +273,26 @@ public class ParticleShapeCompound extends RotationHandler implements Shape {
             origins.remove(firstIndex);
         }
 
-        shapeLocationIndex.remove(arrayKeySet[index]);
+        shapeLocationIndex.remove(shape);
+
+        for (String string : nameMap.keySet()) {
+            if (nameMap.get(string) == shape) {
+                nameMap.remove(string);
+            }
+        }
 
         for (int i = index; i < shapeLocationIndex.size(); i++) {
             //subtracting locAmount from all shape location indexes at 'index' and beyond
-            shapeLocationIndex.put(arrayKeySet[i], shapeLocationIndex.get(arrayKeySet[i]) - locAmount);
+            shapeLocationIndex.put(shapes[i], shapeLocationIndex.get(shapes[i]) - locAmount);
         }
 
         if (getPitch() + getYaw() + getRoll() + getAroundPitch() + getAroundYaw() + getAroundRoll() != 0) {
             recalc = true;
         }
+    }
+
+    public Shape getShape(String name) {
+        return nameMap.get(name);
     }
 
     public Shape getShape(int index) {
