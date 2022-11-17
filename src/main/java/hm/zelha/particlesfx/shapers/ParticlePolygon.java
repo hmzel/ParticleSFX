@@ -101,7 +101,13 @@ public class ParticlePolygon extends ParticleShaper {
                 LVMath.subtractToVector(vectorHelper, end, start).normalize().multiply(control);
 
                 for (double length = 0; length <= distance; length += control) {
-                    getCurrentParticle().display(locationHelper);
+                    Particle particle = getCurrentParticle();
+
+                    if (mechanic != null) {
+                        mechanic.apply(particle, locationHelper, vectorHelper);
+                    }
+
+                    particle.display(locationHelper);
                     locationHelper.add(vectorHelper);
                 }
             }
