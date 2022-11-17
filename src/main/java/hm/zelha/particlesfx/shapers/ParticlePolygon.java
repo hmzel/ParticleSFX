@@ -120,8 +120,8 @@ public class ParticlePolygon extends ParticleShaper {
                 for (double length = control * current; length <= distance; length += control) {
                     Particle particle = getCurrentParticle();
 
-                    if (mechanic != null) {
-                        mechanic.apply(particle, locationHelper, vectorHelper);
+                    for (int m = 0; m < mechanics.size(); m++) {
+                        mechanics.get(m).apply(particle, locationHelper, vectorHelper);
                     }
 
                     particle.display(locationHelper);
@@ -170,7 +170,10 @@ public class ParticlePolygon extends ParticleShaper {
             clone.addParticle(pair.getKey(), pair.getValue());
         }
 
-        clone.setMechanic(mechanic);
+        for (ShapeDisplayMechanic mechanic : mechanics) {
+            clone.addMechanic(mechanic);
+        }
+
         clone.setParticlesPerDisplay(particlesPerDisplay);
 
         return clone;

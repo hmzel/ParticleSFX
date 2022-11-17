@@ -20,10 +20,10 @@ public abstract class ParticleShaper extends RotationHandler implements Shape {
     /* its actually more efficient to use a list<pair<>> here instead of a LinkedHashMap, because in order to determine the current particle using
      * that, you have to create a new Iterator and a new LinkedEntrySet every time getCurrentParticle() is called, which could be hundreds of times
      * every tick in normal use cases. whereas with a List<Pair<>> you can just use a for-i loop and the .get(int) method without creating any objects */
+    protected final List<ShapeDisplayMechanic> mechanics = new ArrayList<>();
     protected final Location locationHelper = new Location(null, 0, 0, 0);
     protected final Vector vectorHelper = new Vector(0, 0, 0);
     protected BukkitTask animator = null;
-    protected ShapeDisplayMechanic mechanic = null;
     protected Particle particle;
     protected double particleFrequency;
     protected int particlesPerDisplay = 0;
@@ -82,8 +82,25 @@ public abstract class ParticleShaper extends RotationHandler implements Shape {
         secondaryParticles.remove(index);
     }
 
-    public boolean isRunning() {
-        return animator != null;
+    /**
+     * Similar to {@link java.util.function.Consumer} <p>
+     * the given mechanic will run before the location is modified to display the next particle, allowing you to modify
+     * the addition vector however you want, though doing so may be very volatile
+     * <p></p>
+     * keep in mind that all changes to the given objects will be reflected in the display() method <p>
+     * and, considering that the display() method is often called many times per tick, try to make sure the mechanic isnt very
+     * resource-intensive
+     * <p></p>
+     * {@link ShapeDisplayMechanic#apply(Particle, Location, Vector)}
+     *
+     * @param mechanic mechanic to run during display
+     */
+    public void addMechanic(ShapeDisplayMechanic mechanic) {
+        mechanics.add(mechanic);
+    }
+
+    public void removeMechanic(int index) {
+        mechanics.remove(index);
     }
 
     public void setParticle(Particle particle) {
@@ -97,29 +114,6 @@ public abstract class ParticleShaper extends RotationHandler implements Shape {
         Validate.isTrue(particleFrequency > 2.0D, "Frequency cannot be less than 2! if you only want one particle, use Particle.display()");
 
         this.particleFrequency = particleFrequency;
-    }
-
-    /**
-     * Similar to {@link java.util.function.Consumer} <p>
-     * the given mechanic will run before the location is modified to display the next particle, allowing you to modify
-     * the addition vector however you want, though doing so may be very volatile
-     * <p></p>
-     * keep in mind that all changes to the given objects will be reflected in the display() method <p>
-     * and, considering that the display() method is often called many times per tick, try to make sure the mechanic isnt very
-     * resource-intensive
-     * <p></p>
-     * given Particle - particle to be displayed
-     * <p></p>
-     * given Location - the location the vector will be added to, in some cases this is the last position the particle was displayed,
-     * in others it is the center of the shape
-     * <p></p>
-     * given Vector - the vector that will be added to the location before the particle is displayed, the vector is passed to the mechanic
-     * before rotation is applied, in cases where rotation is used in display()
-     *
-     * @param mechanic mechanic to run during display
-     */
-    public void setMechanic(ShapeDisplayMechanic mechanic) {
-        this.mechanic = mechanic;
     }
 
     /** 0 means that the entire animation will be played when .display() is called */
@@ -149,11 +143,11 @@ public abstract class ParticleShaper extends RotationHandler implements Shape {
         return particlesPerDisplay;
     }
 
-    public ShapeDisplayMechanic getMechanic() {
-        return mechanic;
-    }
-
     public int getSecondaryParticleAmount() {
         return secondaryParticles.size();
+    }
+
+    public boolean isRunning() {
+        return animator != null;
     }
 }

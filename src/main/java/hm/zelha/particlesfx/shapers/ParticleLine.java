@@ -4,6 +4,7 @@ import hm.zelha.particlesfx.particles.parents.Particle;
 import hm.zelha.particlesfx.shapers.parents.ParticleShaper;
 import hm.zelha.particlesfx.util.LVMath;
 import hm.zelha.particlesfx.util.LocationSafe;
+import hm.zelha.particlesfx.util.ShapeDisplayMechanic;
 import org.apache.commons.lang3.Validate;
 import org.apache.commons.lang3.tuple.Pair;
 import org.bukkit.Location;
@@ -60,8 +61,8 @@ public class ParticleLine extends ParticleShaper {
             for (double length = control * current; length <= distance; length += control) {
                 Particle particle = getCurrentParticle();
 
-                if (mechanic != null) {
-                    mechanic.apply(particle, locationHelper, vectorHelper);
+                for (int m = 0; m < mechanics.size(); m++) {
+                    mechanics.get(m).apply(particle, locationHelper, vectorHelper);
                 }
 
                 locationHelper.add(vectorHelper);
@@ -100,7 +101,10 @@ public class ParticleLine extends ParticleShaper {
             clone.addParticle(pair.getKey(), pair.getValue());
         }
 
-        clone.setMechanic(mechanic);
+        for (ShapeDisplayMechanic mechanic : mechanics) {
+            clone.addMechanic(mechanic);
+        }
+
         clone.setParticlesPerDisplay(particlesPerDisplay);
 
         return clone;

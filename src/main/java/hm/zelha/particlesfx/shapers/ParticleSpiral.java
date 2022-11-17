@@ -2,10 +2,7 @@ package hm.zelha.particlesfx.shapers;
 
 import hm.zelha.particlesfx.particles.parents.Particle;
 import hm.zelha.particlesfx.shapers.parents.ParticleShaper;
-import hm.zelha.particlesfx.util.CircleInfo;
-import hm.zelha.particlesfx.util.LVMath;
-import hm.zelha.particlesfx.util.LocationSafe;
-import hm.zelha.particlesfx.util.Rotation;
+import hm.zelha.particlesfx.util.*;
 import org.apache.commons.lang3.Validate;
 import org.apache.commons.lang3.tuple.Pair;
 import org.bukkit.World;
@@ -110,8 +107,8 @@ public class ParticleSpiral extends ParticleShaper {
                     vectorHelper2.setZ(circleHelper.getZRadius() * Math.sin(radian));
                     locationHelper.zero().add(circleHelper.getCenter());
 
-                    if (mechanic != null) {
-                        mechanic.apply(particle, locationHelper, vectorHelper2);
+                    for (int m = 0; m < mechanics.size(); m++) {
+                        mechanics.get(m).apply(particle, locationHelper, vectorHelper);
                     }
 
                     rotHelper.apply(vectorHelper2);
@@ -173,7 +170,10 @@ public class ParticleSpiral extends ParticleShaper {
             clone.addParticle(pair.getKey(), pair.getValue());
         }
 
-        clone.setMechanic(mechanic);
+        for (ShapeDisplayMechanic mechanic : mechanics) {
+            clone.addMechanic(mechanic);
+        }
+
         clone.setParticlesPerDisplay(particlesPerDisplay);
 
         return clone;

@@ -3,6 +3,7 @@ package hm.zelha.particlesfx.shapers;
 import hm.zelha.particlesfx.particles.parents.Particle;
 import hm.zelha.particlesfx.shapers.parents.ParticleShaper;
 import hm.zelha.particlesfx.util.LocationSafe;
+import hm.zelha.particlesfx.util.ShapeDisplayMechanic;
 import org.apache.commons.lang3.Validate;
 import org.apache.commons.lang3.tuple.Pair;
 import org.bukkit.Location;
@@ -63,8 +64,8 @@ public class ParticleCircle extends ParticleShaper {
             vectorHelper.setY(0);
             vectorHelper.setZ(zRadius * Math.sin(radian));
 
-            if (mechanic != null) {
-                mechanic.apply(particle, center, vectorHelper);
+            for (int i = 0; i < mechanics.size(); i++) {
+                mechanics.get(i).apply(particle, center, vectorHelper);
             }
 
             rot.apply(vectorHelper);
@@ -97,7 +98,10 @@ public class ParticleCircle extends ParticleShaper {
             clone.addParticle(pair.getKey(), pair.getValue());
         }
 
-        clone.setMechanic(mechanic);
+        for (ShapeDisplayMechanic mechanic : mechanics) {
+            clone.addMechanic(mechanic);
+        }
+
         clone.setParticlesPerDisplay(particlesPerDisplay);
         clone.setLimit(limit);
         clone.setLimitInverse(limitInverse);
