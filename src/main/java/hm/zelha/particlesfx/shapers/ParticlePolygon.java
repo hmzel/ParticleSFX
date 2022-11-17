@@ -185,18 +185,18 @@ public class ParticlePolygon extends ParticleShaper {
      * @param removeConnections whether all corners should sever their connection to the removed corner
      */
     public void removeCorner(int index, boolean removeConnections) {
+        if (removeConnections) {
+            for (Corner corner : corners) {
+                corner.disconnect(corners.get(index));
+            }
+        }
+
         corners.remove(index);
         locations.remove(index);
         origins.remove(index);
 
         if (!locations.isEmpty()) {
             locations.get(0).setChanged(true);
-        }
-
-        if (removeConnections) {
-            for (Corner corner : corners) {
-                corner.disconnect(corners.get(index));
-            }
         }
     }
 
