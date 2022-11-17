@@ -40,12 +40,28 @@ public class ParticleSphere extends ParticleShaper {
         start();
     }
 
+    public ParticleSphere(Particle particle, LocationSafe center, double radius, double pitch, double yaw, double roll, int circleFrequency, double particleFrequency) {
+        this(particle, center, radius, radius, radius, pitch, yaw, roll, circleFrequency, particleFrequency);
+    }
+
     public ParticleSphere(Particle particle, LocationSafe center, double xRadius, double yRadius, double zRadius, int circleFrequency, double particleFrequency) {
         this(particle, center, xRadius, yRadius, zRadius, 0, 0, 0, circleFrequency, particleFrequency);
     }
 
+    public ParticleSphere(Particle particle, LocationSafe center, double radius, int circleFrequency, double particleFrequency) {
+        this(particle, center, radius, radius, radius, 0, 0, 0, circleFrequency, particleFrequency);
+    }
+
     public ParticleSphere(Particle particle, LocationSafe center, double xRadius, double yRadius, double zRadius, double particleFrequency) {
         this(particle, center, xRadius, yRadius, zRadius, 0, 0, 0, (int) (particleFrequency / 20), particleFrequency);
+    }
+
+    public ParticleSphere(Particle particle, LocationSafe center, double radius, double particleFrequency) {
+        this(particle, center, radius, radius, radius, 0, 0, 0, (int) (particleFrequency / 20), particleFrequency);
+    }
+
+    public ParticleSphere(Particle particle, LocationSafe center, double radius) {
+        this(particle, center, radius, radius, radius, 0, 0, 0, (int) (radius * 75 / 20), radius * 75);
     }
 
     @Override

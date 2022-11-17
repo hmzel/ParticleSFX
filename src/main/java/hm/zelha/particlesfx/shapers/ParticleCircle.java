@@ -37,6 +37,10 @@ public class ParticleCircle extends ParticleShaper {
         this(particle, center, xRadius, zRadius, 0, 0, 0, 50);
     }
 
+    public ParticleCircle(Particle particle, LocationSafe center, double radius) {
+        this(particle, center, radius, radius, 0, 0, 0, 50);
+    }
+
     @Override
     public void display() {
         Location center = getCenter();
