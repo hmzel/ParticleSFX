@@ -2,10 +2,7 @@ package hm.zelha.particlesfx.shapers;
 
 import hm.zelha.particlesfx.particles.parents.Particle;
 import hm.zelha.particlesfx.shapers.parents.ParticleShaper;
-import hm.zelha.particlesfx.util.Corner;
-import hm.zelha.particlesfx.util.LVMath;
-import hm.zelha.particlesfx.util.LocationSafe;
-import hm.zelha.particlesfx.util.PolygonLayer;
+import hm.zelha.particlesfx.util.*;
 import org.apache.commons.lang3.Validate;
 import org.bukkit.Location;
 
@@ -15,6 +12,7 @@ import java.util.List;
 public class ParticlePolygon extends ParticleShaper {
 
     private final List<Corner> corners = new ArrayList<>();
+    private final Rotation rotHelper = new Rotation();
 
     public ParticlePolygon(Particle particle, LocationSafe center, int cornersPerLayer, int layers, double xRadius, double yRadius, double zRadius, double particleFrequency) {
         super(particle, particleFrequency);
@@ -120,6 +118,8 @@ public class ParticlePolygon extends ParticleShaper {
                 vectorHelper.setX(layer.getXRadius() * Math.cos(radian));
                 vectorHelper.setY(layer.getYPosition());
                 vectorHelper.setZ(layer.getZRadius() * Math.sin(radian));
+                rotHelper.set(layer.getPitch(), layer.getYaw(), layer.getRoll());
+                rotHelper.apply(vectorHelper);
                 locationHelper.zero().add(center);
                 locationHelper.add(vectorHelper);
 

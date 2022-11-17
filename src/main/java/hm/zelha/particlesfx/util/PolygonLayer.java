@@ -11,20 +11,34 @@ public class PolygonLayer {
     private double xRadius;
     private double zRadius;
     private double yPosition;
+    private double pitch;
+    private double yaw;
+    private double roll;
 
-    public PolygonLayer(int corners, double xRadius, double zRadius, double yPosition) {
+    public PolygonLayer(int corners, double xRadius, double zRadius, double yPosition, double pitch, double yaw, double roll) {
         setCorners(corners);
         setXRadius(xRadius);
         setZRadius(zRadius);
         setYPosition(yPosition);
+        setPitch(pitch);
+        setYaw(yaw);
+        setRoll(roll);
+    }
+
+    public PolygonLayer(int corners, double xRadius, double zRadius, double yPosition, double yaw) {
+        this(corners, xRadius, zRadius, yPosition, 0, yaw, 0);
+    }
+
+    public PolygonLayer(int corners, double xRadius, double zRadius, double yPosition) {
+        this(corners, xRadius, zRadius, yPosition, 0, 0, 0);
     }
 
     public PolygonLayer(int corners, double radius, double yPosition) {
-        this(corners, radius, radius, yPosition);
+        this(corners, radius, radius, yPosition, 0, 0, 0);
     }
 
     public PolygonLayer(int corners, double radius) {
-        this(corners, radius, radius, 0);
+        this(corners, radius, radius, 0, 0 ,0, 0);
     }
 
     public void setCorners(int corners) {
@@ -45,6 +59,18 @@ public class PolygonLayer {
         this.yPosition = yPosition;
     }
 
+    public void setPitch(double pitch) {
+        this.pitch = pitch;
+    }
+
+    public void setYaw(double yaw) {
+        this.yaw = yaw;
+    }
+
+    public void setRoll(double roll) {
+        this.roll = roll;
+    }
+
     public int getCorners() {
         return corners;
     }
@@ -59,5 +85,17 @@ public class PolygonLayer {
 
     public double getYPosition() {
         return yPosition;
+    }
+
+    public double getPitch() {
+        return pitch;
+    }
+
+    public double getYaw() {
+        return yaw;
+    }
+
+    public double getRoll() {
+        return roll;
     }
 }
