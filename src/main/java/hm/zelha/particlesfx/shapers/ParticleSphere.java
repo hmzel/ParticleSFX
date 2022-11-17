@@ -116,16 +116,13 @@ public class ParticleSphere extends ParticleShaper {
 
                 Particle particle = getCurrentParticle();
 
+                locationHelper.zero().add(locations.get(0));
                 vectorHelper.setX(Math.cos(radian) * (xRadius * curve));
                 vectorHelper.setY(yRadius * Math.cos(i));
                 vectorHelper.setZ(Math.sin(radian) * (zRadius * curve));
-
-                for (int m = 0; m < mechanics.size(); m++) {
-                    mechanics.get(m).apply(particle, locationHelper, vectorHelper);
-                }
-
+                applyMechanics(ShapeDisplayMechanic.Phase.BEFORE_ROTATION, particle, locationHelper, vectorHelper);
                 rot.apply(vectorHelper);
-                locationHelper.zero().add(locations.get(0));
+                applyMechanics(ShapeDisplayMechanic.Phase.AFTER_ROTATION, particle, locationHelper, vectorHelper);
                 particle.display(locationHelper.add(vectorHelper));
 
                 overallCount++;
@@ -159,8 +156,8 @@ public class ParticleSphere extends ParticleShaper {
             clone.addParticle(pair.getKey(), pair.getValue());
         }
 
-        for (ShapeDisplayMechanic mechanic : mechanics) {
-            clone.addMechanic(mechanic);
+        for (Pair<ShapeDisplayMechanic, ShapeDisplayMechanic.Phase> pair : mechanics) {
+            clone.addMechanic(pair.getValue(), pair.getKey());
         }
 
         clone.setParticlesPerDisplay(particlesPerDisplay);

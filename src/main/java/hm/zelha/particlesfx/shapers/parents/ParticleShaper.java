@@ -17,10 +17,11 @@ import java.util.List;
 public abstract class ParticleShaper extends RotationHandler implements Shape {
 
     protected final List<Pair<Particle, Integer>> secondaryParticles = new ArrayList<>();
-    /* its actually more efficient to use a list<pair<>> here instead of a LinkedHashMap, because in order to determine the current particle using
-     * that, you have to create a new Iterator and a new LinkedEntrySet every time getCurrentParticle() is called, which could be hundreds of times
-     * every tick in normal use cases. whereas with a List<Pair<>> you can just use a for-i loop and the .get(int) method without creating any objects */
-    protected final List<ShapeDisplayMechanic> mechanics = new ArrayList<>();
+    protected final List<Pair<ShapeDisplayMechanic, ShapeDisplayMechanic.Phase>> mechanics = new ArrayList<>();
+    /* its actually more efficient to use list<pair<>>s here instead of LinkedHashMaps, because in order to loop through LinkedHashMaps you
+     * have to create a new Iterator and a new LinkedEntrySet every time getCurrentParticle() or applyMechanics() is called,
+     * which could be hundreds of times every tick in normal use cases. whereas with a List<Pair<>> you can just use a for-i loop and
+     * the .get(int) method without creating any objects */
     protected final Location locationHelper = new Location(null, 0, 0, 0);
     protected final Vector vectorHelper = new Vector(0, 0, 0);
     protected BukkitTask animator = null;
@@ -74,6 +75,16 @@ public abstract class ParticleShaper extends RotationHandler implements Shape {
         return particle;
     }
 
+    protected void applyMechanics(ShapeDisplayMechanic.Phase phase, Particle particle, Location current, Vector addition) {
+        for (int i = 0; i < mechanics.size(); i++) {
+            Pair<ShapeDisplayMechanic, ShapeDisplayMechanic.Phase> pair = mechanics.get(i);
+
+            if (pair.getValue() != phase) continue;
+
+            pair.getKey().apply(particle, current, addition);
+        }
+    }
+
     public void addParticle(Particle particle, int particlesUntilDisplay) {
         secondaryParticles.add(Pair.of(particle, particlesUntilDisplay));
     }
@@ -93,10 +104,11 @@ public abstract class ParticleShaper extends RotationHandler implements Shape {
      * <p></p>
      * {@link ShapeDisplayMechanic#apply(Particle, Location, Vector)}
      *
+     * @param phase phase for the mechanic to run
      * @param mechanic mechanic to run during display
      */
-    public void addMechanic(ShapeDisplayMechanic mechanic) {
-        mechanics.add(mechanic);
+    public void addMechanic(ShapeDisplayMechanic.Phase phase, ShapeDisplayMechanic mechanic) {
+        mechanics.add(Pair.of(mechanic, phase));
     }
 
     public void removeMechanic(int index) {

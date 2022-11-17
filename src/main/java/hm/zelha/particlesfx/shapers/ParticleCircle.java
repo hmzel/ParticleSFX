@@ -63,13 +63,10 @@ public class ParticleCircle extends ParticleShaper {
             vectorHelper.setX(xRadius * Math.cos(radian));
             vectorHelper.setY(0);
             vectorHelper.setZ(zRadius * Math.sin(radian));
-
-            for (int i = 0; i < mechanics.size(); i++) {
-                mechanics.get(i).apply(particle, center, vectorHelper);
-            }
-
-            rot.apply(vectorHelper);
             locationHelper.zero().add(center);
+            applyMechanics(ShapeDisplayMechanic.Phase.BEFORE_ROTATION, particle, locationHelper, vectorHelper);
+            rot.apply(vectorHelper);
+            applyMechanics(ShapeDisplayMechanic.Phase.AFTER_ROTATION, particle, locationHelper, vectorHelper);
             particle.display(locationHelper.add(vectorHelper));
 
             overallCount++;
@@ -98,8 +95,8 @@ public class ParticleCircle extends ParticleShaper {
             clone.addParticle(pair.getKey(), pair.getValue());
         }
 
-        for (ShapeDisplayMechanic mechanic : mechanics) {
-            clone.addMechanic(mechanic);
+        for (Pair<ShapeDisplayMechanic, ShapeDisplayMechanic.Phase> pair : mechanics) {
+            clone.addMechanic(pair.getValue(), pair.getKey());
         }
 
         clone.setParticlesPerDisplay(particlesPerDisplay);

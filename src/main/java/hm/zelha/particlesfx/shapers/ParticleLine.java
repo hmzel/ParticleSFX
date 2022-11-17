@@ -61,10 +61,7 @@ public class ParticleLine extends ParticleShaper {
             for (double length = control * current; length <= distance; length += control) {
                 Particle particle = getCurrentParticle();
 
-                for (int m = 0; m < mechanics.size(); m++) {
-                    mechanics.get(m).apply(particle, locationHelper, vectorHelper);
-                }
-
+                applyMechanics(ShapeDisplayMechanic.Phase.BEFORE_ROTATION, particle, locationHelper, vectorHelper);
                 locationHelper.add(vectorHelper);
                 particle.display(locationHelper);
 
@@ -101,8 +98,8 @@ public class ParticleLine extends ParticleShaper {
             clone.addParticle(pair.getKey(), pair.getValue());
         }
 
-        for (ShapeDisplayMechanic mechanic : mechanics) {
-            clone.addMechanic(mechanic);
+        for (Pair<ShapeDisplayMechanic, ShapeDisplayMechanic.Phase> pair : mechanics) {
+            clone.addMechanic(pair.getValue(), pair.getKey());
         }
 
         clone.setParticlesPerDisplay(particlesPerDisplay);

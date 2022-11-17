@@ -106,12 +106,9 @@ public class ParticleSpiral extends ParticleShaper {
                     vectorHelper2.setY(0);
                     vectorHelper2.setZ(circleHelper.getZRadius() * Math.sin(radian));
                     locationHelper.zero().add(circleHelper.getCenter());
-
-                    for (int m = 0; m < mechanics.size(); m++) {
-                        mechanics.get(m).apply(particle, locationHelper, vectorHelper);
-                    }
-
+                    applyMechanics(ShapeDisplayMechanic.Phase.BEFORE_ROTATION, particle, locationHelper, vectorHelper2);
                     rotHelper.apply(vectorHelper2);
+                    applyMechanics(ShapeDisplayMechanic.Phase.AFTER_ROTATION, particle, locationHelper, vectorHelper2);
                     locationHelper.add(vectorHelper2);
                     particle.display(locationHelper);
                     circleHelper.getCenter().add(vectorHelper);
@@ -170,8 +167,8 @@ public class ParticleSpiral extends ParticleShaper {
             clone.addParticle(pair.getKey(), pair.getValue());
         }
 
-        for (ShapeDisplayMechanic mechanic : mechanics) {
-            clone.addMechanic(mechanic);
+        for (Pair<ShapeDisplayMechanic, ShapeDisplayMechanic.Phase> pair : mechanics) {
+            clone.addMechanic(pair.getValue(), pair.getKey());
         }
 
         clone.setParticlesPerDisplay(particlesPerDisplay);

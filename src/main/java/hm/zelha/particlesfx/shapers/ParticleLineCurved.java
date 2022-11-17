@@ -69,10 +69,7 @@ public class ParticleLineCurved extends ParticleLine {
             for (double length = control * current; length <= distance; length += control) {
                 Particle particle = getCurrentParticle();
 
-                for (int m = 0; m < mechanics.size(); m++) {
-                    mechanics.get(m).apply(particle, locationHelper, vectorHelper);
-                }
-
+                applyMechanics(ShapeDisplayMechanic.Phase.BEFORE_ROTATION, particle, locationHelper, vectorHelper);
                 vectorHelper2.zero();
                 locationHelper.add(vectorHelper);
 
@@ -107,6 +104,7 @@ public class ParticleLineCurved extends ParticleLine {
 
                     rot3.set(curve.getPitch(), curve.getYaw(), curve.getRoll());
                     rot3.apply(vectorHelper2);
+                    applyMechanics(ShapeDisplayMechanic.Phase.AFTER_ROTATION, particle, locationHelper, vectorHelper2);
                     locationHelper.add(vectorHelper2);
                 }
 
@@ -159,8 +157,8 @@ public class ParticleLineCurved extends ParticleLine {
             clone.addParticle(pair.getKey(), pair.getValue());
         }
 
-        for (ShapeDisplayMechanic mechanic : mechanics) {
-            clone.addMechanic(mechanic);
+        for (Pair<ShapeDisplayMechanic, ShapeDisplayMechanic.Phase> pair : mechanics) {
+            clone.addMechanic(pair.getValue(), pair.getKey());
         }
 
         clone.setParticlesPerDisplay(particlesPerDisplay);
