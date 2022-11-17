@@ -4,6 +4,7 @@ import hm.zelha.particlesfx.particles.parents.Particle;
 import hm.zelha.particlesfx.shapers.parents.ParticleShaper;
 import hm.zelha.particlesfx.util.*;
 import org.apache.commons.lang3.Validate;
+import org.apache.commons.lang3.tuple.Pair;
 import org.bukkit.Location;
 
 import java.util.ArrayList;
@@ -72,6 +73,20 @@ public class ParticlePolygon extends ParticleShaper {
         this(particle, center, 150, layers);
     }
 
+    public ParticlePolygon(Particle particle, double particleFrequency, Corner... corners) {
+        super(particle, particleFrequency);
+
+        for (Corner corner : corners) {
+            addCorner(corner);
+        }
+
+        start();
+    }
+
+    public ParticlePolygon(Particle particle, Corner... corners) {
+        this(particle, 150, corners);
+    }
+
     @Override
     public void display() {
         double control = getTotalDistance() / particleFrequency;
@@ -95,7 +110,31 @@ public class ParticlePolygon extends ParticleShaper {
 
     @Override
     public ParticlePolygon clone() {
-        return null;
+        ParticlePolygon clone = new ParticlePolygon(particle, particleFrequency);
+        int index = 0;
+
+        for (Corner corner : corners) {
+            clone.addCorner(new Corner(corner.getLocation().clone()));
+        }
+
+        for (Corner corner : corners) {
+            for (int i = 0; i < corner.getConnectionAmount(); i++) {
+                if (!corners.contains(corner.getConnection(i))) continue;
+
+                clone.getCorner(index).connect(clone.getCorner(corners.lastIndexOf(corner.getConnection(i))));
+            }
+
+            index++;
+        }
+
+        for (Pair<Particle, Integer> pair : secondaryParticles) {
+            clone.addParticle(pair.getKey(), pair.getValue());
+        }
+
+        clone.setMechanic(mechanic);
+        clone.setParticlesPerDisplay(particlesPerDisplay);
+
+        return clone;
     }
 
     private void initLayers(LocationSafe center, PolygonLayer... layers) {
@@ -168,6 +207,8 @@ public class ParticlePolygon extends ParticleShaper {
 
         if (!locations.isEmpty()) {
             Validate.isTrue(corner.getLocation().getWorld().equals(locations.get(0).getWorld()), "Locations cannot have different worlds!");
+        } else {
+            setWorld(corner.getLocation().getWorld());
         }
 
         corners.add(corner);
