@@ -90,17 +90,34 @@ public class ParticlePolygon extends ParticleShaper {
     @Override
     public void display() {
         double control = getTotalDistance() / particleFrequency;
+        int current = 0;
+        boolean hasRan = false;
+        boolean trackCount = particlesPerDisplay > 0;
 
+        if (trackCount) {
+            current = overallCount;
+        }
+
+        main:
         for (Corner corner : corners) {
             for (int i = 0; i < corner.getConnectionAmount(); i++) {
                 Location start = corner.getLocation();
                 Location end = corner.getConnection(i).getLocation();
                 double distance = start.distance(end);
 
+                if (trackCount && current >= distance / control) {
+                    current -= distance / control;
+                    continue;
+                }
+
                 locationHelper.zero().add(start);
                 LVMath.subtractToVector(vectorHelper, end, start).normalize().multiply(control);
 
-                for (double length = 0; length <= distance; length += control) {
+                if (trackCount) {
+                    locationHelper.add(vectorHelper.getX() * current, vectorHelper.getY() * current, vectorHelper.getZ() * current);
+                }
+
+                for (double length = control * current; length <= distance; length += control) {
                     Particle particle = getCurrentParticle();
 
                     if (mechanic != null) {
@@ -109,8 +126,24 @@ public class ParticlePolygon extends ParticleShaper {
 
                     particle.display(locationHelper);
                     locationHelper.add(vectorHelper);
+
+                    overallCount++;
+
+                    if (trackCount) {
+                        currentCount++;
+                        hasRan = true;
+
+                        if (currentCount >= particlesPerDisplay) {
+                            currentCount = 0;
+                            break main;
+                        }
+                    }
                 }
             }
+        }
+
+        if (!trackCount || !hasRan) {
+            overallCount = 0;
         }
     }
 
