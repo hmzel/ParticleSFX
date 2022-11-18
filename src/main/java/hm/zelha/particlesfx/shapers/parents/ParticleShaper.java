@@ -7,12 +7,14 @@ import org.apache.commons.lang3.Validate;
 import org.apache.commons.lang3.tuple.Pair;
 import org.bukkit.Location;
 import org.bukkit.World;
+import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.util.Vector;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public abstract class ParticleShaper extends RotationHandler implements Shape {
 
@@ -22,6 +24,7 @@ public abstract class ParticleShaper extends RotationHandler implements Shape {
      * have to create a new Iterator and a new LinkedEntrySet every time getCurrentParticle() or applyMechanics() is called,
      * which could be hundreds of times every tick in normal use cases. whereas with a List<Pair<>> you can just use a for-i loop and
      * the .get(int) method without creating any objects */
+    protected final List<UUID> players = new ArrayList<>();
     protected final Location locationHelper = new Location(null, 0, 0, 0);
     protected final Vector vectorHelper = new Vector(0, 0, 0);
     protected BukkitTask animator = null;
@@ -115,6 +118,40 @@ public abstract class ParticleShaper extends RotationHandler implements Shape {
         mechanics.remove(index);
     }
 
+    /**
+     * adds a player for this shape to display to, defaults to all online players in the shape's world if the list is empty
+     * @param player player to add
+     */
+    public void addPlayer(Player player) {
+        players.add(player.getUniqueId());
+    }
+
+    /**
+     * adds a player for this shape to display to, defaults to all online players in the shape's world if the list is empty
+     * @param uuid ID of player to add
+     */
+    public void addPlayer(UUID uuid) {
+        players.add(uuid);
+    }
+
+    /**
+     * @param player player to check for
+     * @return whether this shape displays to this player
+     */
+    public boolean hasPlayer(Player player) {
+        if (players.isEmpty()) return true;
+
+        return players.contains(player.getUniqueId());
+    }
+
+    public void removePlayer(int index) {
+        players.remove(index);
+    }
+
+    public void removePlayer(Player player) {
+        players.remove(player.getUniqueId());
+    }
+
     public void setParticle(Particle particle) {
         Validate.notNull(particle, "Particle cannot be null!");
 
@@ -157,6 +194,15 @@ public abstract class ParticleShaper extends RotationHandler implements Shape {
 
     public int getSecondaryParticleAmount() {
         return secondaryParticles.size();
+    }
+
+    /**
+     * @return amount of players this shape displays to
+     */
+    public int getPlayerAmount() {
+        if (players.isEmpty()) return locationHelper.getWorld().getPlayers().size();
+
+        return players.size();
     }
 
     public boolean isRunning() {

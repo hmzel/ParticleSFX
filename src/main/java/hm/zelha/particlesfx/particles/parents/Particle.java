@@ -13,6 +13,7 @@ import org.bukkit.util.Vector;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Particle {
@@ -50,6 +51,20 @@ public class Particle {
 
         for (int i = 0; i < players.length; i++) {
             listHelper.add((CraftPlayer) players[i]);
+        }
+
+        display(location, listHelper);
+    }
+
+    public void displayForPlayers(Location location, List<UUID> players) {
+        listHelper.clear();
+
+        for (int i = 0; i < players.size(); i++) {
+            Player p = Bukkit.getPlayer(players.get(i));
+
+            if (p == null) continue;
+
+            listHelper.add((CraftPlayer) p);
         }
 
         display(location, listHelper);

@@ -8,6 +8,8 @@ import org.apache.commons.lang3.Validate;
 import org.apache.commons.lang3.tuple.Pair;
 import org.bukkit.Location;
 
+import java.util.UUID;
+
 public class ParticleCircle extends ParticleShaper {
 
     private double xRadius;
@@ -67,7 +69,13 @@ public class ParticleCircle extends ParticleShaper {
             applyMechanics(ShapeDisplayMechanic.Phase.BEFORE_ROTATION, particle, locationHelper, vectorHelper);
             rot.apply(vectorHelper);
             applyMechanics(ShapeDisplayMechanic.Phase.AFTER_ROTATION, particle, locationHelper, vectorHelper);
-            particle.display(locationHelper.add(vectorHelper));
+            locationHelper.add(vectorHelper);
+
+            if (!players.isEmpty()) {
+                particle.displayForPlayers(locationHelper, players);
+            } else {
+                particle.display(locationHelper);
+            }
 
             overallCount++;
 
@@ -97,6 +105,10 @@ public class ParticleCircle extends ParticleShaper {
 
         for (Pair<ShapeDisplayMechanic, ShapeDisplayMechanic.Phase> pair : mechanics) {
             clone.addMechanic(pair.getValue(), pair.getKey());
+        }
+
+        for (UUID id : players) {
+            clone.addPlayer(id);
         }
 
         clone.setParticlesPerDisplay(particlesPerDisplay);

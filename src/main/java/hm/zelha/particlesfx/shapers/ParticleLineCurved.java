@@ -8,6 +8,7 @@ import org.bukkit.util.Vector;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class ParticleLineCurved extends ParticleLine {
 
@@ -108,7 +109,12 @@ public class ParticleLineCurved extends ParticleLine {
                     locationHelper.add(vectorHelper2);
                 }
 
-                particle.display(locationHelper);
+                if (!players.isEmpty()) {
+                    particle.displayForPlayers(locationHelper, players);
+                } else {
+                    particle.display(locationHelper);
+                }
+
                 locationHelper.subtract(vectorHelper2);
 
                 overallCount++;
@@ -159,6 +165,10 @@ public class ParticleLineCurved extends ParticleLine {
 
         for (Pair<ShapeDisplayMechanic, ShapeDisplayMechanic.Phase> pair : mechanics) {
             clone.addMechanic(pair.getValue(), pair.getKey());
+        }
+
+        for (UUID id : players) {
+            clone.addPlayer(id);
         }
 
         clone.setParticlesPerDisplay(particlesPerDisplay);

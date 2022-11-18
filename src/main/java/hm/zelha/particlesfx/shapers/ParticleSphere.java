@@ -10,6 +10,7 @@ import org.bukkit.Location;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class ParticleSphere extends ParticleShaper {
 
@@ -123,7 +124,13 @@ public class ParticleSphere extends ParticleShaper {
                 applyMechanics(ShapeDisplayMechanic.Phase.BEFORE_ROTATION, particle, locationHelper, vectorHelper);
                 rot.apply(vectorHelper);
                 applyMechanics(ShapeDisplayMechanic.Phase.AFTER_ROTATION, particle, locationHelper, vectorHelper);
-                particle.display(locationHelper.add(vectorHelper));
+                locationHelper.add(vectorHelper);
+
+                if (!players.isEmpty()) {
+                    particle.displayForPlayers(locationHelper, players);
+                } else {
+                    particle.display(locationHelper);
+                }
 
                 overallCount++;
 
@@ -158,6 +165,10 @@ public class ParticleSphere extends ParticleShaper {
 
         for (Pair<ShapeDisplayMechanic, ShapeDisplayMechanic.Phase> pair : mechanics) {
             clone.addMechanic(pair.getValue(), pair.getKey());
+        }
+
+        for (UUID id : players) {
+            clone.addPlayer(id);
         }
 
         clone.setParticlesPerDisplay(particlesPerDisplay);

@@ -10,6 +10,7 @@ import org.bukkit.util.Vector;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class ParticleSpiral extends ParticleShaper {
 
@@ -110,7 +111,13 @@ public class ParticleSpiral extends ParticleShaper {
                     rotHelper.apply(vectorHelper2);
                     applyMechanics(ShapeDisplayMechanic.Phase.AFTER_ROTATION, particle, locationHelper, vectorHelper2);
                     locationHelper.add(vectorHelper2);
-                    particle.display(locationHelper);
+
+                    if (!players.isEmpty()) {
+                        particle.displayForPlayers(locationHelper, players);
+                    } else {
+                        particle.display(locationHelper);
+                    }
+
                     circleHelper.getCenter().add(vectorHelper);
                     circleHelper.setXRadius(circleHelper.getXRadius() + xRadiusInc);
                     circleHelper.setZRadius(circleHelper.getZRadius() + zRadiusInc);
@@ -169,6 +176,10 @@ public class ParticleSpiral extends ParticleShaper {
 
         for (Pair<ShapeDisplayMechanic, ShapeDisplayMechanic.Phase> pair : mechanics) {
             clone.addMechanic(pair.getValue(), pair.getKey());
+        }
+
+        for (UUID id : players) {
+            clone.addPlayer(id);
         }
 
         clone.setParticlesPerDisplay(particlesPerDisplay);

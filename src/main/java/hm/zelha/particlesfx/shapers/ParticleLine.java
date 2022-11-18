@@ -9,6 +9,8 @@ import org.apache.commons.lang3.Validate;
 import org.apache.commons.lang3.tuple.Pair;
 import org.bukkit.Location;
 
+import java.util.UUID;
+
 public class ParticleLine extends ParticleShaper {
 
     //TODO: improve display()
@@ -63,7 +65,12 @@ public class ParticleLine extends ParticleShaper {
 
                 applyMechanics(ShapeDisplayMechanic.Phase.BEFORE_ROTATION, particle, locationHelper, vectorHelper);
                 locationHelper.add(vectorHelper);
-                particle.display(locationHelper);
+
+                if (!players.isEmpty()) {
+                    particle.displayForPlayers(locationHelper, players);
+                } else {
+                    particle.display(locationHelper);
+                }
 
                 overallCount++;
 
@@ -100,6 +107,10 @@ public class ParticleLine extends ParticleShaper {
 
         for (Pair<ShapeDisplayMechanic, ShapeDisplayMechanic.Phase> pair : mechanics) {
             clone.addMechanic(pair.getValue(), pair.getKey());
+        }
+
+        for (UUID id : players) {
+            clone.addPlayer(id);
         }
 
         clone.setParticlesPerDisplay(particlesPerDisplay);

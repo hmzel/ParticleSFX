@@ -9,6 +9,7 @@ import org.bukkit.Location;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class ParticlePolygon extends ParticleShaper {
 
@@ -121,7 +122,13 @@ public class ParticlePolygon extends ParticleShaper {
                     Particle particle = getCurrentParticle();
 
                     applyMechanics(ShapeDisplayMechanic.Phase.BEFORE_ROTATION, particle, locationHelper, vectorHelper);
-                    particle.display(locationHelper);
+
+                    if (!players.isEmpty()) {
+                        particle.displayForPlayers(locationHelper, players);
+                    } else {
+                        particle.display(locationHelper);
+                    }
+
                     locationHelper.add(vectorHelper);
 
                     overallCount++;
@@ -169,6 +176,10 @@ public class ParticlePolygon extends ParticleShaper {
 
         for (Pair<ShapeDisplayMechanic, ShapeDisplayMechanic.Phase> pair : mechanics) {
             clone.addMechanic(pair.getValue(), pair.getKey());
+        }
+
+        for (UUID id : players) {
+            clone.addPlayer(id);
         }
 
         clone.setParticlesPerDisplay(particlesPerDisplay);
