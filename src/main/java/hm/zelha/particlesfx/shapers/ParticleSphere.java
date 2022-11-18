@@ -24,7 +24,7 @@ public class ParticleSphere extends ParticleShaper {
     private double yRadius;
     private double zRadius;
     private double limit = 0;
-    private double totalArea = 0;
+    private double surfaceArea = 0;
     private boolean limitInverse = false;
     private boolean recalculate = true;
 
@@ -98,7 +98,7 @@ public class ParticleSphere extends ParticleShaper {
             }
 
             double curve = Math.sin(i);
-            double circleInc = (Math.PI * 2) / Math.floor(particleFrequency * (cirTracker.get(currentCir) / totalArea));
+            double circleInc = (Math.PI * 2) / Math.floor(particleFrequency * (cirTracker.get(currentCir) / surfaceArea));
 
             if (!Double.isFinite(circleInc)) {
                 circleInc = Math.PI * 2;
@@ -179,7 +179,7 @@ public class ParticleSphere extends ParticleShaper {
     private void recalcCircumferenceAndArea(double loopEndFix, double loopStart, double loopEnd, double increase) {
         cirTracker.clear();
 
-        totalArea = 0;
+        surfaceArea = 0;
 
         for (double i = loopStart; true; i += increase) {
             if (i > loopEndFix) {
@@ -199,7 +199,7 @@ public class ParticleSphere extends ParticleShaper {
             }
 
             cirTracker.add(circumference);
-            totalArea += circumference;
+            surfaceArea += circumference;
 
             if (i == loopEnd) {
                 recalculate = false;

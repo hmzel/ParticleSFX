@@ -25,7 +25,7 @@ public class ParticleCylinder extends ParticleShaper {
     private final Rotation rotHelper = new Rotation();
     private boolean rotateCircles = true;
     private boolean recalculate = true;
-    private double totalArea = 0;
+    private double surfaceArea = 0;
     private int circleFrequency;
 
     public ParticleCylinder(Particle particle, int circleFrequency, double particleFrequency, CircleInfo... circles) {
@@ -56,7 +56,7 @@ public class ParticleCylinder extends ParticleShaper {
         boolean hasRan = false;
         boolean trackCount = particlesPerDisplay > 0;
 
-        //need to do this here to make sure circumference & total area aren't screwed up by outside modification of locations
+        //need to do this here to make sure circumference & surface area aren't screwed up by outside modification of locations
         recalculateIfNeeded(null);
 
         for (int i = 0; i < circles.size(); i++) {
@@ -77,7 +77,7 @@ public class ParticleCylinder extends ParticleShaper {
             CircleInfo circle1 = circles.get(circle);
             CircleInfo circle2 = circles.get(circle + 1);
             double distance = circleHelper.getCenter().distance(circle2.getCenter());
-            double particleAmount = Math.floor(particleFrequency * (cirTracker.get(i) / totalArea));
+            double particleAmount = Math.floor(particleFrequency * (cirTracker.get(i) / surfaceArea));
 
             if (particleAmount <= 0) {
                 particleAmount = 1;
@@ -234,7 +234,7 @@ public class ParticleCylinder extends ParticleShaper {
     private void recalcCircumferenceAndArea() {
         cirTracker.clear();
 
-        totalArea = 0;
+        surfaceArea = 0;
         recalculate = false;
         double totalDist = getTotalDistance();
         double distToTravel = 0;
@@ -286,7 +286,7 @@ public class ParticleCylinder extends ParticleShaper {
             }
 
             cirTracker.add(circumference);
-            totalArea += circumference;
+            surfaceArea += circumference;
         }
     }
 
