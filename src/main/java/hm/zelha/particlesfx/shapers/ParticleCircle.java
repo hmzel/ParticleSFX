@@ -17,7 +17,7 @@ public class ParticleCircle extends ParticleShaper {
     private double limit = 0;
     private boolean limitInverse = false;
 
-    public ParticleCircle(Particle particle, LocationSafe center, double xRadius, double zRadius, double pitch, double yaw, double roll, double particleFrequency) {
+    public ParticleCircle(Particle particle, LocationSafe center, double xRadius, double zRadius, double pitch, double yaw, double roll, int particleFrequency) {
         super(particle, particleFrequency);
 
         this.xRadius = xRadius;
@@ -32,7 +32,7 @@ public class ParticleCircle extends ParticleShaper {
         this(particle, center, xRadius, zRadius, pitch, yaw, roll, 50);
     }
 
-    public ParticleCircle(Particle particle, LocationSafe center, double xRadius, double zRadius, double particleFrequency) {
+    public ParticleCircle(Particle particle, LocationSafe center, double xRadius, double zRadius, int particleFrequency) {
         this(particle, center, xRadius, zRadius, 0, 0, 0, particleFrequency);
     }
 

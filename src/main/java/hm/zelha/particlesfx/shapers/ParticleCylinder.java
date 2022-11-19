@@ -28,7 +28,7 @@ public class ParticleCylinder extends ParticleShaper {
     private double surfaceArea = 0;
     private int circleFrequency;
 
-    public ParticleCylinder(Particle particle, int circleFrequency, double particleFrequency, CircleInfo... circles) {
+    public ParticleCylinder(Particle particle, int circleFrequency, int particleFrequency, CircleInfo... circles) {
         super(particle, particleFrequency);
 
         Validate.isTrue(circles != null && circles.length >= 2, "Array must contain 2 or more CircleInfos!");

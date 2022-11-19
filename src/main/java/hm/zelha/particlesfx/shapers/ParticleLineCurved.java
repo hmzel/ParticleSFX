@@ -17,8 +17,8 @@ public class ParticleLineCurved extends ParticleLine {
     private final Vector vectorHelper2 = new Vector(0, 0, 0);
     private boolean rotateCurves = true;
 
-    public ParticleLineCurved(Particle particle, double frequency, LocationSafe... locations) {
-        super(particle, frequency, locations);
+    public ParticleLineCurved(Particle particle, int particleFrequency, LocationSafe... locations) {
+        super(particle, particleFrequency, locations);
     }
 
     public ParticleLineCurved(Particle particle, LocationSafe... locations) {

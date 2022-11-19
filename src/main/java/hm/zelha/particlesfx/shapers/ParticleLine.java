@@ -15,8 +15,8 @@ public class ParticleLine extends ParticleShaper {
 
     //TODO: improve display()
 
-    public ParticleLine(Particle particle, double frequency, LocationSafe... locations) {
-        super(particle, frequency);
+    public ParticleLine(Particle particle, int particleFrequency, LocationSafe... locations) {
+        super(particle, particleFrequency);
 
         Validate.isTrue(locations.length >= 2, "Line must have 2 or more locations!");
 

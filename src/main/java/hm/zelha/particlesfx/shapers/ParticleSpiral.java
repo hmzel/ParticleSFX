@@ -22,7 +22,7 @@ public class ParticleSpiral extends ParticleShaper {
     private double spin;
     private int count;
 
-    public ParticleSpiral(Particle particle, double spin, int count, double particleFrequency, CircleInfo... circles) {
+    public ParticleSpiral(Particle particle, double spin, int count, int particleFrequency, CircleInfo... circles) {
         super(particle, particleFrequency);
 
         Validate.isTrue(circles != null && circles.length >= 2, "Array must contain 2 or more CircleInfos!");
@@ -58,7 +58,7 @@ public class ParticleSpiral extends ParticleShaper {
 
     @Override
     public void display() {
-        double particleAmount = particleFrequency / count / (circles.size() - 1);
+        double particleAmount = (double) particleFrequency / count / (circles.size() - 1);
         double endRotation = (Math.PI * 2) * (spin / (circles.size() - 1));
         double increase = endRotation / particleAmount;
         int current = overallCount;

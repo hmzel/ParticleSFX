@@ -16,7 +16,7 @@ public class ParticlePolygon extends ParticleShaper {
     private final List<Corner> corners = new ArrayList<>();
     private final Rotation rotHelper = new Rotation();
 
-    public ParticlePolygon(Particle particle, LocationSafe center, int cornersPerLayer, int layers, double xRadius, double yRadius, double zRadius, double particleFrequency) {
+    public ParticlePolygon(Particle particle, LocationSafe center, int cornersPerLayer, int layers, double xRadius, double yRadius, double zRadius, int particleFrequency) {
         super(particle, particleFrequency);
 
         PolygonLayer[] polygonLayers = new PolygonLayer[layers];
@@ -57,7 +57,7 @@ public class ParticlePolygon extends ParticleShaper {
         this(particle, center, corners, layers, xRadius, yRadius, zRadius, 150);
     }
 
-    public ParticlePolygon(Particle particle, LocationSafe center, int corners, int layers, double radius, double particleFrequency) {
+    public ParticlePolygon(Particle particle, LocationSafe center, int corners, int layers, double radius, int particleFrequency) {
         this(particle, center, corners, layers, radius, radius, radius, particleFrequency);
     }
 
@@ -65,7 +65,7 @@ public class ParticlePolygon extends ParticleShaper {
         this(particle, center, corners, layers, radius, radius, radius, 150);
     }
 
-    public ParticlePolygon(Particle particle, LocationSafe center, double particleFrequency, PolygonLayer... layers) {
+    public ParticlePolygon(Particle particle, LocationSafe center, int particleFrequency, PolygonLayer... layers) {
         super(particle, particleFrequency);
         initLayers(center, layers);
     }
@@ -74,7 +74,7 @@ public class ParticlePolygon extends ParticleShaper {
         this(particle, center, 150, layers);
     }
 
-    public ParticlePolygon(Particle particle, double particleFrequency, Corner... corners) {
+    public ParticlePolygon(Particle particle, int particleFrequency, Corner... corners) {
         super(particle, particleFrequency);
 
         for (Corner corner : corners) {

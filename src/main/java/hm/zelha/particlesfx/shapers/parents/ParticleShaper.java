@@ -29,14 +29,14 @@ public abstract class ParticleShaper extends RotationHandler implements Shape {
     protected final Vector vectorHelper = new Vector(0, 0, 0);
     protected BukkitTask animator = null;
     protected Particle particle;
-    protected double particleFrequency;
+    protected int particleFrequency;
     protected int particlesPerDisplay = 0;
     protected int currentCount = 0;
     protected int overallCount = 0;
 
-    public ParticleShaper(Particle particle, double particleFrequency) {
+    public ParticleShaper(Particle particle, int particleFrequency) {
         Validate.notNull(particle, "Particle cannot be null!");
-        Validate.isTrue(particleFrequency >= 2.0D, "Frequency cannot be less than 2! if you only want one particle, use Particle.display().");
+        Validate.isTrue(particleFrequency >= 2, "Frequency cannot be less than 2! if you only want one particle, use Particle.display().");
 
         this.particle = particle;
         this.particleFrequency = particleFrequency;
@@ -159,8 +159,8 @@ public abstract class ParticleShaper extends RotationHandler implements Shape {
     }
 
     /** @param particleFrequency amount of times to display the particle per full animation */
-    public void setParticleFrequency(double particleFrequency) {
-        Validate.isTrue(particleFrequency > 2.0D, "Frequency cannot be less than 2! if you only want one particle, use Particle.display()");
+    public void setParticleFrequency(int particleFrequency) {
+        Validate.isTrue(particleFrequency > 2, "Frequency cannot be less than 2! if you only want one particle, use Particle.display()");
 
         this.particleFrequency = particleFrequency;
     }
@@ -184,7 +184,7 @@ public abstract class ParticleShaper extends RotationHandler implements Shape {
         return secondaryParticles.get(index);
     }
 
-    public double getParticleFrequency() {
+    public int getParticleFrequency() {
         return particleFrequency;
     }
 
