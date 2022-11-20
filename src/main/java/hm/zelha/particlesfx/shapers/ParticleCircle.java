@@ -12,10 +12,10 @@ import java.util.UUID;
 
 public class ParticleCircle extends ParticleShaper {
 
-    private double xRadius;
-    private double zRadius;
-    private double limit = 0;
-    private boolean limitInverse = false;
+    protected double xRadius;
+    protected double zRadius;
+    protected double limit = 0;
+    protected boolean limitInverse = false;
 
     public ParticleCircle(Particle particle, LocationSafe center, double xRadius, double zRadius, double pitch, double yaw, double roll, int particleFrequency) {
         super(particle, particleFrequency);
