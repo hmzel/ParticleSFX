@@ -31,21 +31,29 @@ public class ParticleCircleFilled extends ParticleCircle {
     //https://medium.com/@vagnerseibert/distributing-points-on-a-sphere-6b593cc05b42
     @Override
     public void display() {
+        int count = particleFrequency;
+        double limitation = zRadius * 2 * limit / 100;
         boolean hasRan = false;
         boolean trackCount = particlesPerDisplay > 0;
 
-        for (int i = overallCount; i < particleFrequency; i++) {
-            Particle particle = getCurrentParticle();
+        for (int i = overallCount; i < count; i++) {
             //somehow evenly increments the radius idk what to name this
             double r = Math.sqrt((double) i / particleFrequency);
             //theta = PI * PHI * 2 * i
             //PHI = golden ratio = (1 + Math.sqrt(5)) / 2
             double theta = Math.PI * (1 + Math.sqrt(5)) * i;
+            double z = zRadius * r * Math.sin(theta);
 
-            vectorHelper.setX(xRadius * r * Math.cos(theta));
-            vectorHelper.setY(0);
-            vectorHelper.setZ(zRadius * r * Math.sin(theta));
+            if ((!limitInverse && z + zRadius > limitation) || (limitInverse && z + zRadius < limitation)) {
+                count++;
+                continue;
+            }
+
+            Particle particle = getCurrentParticle();
+            double x = xRadius * r * Math.cos(theta);
+
             locationHelper.zero().add(getCenter());
+            vectorHelper.setX(x).setY(0).setZ(z);
             applyMechanics(ShapeDisplayMechanic.Phase.BEFORE_ROTATION, particle, locationHelper, vectorHelper);
             rot.apply(vectorHelper);
             applyMechanics(ShapeDisplayMechanic.Phase.AFTER_ROTATION, particle, locationHelper, vectorHelper);
