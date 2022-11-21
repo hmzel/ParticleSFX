@@ -98,8 +98,9 @@ public abstract class ParticleShaper extends RotationHandler implements Shape {
 
     /**
      * Similar to {@link java.util.function.Consumer} <p>
-     * the given mechanic will run before the location is modified to display the next particle, allowing you to modify
-     * the addition vector however you want, though doing so may be very volatile
+     * in the case of phases {@link ShapeDisplayMechanic.Phase#BEFORE_ROTATION} and {@link ShapeDisplayMechanic.Phase#AFTER_ROTATION}
+     * the given mechanic will run before the location is modified to display the next particle, allowing you to modify the
+     * addition vector however you want, though doing so may be very volatile
      * <p></p>
      * keep in mind that all changes to the given objects will be reflected in the display() method <p>
      * and, considering that the display() method is often called many times per tick, try to make sure the mechanic isnt very

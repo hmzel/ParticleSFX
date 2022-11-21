@@ -115,6 +115,7 @@ public class ParticleLineCurved extends ParticleLine {
                     particle.display(locationHelper);
                 }
 
+                applyMechanics(ShapeDisplayMechanic.Phase.AFTER_DISPLAY, particle, locationHelper, vectorHelper);
                 locationHelper.subtract(vectorHelper2);
 
                 overallCount++;

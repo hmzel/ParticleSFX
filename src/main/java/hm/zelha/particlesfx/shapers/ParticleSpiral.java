@@ -122,6 +122,7 @@ public class ParticleSpiral extends ParticleShaper {
                     circleHelper.setXRadius(circleHelper.getXRadius() + xRadiusInc);
                     circleHelper.setZRadius(circleHelper.getZRadius() + zRadiusInc);
                     rotHelper.add(pitchInc, yawInc, rollInc);
+                    applyMechanics(ShapeDisplayMechanic.Phase.AFTER_DISPLAY, particle, locationHelper, vectorHelper2);
 
                     overallCount++;
 
