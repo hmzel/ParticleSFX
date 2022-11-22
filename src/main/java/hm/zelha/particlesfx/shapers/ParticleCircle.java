@@ -162,11 +162,11 @@ public class ParticleCircle extends ParticleShaper {
         return locations.get(0);
     }
 
-    public double getxRadius() {
+    public double getXRadius() {
         return xRadius;
     }
 
-    public double getzRadius() {
+    public double getZRadius() {
         return zRadius;
     }
 
