@@ -66,9 +66,9 @@ public class ParticleExplosionLarge extends Particle {
                 if (!location.getWorld().getName().equals(p.world.getWorld().getName())) continue;
 
                 if (radius != 0) {
-                    double distance = Math.sqrt(Math.pow(location.getX() - p.locX, 2) + Math.pow(location.getY() - p.locY, 2) + Math.pow(location.getZ() - p.locZ, 2));
+                    double distance = Math.pow(location.getX() - p.locX, 2) + Math.pow(location.getY() - p.locY, 2) + Math.pow(location.getZ() - p.locZ, 2);
 
-                    if (distance > radius) continue;
+                    if (distance > Math.pow(radius, 2)) continue;
                 }
 
                 p.playerConnection.sendPacket(

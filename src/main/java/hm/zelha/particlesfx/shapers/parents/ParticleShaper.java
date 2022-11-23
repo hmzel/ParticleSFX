@@ -161,7 +161,7 @@ public abstract class ParticleShaper extends RotationHandler implements Shape {
 
     /** @param particleFrequency amount of times to display the particle per full animation */
     public void setParticleFrequency(int particleFrequency) {
-        Validate.isTrue(particleFrequency > 2, "Frequency cannot be less than 2! if you only want one particle, use Particle.display()");
+        Validate.isTrue(particleFrequency >= 2, "Frequency cannot be less than 2! if you only want one particle, use Particle.display()");
 
         this.particleFrequency = particleFrequency;
     }
