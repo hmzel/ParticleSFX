@@ -129,6 +129,8 @@ public class ParticlePolygon extends ParticleShaper {
                         particle.display(locationHelper);
                     }
 
+                    overallCount++;
+
                     locationHelper.add(vectorHelper);
                     applyMechanics(ShapeDisplayMechanic.Phase.AFTER_DISPLAY, particle, locationHelper, vectorHelper);
 

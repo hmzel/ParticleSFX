@@ -115,10 +115,10 @@ public class ParticleLineCurved extends ParticleLine {
                     particle.display(locationHelper);
                 }
 
+                overallCount++;
+
                 applyMechanics(ShapeDisplayMechanic.Phase.AFTER_DISPLAY, particle, locationHelper, vectorHelper);
                 locationHelper.subtract(vectorHelper2);
-
-                overallCount++;
 
                 if (trackCount) {
                     currentCount++;

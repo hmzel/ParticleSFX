@@ -35,11 +35,8 @@ public abstract class ParticleShaper extends RotationHandler implements Shape {
     protected int overallCount = 0;
 
     public ParticleShaper(Particle particle, int particleFrequency) {
-        Validate.notNull(particle, "Particle cannot be null!");
-        Validate.isTrue(particleFrequency >= 2, "Frequency cannot be less than 2! if you only want one particle, use Particle.display().");
-
-        this.particle = particle;
-        this.particleFrequency = particleFrequency;
+        setParticle(particle);
+        setParticleFrequency(particleFrequency);
     }
 
     public void start() {
@@ -84,7 +81,7 @@ public abstract class ParticleShaper extends RotationHandler implements Shape {
 
             if (pair.getValue() != phase) continue;
 
-            pair.getKey().apply(particle, current, addition);
+            pair.getKey().apply(particle, current, addition, overallCount);
         }
     }
 
@@ -106,7 +103,7 @@ public abstract class ParticleShaper extends RotationHandler implements Shape {
      * and, considering that the display() method is often called many times per tick, try to make sure the mechanic isnt very
      * resource-intensive
      * <p></p>
-     * {@link ShapeDisplayMechanic#apply(Particle, Location, Vector)}
+     * {@link ShapeDisplayMechanic#apply(Particle, Location, Vector, int)}
      *
      * @param phase phase for the mechanic to run
      * @param mechanic mechanic to run during display
