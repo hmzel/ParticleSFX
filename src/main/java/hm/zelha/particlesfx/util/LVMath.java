@@ -9,6 +9,10 @@ public final class LVMath {
     private LVMath() {
     }
 
+    public static double getAbsoluteSum(Vector vector) {
+        return Math.abs(vector.getX()) + Math.abs(vector.getY()) + Math.abs(vector.getZ());
+    }
+
     public static Vector toVector(Vector vector, Location location) {
         return vector.setX(location.getX()).setY(location.getY()).setZ(location.getZ());
     }
