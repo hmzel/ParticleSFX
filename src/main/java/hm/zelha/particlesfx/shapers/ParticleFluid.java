@@ -6,6 +6,7 @@ import hm.zelha.particlesfx.shapers.parents.ParticleShaper;
 import hm.zelha.particlesfx.shapers.parents.Shape;
 import hm.zelha.particlesfx.util.LVMath;
 import hm.zelha.particlesfx.util.LocationSafe;
+import hm.zelha.particlesfx.util.ShapeDisplayMechanic;
 import net.minecraft.server.v1_8_R3.Entity;
 import org.apache.commons.lang3.Validate;
 import org.bukkit.Location;
@@ -59,9 +60,12 @@ public class ParticleFluid extends ParticleShaper {
     @Override
     public void display() {
         double repulsion = Math.abs(this.repulsion);
+        boolean hasRan = false;
+        boolean trackCount = particlesPerDisplay > 0;
 
         for (int i = 0; i < locations.size(); i++) {
             Location l = locations.get(i);
+            Particle particle = getCurrentParticle();
             List<Entity> entityList = ((CraftWorld) l.getWorld()).getHandle().entityList;
             int nearby = 0;
 
@@ -157,6 +161,7 @@ public class ParticleFluid extends ParticleShaper {
 
             //block collision
             LVMath.subtractToVector(vectorHelper, locationHelper, l);
+            applyMechanics(ShapeDisplayMechanic.Phase.BEFORE_ROTATION, particle, l, vectorHelper);
 
             double increase = 0.1;
             double absoluteSum = LVMath.getAbsoluteSum(vectorHelper);
@@ -198,7 +203,29 @@ public class ParticleFluid extends ParticleShaper {
                 l.add(vectorHelper);
             }
 
-            getCurrentParticle().display(l);
+            if (!players.isEmpty()) {
+                particle.displayForPlayers(l, players);
+            } else {
+                particle.display(l);
+            }
+
+            overallCount++;
+
+            applyMechanics(ShapeDisplayMechanic.Phase.AFTER_DISPLAY, particle, locationHelper, vectorHelper);
+
+            if (trackCount) {
+                currentCount++;
+                hasRan = true;
+
+                if (currentCount >= particlesPerDisplay) {
+                    currentCount = 0;
+                    break;
+                }
+            }
+        }
+
+        if (!trackCount || !hasRan) {
+            overallCount = 0;
         }
     }
 
