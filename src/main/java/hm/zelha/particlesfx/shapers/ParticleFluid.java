@@ -3,12 +3,12 @@ package hm.zelha.particlesfx.shapers;
 import hm.zelha.particlesfx.Main;
 import hm.zelha.particlesfx.particles.parents.Particle;
 import hm.zelha.particlesfx.shapers.parents.ParticleShaper;
-import hm.zelha.particlesfx.shapers.parents.Shape;
 import hm.zelha.particlesfx.util.LVMath;
 import hm.zelha.particlesfx.util.LocationSafe;
 import hm.zelha.particlesfx.util.ShapeDisplayMechanic;
 import net.minecraft.server.v1_8_R3.Entity;
 import org.apache.commons.lang3.Validate;
+import org.apache.commons.lang3.tuple.Pair;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.craftbukkit.v1_8_R3.CraftWorld;
@@ -16,6 +16,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
 
 import static org.bukkit.Material.AIR;
@@ -230,7 +231,30 @@ public class ParticleFluid extends ParticleShaper {
     }
 
     @Override
-    public Shape clone() {
+    public ParticleFluid clone() {
+        ParticleFluid clone = new ParticleFluid(particle, spawnLocation.clone(), gravity, repulsion, 1);
+
+        clone.particleFrequency = particleFrequency;
+
+        for (LocationSafe l : locations) {
+            clone.locations.add(l.clone());
+            clone.origins.add(l.cloneToLocation());
+        }
+
+        for (Pair<Particle, Integer> pair : secondaryParticles) {
+            clone.addParticle(pair.getKey(), pair.getValue());
+        }
+
+        for (Pair<ShapeDisplayMechanic, ShapeDisplayMechanic.Phase> pair : mechanics) {
+            clone.addMechanic(pair.getValue(), pair.getKey());
+        }
+
+        for (UUID id : players) {
+            clone.addPlayer(id);
+        }
+
+        clone.setParticlesPerDisplay(particlesPerDisplay);
+
         return null;
     }
 
