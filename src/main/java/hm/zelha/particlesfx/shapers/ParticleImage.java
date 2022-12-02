@@ -80,15 +80,22 @@ public class ParticleImage extends ParticleShaper {
     public void display() {
         if (image == null) return;
 
+        double limit = particleFrequency;
         boolean hasRan = false;
         boolean trackCount = particlesPerDisplay > 0;
 
-        for (int i = overallCount; i < particleFrequency; i++) {
+        for (int i = overallCount; i < limit; i++) {
             ColorableParticle particle = (ColorableParticle) getCurrentParticle();
             double x = rng.nextDouble(image.getWidth());
             double z = rng.nextDouble(image.getHeight());
             Object data = image.getRaster().getDataElements((int) x, (int) z, null);
             ColorModel model = image.getColorModel();
+
+            if (model.hasAlpha() && model.getAlpha(data) == 0) {
+                limit++;
+
+                continue;
+            }
 
             particle.setColor(Color.fromRGB(model.getRed(data), model.getGreen(data), model.getBlue(data)));
             locationHelper.zero().add(getCenter());
