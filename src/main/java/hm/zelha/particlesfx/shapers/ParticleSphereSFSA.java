@@ -70,7 +70,7 @@ public class ParticleSphereSFSA extends ParticleShaper {
             if (limitInverse) {
                 phiX = i - (i * (limit / 100));
             } else {
-                phiX = particleFrequency - (i - (i * (limit / 100)));
+                phiX = (particleFrequency / 2D) + (i - (i * (limit / 100)));
             }
 
             double phi = Math.acos(1 - 2D * phiX / particleFrequency);
