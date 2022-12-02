@@ -36,9 +36,9 @@ public class ParticleImage extends ParticleShaper {
         super(particle, particleFrequency);
 
         setCenter(center);
-        setImage(link);
         setXRadius(xRadius);
         setZRadius(zRadius);
+        setImage(link);
         start();
     }
 
@@ -46,9 +46,9 @@ public class ParticleImage extends ParticleShaper {
         super(particle, particleFrequency);
 
         setCenter(center);
-        setImage(path);
         setXRadius(xRadius);
         setZRadius(zRadius);
+        setImage(path);
         start();
     }
 
