@@ -301,7 +301,7 @@ public class ParticleCylinder extends ParticleShaper {
 
         circles.add(circle);
         locations.add((LocationSafe) circle.getCenter());
-        origins.add(((LocationSafe) circle.getCenter()).cloneToLocation());
+        origins.add(((LocationSafe) circle.getCenter()).clone());
         ((LocationSafe) circle.getCenter()).setChanged(true);
 
         recalculate = true;

@@ -188,7 +188,7 @@ public class ParticleShapeCompound extends RotationHandler implements Shape {
             for (Map.Entry<Shape, Integer> entry : shapeLocationIndex.entrySet()) {
                 if (owner == entry.getKey()) {
                     this.locations.add(entry.getValue(), added);
-                    this.origins.add(entry.getValue(), added.cloneToLocation());
+                    this.origins.add(entry.getValue(), added.clone());
 
                     locationAdded = true;
                 }
@@ -225,7 +225,7 @@ public class ParticleShapeCompound extends RotationHandler implements Shape {
         for (LocationSafe l : locations) {
             l.addRecalcMechanic(this, (location) -> recalc = true);
             this.locations.add(l);
-            origins.add(l.cloneToLocation());
+            origins.add(l.clone());
         }
 
         if (getPitch() + getYaw() + getRoll() + getAroundPitch() + getAroundYaw() + getAroundRoll() != 0) {

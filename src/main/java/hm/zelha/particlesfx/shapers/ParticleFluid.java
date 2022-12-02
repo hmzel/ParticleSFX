@@ -33,7 +33,7 @@ public class ParticleFluid extends ParticleShaper {
     public ParticleFluid(Particle particle, LocationSafe spawnLocation, double gravity, double repulsion, int particleFrequency) {
         super(particle, particleFrequency);
 
-        locationHelper2 = spawnLocation.cloneToLocation();
+        locationHelper2 = spawnLocation.clone();
 
         setSpawnLocation(spawnLocation);
         setWorld(spawnLocation.getWorld());
@@ -238,7 +238,7 @@ public class ParticleFluid extends ParticleShaper {
 
         for (LocationSafe l : locations) {
             clone.locations.add(l.clone());
-            clone.origins.add(l.cloneToLocation());
+            clone.origins.add(l.clone());
         }
 
         for (Pair<Particle, Integer> pair : secondaryParticles) {
@@ -269,7 +269,7 @@ public class ParticleFluid extends ParticleShaper {
         if (particleFrequency > locations.size()) {
             for (int i = locations.size(); i <= particleFrequency; i++) {
                 locations.add(spawnLocation.clone());
-                origins.add(spawnLocation.cloneToLocation());
+                origins.add(spawnLocation.clone());
             }
         } else if (particleFrequency < locations.size()) {
             for (int i = particleFrequency; i <= locations.size(); i++) {

@@ -246,19 +246,7 @@ public class LocationSafe extends Location {
 
     @Override
     public LocationSafe clone() {
-        LocationSafe l = new LocationSafe(getWorld(), getX(), getY(), getZ());
-
-        l.setMechanic(mechanic);
-
-        for (Map.Entry<ParticleShapeCompound, Consumer<Location>> entry : recalcMechanics.entrySet()) {
-            l.addRecalcMechanic(entry.getKey(), entry.getValue());
-        }
-
-        return l;
-    }
-
-    public Location cloneToLocation() {
-        return new Location(getWorld(), getX(), getY(), getZ());
+        return new LocationSafe(getWorld(), getX(), getY(), getZ());
     }
 
     public boolean isChanged() {

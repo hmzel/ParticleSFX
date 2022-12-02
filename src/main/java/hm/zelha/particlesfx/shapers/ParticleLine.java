@@ -129,7 +129,7 @@ public class ParticleLine extends ParticleShaper {
         }
 
         locations.add(location);
-        origins.add(location.cloneToLocation());
+        origins.add(location.clone());
         location.setChanged(true);
     }
 

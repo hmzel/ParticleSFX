@@ -266,7 +266,7 @@ public class ParticlePolygon extends ParticleShaper {
 
         corners.add(corner);
         locations.add(corner.getLocation());
-        origins.add(corner.getLocation().cloneToLocation());
+        origins.add(corner.getLocation().clone());
         corner.getLocation().setChanged(true);
 
         for (int i : connections) {
