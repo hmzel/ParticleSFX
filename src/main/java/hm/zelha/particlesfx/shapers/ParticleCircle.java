@@ -46,7 +46,6 @@ public class ParticleCircle extends ParticleShaper {
 
     @Override
     public void display() {
-        Location center = getCenter();
         double limitation = Math.PI * 2 * limit / 100;
         double loopEnd = Math.PI * 2;
         double loopStart = limitation;
@@ -65,7 +64,7 @@ public class ParticleCircle extends ParticleShaper {
             vectorHelper.setX(xRadius * Math.cos(radian));
             vectorHelper.setY(0);
             vectorHelper.setZ(zRadius * Math.sin(radian));
-            locationHelper.zero().add(center);
+            locationHelper.zero().add(getCenter());
             applyMechanics(ShapeDisplayMechanic.Phase.BEFORE_ROTATION, particle, locationHelper, vectorHelper);
             rot.apply(vectorHelper);
             applyMechanics(ShapeDisplayMechanic.Phase.AFTER_ROTATION, particle, locationHelper, vectorHelper);
