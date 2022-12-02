@@ -24,11 +24,11 @@ public class ParticleSphereSFSA extends ParticleShaper {
 
     //TODO: maybe make this extend ParticleCircle at some point? that makes sense but doesnt at the same time so idrk. decide later
 
-    private double xRadius;
-    private double yRadius;
-    private double zRadius;
-    private double limit = 0;
-    private boolean limitInverse = false;
+    protected double xRadius;
+    protected double yRadius;
+    protected double zRadius;
+    protected double limit = 0;
+    protected boolean limitInverse = false;
 
     public ParticleSphereSFSA(Particle particle, LocationSafe center, double xRadius, double yRadius, double zRadius, double pitch, double yaw, double roll, int particleFrequency) {
         super(particle, particleFrequency);

@@ -1,18 +1,22 @@
 package hm.zelha.particlesfx.shapers;
 
 import hm.zelha.particlesfx.particles.parents.Particle;
-import hm.zelha.particlesfx.shapers.parents.ParticleShaper;
 import hm.zelha.particlesfx.util.LocationSafe;
 import hm.zelha.particlesfx.util.ShapeDisplayMechanic;
 import org.apache.commons.lang3.Validate;
 import org.apache.commons.lang3.tuple.Pair;
-import org.bukkit.Location;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-public class ParticleSphere extends ParticleShaper {
+/**
+ * This class uses surface area and circumference to position particles, as opposed to {@link ParticleSphereSFSA} which uses the
+ * the <a href="https://medium.com/@vagnerseibert/distributing-points-on-a-sphere-6b593cc05b42">Sunflower Seed Arrangement</a>
+ * <p></p>
+ * This class's sphere looks worse, but is much less chaotic and easier to color with secondary particles.
+ */
+public class ParticleSphere extends ParticleSphereSFSA {
 
     //TODO: see if theres any way to improve particlesPerDisplay in this class
     // maybe make this extend ParticleCircle at some point? that makes sense but doesnt at the same time so idrk. decide later
@@ -20,26 +24,13 @@ public class ParticleSphere extends ParticleShaper {
     //circumference tracker
     private final List<Double> cirTracker = new ArrayList<>();
     private int circleFrequency;
-    private double xRadius;
-    private double yRadius;
-    private double zRadius;
-    private double limit = 0;
     private double surfaceArea = 0;
-    private boolean limitInverse = false;
     private boolean recalculate = true;
 
     public ParticleSphere(Particle particle, LocationSafe center, double xRadius, double yRadius, double zRadius, double pitch, double yaw, double roll, int circleFrequency, int particleFrequency) {
-        super(particle, particleFrequency);
+        super(particle, center, xRadius, yRadius, zRadius, pitch, yaw, roll, particleFrequency);
 
-        setCenter(center);
         setCircleFrequency(circleFrequency);
-        rot.set(pitch, yaw, roll);
-
-        this.xRadius = xRadius;
-        this.yRadius = yRadius;
-        this.zRadius = zRadius;
-
-        start();
     }
 
     public ParticleSphere(Particle particle, LocationSafe center, double radius, double pitch, double yaw, double roll, int circleFrequency, int particleFrequency) {
@@ -210,31 +201,15 @@ public class ParticleSphere extends ParticleShaper {
         }
     }
 
-    public void setCenter(LocationSafe center) {
-        Validate.notNull(center, "Location cannot be null!");
-        Validate.notNull(center.getWorld(), "Location's world cannot be null!");
-
-        locations.add(center);
-        setWorld(center.getWorld());
-        originalCentroid.zero().add(center);
-        center.setChanged(true);
-
-        if (locations.size() > 1) {
-            locations.remove(0);
-        }
-    }
-
     public void setxRadius(double xRadius) {
-        this.xRadius = xRadius;
+        super.setxRadius(xRadius);
+
         recalculate = true;
     }
 
-    public void setyRadius(double yRadius) {
-        this.yRadius = yRadius;
-    }
-
     public void setzRadius(double zRadius) {
-        this.zRadius = zRadius;
+        super.setzRadius(zRadius);
+
         recalculate = true;
     }
 
@@ -246,54 +221,13 @@ public class ParticleSphere extends ParticleShaper {
         recalculate = true;
     }
 
-    /**
-     * @param limit percentage of the sphere that should generate, such that 0 would be the entire sphere and 50 would be a half sphere.
-     */
     public void setLimit(double limit) {
-        Validate.isTrue(limit >= 0 && limit <= 100, "Limit is meant to be a percentage, and cannot be below 0 or above 100");
+        super.setLimit(limit);
 
-        this.limit = limit;
         recalculate = true;
-    }
-
-    /**
-     * @param limitInverse determines if the limit cuts off the top or the bottom. default false (top)
-     */
-    public void setLimitInverse(boolean limitInverse) {
-        this.limitInverse = limitInverse;
-    }
-
-    public Location getCenter() {
-        return locations.get(0);
-    }
-
-    public double getxRadius() {
-        return xRadius;
-    }
-
-    public double getyRadius() {
-        return yRadius;
-    }
-
-    public double getzRadius() {
-        return zRadius;
     }
 
     public int getCircleFrequency() {
         return circleFrequency;
-    }
-
-    /**
-     * @return percentage of the sphere that should generate, such that 0 would be the entire sphere and 50 would be a half sphere.
-     */
-    public double getLimit() {
-        return limit;
-    }
-
-    /**
-     * @return if the limit cuts off the top or the bottom. default false (top)
-     */
-    public boolean isLimitInverse() {
-        return limitInverse;
     }
 }
