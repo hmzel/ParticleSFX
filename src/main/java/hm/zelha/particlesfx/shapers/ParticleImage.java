@@ -33,11 +33,13 @@ public class ParticleImage extends ParticleShaper {
     private final List<Color> ignoredColors = new ArrayList<>();
     private BufferedImage[] images = null;
     private int frame = 0;
+    private int displaysThisFrame = 0;
     private String link;
     private File path;
     private double xRadius;
     private double zRadius;
     private int fuzz = 0;
+    private int delay = 0;
 
     public ParticleImage(ColorableParticle particle, LocationSafe center, String link, double xRadius, double zRadius, int particleFrequency) {
         super(particle, particleFrequency);
@@ -154,7 +156,12 @@ public class ParticleImage extends ParticleShaper {
 
         if (!trackCount || !hasRan) {
             overallCount = 0;
-            frame++;
+            displaysThisFrame++;
+
+            if (displaysThisFrame >= delay) {
+                displaysThisFrame = 0;
+                frame++;
+            }
 
             if (frame >= images.length) {
                 frame = 0;
@@ -303,6 +310,13 @@ public class ParticleImage extends ParticleShaper {
         this.fuzz = fuzz;
     }
 
+    /**
+     * @param delay amount of times to display before switching to the next frame
+     */
+    public void setDelay(int delay) {
+        this.delay = delay;
+    }
+
     public Location getCenter() {
         return locations.get(0);
     }
@@ -317,6 +331,10 @@ public class ParticleImage extends ParticleShaper {
 
     public int getFuzz() {
         return fuzz;
+    }
+
+    public int getDelay() {
+        return delay;
     }
 
     public Color getIgnoredColor(int index) {
