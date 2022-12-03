@@ -20,6 +20,8 @@ import javax.imageio.stream.ImageInputStream;
 import java.awt.image.BufferedImage;
 import java.awt.image.ColorModel;
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.logging.Level;
@@ -27,12 +29,14 @@ import java.util.logging.Level;
 public class ParticleImage extends ParticleShaper {
 
     private final ThreadLocalRandom rng = ThreadLocalRandom.current();
+    private final List<Color> ignoredColors = new ArrayList<>();
     private BufferedImage[] images = null;
     private int frame = 0;
     private String link;
     private File path;
     private double xRadius;
     private double zRadius;
+    private int fuzz = 0;
 
     public ParticleImage(ColorableParticle particle, LocationSafe center, String link, double xRadius, double zRadius, int particleFrequency) {
         super(particle, particleFrequency);
@@ -88,6 +92,7 @@ public class ParticleImage extends ParticleShaper {
         boolean hasRan = false;
         boolean trackCount = particlesPerDisplay > 0;
 
+        main:
         for (int i = overallCount; i < limit; i++) {
             ColorableParticle particle = (ColorableParticle) getCurrentParticle();
             double x = rng.nextDouble(image.getWidth());
@@ -101,7 +106,21 @@ public class ParticleImage extends ParticleShaper {
                 continue;
             }
 
-            particle.setColor(Color.fromRGB(model.getRed(data), model.getGreen(data), model.getBlue(data)));
+            Color color = Color.fromRGB(model.getRed(data), model.getGreen(data), model.getBlue(data));
+
+            for (int k = 0; k < ignoredColors.size(); k++) {
+                Color ignored = ignoredColors.get(k);
+
+                if (color.getRed() > ignored.getRed() + fuzz || color.getRed() < ignored.getRed() - fuzz) continue;
+                if (color.getBlue() > ignored.getBlue() + fuzz || color.getBlue() < ignored.getBlue() - fuzz) continue;
+                if (color.getGreen() > ignored.getGreen() + fuzz || color.getGreen() < ignored.getGreen() - fuzz) continue;
+
+                limit++;
+
+                continue main;
+            }
+
+            particle.setColor(color);
             locationHelper.zero().add(getCenter());
             vectorHelper.setX(((x / image.getWidth() * 2) - 1) * xRadius);
             vectorHelper.setY(0);
@@ -217,6 +236,14 @@ public class ParticleImage extends ParticleShaper {
         }.runTaskAsynchronously(Main.getPlugin());
     }
 
+    public void addIgnoredColor(Color color) {
+        ignoredColors.add(color);
+    }
+
+    public void removeIgnoredColor(int index) {
+        ignoredColors.remove(index);
+    }
+
     public void setImage(String link) {
         load(link);
 
@@ -253,6 +280,13 @@ public class ParticleImage extends ParticleShaper {
         this.zRadius = zRadius;
     }
 
+    /**
+     * @param fuzz how similar pixel colors have to be to ignored colors in order to be ignored
+     */
+    public void setFuzz(int fuzz) {
+        this.fuzz = fuzz;
+    }
+
     public Location getCenter() {
         return locations.get(0);
     }
@@ -263,6 +297,18 @@ public class ParticleImage extends ParticleShaper {
 
     public double getZRadius() {
         return zRadius;
+    }
+
+    public int getFuzz() {
+        return fuzz;
+    }
+
+    public Color getIgnoredColor(int index) {
+        return ignoredColors.get(index);
+    }
+
+    public int getIgnoredColorAmount() {
+        return ignoredColors.size();
     }
 }
 
