@@ -20,6 +20,7 @@ import javax.imageio.stream.ImageInputStream;
 import java.awt.image.BufferedImage;
 import java.awt.image.ColorModel;
 import java.io.File;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -208,7 +209,6 @@ public class ParticleImage extends ParticleShaper {
                 try {
                     ImageInputStream input = ImageIO.createImageInputStream(toLoad);
                     ImageReader reader = ImageIO.getImageReaders(input).next();
-
                     reader.setInput(input);
 
                     images = new BufferedImage[reader.getNumImages(true)];
@@ -244,13 +244,29 @@ public class ParticleImage extends ParticleShaper {
         ignoredColors.remove(index);
     }
 
+    /**
+     * gets an image from a URL (gifs supported!)
+     *
+     * @param link URL of image
+     */
     public void setImage(String link) {
-        load(link);
+        try {
+            load(new URL(link).openStream());
+        }  catch (Throwable ex) {
+            Bukkit.getServer().getLogger().log(Level.SEVERE, "Failed to load image from " + link, ex);
+
+            images = null;
+        }
 
         this.link = link;
         this.path = null;
     }
 
+    /**
+     * gets an image from a file (gifs supported!)
+     *
+     * @param path location of file
+     */
     public void setImage(File path) {
         load(path);
 
