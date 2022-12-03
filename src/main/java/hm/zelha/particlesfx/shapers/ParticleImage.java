@@ -15,10 +15,11 @@ import org.bukkit.Location;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import javax.imageio.ImageIO;
+import javax.imageio.ImageReader;
+import javax.imageio.stream.ImageInputStream;
 import java.awt.image.BufferedImage;
 import java.awt.image.ColorModel;
 import java.io.File;
-import java.net.URL;
 import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.logging.Level;
@@ -26,7 +27,8 @@ import java.util.logging.Level;
 public class ParticleImage extends ParticleShaper {
 
     private final ThreadLocalRandom rng = ThreadLocalRandom.current();
-    private BufferedImage image = null;
+    private BufferedImage[] images = null;
+    private int frame = 0;
     private String link;
     private File path;
     private double xRadius;
@@ -78,8 +80,10 @@ public class ParticleImage extends ParticleShaper {
 
     @Override
     public void display() {
-        if (image == null) return;
+        if (images == null) return;
+        if (images[frame] == null) return;
 
+        BufferedImage image = images[frame];
         double limit = particleFrequency;
         boolean hasRan = false;
         boolean trackCount = particlesPerDisplay > 0;
@@ -130,6 +134,11 @@ public class ParticleImage extends ParticleShaper {
 
         if (!trackCount || !hasRan) {
             overallCount = 0;
+            frame++;
+
+            if (frame >= images.length) {
+                frame = 0;
+            }
         }
     }
 
@@ -173,53 +182,53 @@ public class ParticleImage extends ParticleShaper {
         return particle;
     }
 
-    public void setImage(String link) {
+    private void load(Object toLoad) {
         new BukkitRunnable() {
             @Override
             public void run() {
                 try {
-                    image = ImageIO.read(new URL(link));
-                    ParticleImage.this.link = link;
-                    path = null;
+                    ImageInputStream input = ImageIO.createImageInputStream(toLoad);
+                    ImageReader reader = ImageIO.getImageReaders(input).next();
 
-                    if (xRadius == 0 && zRadius == 0) {
-                        if (image.getWidth() >= image.getHeight()) {
-                            setXRadius(3 * ((double) image.getWidth() / image.getHeight()));
-                            setZRadius(3);
-                        } else {
-                            setXRadius(3);
-                            setZRadius(3 * ((double) image.getHeight() / image.getWidth()));
+                    reader.setInput(input);
+
+                    images = new BufferedImage[reader.getNumImages(true)];
+
+                    for (int i = 0; i < images.length; i++) {
+                        BufferedImage image = reader.read(i);
+                        images[i] = image;
+
+                        if (xRadius == 0 && zRadius == 0) {
+                            if (image.getWidth() >= image.getHeight()) {
+                                setXRadius(3 * ((double) image.getWidth() / image.getHeight()));
+                                setZRadius(3);
+                            } else {
+                                setXRadius(3);
+                                setZRadius(3 * ((double) image.getHeight() / image.getWidth()));
+                            }
                         }
                     }
                 } catch (Throwable ex) {
-                    Bukkit.getServer().getLogger().log(Level.SEVERE, "Failed to load image from " + link, ex);
+                    Bukkit.getServer().getLogger().log(Level.SEVERE, "Failed to load image from " + toLoad.toString(), ex);
 
-                    image = null;
+                    images = null;
                 }
             }
         }.runTaskAsynchronously(Main.getPlugin());
     }
 
+    public void setImage(String link) {
+        load(link);
+
+        this.link = link;
+        this.path = null;
+    }
+
     public void setImage(File path) {
-        try {
-            image = ImageIO.read(path);
-            this.path = path;
-            this.link = null;
+        load(path);
 
-            if (xRadius == 0 && zRadius == 0) {
-                if (image.getWidth() >= image.getHeight()) {
-                    setXRadius(3 * ((double) image.getWidth() / image.getHeight()));
-                    setZRadius(3);
-                } else {
-                    setXRadius(3);
-                    setZRadius(3 * ((double) image.getHeight() / image.getWidth()));
-                }
-            }
-        } catch (Throwable ex) {
-            Bukkit.getServer().getLogger().log(Level.SEVERE, "Failed to load image from " + path.getPath(), ex);
-
-            image = null;
-        }
+        this.path = path;
+        this.link = null;
     }
 
     public void setCenter(LocationSafe center) {
