@@ -4,7 +4,6 @@ import hm.zelha.particlesfx.Main;
 import hm.zelha.particlesfx.particles.parents.ColorableParticle;
 import hm.zelha.particlesfx.particles.parents.Particle;
 import hm.zelha.particlesfx.shapers.parents.ParticleShaper;
-import hm.zelha.particlesfx.shapers.parents.Shape;
 import hm.zelha.particlesfx.util.LocationSafe;
 import hm.zelha.particlesfx.util.ShapeDisplayMechanic;
 import org.apache.commons.lang3.Validate;
@@ -36,8 +35,6 @@ public class ParticleImage extends ParticleShaper {
     private double zRadius;
     private int fuzz = 0;
     private int delay = 0;
-    private String link;
-    private File path;
     private int frame = 0;
     private int displaysThisFrame = 0;
 
@@ -83,6 +80,17 @@ public class ParticleImage extends ParticleShaper {
 
     public ParticleImage(ColorableParticle particle, LocationSafe center, File path) {
         this(particle, center, path, 0, 0, 2000);
+    }
+
+    private ParticleImage(ColorableParticle particle, LocationSafe center, double xRadius, double zRadius, int particleFrequency, List<BufferedImage> images, List<Color> ignored) {
+        super(particle, particleFrequency);
+
+        setCenter(center);
+        setXRadius(xRadius);
+        setZRadius(zRadius);
+        this.images.addAll(images);
+        this.ignoredColors.addAll(ignored);
+        start();
     }
 
     @Override
@@ -173,14 +181,11 @@ public class ParticleImage extends ParticleShaper {
     }
 
     @Override
-    public Shape clone() {
-        ParticleImage clone;
+    public ParticleImage clone() {
+        ParticleImage clone = new ParticleImage((ColorableParticle) particle, locations.get(0).clone(), xRadius, zRadius, particleFrequency, images, ignoredColors);
 
-        if (link != null) {
-            clone = new ParticleImage((ColorableParticle) particle, locations.get(0).clone(), link, xRadius, zRadius, particleFrequency);
-        } else {
-            clone = new ParticleImage((ColorableParticle) particle, locations.get(0).clone(), path, xRadius, zRadius, particleFrequency);
-        }
+        clone.frame = frame;
+        clone.displaysThisFrame = displaysThisFrame;
 
         for (Pair<Particle, Integer> pair : secondaryParticles) {
             clone.addParticle(pair.getKey(), pair.getValue());
@@ -195,6 +200,8 @@ public class ParticleImage extends ParticleShaper {
         }
 
         clone.setParticlesPerDisplay(particlesPerDisplay);
+        clone.setFuzz(fuzz);
+        clone.setDelay(delay);
 
         return clone;
     }
@@ -264,9 +271,6 @@ public class ParticleImage extends ParticleShaper {
         }  catch (Throwable ex) {
             Bukkit.getServer().getLogger().log(Level.SEVERE, "Failed to load image from " + link, ex);
         }
-
-        this.link = link;
-        this.path = null;
     }
 
     /**
@@ -277,9 +281,6 @@ public class ParticleImage extends ParticleShaper {
      */
     public void addImage(int index, File path) {
         addOrRemoveImages(path, false, index);
-
-        this.path = path;
-        this.link = null;
     }
 
     /**
