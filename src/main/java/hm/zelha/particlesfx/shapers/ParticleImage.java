@@ -30,16 +30,16 @@ import java.util.logging.Level;
 public class ParticleImage extends ParticleShaper {
 
     private final ThreadLocalRandom rng = ThreadLocalRandom.current();
+    private final List<BufferedImage> images = new ArrayList<>();
     private final List<Color> ignoredColors = new ArrayList<>();
-    private BufferedImage[] images = null;
-    private int frame = 0;
-    private int displaysThisFrame = 0;
-    private String link;
-    private File path;
     private double xRadius;
     private double zRadius;
     private int fuzz = 0;
     private int delay = 0;
+    private String link;
+    private File path;
+    private int frame = 0;
+    private int displaysThisFrame = 0;
 
     public ParticleImage(ColorableParticle particle, LocationSafe center, String link, double xRadius, double zRadius, int particleFrequency) {
         super(particle, particleFrequency);
@@ -47,7 +47,7 @@ public class ParticleImage extends ParticleShaper {
         setCenter(center);
         setXRadius(xRadius);
         setZRadius(zRadius);
-        setImage(link);
+        addImage(link);
         start();
     }
 
@@ -57,7 +57,7 @@ public class ParticleImage extends ParticleShaper {
         setCenter(center);
         setXRadius(xRadius);
         setZRadius(zRadius);
-        setImage(path);
+        addImage(path);
         start();
     }
 
@@ -87,10 +87,13 @@ public class ParticleImage extends ParticleShaper {
 
     @Override
     public void display() {
-        if (images == null) return;
-        if (images[frame] == null) return;
+        if (frame >= images.size()) {
+            frame = 0;
 
-        BufferedImage image = images[frame];
+            return;
+        }
+
+        BufferedImage image = images.get(frame);
         double limit = particleFrequency;
         boolean hasRan = false;
         boolean trackCount = particlesPerDisplay > 0;
@@ -163,7 +166,7 @@ public class ParticleImage extends ParticleShaper {
                 frame++;
             }
 
-            if (frame >= images.length) {
+            if (frame >= images.size()) {
                 frame = 0;
             }
         }
@@ -209,60 +212,57 @@ public class ParticleImage extends ParticleShaper {
         return particle;
     }
 
-    private void load(Object toLoad) {
+    private void addOrRemoveImages(Object toLoad, boolean remove, int index) {
         new BukkitRunnable() {
             @Override
             public void run() {
                 try {
                     ImageInputStream input = ImageIO.createImageInputStream(toLoad);
                     ImageReader reader = ImageIO.getImageReaders(input).next();
+
                     reader.setInput(input);
 
-                    images = new BufferedImage[reader.getNumImages(true)];
+                    double imageAmount = reader.getNumImages(true);
 
-                    for (int i = 0; i < images.length; i++) {
+                    for (int i = 0; i < imageAmount; i++) {
                         BufferedImage image = reader.read(i);
-                        images[i] = image;
 
-                        if (xRadius == 0 && zRadius == 0) {
-                            if (image.getWidth() >= image.getHeight()) {
-                                setXRadius(3 * ((double) image.getWidth() / image.getHeight()));
-                                setZRadius(3);
-                            } else {
-                                setXRadius(3);
-                                setZRadius(3 * ((double) image.getHeight() / image.getWidth()));
+                        //i know this is slightly janky but if i dont do it this way i'd have to make a completely different method
+                        //that would be like 95% duplicate code
+                        if (remove) {
+                            images.remove(image);
+                        } else {
+                            images.add(index + i, image);
+
+                            if (xRadius == 0 && zRadius == 0) {
+                                if (image.getWidth() >= image.getHeight()) {
+                                    setXRadius(3 * ((double) image.getWidth() / image.getHeight()));
+                                    setZRadius(3);
+                                } else {
+                                    setXRadius(3);
+                                    setZRadius(3 * ((double) image.getHeight() / image.getWidth()));
+                                }
                             }
                         }
                     }
                 } catch (Throwable ex) {
                     Bukkit.getServer().getLogger().log(Level.SEVERE, "Failed to load image from " + toLoad.toString(), ex);
-
-                    images = null;
                 }
             }
         }.runTaskAsynchronously(Main.getPlugin());
     }
 
-    public void addIgnoredColor(Color color) {
-        ignoredColors.add(color);
-    }
-
-    public void removeIgnoredColor(int index) {
-        ignoredColors.remove(index);
-    }
-
     /**
-     * gets an image from a URL (gifs supported!)
+     * adds an image from a URL (gifs supported!)
      *
+     * @param index index to put the image
      * @param link URL of image
      */
-    public void setImage(String link) {
+    public void addImage(int index, String link) {
         try {
-            load(new URL(link).openStream());
+            addOrRemoveImages(new URL(link).openStream(), false, index);
         }  catch (Throwable ex) {
             Bukkit.getServer().getLogger().log(Level.SEVERE, "Failed to load image from " + link, ex);
-
-            images = null;
         }
 
         this.link = link;
@@ -270,15 +270,68 @@ public class ParticleImage extends ParticleShaper {
     }
 
     /**
-     * gets an image from a file (gifs supported!)
+     * adds an image from a file (gifs supported!)
      *
+     * @param index index to put the image
      * @param path location of file
      */
-    public void setImage(File path) {
-        load(path);
+    public void addImage(int index, File path) {
+        addOrRemoveImages(path, false, index);
 
         this.path = path;
         this.link = null;
+    }
+
+    /**
+     * adds an image from a URL (gifs supported!)
+     *
+     * @param link URL of image
+     */
+    public void addImage(String link) {
+        addImage(images.size(), link);
+    }
+
+    /**
+     * adds an image from a file (gifs supported!)
+     *
+     * @param path location of file
+     */
+    public void addImage(File path) {
+        addImage(images.size(), path);
+    }
+
+    public void addIgnoredColor(Color color) {
+        ignoredColors.add(color);
+    }
+
+    /**
+     * gets an image from a URL and removes it (gifs supported!)
+     *
+     * @param link URL of image
+     */
+    public void removeImage(String link) {
+        try {
+            addOrRemoveImages(new URL(link).openStream(), true, 0);
+        }  catch (Throwable ex) {
+            Bukkit.getServer().getLogger().log(Level.SEVERE, "Failed to load image from " + link, ex);
+        }
+    }
+
+    /**
+     * gets an image from a file and removes it (gifs supported!)
+     *
+     * @param path location of file
+     */
+    public void removeImage(File path) {
+        addOrRemoveImages(path, true, 0);
+    }
+
+    public void removeFrame(int index) {
+        images.remove(index);
+    }
+
+    public void removeIgnoredColor(int index) {
+        ignoredColors.remove(index);
     }
 
     public void setCenter(LocationSafe center) {
@@ -343,6 +396,10 @@ public class ParticleImage extends ParticleShaper {
 
     public int getIgnoredColorAmount() {
         return ignoredColors.size();
+    }
+
+    public int getFrameAmount() {
+        return images.size();
     }
 }
 

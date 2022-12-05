@@ -236,6 +236,9 @@ public class ParticleFluid extends ParticleShaper {
 
         clone.particleFrequency = particleFrequency;
 
+        clone.locations.clear();
+        clone.origins.clear();
+
         for (LocationSafe l : locations) {
             clone.locations.add(l.clone());
             clone.origins.add(l.clone());
