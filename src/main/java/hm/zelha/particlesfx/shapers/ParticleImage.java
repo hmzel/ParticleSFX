@@ -1,6 +1,5 @@
 package hm.zelha.particlesfx.shapers;
 
-import hm.zelha.particlesfx.Main;
 import hm.zelha.particlesfx.particles.parents.ColorableParticle;
 import hm.zelha.particlesfx.particles.parents.Particle;
 import hm.zelha.particlesfx.shapers.parents.ParticleShaper;
@@ -11,7 +10,6 @@ import org.apache.commons.lang3.tuple.Pair;
 import org.bukkit.Bukkit;
 import org.bukkit.Color;
 import org.bukkit.Location;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import javax.imageio.ImageIO;
 import javax.imageio.ImageReader;
@@ -37,6 +35,7 @@ public class ParticleImage extends ParticleShaper {
     private int delay = 0;
     private int frame = 0;
     private int displaysThisFrame = 0;
+    private Thread currentThread = null;
 
     public ParticleImage(ColorableParticle particle, LocationSafe center, String link, double xRadius, double zRadius, int particleFrequency) {
         super(particle, particleFrequency);
@@ -180,8 +179,20 @@ public class ParticleImage extends ParticleShaper {
         }
     }
 
+    /**
+     * NOTE: USING THIS METHOD WILL CAUSE THE CURRENT THREAD TO STALL UNTIL ANY CURRENTLY RUNNING IMAGE PRODUCTION IS FINISHED. <p>
+     * If you don't want to cause lag, use an asynchronous BukkitRunnable!
+     */
     @Override
     public ParticleImage clone() {
+        if (currentThread != null) {
+            try {
+                currentThread.join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
         ParticleImage clone = new ParticleImage((ColorableParticle) particle, locations.get(0).clone(), xRadius, zRadius, particleFrequency, images, ignoredColors);
 
         clone.frame = frame;
@@ -220,47 +231,59 @@ public class ParticleImage extends ParticleShaper {
     }
 
     private void addOrRemoveImages(Object toLoad, boolean remove, int index) {
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                try {
-                    ImageInputStream input = ImageIO.createImageInputStream(toLoad);
-                    ImageReader reader = ImageIO.getImageReaders(input).next();
+        if (currentThread != null) {
+            try {
+                currentThread.join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
 
-                    reader.setInput(input);
+        Thread thread = new Thread(() -> {
+            try {
+                ImageInputStream input = ImageIO.createImageInputStream(toLoad);
+                ImageReader reader = ImageIO.getImageReaders(input).next();
 
-                    double imageAmount = reader.getNumImages(true);
+                reader.setInput(input);
 
-                    for (int i = 0; i < imageAmount; i++) {
-                        BufferedImage image = reader.read(i);
+                double imageAmount = reader.getNumImages(true);
 
-                        //i know this is slightly janky but if i dont do it this way i'd have to make a completely different method
-                        //that would be like 95% duplicate code
-                        if (remove) {
-                            images.remove(image);
-                        } else {
-                            images.add(index + i, image);
+                for (int i = 0; i < imageAmount; i++) {
+                    BufferedImage image = reader.read(i);
 
-                            if (xRadius == 0 && zRadius == 0) {
-                                if (image.getWidth() >= image.getHeight()) {
-                                    setXRadius(3 * ((double) image.getWidth() / image.getHeight()));
-                                    setZRadius(3);
-                                } else {
-                                    setXRadius(3);
-                                    setZRadius(3 * ((double) image.getHeight() / image.getWidth()));
-                                }
+                    //i know this is slightly janky but if i dont do it this way i'd have to make a completely different method
+                    //that would be like 95% duplicate code
+                    if (remove) {
+                        images.remove(image);
+                    } else {
+                        images.add(index + i, image);
+
+                        if (xRadius == 0 && zRadius == 0) {
+                            if (image.getWidth() >= image.getHeight()) {
+                                setXRadius(3 * ((double) image.getWidth() / image.getHeight()));
+                                setZRadius(3);
+                            } else {
+                                setXRadius(3);
+                                setZRadius(3 * ((double) image.getHeight() / image.getWidth()));
                             }
                         }
                     }
-                } catch (Throwable ex) {
-                    Bukkit.getServer().getLogger().log(Level.SEVERE, "Failed to load image from " + toLoad.toString(), ex);
                 }
+            } catch (Throwable ex) {
+                Bukkit.getServer().getLogger().log(Level.SEVERE, "Failed to load image from " + toLoad.toString(), ex);
             }
-        }.runTaskAsynchronously(Main.getPlugin());
+        });
+
+        thread.start();
+
+        currentThread = thread;
     }
 
     /**
      * adds an image from a URL (gifs supported!)
+     *
+     * NOTE: USING THIS METHOD WILL CAUSE THE CURRENT THREAD TO STALL UNTIL ANY CURRENTLY RUNNING IMAGE PRODUCTION IS FINISHED. <p>
+     * If you don't want to cause lag, use an asynchronous BukkitRunnable!
      *
      * @param index index to put the image
      * @param link URL of image
@@ -276,6 +299,9 @@ public class ParticleImage extends ParticleShaper {
     /**
      * adds an image from a file (gifs supported!)
      *
+     * NOTE: USING THIS METHOD WILL CAUSE THE CURRENT THREAD TO STALL UNTIL ANY CURRENTLY RUNNING IMAGE PRODUCTION IS FINISHED. <p>
+     * If you don't want to cause lag, use an asynchronous BukkitRunnable!
+     *
      * @param index index to put the image
      * @param path location of file
      */
@@ -286,19 +312,25 @@ public class ParticleImage extends ParticleShaper {
     /**
      * adds an image from a URL (gifs supported!)
      *
+     * NOTE: USING THIS METHOD WILL CAUSE THE CURRENT THREAD TO STALL UNTIL ANY CURRENTLY RUNNING IMAGE PRODUCTION IS FINISHED. <p>
+     * If you don't want to cause lag, use an asynchronous BukkitRunnable!
+     *
      * @param link URL of image
      */
     public void addImage(String link) {
-        addImage(images.size(), link);
+        addImage(getFrameAmount(), link);
     }
 
     /**
      * adds an image from a file (gifs supported!)
      *
+     * NOTE: USING THIS METHOD WILL CAUSE THE CURRENT THREAD TO STALL UNTIL ANY CURRENTLY RUNNING IMAGE PRODUCTION IS FINISHED. <p>
+     * If you don't want to cause lag, use an asynchronous BukkitRunnable!
+     *
      * @param path location of file
      */
     public void addImage(File path) {
-        addImage(images.size(), path);
+        addImage(getFrameAmount(), path);
     }
 
     public void addIgnoredColor(Color color) {
@@ -307,6 +339,9 @@ public class ParticleImage extends ParticleShaper {
 
     /**
      * gets an image from a URL and removes it (gifs supported!)
+     *
+     * NOTE: USING THIS METHOD WILL CAUSE THE CURRENT THREAD TO STALL UNTIL ANY CURRENTLY RUNNING IMAGE PRODUCTION IS FINISHED. <p>
+     * If you don't want to cause lag, use an asynchronous BukkitRunnable!
      *
      * @param link URL of image
      */
@@ -319,7 +354,10 @@ public class ParticleImage extends ParticleShaper {
     }
 
     /**
-     * gets an image from a file and removes it (gifs supported!)
+     * gets an image from a file and removes it (gifs supported!) <p></p>
+     *
+     * NOTE: USING THIS METHOD WILL CAUSE THE CURRENT THREAD TO STALL UNTIL ANY CURRENTLY RUNNING IMAGE PRODUCTION IS FINISHED. <p>
+     * If you don't want to cause lag, use an asynchronous BukkitRunnable!
      *
      * @param path location of file
      */
@@ -327,7 +365,21 @@ public class ParticleImage extends ParticleShaper {
         addOrRemoveImages(path, true, 0);
     }
 
+    /**
+     * NOTE: USING THIS METHOD WILL CAUSE THE CURRENT THREAD TO STALL UNTIL ANY CURRENTLY RUNNING IMAGE PRODUCTION IS FINISHED. <p>
+     * If you don't want to cause lag, use an asynchronous BukkitRunnable!
+     *
+     * @param index index of frame you want to remove from the frame list
+     */
     public void removeFrame(int index) {
+        if (currentThread != null) {
+            try {
+                currentThread.join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
         images.remove(index);
     }
 
@@ -399,7 +451,21 @@ public class ParticleImage extends ParticleShaper {
         return ignoredColors.size();
     }
 
+    /**
+     * NOTE: USING THIS METHOD WILL CAUSE THE CURRENT THREAD TO STALL UNTIL ANY CURRENTLY RUNNING IMAGE PRODUCTION IS FINISHED. <p>
+     * If you don't want to cause lag, use an asynchronous BukkitRunnable!
+     *
+     * @return amount of images stored
+     */
     public int getFrameAmount() {
+        if (currentThread != null) {
+            try {
+                currentThread.join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
         return images.size();
     }
 }
