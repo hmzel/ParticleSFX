@@ -119,21 +119,23 @@ public class ParticleImage extends ParticleShaper {
                 continue;
             }
 
-            Color color = Color.fromRGB(model.getRed(data), model.getGreen(data), model.getBlue(data));
+            int red = model.getRed(data);
+            int green = model.getGreen(data);
+            int blue = model.getBlue(data);
 
             for (int k = 0; k < ignoredColors.size(); k++) {
                 Color ignored = ignoredColors.get(k);
 
-                if (color.getRed() > ignored.getRed() + fuzz || color.getRed() < ignored.getRed() - fuzz) continue;
-                if (color.getBlue() > ignored.getBlue() + fuzz || color.getBlue() < ignored.getBlue() - fuzz) continue;
-                if (color.getGreen() > ignored.getGreen() + fuzz || color.getGreen() < ignored.getGreen() - fuzz) continue;
+                if (red > ignored.getRed() + fuzz || red < ignored.getRed() - fuzz) continue;
+                if (green > ignored.getGreen() + fuzz || green < ignored.getGreen() - fuzz) continue;
+                if (blue > ignored.getBlue() + fuzz || blue < ignored.getBlue() - fuzz) continue;
 
                 limit++;
 
                 continue main;
             }
 
-            particle.setColor(color);
+            particle.setColor(Color.fromRGB(red, green, blue));
             locationHelper.zero().add(getCenter());
             vectorHelper.setX(((x / image.getWidth() * 2) - 1) * xRadius);
             vectorHelper.setY(0);
@@ -218,16 +220,10 @@ public class ParticleImage extends ParticleShaper {
     }
 
     @Override
-    protected Particle getCurrentParticle() {
-        Particle particle = super.getCurrentParticle();
+    public void addParticle(Particle particle, int particlesUntilDisplay) {
+        Validate.isInstanceOf(ColorableParticle.class, particle, "ParticleImage particles must be colorable!");
 
-        if (!(particle instanceof ColorableParticle)) {
-            stop();
-
-            throw new IllegalArgumentException("ParticleImage particles must be colorable!");
-        }
-
-        return particle;
+        super.addParticle(particle, particlesUntilDisplay);
     }
 
     private void addOrRemoveImages(Object toLoad, boolean remove, int index) {
@@ -334,6 +330,8 @@ public class ParticleImage extends ParticleShaper {
     }
 
     public void addIgnoredColor(Color color) {
+        Validate.notNull(color, "Color can't be null!");
+
         ignoredColors.add(color);
     }
 
