@@ -1,8 +1,8 @@
 package hm.zelha.particlesfx.particles;
 
 import hm.zelha.particlesfx.particles.parents.ColorableParticle;
+import hm.zelha.particlesfx.util.Color;
 import net.minecraft.server.v1_8_R3.EnumParticle;
-import org.bukkit.Color;
 
 import javax.annotation.Nullable;
 

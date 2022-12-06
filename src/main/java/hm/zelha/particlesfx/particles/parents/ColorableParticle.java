@@ -4,7 +4,7 @@ import net.minecraft.server.v1_8_R3.EntityPlayer;
 import net.minecraft.server.v1_8_R3.EnumParticle;
 import net.minecraft.server.v1_8_R3.PacketPlayOutWorldParticles;
 import org.apache.commons.lang3.Validate;
-import org.bukkit.Color;
+import hm.zelha.particlesfx.util.Color;
 import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.util.Vector;
@@ -84,7 +84,13 @@ public class ColorableParticle extends Particle {
     }
 
     public void setColor(int red, int green, int blue) {
-        this.color = Color.fromRGB(red, green, blue);
+        if (color != null && !color.isLocked()) {
+            color.setRed(red);
+            color.setGreen(green);
+            color.setBlue(blue);
+        } else {
+            this.color = new Color(red, green, blue);
+        }
     }
 
     public void setBrightness(int brightness) {

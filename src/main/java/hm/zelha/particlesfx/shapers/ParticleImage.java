@@ -3,12 +3,12 @@ package hm.zelha.particlesfx.shapers;
 import hm.zelha.particlesfx.particles.parents.ColorableParticle;
 import hm.zelha.particlesfx.particles.parents.Particle;
 import hm.zelha.particlesfx.shapers.parents.ParticleShaper;
+import hm.zelha.particlesfx.util.Color;
 import hm.zelha.particlesfx.util.LocationSafe;
 import hm.zelha.particlesfx.util.ShapeDisplayMechanic;
 import org.apache.commons.lang3.Validate;
 import org.apache.commons.lang3.tuple.Pair;
 import org.bukkit.Bukkit;
-import org.bukkit.Color;
 import org.bukkit.Location;
 
 import javax.imageio.ImageIO;
@@ -135,7 +135,7 @@ public class ParticleImage extends ParticleShaper {
                 continue main;
             }
 
-            particle.setColor(Color.fromRGB(red, green, blue));
+            particle.setColor(red, green, blue);
             locationHelper.zero().add(getCenter());
             vectorHelper.setX(((x / image.getWidth() * 2) - 1) * xRadius);
             vectorHelper.setY(0);

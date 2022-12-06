@@ -82,6 +82,10 @@ public class Color {
         this.blue = blue;
     }
 
+    public int getRGB() {
+        return red << 16 | green << 8 | blue;
+    }
+
     public int getRed() {
         return red;
     }
