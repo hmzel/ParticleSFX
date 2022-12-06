@@ -11,17 +11,21 @@ import org.bukkit.Location;
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class ParticleText extends ParticleShaper {
 
     private final ThreadLocalRandom rng = ThreadLocalRandom.current();
+    private final List<String> text = new ArrayList<>();
     private Font font = new Font("Arial", Font.PLAIN, 50);
-    private String text = "";
     private double xRadius;
     private double zRadius;
-    private boolean invert = false;
+    private boolean inverted = false;
+    private boolean centered = true;
     private int borderX = 10;
     private int borderZ = 10;
     private BufferedImage image = null;
@@ -37,7 +41,7 @@ public class ParticleText extends ParticleShaper {
         setCenter(center);
         setXRadius(xRadius);
         setZRadius(zRadius);
-        addText(text);
+        addLines(text);
         start();
     }
 
@@ -66,7 +70,7 @@ public class ParticleText extends ParticleShaper {
         double startX = this.startX;
         double startZ = this.startZ;
 
-        if (invert) {
+        if (inverted) {
             width += borderX;
             height += borderZ;
             startX -= borderX;
@@ -83,8 +87,8 @@ public class ParticleText extends ParticleShaper {
                 x = rng.nextDouble(startX, width + this.startX);
                 z = rng.nextDouble(startZ, height + this.startZ);
 
-                if (!invert && Color.black.getRGB() == image.getRGB((int) x, (int) z)) break;
-                if (invert && Color.black.getRGB() != image.getRGB((int) x, (int) z)) break;
+                if (!inverted && Color.black.getRGB() == image.getRGB((int) x, (int) z)) break;
+                if (inverted && Color.black.getRGB() != image.getRGB((int) x, (int) z)) break;
             }
 
             locationHelper.zero().add(getCenter());
@@ -124,7 +128,7 @@ public class ParticleText extends ParticleShaper {
 
     @Override
     public ParticleText clone() {
-        ParticleText clone = new ParticleText(particle, locations.get(0), xRadius, zRadius, particleFrequency, text);
+        ParticleText clone = new ParticleText(particle, locations.get(0), xRadius, zRadius, particleFrequency, text.toArray(new String[0]));
 
         for (Pair<Particle, Integer> pair : secondaryParticles) {
             clone.addParticle(pair.getKey(), pair.getValue());
@@ -140,7 +144,8 @@ public class ParticleText extends ParticleShaper {
 
         clone.setParticlesPerDisplay(particlesPerDisplay);
         clone.setFont(font);
-        clone.setInverted(invert);
+        clone.setInverted(inverted);
+        clone.setCentered(centered);
         clone.setBorderX(borderX);
         clone.setBorderZ(borderZ);
 
@@ -150,16 +155,46 @@ public class ParticleText extends ParticleShaper {
     private void remakeImage() {
         image = new BufferedImage(1, 1, BufferedImage.TYPE_4BYTE_ABGR);
         Graphics graphics = image.getGraphics();
-        Rectangle2D bounds = font.getStringBounds(text, graphics.getFontMetrics(font).getFontRenderContext());
+        List<Rectangle2D> boxes = new ArrayList<>();
+        double width = 0;
+        double height = 0;
+
+        for (String text : text) {
+            Rectangle2D bounds = font.getStringBounds(text, graphics.getFontMetrics(font).getFontRenderContext());
+
+            boxes.add(bounds);
+
+            height += bounds.getHeight();
+
+            if (bounds.getWidth() > width) {
+                width = bounds.getWidth();
+            }
+        }
 
         graphics.dispose();
 
-        image = new BufferedImage((int) Math.ceil(bounds.getWidth() + (borderX * 2)), (int) Math.ceil(bounds.getHeight() + (borderZ * 2)), BufferedImage.TYPE_4BYTE_ABGR);
+        image = new BufferedImage((int) Math.ceil(width + (borderX * 2)), (int) Math.ceil(height + (borderZ * 2)), BufferedImage.TYPE_4BYTE_ABGR);
         graphics = image.getGraphics();
 
         graphics.setFont(font);
         graphics.setColor(Color.BLACK);
-        graphics.drawString(text, borderX, graphics.getFontMetrics(font).getAscent() + borderZ);
+
+        int currentHeight = graphics.getFontMetrics(font).getAscent() + borderZ;
+
+        for (int i = 0; i < text.size(); i++) {
+            Rectangle2D bounds = boxes.get(i);
+            String text = this.text.get(i);
+            int x = borderX;
+
+            if (centered) {
+                x += (width / 2) - (bounds.getWidth() / 2);
+            }
+
+            graphics.drawString(text, x, currentHeight);
+
+            currentHeight += bounds.getHeight();
+        }
+
         graphics.dispose();
 
         double highestX = Double.MIN_VALUE;
@@ -178,49 +213,41 @@ public class ParticleText extends ParticleShaper {
             }
         }
 
-        width = highestX - lowestX;
-        height = highestZ - lowestZ;
+        this.width = highestX - lowestX;
+        this.height = highestZ - lowestZ;
         startX = lowestX;
         startZ = lowestZ;
+        remakeImage = false;
     }
 
-    public void addText(boolean newLine, String... text) {
-        if (text.length == 0) return;
+    public void addLines(String... strings) {
+        Validate.isTrue(strings != null && strings.length != 0, "Can't add nothing!");
 
-        StringBuilder string = new StringBuilder(this.text);
+        this.text.addAll(Arrays.asList(strings));
 
-        if (newLine) {
-            string.append("\n");
-        }
-
-        for (int i = 0; i < text.length; i++) {
-            string.append(text[i]);
-
-            if (i < text.length - 1) {
-                string.append("\n");
-            }
-        }
-
-        setText(this.text + string);
+        remakeImage = true;
     }
 
-    public void addText(String... text) {
-        addText(false, text);
+    public void removeLine(int line) {
+        text.remove(line);
+
+        remakeImage = true;
     }
 
     public void setFont(Font font) {
         Validate.notNull(font, "Font can't be null!");
-        Validate.isTrue(font.canDisplayUpTo(text) == -1, "Font can't display current text!");
+
+        for (String text : text) {
+            Validate.isTrue(font.canDisplayUpTo(text) == -1, "Font can't display current text!");
+        }
 
         this.font = font;
         remakeImage = true;
     }
 
-    public void setText(String text) {
-        Validate.notNull(text, "Text can't be null!");
-        Validate.isTrue(font.canDisplayUpTo(text) == -1, "Font can't display given text!");
+    public void setLine(int line, String text) {
+        this.text.set(line, text);
 
-        this.text = text;
         remakeImage = true;
     }
 
@@ -247,7 +274,12 @@ public class ParticleText extends ParticleShaper {
     }
 
     public void setInverted(boolean inverted) {
-        this.invert = inverted;
+        this.inverted = inverted;
+    }
+
+    public void setCentered(boolean centered) {
+        this.centered = centered;
+        remakeImage = true;
     }
 
     public void setBorderX(int borderX) {
@@ -264,8 +296,8 @@ public class ParticleText extends ParticleShaper {
         return font;
     }
 
-    public String getText() {
-        return text;
+    public String getLine(int line) {
+        return text.get(line);
     }
 
     public Location getCenter() {
@@ -281,7 +313,11 @@ public class ParticleText extends ParticleShaper {
     }
 
     public boolean isInverted() {
-        return invert;
+        return inverted;
+    }
+
+    public boolean isCentered() {
+        return centered;
     }
 
     public int getBorderX() {
@@ -290,6 +326,10 @@ public class ParticleText extends ParticleShaper {
 
     public int getBorderZ() {
         return borderZ;
+    }
+
+    public int getLines() {
+        return text.size();
     }
 }
 
