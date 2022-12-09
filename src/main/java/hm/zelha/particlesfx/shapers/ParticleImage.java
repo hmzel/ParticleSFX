@@ -381,6 +381,26 @@ public class ParticleImage extends ParticleShaper {
         ignoredColors.remove(index);
     }
 
+    /**
+     * NOTE: USING THIS METHOD WILL CAUSE THE CURRENT THREAD TO STALL UNTIL ANY CURRENTLY RUNNING IMAGE PRODUCTION IS FINISHED. <p>
+     * If you don't want to cause lag, use an asynchronous BukkitRunnable!
+     *
+     * @param index index of frame you want to be displaying
+     */
+    public void setCurrentFrame(int index) {
+        if (currentThread != null) {
+            try {
+                currentThread.join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
+        Validate.isTrue(index >= 0 && index < images.size(), "Can't display frames that don't exist!");
+
+        frame = index;
+    }
+
     public void setCenter(LocationSafe center) {
         Validate.notNull(center, "Location cannot be null!");
         Validate.notNull(center.getWorld(), "Location's world cannot be null!");
