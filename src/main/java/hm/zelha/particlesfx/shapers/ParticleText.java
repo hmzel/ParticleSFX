@@ -138,6 +138,10 @@ public class ParticleText extends ParticleShaper {
         clone.setBorderX(borderX);
         clone.setBorderZ(borderZ);
 
+        if (animator == null) {
+            clone.stop();
+        }
+
         return clone;
     }
 

@@ -174,6 +174,10 @@ public class ParticleSpiral extends ParticleShaper {
         clone.players.addAll(players);
         clone.setParticlesPerDisplay(particlesPerDisplay);
 
+        if (animator == null) {
+            clone.stop();
+        }
+
         return clone;
     }
 

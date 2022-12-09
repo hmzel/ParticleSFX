@@ -168,6 +168,10 @@ public class ParticleLineCurved extends ParticleLine {
         clone.setParticlesPerDisplay(particlesPerDisplay);
         clone.setRotateCurves(rotateCurves);
 
+        if (animator == null) {
+            clone.stop();
+        }
+
         return clone;
     }
 

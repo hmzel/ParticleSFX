@@ -104,6 +104,10 @@ public class ParticleCircle extends ParticleShaper {
         clone.setLimit(limit);
         clone.setLimitInverse(limitInverse);
 
+        if (animator == null) {
+            clone.stop();
+        }
+
         return clone;
     }
 

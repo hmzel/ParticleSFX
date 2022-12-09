@@ -157,6 +157,10 @@ public class ParticleSphere extends ParticleSphereSFSA {
         clone.setLimit(limit);
         clone.setLimitInverse(limitInverse);
 
+        if (animator == null) {
+            clone.stop();
+        }
+
         return clone;
     }
 

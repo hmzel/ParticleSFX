@@ -208,6 +208,10 @@ public class ParticleImage extends ParticleShaper {
         clone.setFuzz(fuzz);
         clone.setDelay(delay);
 
+        if (animator == null) {
+            clone.stop();
+        }
+
         return clone;
     }
 
