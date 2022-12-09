@@ -7,7 +7,6 @@ import hm.zelha.particlesfx.util.Color;
 import hm.zelha.particlesfx.util.LocationSafe;
 import hm.zelha.particlesfx.util.ShapeDisplayMechanic;
 import org.apache.commons.lang3.Validate;
-import org.apache.commons.lang3.tuple.Pair;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 
@@ -20,7 +19,6 @@ import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.logging.Level;
 
@@ -81,14 +79,12 @@ public class ParticleImage extends ParticleShaper {
         this(particle, center, path, 0, 0, 2000);
     }
 
-    private ParticleImage(ColorableParticle particle, LocationSafe center, double xRadius, double zRadius, int particleFrequency, List<BufferedImage> images, List<Color> ignored) {
+    private ParticleImage(ColorableParticle particle, LocationSafe center, double xRadius, double zRadius, int particleFrequency) {
         super(particle, particleFrequency);
 
         setCenter(center);
         setXRadius(xRadius);
         setZRadius(zRadius);
-        this.images.addAll(images);
-        this.ignoredColors.addAll(ignored);
         start();
     }
 
@@ -195,23 +191,19 @@ public class ParticleImage extends ParticleShaper {
             }
         }
 
-        ParticleImage clone = new ParticleImage((ColorableParticle) particle, locations.get(0).clone(), xRadius, zRadius, particleFrequency, images, ignoredColors);
+        ParticleImage clone = new ParticleImage((ColorableParticle) particle, locations.get(0).clone(), xRadius, zRadius, particleFrequency);
 
         clone.frame = frame;
         clone.displaysThisFrame = displaysThisFrame;
 
-        for (Pair<Particle, Integer> pair : secondaryParticles) {
-            clone.addParticle(pair.getKey(), pair.getValue());
+        for (Color color : ignoredColors) {
+            clone.addIgnoredColor(color.clone());
         }
 
-        for (Pair<ShapeDisplayMechanic, ShapeDisplayMechanic.Phase> pair : mechanics) {
-            clone.addMechanic(pair.getValue(), pair.getKey());
-        }
-
-        for (UUID id : players) {
-            clone.addPlayer(id);
-        }
-
+        clone.images.addAll(images);
+        clone.secondaryParticles.addAll(secondaryParticles);
+        clone.mechanics.addAll(mechanics);
+        clone.players.addAll(players);
         clone.setParticlesPerDisplay(particlesPerDisplay);
         clone.setFuzz(fuzz);
         clone.setDelay(delay);

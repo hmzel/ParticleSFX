@@ -4,11 +4,9 @@ import hm.zelha.particlesfx.particles.parents.Particle;
 import hm.zelha.particlesfx.util.LocationSafe;
 import hm.zelha.particlesfx.util.ShapeDisplayMechanic;
 import org.apache.commons.lang3.Validate;
-import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 /**
  * This class uses surface area and circumference to position particles, as opposed to {@link ParticleSphereSFSA} which uses the
@@ -152,19 +150,12 @@ public class ParticleSphere extends ParticleSphereSFSA {
     public ParticleSphere clone() {
         ParticleSphere clone = new ParticleSphere(particle, locations.get(0).clone(), xRadius, yRadius, zRadius, getPitch(), getYaw(), getRoll(), circleFrequency, particleFrequency);
 
-        for (Pair<Particle, Integer> pair : secondaryParticles) {
-            clone.addParticle(pair.getKey(), pair.getValue());
-        }
-
-        for (Pair<ShapeDisplayMechanic, ShapeDisplayMechanic.Phase> pair : mechanics) {
-            clone.addMechanic(pair.getValue(), pair.getKey());
-        }
-
-        for (UUID id : players) {
-            clone.addPlayer(id);
-        }
-
+        clone.secondaryParticles.addAll(secondaryParticles);
+        clone.mechanics.addAll(mechanics);
+        clone.players.addAll(players);
         clone.setParticlesPerDisplay(particlesPerDisplay);
+        clone.setLimit(limit);
+        clone.setLimitInverse(limitInverse);
 
         return clone;
     }

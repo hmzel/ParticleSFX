@@ -22,7 +22,7 @@ public abstract class ParticleShaper extends RotationHandler implements Shape {
     protected final List<Pair<ShapeDisplayMechanic, ShapeDisplayMechanic.Phase>> mechanics = new ArrayList<>();
     /* its actually more efficient to use list<pair<>>s here instead of LinkedHashMaps, because in order to loop through LinkedHashMaps you
      * have to create a new Iterator and a new LinkedEntrySet every time getCurrentParticle() or applyMechanics() is called,
-     * which could be hundreds of times every tick in normal use cases. whereas with a List<Pair<>> you can just use a for-i loop and
+     * which could be thousands of times every tick in normal use cases. whereas with a List<Pair<>> you can just use a for-i loop and
      * the .get(int) method without creating any objects */
     protected final List<UUID> players = new ArrayList<>();
     protected final Location locationHelper = new Location(null, 0, 0, 0);

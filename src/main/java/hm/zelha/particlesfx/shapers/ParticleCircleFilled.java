@@ -3,9 +3,6 @@ package hm.zelha.particlesfx.shapers;
 import hm.zelha.particlesfx.particles.parents.Particle;
 import hm.zelha.particlesfx.util.LocationSafe;
 import hm.zelha.particlesfx.util.ShapeDisplayMechanic;
-import org.apache.commons.lang3.tuple.Pair;
-
-import java.util.UUID;
 
 public class ParticleCircleFilled extends ParticleCircle {
     public ParticleCircleFilled(Particle particle, LocationSafe center, double xRadius, double zRadius, double pitch, double yaw, double roll, int particleFrequency) {
@@ -89,18 +86,9 @@ public class ParticleCircleFilled extends ParticleCircle {
     public ParticleCircleFilled clone() {
         ParticleCircleFilled clone = new ParticleCircleFilled(particle, locations.get(0).clone(), xRadius, zRadius, getPitch(), getYaw(), getRoll(), particleFrequency);
 
-        for (Pair<Particle, Integer> pair : secondaryParticles) {
-            clone.addParticle(pair.getKey(), pair.getValue());
-        }
-
-        for (Pair<ShapeDisplayMechanic, ShapeDisplayMechanic.Phase> pair : mechanics) {
-            clone.addMechanic(pair.getValue(), pair.getKey());
-        }
-
-        for (UUID id : players) {
-            clone.addPlayer(id);
-        }
-
+        clone.secondaryParticles.addAll(secondaryParticles);
+        clone.mechanics.addAll(mechanics);
+        clone.players.addAll(players);
         clone.setParticlesPerDisplay(particlesPerDisplay);
         clone.setLimit(limit);
         clone.setLimitInverse(limitInverse);

@@ -27,9 +27,7 @@ public class Corner {
     public Corner clone() {
         Corner corner = new Corner(location.clone());
 
-        for (Corner loopCorner : connections) {
-            corner.connect(loopCorner);
-        }
+        corner.connections.addAll(connections);
 
         return corner;
     }

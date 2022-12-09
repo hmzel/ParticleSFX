@@ -4,13 +4,11 @@ import hm.zelha.particlesfx.particles.parents.Particle;
 import hm.zelha.particlesfx.shapers.parents.ParticleShaper;
 import hm.zelha.particlesfx.util.*;
 import org.apache.commons.lang3.Validate;
-import org.apache.commons.lang3.tuple.Pair;
 import org.bukkit.World;
 import org.bukkit.util.Vector;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 public class ParticleSpiral extends ParticleShaper {
 
@@ -171,19 +169,9 @@ public class ParticleSpiral extends ParticleShaper {
         ParticleSpiral clone = new ParticleSpiral(particle, spin, count, particleFrequency, circles);
 
         clone.setRotateCircles(rotateCircles);
-
-        for (Pair<Particle, Integer> pair : secondaryParticles) {
-            clone.addParticle(pair.getKey(), pair.getValue());
-        }
-
-        for (Pair<ShapeDisplayMechanic, ShapeDisplayMechanic.Phase> pair : mechanics) {
-            clone.addMechanic(pair.getValue(), pair.getKey());
-        }
-
-        for (UUID id : players) {
-            clone.addPlayer(id);
-        }
-
+        clone.secondaryParticles.addAll(secondaryParticles);
+        clone.mechanics.addAll(mechanics);
+        clone.players.addAll(players);
         clone.setParticlesPerDisplay(particlesPerDisplay);
 
         return clone;

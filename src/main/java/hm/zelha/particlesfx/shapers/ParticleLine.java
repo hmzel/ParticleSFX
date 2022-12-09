@@ -6,10 +6,7 @@ import hm.zelha.particlesfx.util.LVMath;
 import hm.zelha.particlesfx.util.LocationSafe;
 import hm.zelha.particlesfx.util.ShapeDisplayMechanic;
 import org.apache.commons.lang3.Validate;
-import org.apache.commons.lang3.tuple.Pair;
 import org.bukkit.Location;
-
-import java.util.UUID;
 
 public class ParticleLine extends ParticleShaper {
 
@@ -103,18 +100,9 @@ public class ParticleLine extends ParticleShaper {
 
         ParticleLine clone = new ParticleLine(particle, particleFrequency, locations);
 
-        for (Pair<Particle, Integer> pair : secondaryParticles) {
-            clone.addParticle(pair.getKey(), pair.getValue());
-        }
-
-        for (Pair<ShapeDisplayMechanic, ShapeDisplayMechanic.Phase> pair : mechanics) {
-            clone.addMechanic(pair.getValue(), pair.getKey());
-        }
-
-        for (UUID id : players) {
-            clone.addPlayer(id);
-        }
-
+        clone.secondaryParticles.addAll(secondaryParticles);
+        clone.mechanics.addAll(mechanics);
+        clone.players.addAll(players);
         clone.setParticlesPerDisplay(particlesPerDisplay);
 
         return clone;

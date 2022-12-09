@@ -2,13 +2,11 @@ package hm.zelha.particlesfx.shapers;
 
 import hm.zelha.particlesfx.particles.parents.Particle;
 import hm.zelha.particlesfx.util.*;
-import org.apache.commons.lang3.tuple.Pair;
 import org.bukkit.Location;
 import org.bukkit.util.Vector;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 public class ParticleLineCurved extends ParticleLine {
 
@@ -160,24 +158,14 @@ public class ParticleLineCurved extends ParticleLine {
 
         ParticleLineCurved clone = new ParticleLineCurved(particle, particleFrequency, locations);
 
-        for (Pair<Particle, Integer> pair : secondaryParticles) {
-            clone.addParticle(pair.getKey(), pair.getValue());
-        }
-
-        for (Pair<ShapeDisplayMechanic, ShapeDisplayMechanic.Phase> pair : mechanics) {
-            clone.addMechanic(pair.getValue(), pair.getKey());
-        }
-
-        for (UUID id : players) {
-            clone.addPlayer(id);
-        }
-
-        clone.setParticlesPerDisplay(particlesPerDisplay);
-
         for (CurveInfo curve : curves) {
             clone.addCurve(curve.clone());
         }
 
+        clone.secondaryParticles.addAll(secondaryParticles);
+        clone.mechanics.addAll(mechanics);
+        clone.players.addAll(players);
+        clone.setParticlesPerDisplay(particlesPerDisplay);
         clone.setRotateCurves(rotateCurves);
 
         return clone;
