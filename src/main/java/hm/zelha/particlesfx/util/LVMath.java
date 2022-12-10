@@ -3,7 +3,7 @@ package hm.zelha.particlesfx.util;
 import org.bukkit.Location;
 import org.bukkit.util.Vector;
 
-/** location & vector math utils for cleaner code, not meant to be used outside ParticleSFX internals */
+/** location and vector math utils for cleaner code, not meant to be used outside ParticleSFX internals */
 public final class LVMath {
 
     private LVMath() {

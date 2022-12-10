@@ -96,7 +96,7 @@ public class Particle {
     }
 
     /**
-     * generates a random number between -offset and +offset <p>
+     * generates a random number between -offset and +offset <br>
      * this isnt exactly how its done client-side using the actual packet, but honestly i prefer this because its more controllable
      *
      * @return a vector meant to be added to a location to mimic particle offset

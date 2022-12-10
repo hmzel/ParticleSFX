@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * This class uses surface area and circumference to position particles, as opposed to {@link ParticleSphereSFSA} which uses the
  * the <a href="https://medium.com/@vagnerseibert/distributing-points-on-a-sphere-6b593cc05b42">Sunflower Seed Arrangement</a>
- * <p></p>
+ * <br><br>
  * This class's sphere looks worse, but is much less chaotic and easier to color with secondary particles.
  */
 public class ParticleSphere extends ParticleSphereSFSA {

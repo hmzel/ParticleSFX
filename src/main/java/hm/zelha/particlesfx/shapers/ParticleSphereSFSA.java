@@ -10,11 +10,11 @@ import org.bukkit.Location;
 /**
  * This class uses the <a href="https://medium.com/@vagnerseibert/distributing-points-on-a-sphere-6b593cc05b42">Sunflower Seed Arrangement</a>
  * to form a sphere, as opposed to {@link ParticleSphere} which uses surface area and circumference.
- * <p></p>
+ * <br><br>
  * Using the sunflower seed arrangement uses almost the same processing power, but makes the sphere look much prettier and makes it so you
- * don't have to worry about CircleFrequency. <p>
+ * don't have to worry about CircleFrequency. <br>
  * however, using this makes it much harder to color the sphere with secondary particles, because the points are drawn pretty chaotically.
- * <p></p>
+ * <br><br>
  * TLDR: Use this class if you just want a normal sphere, otherwise use {@link ParticleSphere}.
  */
 public class ParticleSphereSFSA extends ParticleShaper {

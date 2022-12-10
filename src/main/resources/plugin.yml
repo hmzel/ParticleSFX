@@ -1,9 +1,0 @@
-name: ParticleSFX
-version: '${project.version}'
-main: hm.zelha.particlesfx.Main
-api-version: 1.8.9
-authors: [ zelha ]
-commands:
-  disable:
-    description: disables the plugin
-    usage: /<command>

@@ -178,7 +178,7 @@ public class ParticleImage extends ParticleShaper {
     }
 
     /**
-     * NOTE: USING THIS METHOD WILL CAUSE THE CURRENT THREAD TO STALL UNTIL ANY CURRENTLY RUNNING IMAGE PRODUCTION IS FINISHED. <p>
+     * NOTE: USING THIS METHOD WILL CAUSE THE CURRENT THREAD TO STALL UNTIL ANY CURRENTLY RUNNING IMAGE PRODUCTION IS FINISHED. <br>
      * If you don't want to cause lag, use an asynchronous BukkitRunnable!
      */
     @Override
@@ -274,7 +274,7 @@ public class ParticleImage extends ParticleShaper {
     /**
      * adds an image from a URL (gifs supported!)
      *
-     * NOTE: USING THIS METHOD WILL CAUSE THE CURRENT THREAD TO STALL UNTIL ANY CURRENTLY RUNNING IMAGE PRODUCTION IS FINISHED. <p>
+     * NOTE: USING THIS METHOD WILL CAUSE THE CURRENT THREAD TO STALL UNTIL ANY CURRENTLY RUNNING IMAGE PRODUCTION IS FINISHED. <br>
      * If you don't want to cause lag, use an asynchronous BukkitRunnable!
      *
      * @param index index to put the image
@@ -291,7 +291,7 @@ public class ParticleImage extends ParticleShaper {
     /**
      * adds an image from a file (gifs supported!)
      *
-     * NOTE: USING THIS METHOD WILL CAUSE THE CURRENT THREAD TO STALL UNTIL ANY CURRENTLY RUNNING IMAGE PRODUCTION IS FINISHED. <p>
+     * NOTE: USING THIS METHOD WILL CAUSE THE CURRENT THREAD TO STALL UNTIL ANY CURRENTLY RUNNING IMAGE PRODUCTION IS FINISHED. <br>
      * If you don't want to cause lag, use an asynchronous BukkitRunnable!
      *
      * @param index index to put the image
@@ -304,7 +304,7 @@ public class ParticleImage extends ParticleShaper {
     /**
      * adds an image from a URL (gifs supported!)
      *
-     * NOTE: USING THIS METHOD WILL CAUSE THE CURRENT THREAD TO STALL UNTIL ANY CURRENTLY RUNNING IMAGE PRODUCTION IS FINISHED. <p>
+     * NOTE: USING THIS METHOD WILL CAUSE THE CURRENT THREAD TO STALL UNTIL ANY CURRENTLY RUNNING IMAGE PRODUCTION IS FINISHED. <br>
      * If you don't want to cause lag, use an asynchronous BukkitRunnable!
      *
      * @param link URL of image
@@ -316,7 +316,7 @@ public class ParticleImage extends ParticleShaper {
     /**
      * adds an image from a file (gifs supported!)
      *
-     * NOTE: USING THIS METHOD WILL CAUSE THE CURRENT THREAD TO STALL UNTIL ANY CURRENTLY RUNNING IMAGE PRODUCTION IS FINISHED. <p>
+     * NOTE: USING THIS METHOD WILL CAUSE THE CURRENT THREAD TO STALL UNTIL ANY CURRENTLY RUNNING IMAGE PRODUCTION IS FINISHED. <br>
      * If you don't want to cause lag, use an asynchronous BukkitRunnable!
      *
      * @param path location of file
@@ -334,7 +334,7 @@ public class ParticleImage extends ParticleShaper {
     /**
      * gets an image from a URL and removes it (gifs supported!)
      *
-     * NOTE: USING THIS METHOD WILL CAUSE THE CURRENT THREAD TO STALL UNTIL ANY CURRENTLY RUNNING IMAGE PRODUCTION IS FINISHED. <p>
+     * NOTE: USING THIS METHOD WILL CAUSE THE CURRENT THREAD TO STALL UNTIL ANY CURRENTLY RUNNING IMAGE PRODUCTION IS FINISHED. <br>
      * If you don't want to cause lag, use an asynchronous BukkitRunnable!
      *
      * @param link URL of image
@@ -348,9 +348,9 @@ public class ParticleImage extends ParticleShaper {
     }
 
     /**
-     * gets an image from a file and removes it (gifs supported!) <p></p>
+     * gets an image from a file and removes it (gifs supported!) <br><br>
      *
-     * NOTE: USING THIS METHOD WILL CAUSE THE CURRENT THREAD TO STALL UNTIL ANY CURRENTLY RUNNING IMAGE PRODUCTION IS FINISHED. <p>
+     * NOTE: USING THIS METHOD WILL CAUSE THE CURRENT THREAD TO STALL UNTIL ANY CURRENTLY RUNNING IMAGE PRODUCTION IS FINISHED. <br>
      * If you don't want to cause lag, use an asynchronous BukkitRunnable!
      *
      * @param path location of file
@@ -360,7 +360,7 @@ public class ParticleImage extends ParticleShaper {
     }
 
     /**
-     * NOTE: USING THIS METHOD WILL CAUSE THE CURRENT THREAD TO STALL UNTIL ANY CURRENTLY RUNNING IMAGE PRODUCTION IS FINISHED. <p>
+     * NOTE: USING THIS METHOD WILL CAUSE THE CURRENT THREAD TO STALL UNTIL ANY CURRENTLY RUNNING IMAGE PRODUCTION IS FINISHED. <br>
      * If you don't want to cause lag, use an asynchronous BukkitRunnable!
      *
      * @param index index of frame you want to remove from the frame list
@@ -382,7 +382,7 @@ public class ParticleImage extends ParticleShaper {
     }
 
     /**
-     * NOTE: USING THIS METHOD WILL CAUSE THE CURRENT THREAD TO STALL UNTIL ANY CURRENTLY RUNNING IMAGE PRODUCTION IS FINISHED. <p>
+     * NOTE: USING THIS METHOD WILL CAUSE THE CURRENT THREAD TO STALL UNTIL ANY CURRENTLY RUNNING IMAGE PRODUCTION IS FINISHED. <br>
      * If you don't want to cause lag, use an asynchronous BukkitRunnable!
      *
      * @param index index of frame you want to be displaying
@@ -438,7 +438,7 @@ public class ParticleImage extends ParticleShaper {
     }
 
     /**
-     * NOTE: USING THIS METHOD WILL CAUSE THE CURRENT THREAD TO STALL UNTIL ANY CURRENTLY RUNNING IMAGE PRODUCTION IS FINISHED. <p>
+     * NOTE: USING THIS METHOD WILL CAUSE THE CURRENT THREAD TO STALL UNTIL ANY CURRENTLY RUNNING IMAGE PRODUCTION IS FINISHED. <br>
      * If you don't want to cause lag, use an asynchronous BukkitRunnable!
      *
      * @param index frame to get the color from
@@ -491,7 +491,7 @@ public class ParticleImage extends ParticleShaper {
     }
 
     /**
-     * NOTE: USING THIS METHOD WILL CAUSE THE CURRENT THREAD TO STALL UNTIL ANY CURRENTLY RUNNING IMAGE PRODUCTION IS FINISHED. <p>
+     * NOTE: USING THIS METHOD WILL CAUSE THE CURRENT THREAD TO STALL UNTIL ANY CURRENTLY RUNNING IMAGE PRODUCTION IS FINISHED. <br>
      * If you don't want to cause lag, use an asynchronous BukkitRunnable!
      *
      * @return amount of images stored

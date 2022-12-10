@@ -101,6 +101,8 @@ public class ColorableParticle extends Particle {
 
     /**
      * nullable to allow for randomly colored particles without use of boolean constructors
+     *
+     * @return color this particle is using
      */
     @Nullable
     public Color getColor() {

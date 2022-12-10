@@ -15,9 +15,9 @@ import java.util.List;
 /**
  * while this effect is really cool, it summons around 30 particles per effect, which will look strange if many of them are displayed
  * due to the 4,000 client-side limit
- * <p></p>
+ * <br><br>
  * since Effect.ENDER_SIGNAL is Type.VISUAL, the radius, speed, and offsets are unused internally, and the default radius is quite small.
- * <p></p>
+ * <br><br>
  * Type.VISUAL effects are also locked to specific coordinates of the block they're played on because their internal system uses BlockPosition
  */
 public class ParticleEnderSignal extends Particle {

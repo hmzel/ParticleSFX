@@ -10,13 +10,12 @@ import java.util.List;
 
 /**
  * due to how the internal systems work, offset is only useable if the color is NoteColor.RANDOM,
- * so i didnt bother to add constructors for that
- * <p>
+ * so i didnt bother to add constructors for that <br>
  * feel free to use Particle.setOffset(?) though!
- * <p></p>
+ * <br><br>
  * also, all ParticleNotes with a NoteColor other than NoteColor.RANDOM have a fixed radius that is quite small,
  * due to internal systems, again.
- * <p></p>
+ * <br><br>
  * (speed is unused regardless)
  */
 public class ParticleNote extends Particle{

@@ -129,13 +129,14 @@ public class ParticleDust extends ColorableParticle {
     /**
      * if this is set to true, the display method will use derivatives of Float.MAX_VALUE to try and eliminate the variations
      * in color when normally using reddust.
-     * <p></p>
+     * <br><br>
      * however, if this is the case brightness is unused and will always be 100 internally.
-     * <p></p>
+     * <br><br>
      * and you're kinda locked into specific colors because lowering the brightness will make it not pure
      * aka no purple or brown or other colors like that
      *
      * @param pureColor whether or not the color should be pure
+     * @return this object
      */
     public ParticleDust setPureColor(boolean pureColor) {
         this.pureColor = pureColor;

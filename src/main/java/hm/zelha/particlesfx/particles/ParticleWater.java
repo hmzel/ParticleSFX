@@ -6,8 +6,8 @@ import org.bukkit.Location;
 import org.bukkit.util.Vector;
 
 /**
- * NOTE: velocity on this particle cant be controlled! <p>
- * and thus, both velocity and location to go variables will be completely inaccurate. not my fault <p></p>
+ * NOTE: velocity on this particle cant be controlled! <br>
+ * and thus, both velocity and location to go variables will be completely inaccurate. not my fault <br><br>
  * no matter how low you set it, it'll always go at least 14-21 blocks in the direction its set. blame mojang
  */
 public class ParticleWater extends TravellingParticle {

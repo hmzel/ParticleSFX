@@ -131,10 +131,10 @@ public class ParticleShapeCompound extends RotationHandler implements Shape {
     }
 
     /**
-     * wondering why im using reflection? laziness! <p></p>
+     * wondering why im using reflection? laziness! <br><br>
      *
      * i REALLY, *REALLY* do not want to make a List class that can handle everything the end user
-     * can do without breaking everything. <p></p>
+     * can do without breaking everything. <br><br>
      *
      * i might later. at some point. we'll see. but im already going insane enough trying to make this spawn of hell.
      */

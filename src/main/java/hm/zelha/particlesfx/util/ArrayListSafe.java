@@ -7,13 +7,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * only meant to be used in ParticleSFX internals <p></p>
+ * only meant to be used in ParticleSFX internals <br><br>
  *
  * if you're wondering what this does, it's meant to handle the indexing and everything related to keeping
  * ParticleShapeCompound working properly, it's nothing you should worry about unless youre trying to create things that
- * extend RotationHandler or ParticleShaper and want to allow them to be inside a ParticleShapeCompound. <p></p>
+ * extend RotationHandler or ParticleShaper and want to allow them to be inside a ParticleShapeCompound. <br><br>
  *
- * even if thats the case, i doubt theres any way you could screw it up. <p></p>
+ * even if thats the case, i doubt theres any way you could screw it up. <br><br>
  *
  * if you're wondering why i did it this way, its because i didnt want anyone potentially messing with any public methods
  * i might make in order to accomplish this, so i made it really hard to mess with haha

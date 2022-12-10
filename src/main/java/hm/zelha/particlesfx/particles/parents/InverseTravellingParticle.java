@@ -161,13 +161,21 @@ public class InverseTravellingParticle extends Particle {
         this.velocity = new Vector(x, y, z);
     }
 
-    /** nullable to save resources */
+    /**
+     * nullable to save resources
+     *
+     * @return location this particle is using
+     */
     @Nullable
     public Location getLocationToGo() {
         return toGo;
     }
 
-    /** nullable to save resources */
+    /**
+     * nullable to save resources
+     *
+     * @return velocity this particle is using
+     */
     @Nullable
     public Vector getVelocity() {
         return velocity;

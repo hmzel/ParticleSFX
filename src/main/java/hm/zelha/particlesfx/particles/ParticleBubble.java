@@ -6,7 +6,7 @@ import org.bukkit.Location;
 import org.bukkit.util.Vector;
 
 /**
- * EPILEPSY WARNING <p>
+ * EPILEPSY WARNING <br>
  * this particle almost instantly disappears when displayed out of water, which can be displeasing to the eyes
  */
 public class ParticleBubble extends TravellingParticle {

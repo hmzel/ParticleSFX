@@ -10,7 +10,7 @@ import java.util.Map;
 import java.util.function.Consumer;
 
 /**
- * This class is meant to allow me to keep locations mutable without shapes going completely bonkers if they're modified <p></p>
+ * This class is meant to allow me to keep locations mutable without shapes going completely bonkers if they're modified <br><br>
  *
  * This class also extends {@link Location} so you can use it in the same way as that class
  */
@@ -27,6 +27,11 @@ public class LocationSafe extends Location {
 
     /**
      * only meant to be used in {@link RotationHandler} or {@link ParticleShapeCompound}, use at own risk
+     *
+     * @param x x coordinate
+     * @param y y coordinate
+     * @param z z coordinate
+     * @param causedByCompound whether or not this was caused by a {@link ParticleShapeCompound}
      */
     public void setUnsafely(double x, double y, double z, boolean causedByCompound) {
         super.setX(x);
@@ -43,27 +48,34 @@ public class LocationSafe extends Location {
     }
 
     /**
-     * WARNING: DO NOT USE OUTSIDE PARTICLESFX INTERNALS. <p></p>
+     * WARNING: DO NOT USE OUTSIDE PARTICLESFX INTERNALS. <br><br>
      *
      * DO NOT COME TO ME ABOUT EVERYTHING SCREWING UP IF YOU DO
+     *
+     * @param owner the owner of the shape that owns this location
+     * @param mechanic mechanic to be ran when this location is modified
      */
     public void addRecalcMechanic(ParticleShapeCompound owner, Consumer<Location> mechanic) {
         recalcMechanics.put(owner, mechanic);
     }
 
     /**
-     * WARNING: DO NOT USE OUTSIDE PARTICLESFX INTERNALS. <p></p>
+     * WARNING: DO NOT USE OUTSIDE PARTICLESFX INTERNALS. <br><br>
      *
      * DO NOT COME TO ME ABOUT EVERYTHING SCREWING UP IF YOU DO
+     *
+     * @param owner the owner of the shape that owns this location
      */
     public void removeRecalcMechanic(ParticleShapeCompound owner) {
         recalcMechanics.remove(owner);
     }
 
     /**
-     * WARNING: DO NOT USE OUTSIDE PARTICLESFX INTERNALS. <p></p>
+     * WARNING: DO NOT USE OUTSIDE PARTICLESFX INTERNALS. <br><br>
      *
      * DO NOT COME TO ME ABOUT EVERYTHING SCREWING UP IF YOU DO
+     *
+     * @param mechanic mechanic to be ran when this location is modified
      */
     public void setMechanic(Consumer<Location> mechanic) {
         this.mechanic = mechanic;

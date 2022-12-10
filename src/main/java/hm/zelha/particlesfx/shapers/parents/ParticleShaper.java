@@ -94,15 +94,15 @@ public abstract class ParticleShaper extends RotationHandler implements Shape {
     }
 
     /**
-     * Similar to {@link java.util.function.Consumer} <p>
+     * Similar to {@link java.util.function.Consumer} <br>
      * in the case of phases {@link ShapeDisplayMechanic.Phase#BEFORE_ROTATION} and {@link ShapeDisplayMechanic.Phase#AFTER_ROTATION}
      * the given mechanic will run before the location is modified to display the next particle, allowing you to modify the
      * addition vector however you want, though doing so may be very volatile
-     * <p></p>
-     * keep in mind that all changes to the given objects will be reflected in the display() method <p>
+     * <br><br>
+     * keep in mind that all changes to the given objects will be reflected in the display() method <br>
      * and, considering that the display() method is often called many times per tick, try to make sure the mechanic isnt very
      * resource-intensive
-     * <p></p>
+     * <br><br>
      * {@link ShapeDisplayMechanic#apply(Particle, Location, Vector, int)}
      *
      * @param phase phase for the mechanic to run
@@ -163,15 +163,21 @@ public abstract class ParticleShaper extends RotationHandler implements Shape {
         this.particleFrequency = particleFrequency;
     }
 
-    /** 0 means that the entire animation will be played when .display() is called */
+    /**
+     * 0 means that the entire animation will be played when .display() is called
+     *
+     * @param particlesPerDisplay amount of particles that will be shown per display
+     */
     public void setParticlesPerDisplay(int particlesPerDisplay) {
         this.particlesPerDisplay = particlesPerDisplay;
     }
 
     /**
-     * sets the current position of the shape's animation <p>
-     * (aka, sets the tracker that tells the shape how many particles have been displayed until this point) <p>
+     * sets the current position of the shape's animation <br>
+     * (aka, sets the tracker that tells the shape how many particles have been displayed until this point) <br>
      * only works if {@link ParticleShaper#setParticlesPerDisplay(int)} is set to something greater than 0.
+     *
+     * @param position position for shape to display at
      */
     public void setDisplayPosition(int position) {
         currentCount = 0;

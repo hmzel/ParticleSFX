@@ -14,7 +14,7 @@ import java.util.List;
 
 /**
  * since Effect.MOBSPAWNER_FLAMES is Type.VISUAL, the radius, speed, and offsets are unused internally, and the default radius is quite small.
- * <p></p>
+ * <br><br>
  * Type.VISUAL effects are also locked to specific coordinates of the block they're played on because their internal system uses BlockPosition
  */
 public class ParticleMobspawnerFlames extends Particle {
