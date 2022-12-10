@@ -1,6 +1,6 @@
 package hm.zelha.particlesfx.shapers;
 
-import hm.zelha.particlesfx.Main;
+import hm.zelha.particlesfx.ParticleSFXMain;
 import hm.zelha.particlesfx.particles.parents.Particle;
 import hm.zelha.particlesfx.shapers.parents.ParticleShaper;
 import hm.zelha.particlesfx.util.LVMath;
@@ -45,6 +45,8 @@ public class ParticleFluid extends ParticleShaper {
     public void start() {
         if (animator != null) return;
 
+        Validate.isTrue(ParticleSFXMain.getPlugin() != null, "Plugin is null! please put ParticleSFXMain.setPlugin(this) in your onEnable() method!");
+
         animator = new BukkitRunnable() {
             @Override
             public void run() {
@@ -53,7 +55,7 @@ public class ParticleFluid extends ParticleShaper {
                     display();
                 } catch (IllegalStateException ignored) {}
             }
-        }.runTaskTimerAsynchronously(Main.getPlugin(), 1, 1);
+        }.runTaskTimerAsynchronously(ParticleSFXMain.getPlugin(), 1, 1);
     }
 
     @Override
