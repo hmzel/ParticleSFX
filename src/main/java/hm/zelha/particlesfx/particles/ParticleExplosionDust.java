@@ -7,11 +7,11 @@ import org.bukkit.util.Vector;
 
 public class ParticleExplosionDust extends TravellingParticle {
     public ParticleExplosionDust(Location toGo, double offsetX, double offsetY, double offsetZ, int count) {
-        super(EnumParticle.EXPLOSION_NORMAL, 0.085, null, toGo, offsetX, offsetY, offsetZ, count);
+        super(EnumParticle.EXPLOSION_NORMAL, false, 0.085, null, toGo, offsetX, offsetY, offsetZ, count);
     }
 
     public ParticleExplosionDust(Vector velocity, double offsetX, double offsetY, double offsetZ, int count) {
-        super(EnumParticle.EXPLOSION_NORMAL, 0.085, velocity, null, offsetX, offsetY, offsetZ, count);
+        super(EnumParticle.EXPLOSION_NORMAL, false, 0.085, velocity, null, offsetX, offsetY, offsetZ, count);
     }
 
     public ParticleExplosionDust(Location toGo, double offsetX, double offsetY, double offsetZ) {

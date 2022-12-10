@@ -20,13 +20,13 @@ public class ParticleBlockBreak extends TravellingParticle {
     private MaterialData data;
 
     public ParticleBlockBreak(MaterialData data, Vector velocity, double offsetX, double offsetY, double offsetZ, int count) {
-        super(EnumParticle.BLOCK_DUST, 0.105, velocity, null, offsetX, offsetY, offsetZ, count);
+        super(EnumParticle.BLOCK_DUST, false, 0.105, velocity, null, offsetX, offsetY, offsetZ, count);
 
         setMaterialData(data);
     }
 
     public ParticleBlockBreak(MaterialData data, Location toGo, double offsetX, double offsetY, double offsetZ, int count) {
-        super(EnumParticle.BLOCK_DUST, 0.105, null, toGo, offsetX, offsetY, offsetZ, count);
+        super(EnumParticle.BLOCK_DUST, false, 0.105, null, toGo, offsetX, offsetY, offsetZ, count);
 
         setMaterialData(data);
     }

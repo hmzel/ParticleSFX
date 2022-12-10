@@ -12,11 +12,11 @@ import org.bukkit.util.Vector;
  */
 public class ParticleWater extends TravellingParticle {
     public ParticleWater(Location toGo, double offsetX, double offsetY, double offsetZ, int count) {
-        super(EnumParticle.WATER_WAKE, 0.05, null, toGo, offsetX, offsetY, offsetZ, count);
+        super(EnumParticle.WATER_WAKE, false, 0.05, null, toGo, offsetX, offsetY, offsetZ, count);
     }
 
     public ParticleWater(Vector velocity, double offsetX, double offsetY, double offsetZ, int count) {
-        super(EnumParticle.WATER_WAKE, 0.05, velocity, null, offsetX, offsetY, offsetZ, count);
+        super(EnumParticle.WATER_WAKE, false, 0.05, velocity, null, offsetX, offsetY, offsetZ, count);
     }
 
     public ParticleWater(Location toGo, double offsetX, double offsetY, double offsetZ) {

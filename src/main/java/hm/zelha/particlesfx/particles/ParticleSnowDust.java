@@ -7,11 +7,11 @@ import org.bukkit.util.Vector;
 
 public class ParticleSnowDust extends TravellingParticle {
     public ParticleSnowDust(Location toGo, double offsetX, double offsetY, double offsetZ, int count) {
-        super(EnumParticle.SNOW_SHOVEL, 0.085, null, toGo, offsetX, offsetY, offsetZ, count);
+        super(EnumParticle.SNOW_SHOVEL, false, 0.085, null, toGo, offsetX, offsetY, offsetZ, count);
     }
 
     public ParticleSnowDust(Vector velocity, double offsetX, double offsetY, double offsetZ, int count) {
-        super(EnumParticle.SNOW_SHOVEL, 0.085, velocity, null, offsetX, offsetY, offsetZ, count);
+        super(EnumParticle.SNOW_SHOVEL, false, 0.085, velocity, null, offsetX, offsetY, offsetZ, count);
     }
 
     public ParticleSnowDust(Location toGo, double offsetX, double offsetY, double offsetZ) {

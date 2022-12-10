@@ -14,13 +14,16 @@ import java.util.List;
 
 public class TravellingParticle extends Particle {
 
+    //some travelling particles have to be handled differently due to internal minecraft jank
+    protected final boolean inverse;
     protected final double control;
     protected Location toGo;
     protected Vector velocity;
 
-    protected TravellingParticle(EnumParticle particle, double control, Vector velocity, Location toGo, double offsetX, double offsetY, double offsetZ, int count) {
+    protected TravellingParticle(EnumParticle particle, boolean inverse, double control, Vector velocity, Location toGo, double offsetX, double offsetY, double offsetZ, int count) {
         super(particle, offsetX, offsetY, offsetZ, 1, count, 0);
 
+        this.inverse = inverse;
         this.control = control;
         this.velocity = velocity;
         this.toGo = toGo;
@@ -50,7 +53,20 @@ public class TravellingParticle extends Particle {
                 location.add(addition);
             }
 
-            if (velocity != null) {
+            Location trueLocation = location;
+
+            if (inverse && velocity != null) {
+                trueOffsetX = -velocity.getX();
+                trueOffsetY = -velocity.getY();
+                trueOffsetZ = -velocity.getZ();
+                location.add(velocity);
+                addition.add(velocity);
+            } else if (inverse && toGo != null) {
+                trueOffsetX = location.getX() - toGo.getX();
+                trueOffsetY = location.getY() - toGo.getY();
+                trueOffsetZ = location.getZ() - toGo.getZ();
+                trueLocation = toGo;
+            } else if (velocity != null) {
                 trueOffsetX = velocity.getX() * control;
                 trueOffsetY = velocity.getY() * control;
                 trueOffsetZ = velocity.getZ() * control;
@@ -77,7 +93,7 @@ public class TravellingParticle extends Particle {
 
                 p.playerConnection.sendPacket(
                         new PacketPlayOutWorldParticles(
-                                particle, true, (float) location.getX(), (float) location.getY(), (float) location.getZ(),
+                                particle, true, (float) trueLocation.getX(), (float) trueLocation.getY(), (float) trueLocation.getZ(),
                                 (float) trueOffsetX, (float) trueOffsetY, (float) trueOffsetZ, speed, count
                         )
                 );
@@ -142,28 +158,16 @@ public class TravellingParticle extends Particle {
     }
 
     /**
-     * since particle velocity is very volatile, the given velocity is automatically multiplied by a decimal in all default implementations of
-     * TravellingParticle to prevent new users from setting the velocity to 1, 1, 1 and watching the particle fly into the sun. : )
-     * <br><br>
-     * said decimal makes sure that every VelocityParticle implementation follows the same convention,
-     * such that a Vector with x,y,z at 1 would make the particle move 1 block in all 3 axis on average, if speed is 1.
-     *
-     * @param velocity velocity to set
+     * @param velocity how much you want the particle to travel
      */
     public void setVelocity(@Nullable Vector velocity) {
         this.velocity = velocity;
     }
 
     /**
-     * since particle velocity is very volatile, the given velocity is automatically multiplied by a decimal in all default implementations of
-     * TravellingParticle to prevent new users from setting the velocity to 1, 1, 1 and watching the particle fly into the sun. : )
-     * <br><br>
-     * said decimal makes sure that every VelocityParticle implementation follows the same convention,
-     * such that a Vector with x,y,z at 1 would make the particle move 1 block in all 3 axis on average, if speed is 1.
-     *
-     * @param x x velocity
-     * @param y y velocity
-     * @param z z velocity
+     * @param x how much you want the particle to travel in X
+     * @param y how much you want the particle to travel in Y
+     * @param z how much you want the particle to travel in Z
      */
     public void setVelocity(double x, double y, double z) {
         this.velocity = new Vector(x, y, z);

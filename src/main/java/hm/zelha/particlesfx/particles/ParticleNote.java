@@ -18,7 +18,7 @@ import java.util.List;
  * <br><br>
  * (speed is unused regardless)
  */
-public class ParticleNote extends Particle{
+public class ParticleNote extends Particle {
 
     private NoteColor color;
 

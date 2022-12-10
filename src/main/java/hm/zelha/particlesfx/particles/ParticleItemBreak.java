@@ -23,13 +23,13 @@ public class ParticleItemBreak extends TravellingParticle {
     private MaterialData data;
 
     public ParticleItemBreak(MaterialData data, Vector velocity, double offsetX, double offsetY, double offsetZ, int count) {
-        super(EnumParticle.ITEM_CRACK, 0.105, velocity, null, offsetX, offsetY, offsetZ, count);
+        super(EnumParticle.ITEM_CRACK, false, 0.105, velocity, null, offsetX, offsetY, offsetZ, count);
 
         setMaterialData(data);
     }
 
     public ParticleItemBreak(MaterialData data, Location toGo, double offsetX, double offsetY, double offsetZ, int count) {
-        super(EnumParticle.ITEM_CRACK, 0.105, null, toGo, offsetX, offsetY, offsetZ, count);
+        super(EnumParticle.ITEM_CRACK, false, 0.105, null, toGo, offsetX, offsetY, offsetZ, count);
 
         setMaterialData(data);
     }
