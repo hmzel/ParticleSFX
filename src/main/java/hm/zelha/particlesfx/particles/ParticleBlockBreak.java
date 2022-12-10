@@ -6,6 +6,7 @@ import net.minecraft.server.v1_8_R3.EnumParticle;
 import net.minecraft.server.v1_8_R3.PacketPlayOutWorldParticles;
 import org.apache.commons.lang3.Validate;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.material.MaterialData;
 import org.bukkit.util.Vector;
@@ -32,11 +33,11 @@ public class ParticleBlockBreak extends TravellingParticle {
     }
 
     public ParticleBlockBreak(Vector velocity, double offsetX, double offsetY, double offsetZ, int count) {
-        this(new MaterialData(-13), velocity, offsetX, offsetY, offsetZ, count);
+        this(new MaterialData(Material.DRAGON_EGG), velocity, offsetX, offsetY, offsetZ, count);
     }
 
     public ParticleBlockBreak(Location toGo, double offsetX, double offsetY, double offsetZ, int count) {
-        this(new MaterialData(-13), toGo, offsetX, offsetY, offsetZ, count);
+        this(new MaterialData(Material.DRAGON_EGG), toGo, offsetX, offsetY, offsetZ, count);
     }
 
     public ParticleBlockBreak(MaterialData data, double offsetX, double offsetY, double offsetZ, int count) {
@@ -52,11 +53,11 @@ public class ParticleBlockBreak extends TravellingParticle {
     }
 
     public ParticleBlockBreak(Vector velocity, double offsetX, double offsetY, double offsetZ) {
-        this(new MaterialData(-13), velocity, offsetX, offsetY, offsetZ, 1);
+        this(new MaterialData(Material.DRAGON_EGG), velocity, offsetX, offsetY, offsetZ, 1);
     }
 
     public ParticleBlockBreak(Location toGo, double offsetX, double offsetY, double offsetZ) {
-        this(new MaterialData(-13), toGo, offsetX, offsetY, offsetZ, 1);
+        this(new MaterialData(Material.DRAGON_EGG), toGo, offsetX, offsetY, offsetZ, 1);
     }
 
     public ParticleBlockBreak(MaterialData data, double offsetX, double offsetY, double offsetZ) {
@@ -72,11 +73,11 @@ public class ParticleBlockBreak extends TravellingParticle {
     }
 
     public ParticleBlockBreak(Vector velocity, int count) {
-        this(new MaterialData(-13), velocity, 0, 0, 0, count);
+        this(new MaterialData(Material.DRAGON_EGG), velocity, 0, 0, 0, count);
     }
 
     public ParticleBlockBreak(Location toGo, int count) {
-        this(new MaterialData(-13), toGo, 0, 0, 0, count);
+        this(new MaterialData(Material.DRAGON_EGG), toGo, 0, 0, 0, count);
     }
 
     public ParticleBlockBreak(MaterialData data, int count) {
@@ -92,11 +93,11 @@ public class ParticleBlockBreak extends TravellingParticle {
     }
 
     public ParticleBlockBreak(Vector velocity) {
-        this(new MaterialData(-13), velocity, 0, 0, 0, 1);
+        this(new MaterialData(Material.DRAGON_EGG), velocity, 0, 0, 0, 1);
     }
 
     public ParticleBlockBreak(Location toGo) {
-        this(new MaterialData(-13), toGo, 0, 0, 0, 1);
+        this(new MaterialData(Material.DRAGON_EGG), toGo, 0, 0, 0, 1);
     }
 
     public ParticleBlockBreak(MaterialData data) {
@@ -104,7 +105,7 @@ public class ParticleBlockBreak extends TravellingParticle {
     }
 
     public ParticleBlockBreak() {
-        this(new MaterialData(-13), (Location) null, 0, 0, 0, 1);
+        this(new MaterialData(Material.DRAGON_EGG), (Location) null, 0, 0, 0, 1);
     }
 
     @Override

@@ -51,16 +51,16 @@ public class ParticlePolygon extends ParticleShaper {
         initLayers(center, polygonLayers);
     }
 
-    public ParticlePolygon(Particle particle, LocationSafe center, int corners, int layers, double xRadius, double yRadius, double zRadius) {
-        this(particle, center, corners, layers, xRadius, yRadius, zRadius, 150);
+    public ParticlePolygon(Particle particle, LocationSafe center, int cornersPerLayer, int layers, double xRadius, double yRadius, double zRadius) {
+        this(particle, center, cornersPerLayer, layers, xRadius, yRadius, zRadius, 150);
     }
 
-    public ParticlePolygon(Particle particle, LocationSafe center, int corners, int layers, double radius, int particleFrequency) {
-        this(particle, center, corners, layers, radius, radius, radius, particleFrequency);
+    public ParticlePolygon(Particle particle, LocationSafe center, int cornersPerLayer, int layers, double radius, int particleFrequency) {
+        this(particle, center, cornersPerLayer, layers, radius, radius, radius, particleFrequency);
     }
 
-    public ParticlePolygon(Particle particle, LocationSafe center, int corners, int layers, double radius) {
-        this(particle, center, corners, layers, radius, radius, radius, 150);
+    public ParticlePolygon(Particle particle, LocationSafe center, int cornersPerLayer, int layers, double radius) {
+        this(particle, center, cornersPerLayer, layers, radius, radius, radius, 150);
     }
 
     public ParticlePolygon(Particle particle, LocationSafe center, int particleFrequency, PolygonLayer... layers) {
