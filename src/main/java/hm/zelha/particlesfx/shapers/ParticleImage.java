@@ -30,7 +30,7 @@ public class ParticleImage extends ParticleShaper {
     private double xRadius;
     private double zRadius;
     private int fuzz = 0;
-    private int delay = 0;
+    private int frameDelay = 0;
     private int frame = 0;
     private int displaysThisFrame = 0;
     private Thread currentThread = null;
@@ -166,7 +166,7 @@ public class ParticleImage extends ParticleShaper {
             overallCount = 0;
             displaysThisFrame++;
 
-            if (displaysThisFrame >= delay) {
+            if (displaysThisFrame >= frameDelay) {
                 displaysThisFrame = 0;
                 frame++;
             }
@@ -178,7 +178,7 @@ public class ParticleImage extends ParticleShaper {
     }
 
     /**
-     * NOTE: USING THIS METHOD WILL CAUSE THE CURRENT THREAD TO STALL UNTIL ANY CURRENTLY RUNNING IMAGE PRODUCTION IS FINISHED. <br>
+     * <strong> using this method will cause the current thread to stall until any currently running image production is finished. <br></strong>
      * If you don't want to cause lag, use an asynchronous BukkitRunnable!
      */
     @Override
@@ -206,7 +206,7 @@ public class ParticleImage extends ParticleShaper {
         clone.players.addAll(players);
         clone.setParticlesPerDisplay(particlesPerDisplay);
         clone.setFuzz(fuzz);
-        clone.setDelay(delay);
+        clone.setFrameDelay(frameDelay);
 
         if (animator == null) {
             clone.stop();
@@ -274,7 +274,7 @@ public class ParticleImage extends ParticleShaper {
     /**
      * adds an image from a URL (gifs supported!)
      *
-     * NOTE: USING THIS METHOD WILL CAUSE THE CURRENT THREAD TO STALL UNTIL ANY CURRENTLY RUNNING IMAGE PRODUCTION IS FINISHED. <br>
+     * <strong> using this method will cause the current thread to stall until any currently running image production is finished. <br></strong>
      * If you don't want to cause lag, use an asynchronous BukkitRunnable!
      *
      * @param index index to put the image
@@ -291,7 +291,7 @@ public class ParticleImage extends ParticleShaper {
     /**
      * adds an image from a file (gifs supported!)
      *
-     * NOTE: USING THIS METHOD WILL CAUSE THE CURRENT THREAD TO STALL UNTIL ANY CURRENTLY RUNNING IMAGE PRODUCTION IS FINISHED. <br>
+     * <strong> using this method will cause the current thread to stall until any currently running image production is finished. <br></strong>
      * If you don't want to cause lag, use an asynchronous BukkitRunnable!
      *
      * @param index index to put the image
@@ -304,7 +304,7 @@ public class ParticleImage extends ParticleShaper {
     /**
      * adds an image from a URL (gifs supported!)
      *
-     * NOTE: USING THIS METHOD WILL CAUSE THE CURRENT THREAD TO STALL UNTIL ANY CURRENTLY RUNNING IMAGE PRODUCTION IS FINISHED. <br>
+     * <strong> using this method will cause the current thread to stall until any currently running image production is finished. <br></strong>
      * If you don't want to cause lag, use an asynchronous BukkitRunnable!
      *
      * @param link URL of image
@@ -316,7 +316,7 @@ public class ParticleImage extends ParticleShaper {
     /**
      * adds an image from a file (gifs supported!)
      *
-     * NOTE: USING THIS METHOD WILL CAUSE THE CURRENT THREAD TO STALL UNTIL ANY CURRENTLY RUNNING IMAGE PRODUCTION IS FINISHED. <br>
+     * <strong> using this method will cause the current thread to stall until any currently running image production is finished. <br></strong>
      * If you don't want to cause lag, use an asynchronous BukkitRunnable!
      *
      * @param path location of file
@@ -334,7 +334,7 @@ public class ParticleImage extends ParticleShaper {
     /**
      * gets an image from a URL and removes it (gifs supported!)
      *
-     * NOTE: USING THIS METHOD WILL CAUSE THE CURRENT THREAD TO STALL UNTIL ANY CURRENTLY RUNNING IMAGE PRODUCTION IS FINISHED. <br>
+     * <strong> using this method will cause the current thread to stall until any currently running image production is finished. <br></strong>
      * If you don't want to cause lag, use an asynchronous BukkitRunnable!
      *
      * @param link URL of image
@@ -350,7 +350,7 @@ public class ParticleImage extends ParticleShaper {
     /**
      * gets an image from a file and removes it (gifs supported!) <br><br>
      *
-     * NOTE: USING THIS METHOD WILL CAUSE THE CURRENT THREAD TO STALL UNTIL ANY CURRENTLY RUNNING IMAGE PRODUCTION IS FINISHED. <br>
+     * <strong> using this method will cause the current thread to stall until any currently running image production is finished. <br></strong>
      * If you don't want to cause lag, use an asynchronous BukkitRunnable!
      *
      * @param path location of file
@@ -360,7 +360,7 @@ public class ParticleImage extends ParticleShaper {
     }
 
     /**
-     * NOTE: USING THIS METHOD WILL CAUSE THE CURRENT THREAD TO STALL UNTIL ANY CURRENTLY RUNNING IMAGE PRODUCTION IS FINISHED. <br>
+     * <strong> using this method will cause the current thread to stall until any currently running image production is finished. <br></strong>
      * If you don't want to cause lag, use an asynchronous BukkitRunnable!
      *
      * @param index index of frame you want to remove from the frame list
@@ -382,7 +382,7 @@ public class ParticleImage extends ParticleShaper {
     }
 
     /**
-     * NOTE: USING THIS METHOD WILL CAUSE THE CURRENT THREAD TO STALL UNTIL ANY CURRENTLY RUNNING IMAGE PRODUCTION IS FINISHED. <br>
+     * <strong> using this method will cause the current thread to stall until any currently running image production is finished. <br></strong>
      * If you don't want to cause lag, use an asynchronous BukkitRunnable!
      *
      * @param index index of frame you want to be displaying
@@ -431,14 +431,14 @@ public class ParticleImage extends ParticleShaper {
     }
 
     /**
-     * @param delay amount of times to display before switching to the next frame
+     * @param frameDelay amount of times to display before switching to the next frame
      */
-    public void setDelay(int delay) {
-        this.delay = delay;
+    public void setFrameDelay(int frameDelay) {
+        this.frameDelay = frameDelay;
     }
 
     /**
-     * NOTE: USING THIS METHOD WILL CAUSE THE CURRENT THREAD TO STALL UNTIL ANY CURRENTLY RUNNING IMAGE PRODUCTION IS FINISHED. <br>
+     * <strong> using this method will cause the current thread to stall until any currently running image production is finished. <br></strong>
      * If you don't want to cause lag, use an asynchronous BukkitRunnable!
      *
      * @param index frame to get the color from
@@ -478,8 +478,8 @@ public class ParticleImage extends ParticleShaper {
         return fuzz;
     }
 
-    public int getDelay() {
-        return delay;
+    public int getFrameDelay() {
+        return frameDelay;
     }
 
     public Color getIgnoredColor(int index) {
@@ -491,7 +491,7 @@ public class ParticleImage extends ParticleShaper {
     }
 
     /**
-     * NOTE: USING THIS METHOD WILL CAUSE THE CURRENT THREAD TO STALL UNTIL ANY CURRENTLY RUNNING IMAGE PRODUCTION IS FINISHED. <br>
+     * <strong> using this method will cause the current thread to stall until any currently running image production is finished. <br></strong>
      * If you don't want to cause lag, use an asynchronous BukkitRunnable!
      *
      * @return amount of images stored

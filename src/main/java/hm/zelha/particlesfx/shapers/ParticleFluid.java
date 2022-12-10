@@ -62,7 +62,7 @@ public class ParticleFluid extends ParticleShaper {
         boolean hasRan = false;
         boolean trackCount = particlesPerDisplay > 0;
 
-        for (int i = 0; i < locations.size(); i++) {
+        for (int i = overallCount; i < locations.size(); i++) {
             Location l = locations.get(i);
             Particle particle = getCurrentParticle();
             List<Entity> entityList = ((CraftWorld) l.getWorld()).getHandle().entityList;

@@ -33,6 +33,7 @@ public abstract class ParticleShaper extends RotationHandler implements Shape {
     protected int particlesPerDisplay = 0;
     protected int currentCount = 0;
     protected int overallCount = 0;
+    private int delay = 1;
 
     public ParticleShaper(Particle particle, int particleFrequency) {
         setParticle(particle);
@@ -47,7 +48,7 @@ public abstract class ParticleShaper extends RotationHandler implements Shape {
             public void run() {
                 display();
             }
-        }.runTaskTimerAsynchronously(Main.getPlugin(), 1, 1);
+        }.runTaskTimerAsynchronously(Main.getPlugin(), 1, delay);
     }
 
     public void stop() {
@@ -173,6 +174,17 @@ public abstract class ParticleShaper extends RotationHandler implements Shape {
     }
 
     /**
+     * @param delay amount of ticks between {@link ParticleShaper#display()} being called
+     */
+    public void setDelay(int delay) {
+        stop();
+
+        this.delay = delay;
+
+        start();
+    }
+
+    /**
      * sets the current position of the shape's animation <br>
      * (aka, sets the tracker that tells the shape how many particles have been displayed until this point) <br>
      * only works if {@link ParticleShaper#setParticlesPerDisplay(int)} is set to something greater than 0.
@@ -204,6 +216,10 @@ public abstract class ParticleShaper extends RotationHandler implements Shape {
 
     public int getParticlesPerDisplay() {
         return particlesPerDisplay;
+    }
+
+    public int getDelay() {
+        return delay;
     }
 
     public int getSecondaryParticleAmount() {
