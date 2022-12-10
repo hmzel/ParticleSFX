@@ -225,6 +225,11 @@ public class RotationHandler {
         rotate(pitch - rot.getPitch(), yaw - rot.getYaw(), roll - rot.getRoll());
     }
 
+    public void setRotationOrder(Rotation.Axis first, Rotation.Axis second, Rotation.Axis third) {
+        rot.setRotationOrder(first, second, third);
+        rotate(0, 0, 0);
+    }
+
     public void setPitch(double pitch) {
         rotate(pitch - rot.getPitch(), 0, 0);
     }
@@ -239,6 +244,11 @@ public class RotationHandler {
 
     public void setAroundRotation(Location around, double pitch, double yaw, double roll) {
         rotateAroundLocation(around, pitch - rot2.getPitch(), yaw - rot2.getYaw(), roll - rot2.getRoll());
+    }
+
+    public void setAroundRotationOrder(Location around, Rotation.Axis first, Rotation.Axis second, Rotation.Axis third) {
+        rot2.setRotationOrder(first, second, third);
+        rotateAroundLocation(around, 0, 0, 0);
     }
 
     public void setAroundPitch(Location around, double pitch) {

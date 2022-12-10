@@ -1,10 +1,12 @@
 package hm.zelha.particlesfx.util;
 
+import org.apache.commons.lang3.Validate;
 import org.bukkit.util.Vector;
 
 public class Rotation {
 
-    private final Rotation axis;
+    private final Rotation axisRotation;
+    private final Axis[] axes = {Axis.PITCH, Axis.YAW, Axis.ROLL};
     private final double[] oldPitchCosAndSin = {0, 0};
     private final double[] oldYawCosAndSin = {0, 0};
     private final double[] oldRollCosAndSin = {0, 0};
@@ -20,7 +22,7 @@ public class Rotation {
         setYaw(yaw);
         setRoll(roll);
 
-        axis = new Rotation(true);
+        axisRotation = new Rotation(true);
     }
 
     public Rotation() {
@@ -28,39 +30,19 @@ public class Rotation {
     }
 
     private Rotation(boolean isAxis) {
-        axis = null;
+        axisRotation = null;
     }
 
     public Vector apply(Vector v) {
-        if (axis != null) {
-            axis.apply(v);
+        if (axisRotation != null) {
+            axisRotation.apply(v);
         }
 
-        applyPitch(v);
-        applyYaw(v);
-        applyRoll(v);
+        applyForAxis(axes[0], v);
+        applyForAxis(axes[1], v);
+        applyForAxis(axes[2], v);
 
         return v;
-    }
-
-    public void set(double pitch, double yaw, double roll) {
-        setPitch(pitch);
-        setYaw(yaw);
-        setRoll(roll);
-    }
-
-    public void setAxis(double pitch, double yaw, double roll) {
-        axis.set(pitch, yaw, roll);
-    }
-
-    public void add(double pitch, double yaw, double roll) {
-        setPitch(this.pitch + pitch);
-        setYaw(this.yaw + yaw);
-        setRoll(this.roll + roll);
-    }
-
-    public void addAxis(double pitch, double yaw, double roll) {
-        axis.add(pitch, yaw, roll);
     }
 
     public void applyPitch(Vector v) {
@@ -132,6 +114,48 @@ public class Rotation {
         v.setX(x).setY(y);
     }
 
+    private void applyForAxis(Axis axis, Vector v) {
+        if (axis == Axis.PITCH) {
+            applyPitch(v);
+        }
+
+        if (axis == Axis.YAW) {
+            applyYaw(v);
+        }
+
+        if (axis == Axis.ROLL) {
+            applyRoll(v);
+        }
+    }
+
+    public void add(double pitch, double yaw, double roll) {
+        setPitch(this.pitch + pitch);
+        setYaw(this.yaw + yaw);
+        setRoll(this.roll + roll);
+    }
+
+    public void addAxis(double pitch, double yaw, double roll) {
+        axisRotation.add(pitch, yaw, roll);
+    }
+
+    public void setRotationOrder(Axis first, Axis second, Axis third) {
+        Validate.isTrue(first != second && first != third && second != third, "Can't have the same axis twice!");
+
+        axes[0] = first;
+        axes[1] = second;
+        axes[2] = third;
+
+        if (axisRotation != null) {
+            axisRotation.setRotationOrder(first, second, third);
+        }
+    }
+
+    public void set(double pitch, double yaw, double roll) {
+        setPitch(pitch);
+        setYaw(yaw);
+        setRoll(roll);
+    }
+
     public void setPitch(double pitch) {
         if (!Double.isFinite(pitch)) {
             pitch = 0;
@@ -156,16 +180,20 @@ public class Rotation {
         this.roll = roll;
     }
 
+    public void setAxis(double pitch, double yaw, double roll) {
+        axisRotation.set(pitch, yaw, roll);
+    }
+
     public void setAxisPitch(double pitch) {
-        axis.setPitch(pitch);
+        axisRotation.setPitch(pitch);
     }
 
     public void setAxisYaw(double yaw) {
-        axis.setYaw(yaw);
+        axisRotation.setYaw(yaw);
     }
 
     public void setAxisRoll(double roll) {
-        axis.setRoll(roll);
+        axisRotation.setRoll(roll);
     }
 
     public double getPitch() {
@@ -181,14 +209,20 @@ public class Rotation {
     }
 
     public double getAxisPitch() {
-        return axis.getPitch();
+        return axisRotation.getPitch();
     }
 
     public double getAxisYaw() {
-        return axis.getYaw();
+        return axisRotation.getYaw();
     }
 
     public double getAxisRoll() {
-        return axis.getRoll();
+        return axisRotation.getRoll();
+    }
+
+    public enum Axis {
+        PITCH,
+        YAW,
+        ROLL
     }
 }
