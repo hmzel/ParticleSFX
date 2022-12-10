@@ -253,6 +253,46 @@ public class RotationHandler {
         rotateAroundLocation(around, 0, 0, roll - rot2.getRoll());
     }
 
+    public void setAxisRotation(double pitch, double yaw, double roll) {
+        rot.setAxis(pitch, yaw, roll);
+        rotate(0, 0, 0);
+    }
+
+    public void setAxisPitch(double pitch) {
+        rot.setAxisPitch(pitch);
+        rotate(0, 0, 0);
+    }
+
+    public void setAxisYaw(double yaw) {
+        rot.setAxisYaw(yaw);
+        rotate(0, 0, 0);
+    }
+
+    public void setAxisRoll(double roll) {
+        rot.setAxisRoll(roll);
+        rotate(0, 0, 0);
+    }
+
+    public void setAroundAxisRotation(Location around, double pitch, double yaw, double roll) {
+        rot2.setAxis(pitch, yaw, roll);
+        rotateAroundLocation(around, 0, 0, 0);
+    }
+
+    public void setAroundAxisPitch(Location around, double pitch) {
+        rot2.setAxisPitch(pitch);
+        rotateAroundLocation(around, 0, 0, 0);
+    }
+
+    public void setAroundAxisYaw(Location around, double yaw) {
+        rot2.setAxisYaw(yaw);
+        rotateAroundLocation(around, 0, 0, 0);
+    }
+
+    public void setAroundAxisRoll(Location around, double roll) {
+        rot2.setAxisRoll(roll);
+        rotateAroundLocation(around, 0, 0, 0);
+    }
+
     public double getPitch() {
         return rot.getPitch();
     }
@@ -275,6 +315,30 @@ public class RotationHandler {
 
     public double getAroundRoll() {
         return rot2.getRoll();
+    }
+
+    public double getAxisPitch() {
+        return rot.getAxisPitch();
+    }
+
+    public double getAxisYaw() {
+        return rot.getAxisYaw();
+    }
+
+    public double getAxisRoll() {
+        return rot.getAxisRoll();
+    }
+
+    public double getAroundAxisPitch() {
+        return rot2.getAxisPitch();
+    }
+
+    public double getAroundAxisYaw() {
+        return rot2.getAxisYaw();
+    }
+
+    public double getAroundAxisRoll() {
+        return rot2.getAxisRoll();
     }
 
     public Location[] getLocations() {

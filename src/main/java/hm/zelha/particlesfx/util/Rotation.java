@@ -4,6 +4,7 @@ import org.bukkit.util.Vector;
 
 public class Rotation {
 
+    private final Rotation axis;
     private final double[] oldPitchCosAndSin = {0, 0};
     private final double[] oldYawCosAndSin = {0, 0};
     private final double[] oldRollCosAndSin = {0, 0};
@@ -18,13 +19,23 @@ public class Rotation {
         setPitch(pitch);
         setYaw(yaw);
         setRoll(roll);
+
+        axis = new Rotation(true);
     }
 
     public Rotation() {
         this(0, 0, 0);
     }
 
+    private Rotation(boolean isAxis) {
+        axis = null;
+    }
+
     public Vector apply(Vector v) {
+        if (axis != null) {
+            axis.apply(v);
+        }
+
         applyPitch(v);
         applyYaw(v);
         applyRoll(v);
@@ -38,10 +49,18 @@ public class Rotation {
         setRoll(roll);
     }
 
+    public void setAxis(double pitch, double yaw, double roll) {
+        axis.set(pitch, yaw, roll);
+    }
+
     public void add(double pitch, double yaw, double roll) {
         setPitch(this.pitch + pitch);
         setYaw(this.yaw + yaw);
         setRoll(this.roll + roll);
+    }
+
+    public void addAxis(double pitch, double yaw, double roll) {
+        axis.add(pitch, yaw, roll);
     }
 
     public void applyPitch(Vector v) {
@@ -137,6 +156,18 @@ public class Rotation {
         this.roll = roll;
     }
 
+    public void setAxisPitch(double pitch) {
+        axis.setPitch(pitch);
+    }
+
+    public void setAxisYaw(double yaw) {
+        axis.setYaw(yaw);
+    }
+
+    public void setAxisRoll(double roll) {
+        axis.setRoll(roll);
+    }
+
     public double getPitch() {
         return pitch;
     }
@@ -147,5 +178,17 @@ public class Rotation {
 
     public double getRoll() {
         return roll;
+    }
+
+    public double getAxisPitch() {
+        return axis.getPitch();
+    }
+
+    public double getAxisYaw() {
+        return axis.getYaw();
+    }
+
+    public double getAxisRoll() {
+        return axis.getRoll();
     }
 }
