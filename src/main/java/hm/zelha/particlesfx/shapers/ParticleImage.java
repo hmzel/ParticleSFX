@@ -437,6 +437,31 @@ public class ParticleImage extends ParticleShaper {
         this.delay = delay;
     }
 
+    /**
+     * NOTE: USING THIS METHOD WILL CAUSE THE CURRENT THREAD TO STALL UNTIL ANY CURRENTLY RUNNING IMAGE PRODUCTION IS FINISHED. <p>
+     * If you don't want to cause lag, use an asynchronous BukkitRunnable!
+     *
+     * @param index frame to get the color from
+     * @param x width of pixel
+     * @param z height of pixel
+     * @return color at pixel
+     */
+    public Color getPixelColor(int index, int x, int z) {
+        if (currentThread != null) {
+            try {
+                currentThread.join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
+        Validate.isTrue(index >= 0 && index < images.size(), "Can't get color from frames that don't exist!");
+        Validate.isTrue(x >= 0 && x < images.get(index).getWidth(), "Can't get color from a pixel that doesn't exist!");
+        Validate.isTrue(z >= 0 && z < images.get(index).getHeight(), "Can't get color from a pixel that doesn't exist!");
+
+        return new Color(images.get(index).getRGB(x, z));
+    }
+
     public Location getCenter() {
         return locations.get(0);
     }
