@@ -168,6 +168,16 @@ public abstract class ParticleShaper extends RotationHandler implements Shape {
         this.particlesPerDisplay = particlesPerDisplay;
     }
 
+    /**
+     * sets the current position of the shape's animation <p>
+     * (aka, sets the tracker that tells the shape how many particles have been displayed until this point) <p>
+     * only works if {@link ParticleShaper#setParticlesPerDisplay(int)} is set to something greater than 0.
+     */
+    public void setDisplayPosition(int position) {
+        currentCount = 0;
+        overallCount = position;
+    }
+
     @Override
     public void setWorld(World world) {
         super.setWorld(world);
