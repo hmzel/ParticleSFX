@@ -51,7 +51,11 @@ public class ParticlePolygonFilled extends ParticlePolygon {
     public ParticlePolygonFilled(Particle particle, int particleFrequency, Corner... corners) {
         super(particle, particleFrequency, corners);
 
-        locationHelper2 = corners[0].getLocation().clone();
+        if (corners.length > 0) {
+            locationHelper2 = corners[0].getLocation().clone();
+        } else {
+            locationHelper2 = new Location(null, 0, 0, 0);
+        }
     }
 
     public ParticlePolygonFilled(Particle particle, Corner... corners) {
@@ -60,6 +64,8 @@ public class ParticlePolygonFilled extends ParticlePolygon {
 
     @Override
     public void display() {
+        if (corners.size() == 0) return;
+
         for (int i = 0; i < particleFrequency; i++) {
             Corner corner = corners.get(rng.nextInt(corners.size()));
 
@@ -118,6 +124,37 @@ public class ParticlePolygonFilled extends ParticlePolygon {
             locationHelper.add(vectorHelper);
             getCurrentParticle().display(locationHelper);
         }
+    }
+
+    @Override
+    public ParticlePolygonFilled clone() {
+        ParticlePolygonFilled clone = new ParticlePolygonFilled(particle, particleFrequency);
+        int index = 0;
+
+        for (Corner corner : corners) {
+            clone.addCorner(new Corner(corner.getLocation().clone()));
+        }
+
+        for (Corner corner : corners) {
+            for (int i = 0; i < corner.getConnectionAmount(); i++) {
+                if (!corners.contains(corner.getConnection(i))) continue;
+
+                clone.getCorner(index).connect(clone.getCorner(corners.lastIndexOf(corner.getConnection(i))));
+            }
+
+            index++;
+        }
+
+        clone.secondaryParticles.addAll(secondaryParticles);
+        clone.mechanics.addAll(mechanics);
+        clone.players.addAll(players);
+        clone.setParticlesPerDisplay(particlesPerDisplay);
+
+        if (animator == null) {
+            clone.stop();
+        }
+
+        return clone;
     }
 
     @Override
