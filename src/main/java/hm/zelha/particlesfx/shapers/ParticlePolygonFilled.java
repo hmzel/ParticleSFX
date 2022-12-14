@@ -106,13 +106,20 @@ public class ParticlePolygonFilled extends ParticlePolygon {
             locationHelper.add(vectorHelper);
             locationHelper2.add(vectorHelper2);
             LVMath.subtractToVector(vectorHelper, locationHelper2, locationHelper).normalize();
-            vectorHelper.multiply(rng.nextDouble(locationHelper.distance(locationHelper2)));
+
+            double dist = locationHelper.distance(locationHelper2);
+
+            if (dist > 0) {
+                vectorHelper.multiply(rng.nextDouble(dist));
+            } else {
+                vectorHelper.multiply(0);
+            }
+
             locationHelper.add(vectorHelper);
             getCurrentParticle().display(locationHelper);
         }
     }
 
-    //TODO: fix the strange thing with this
     @Override
     protected void initLayers(LocationSafe center, PolygonLayer... layers) {
         Validate.notNull(center, "Center cant be null!");
@@ -174,10 +181,19 @@ public class ParticlePolygonFilled extends ParticlePolygon {
             }
 
             if (currentCorners.size() > 1) {
-                Corner connection = currentCorners.get(currentCorners.size() - 1);
+                Corner firstCorner = currentCorners.get(0);
+                Corner lastCorner = currentCorners.get(currentCorners.size() - 1);
 
-                connection.connect(currentCorners.get(0));
-                currentCorners.get(0).connect(connection);
+                lastCorner.connect(firstCorner);
+                firstCorner.connect(lastCorner);
+
+                if (firstCorner.getConnectionAmount() > 2) {
+                    Corner firstConnection = firstCorner.getConnection(0);
+                    Corner secondConnection = firstCorner.getConnection(1);
+
+                    firstCorner.setConnection(0, secondConnection);
+                    firstCorner.setConnection(1, firstConnection);
+                }
             }
 
             lastCorners = currentCorners;

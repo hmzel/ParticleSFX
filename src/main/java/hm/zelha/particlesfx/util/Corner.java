@@ -51,6 +51,13 @@ public class Corner {
         connections.remove(corner);
     }
 
+    public void setConnection(int index, Corner corner) {
+        Validate.notNull(corner, "Connection can't be null!");
+        Validate.isTrue(corner != this, "Corners cant connect to themselves!");
+
+        connections.set(index, corner);
+    }
+
     public Corner getConnection(int index) {
         return connections.get(index);
     }
