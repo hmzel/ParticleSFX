@@ -1,10 +1,7 @@
 package hm.zelha.particlesfx.shapers;
 
 import hm.zelha.particlesfx.particles.parents.Particle;
-import hm.zelha.particlesfx.util.Corner;
-import hm.zelha.particlesfx.util.LVMath;
-import hm.zelha.particlesfx.util.LocationSafe;
-import hm.zelha.particlesfx.util.PolygonLayer;
+import hm.zelha.particlesfx.util.*;
 import org.apache.commons.lang3.Validate;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -66,7 +63,11 @@ public class ParticlePolygonFilled extends ParticlePolygon {
     public void display() {
         if (corners.size() == 0) return;
 
-        for (int i = 0; i < particleFrequency; i++) {
+        boolean hasRan = false;
+        boolean trackCount = particlesPerDisplay > 0;
+
+        for (int i = overallCount; i < particleFrequency; i++) {
+            Particle particle = getCurrentParticle();
             Corner corner = corners.get(rng.nextInt(corners.size()));
 
             if (corner.getConnectionAmount() == 0) {
@@ -121,8 +122,32 @@ public class ParticlePolygonFilled extends ParticlePolygon {
                 vectorHelper.multiply(0);
             }
 
+            applyMechanics(ShapeDisplayMechanic.Phase.BEFORE_ROTATION, particle, locationHelper, vectorHelper);
             locationHelper.add(vectorHelper);
-            getCurrentParticle().display(locationHelper);
+
+            if (!players.isEmpty()) {
+                particle.displayForPlayers(locationHelper, players);
+            } else {
+                particle.display(locationHelper);
+            }
+
+            overallCount++;
+
+            applyMechanics(ShapeDisplayMechanic.Phase.AFTER_DISPLAY, particle, locationHelper, vectorHelper);
+
+            if (trackCount) {
+                currentCount++;
+                hasRan = true;
+
+                if (currentCount >= particlesPerDisplay) {
+                    currentCount = 0;
+                    break;
+                }
+            }
+        }
+
+        if (!trackCount || !hasRan) {
+            overallCount = 0;
         }
     }
 
