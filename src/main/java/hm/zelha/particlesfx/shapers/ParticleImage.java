@@ -26,16 +26,16 @@ import java.util.logging.Level;
 
 public class ParticleImage extends ParticleShaper {
 
-    private final ThreadLocalRandom rng = ThreadLocalRandom.current();
-    private final List<BufferedImage> images = new ArrayList<>();
-    private final List<Color> ignoredColors = new ArrayList<>();
-    private double xRadius;
-    private double zRadius;
-    private int fuzz = 0;
-    private int frameDelay = 0;
-    private int frame = 0;
-    private int displaysThisFrame = 0;
-    private Thread currentThread = null;
+    protected final ThreadLocalRandom rng = ThreadLocalRandom.current();
+    protected final List<BufferedImage> images = new ArrayList<>();
+    protected final List<Color> ignoredColors = new ArrayList<>();
+    protected double xRadius;
+    protected double zRadius;
+    protected int fuzz = 0;
+    protected int frameDelay = 0;
+    protected int frame = 0;
+    protected int displaysThisFrame = 0;
+    protected Thread currentThread = null;
 
     public ParticleImage(ColorableParticle particle, LocationSafe center, String link, double xRadius, double zRadius, int particleFrequency) {
         super(particle, particleFrequency);
