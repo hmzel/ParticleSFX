@@ -25,6 +25,10 @@ public class LocationSafe extends Location {
         super(world, x, y, z);
     }
 
+    public LocationSafe(Location location) {
+        super(location.getWorld(), location.getX(), location.getY(), location.getZ());
+    }
+
     /**
      * only meant to be used in {@link RotationHandler} or {@link ParticleShapeCompound}, use at own risk
      *
