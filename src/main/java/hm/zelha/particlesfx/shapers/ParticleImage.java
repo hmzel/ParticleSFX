@@ -1,10 +1,12 @@
 package hm.zelha.particlesfx.shapers;
 
+import com.sun.imageio.plugins.gif.GIFImageReader;
 import hm.zelha.particlesfx.particles.parents.ColorableParticle;
 import hm.zelha.particlesfx.particles.parents.Particle;
 import hm.zelha.particlesfx.shapers.parents.ParticleShaper;
 import hm.zelha.particlesfx.util.Color;
 import hm.zelha.particlesfx.util.LocationSafe;
+import hm.zelha.particlesfx.util.PatchedGIFImageReader;
 import hm.zelha.particlesfx.util.ShapeDisplayMechanic;
 import org.apache.commons.lang3.Validate;
 import org.bukkit.Bukkit;
@@ -235,6 +237,10 @@ public class ParticleImage extends ParticleShaper {
             try {
                 ImageInputStream input = ImageIO.createImageInputStream(toLoad);
                 ImageReader reader = ImageIO.getImageReaders(input).next();
+
+                if (reader instanceof GIFImageReader) {
+                    reader = new PatchedGIFImageReader(null);
+                }
 
                 reader.setInput(input);
 
