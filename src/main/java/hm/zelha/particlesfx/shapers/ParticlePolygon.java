@@ -11,8 +11,8 @@ import java.util.List;
 
 public class ParticlePolygon extends ParticleShaper {
 
-    private final List<Corner> corners = new ArrayList<>();
-    private final Rotation rotHelper = new Rotation();
+    protected final List<Corner> corners = new ArrayList<>();
+    protected final Rotation rotHelper = new Rotation();
 
     public ParticlePolygon(Particle particle, LocationSafe center, int cornersPerLayer, int layers, double xRadius, double yRadius, double zRadius, int particleFrequency) {
         super(particle, particleFrequency);
@@ -183,7 +183,7 @@ public class ParticlePolygon extends ParticleShaper {
         return clone;
     }
 
-    private void initLayers(LocationSafe center, PolygonLayer... layers) {
+    protected void initLayers(LocationSafe center, PolygonLayer... layers) {
         Validate.notNull(center, "Center cant be null!");
         Validate.notNull(center.getWorld(), "World cant be null!");
         Validate.isTrue(layers.length != 0, "Polygon must have 1 or more layer!");
