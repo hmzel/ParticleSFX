@@ -31,6 +31,7 @@ import java.util.List;
  */
 public class PatchedGIFImageReader extends ImageReader {
 
+    /**@see PatchedGIFImageReader*/
     public PatchedGIFImageReader(ImageReaderSpi originatingProvider) {super(originatingProvider);}
 
     // The current ImageInputStream source.

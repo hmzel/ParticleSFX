@@ -15,6 +15,7 @@ public class PolygonLayer {
     private double yaw;
     private double roll;
 
+    /**@see PolygonLayer*/
     public PolygonLayer(int corners, double xRadius, double zRadius, double yPosition, double pitch, double yaw, double roll) {
         setCorners(corners);
         setXRadius(xRadius);
@@ -25,18 +26,22 @@ public class PolygonLayer {
         setRoll(roll);
     }
 
+    /**@see PolygonLayer*/
     public PolygonLayer(int corners, double xRadius, double zRadius, double yPosition, double yaw) {
         this(corners, xRadius, zRadius, yPosition, 0, yaw, 0);
     }
 
+    /**@see PolygonLayer*/
     public PolygonLayer(int corners, double xRadius, double zRadius, double yPosition) {
         this(corners, xRadius, zRadius, yPosition, 0, 0, 0);
     }
 
+    /**@see PolygonLayer*/
     public PolygonLayer(int corners, double radius, double yPosition) {
         this(corners, radius, radius, yPosition, 0, 0, 0);
     }
 
+    /**@see PolygonLayer*/
     public PolygonLayer(int corners, double radius) {
         this(corners, radius, radius, 0, 0 ,0, 0);
     }

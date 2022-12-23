@@ -22,10 +22,12 @@ import java.util.List;
  */
 public class ParticleEnderSignal extends Particle {
 
+    /**@see ParticleEnderSignal*/
     public ParticleEnderSignal(int count) {
         super(EnumParticle.HEART, 0, 0, 0, 0, count, 0);
     }
 
+    /**@see ParticleEnderSignal*/
     public ParticleEnderSignal() {
         this(1);
     }

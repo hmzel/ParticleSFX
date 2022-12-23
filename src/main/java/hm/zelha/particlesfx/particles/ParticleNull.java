@@ -14,6 +14,7 @@ import java.util.List;
  * to allow for certain spots to display nothing
  */
 public class ParticleNull extends Particle {
+    /**@see ParticleNull*/
     public ParticleNull() {
         super(EnumParticle.HEART, 0, 0, 0, 0, 0, 0);
     }

@@ -22,6 +22,7 @@ public class ParticleNote extends Particle {
 
     private NoteColor color;
 
+    /**@see ParticleNote*/
     public ParticleNote(NoteColor color, int count) {
         super(EnumParticle.NOTE, 0, 0, 0, 0, count, 0);
 
@@ -30,14 +31,17 @@ public class ParticleNote extends Particle {
         this.color = color;
     }
 
+    /**@see ParticleNote*/
     public ParticleNote(NoteColor color) {
         this(color, 1);
     }
 
+    /**@see ParticleNote*/
     public ParticleNote(int count) {
         this(NoteColor.RANDOM, count);
     }
 
+    /**@see ParticleNote*/
     public ParticleNote() {
         this(NoteColor.RANDOM, 1);
     }

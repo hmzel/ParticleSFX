@@ -18,10 +18,12 @@ import java.util.List;
  * Type.VISUAL effects are also locked to specific coordinates of the block they're played on because their internal system uses BlockPosition
  */
 public class ParticleMobspawnerFlames extends Particle {
+    /**@see ParticleMobspawnerFlames*/
     public ParticleMobspawnerFlames(int count) {
         super(EnumParticle.HEART, 0, 0, 0, 0, count, 0);
     }
 
+    /**@see ParticleMobspawnerFlames*/
     public ParticleMobspawnerFlames() {
         this(1);
     }

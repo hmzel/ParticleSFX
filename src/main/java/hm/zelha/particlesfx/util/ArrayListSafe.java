@@ -24,6 +24,7 @@ public class ArrayListSafe<L extends LocationSafe> extends ArrayList<L> {
     private final Map<ParticleShapeCompound, removeMechanic> removeMechanics = new HashMap<>();
     private final RotationHandler owner;
 
+    /**@see ArrayListSafe*/
     public ArrayListSafe(RotationHandler owner) {
         this.owner = owner;
     }

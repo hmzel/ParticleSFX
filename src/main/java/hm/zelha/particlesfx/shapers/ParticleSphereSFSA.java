@@ -15,7 +15,7 @@ import org.bukkit.Location;
  * don't have to worry about CircleFrequency. <br>
  * however, using this makes it much harder to color the sphere with secondary particles, because the points are drawn pretty chaotically.
  * <br><br>
- * TLDR: Use this class if you just want a normal sphere, otherwise use {@link ParticleSphere}.
+ * TLDR: Use this class if you just want a normal sphere or ellipsoid, otherwise use {@link ParticleSphere}.
  */
 public class ParticleSphereSFSA extends ParticleShaper {
 
@@ -27,6 +27,7 @@ public class ParticleSphereSFSA extends ParticleShaper {
     protected double limit = 0;
     protected boolean limitInverse = false;
 
+    /**@see ParticleSphereSFSA*/
     public ParticleSphereSFSA(Particle particle, LocationSafe center, double xRadius, double yRadius, double zRadius, double pitch, double yaw, double roll, int particleFrequency) {
         super(particle, particleFrequency);
 
@@ -38,18 +39,22 @@ public class ParticleSphereSFSA extends ParticleShaper {
         start();
     }
 
+    /**@see ParticleSphereSFSA*/
     public ParticleSphereSFSA(Particle particle, LocationSafe center, double radius, double pitch, double yaw, double roll, int particleFrequency) {
         this(particle, center, radius, radius, radius, pitch, yaw, roll, particleFrequency);
     }
 
+    /**@see ParticleSphereSFSA*/
     public ParticleSphereSFSA(Particle particle, LocationSafe center, double xRadius, double yRadius, double zRadius, int particleFrequency) {
         this(particle, center, xRadius, yRadius, zRadius, 0, 0, 0, particleFrequency);
     }
 
+    /**@see ParticleSphereSFSA*/
     public ParticleSphereSFSA(Particle particle, LocationSafe center, double radius, int particleFrequency) {
         this(particle, center, radius, radius, radius, 0, 0, 0, particleFrequency);
     }
 
+    /**@see ParticleSphereSFSA*/
     public ParticleSphereSFSA(Particle particle, LocationSafe center, double radius) {
         this(particle, center, radius, radius, radius, 0, 0, 0, (int) (radius * 75));
     }

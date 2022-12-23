@@ -22,90 +22,111 @@ public class ParticleItemBreak extends TravellingParticle {
 
     private MaterialData data;
 
+    /**@see ParticleItemBreak*/
     public ParticleItemBreak(MaterialData data, Vector velocity, double offsetX, double offsetY, double offsetZ, int count) {
         super(EnumParticle.ITEM_CRACK, false, 0.105, velocity, null, offsetX, offsetY, offsetZ, count);
 
         setMaterialData(data);
     }
 
+    /**@see ParticleItemBreak*/
     public ParticleItemBreak(MaterialData data, Location toGo, double offsetX, double offsetY, double offsetZ, int count) {
         super(EnumParticle.ITEM_CRACK, false, 0.105, null, toGo, offsetX, offsetY, offsetZ, count);
 
         setMaterialData(data);
     }
 
+    /**@see ParticleItemBreak*/
     public ParticleItemBreak(Vector velocity, double offsetX, double offsetY, double offsetZ, int count) {
         this(new MaterialData(-13), velocity, offsetX, offsetY, offsetZ, count);
     }
 
+    /**@see ParticleItemBreak*/
     public ParticleItemBreak(Location toGo, double offsetX, double offsetY, double offsetZ, int count) {
         this(new MaterialData(-13), toGo, offsetX, offsetY, offsetZ, count);
     }
 
+    /**@see ParticleItemBreak*/
     public ParticleItemBreak(MaterialData data, double offsetX, double offsetY, double offsetZ, int count) {
         this(data, (Location) null, offsetX, offsetY, offsetZ, count);
     }
 
+    /**@see ParticleItemBreak*/
     public ParticleItemBreak(MaterialData data, Vector velocity, double offsetX, double offsetY, double offsetZ) {
         this(data, velocity, offsetX, offsetY, offsetZ, 1);
     }
 
+    /**@see ParticleItemBreak*/
     public ParticleItemBreak(MaterialData data, Location toGo, double offsetX, double offsetY, double offsetZ) {
         this(data, toGo, offsetX, offsetY, offsetZ, 1);
     }
 
+    /**@see ParticleItemBreak*/
     public ParticleItemBreak(Vector velocity, double offsetX, double offsetY, double offsetZ) {
         this(new MaterialData(-13), velocity, offsetX, offsetY, offsetZ, 1);
     }
 
+    /**@see ParticleItemBreak*/
     public ParticleItemBreak(Location toGo, double offsetX, double offsetY, double offsetZ) {
         this(new MaterialData(-13), toGo, offsetX, offsetY, offsetZ, 1);
     }
 
+    /**@see ParticleItemBreak*/
     public ParticleItemBreak(MaterialData data, double offsetX, double offsetY, double offsetZ) {
         this(data, (Location) null, offsetX, offsetY, offsetZ, 1);
     }
 
+    /**@see ParticleItemBreak*/
     public ParticleItemBreak(MaterialData data, Vector velocity, int count) {
         this(data, velocity, 0, 0, 0, count);
     }
 
+    /**@see ParticleItemBreak*/
     public ParticleItemBreak(MaterialData data, Location toGo, int count) {
         this(data, toGo, 0, 0, 0, count);
     }
 
+    /**@see ParticleItemBreak*/
     public ParticleItemBreak(Vector velocity, int count) {
         this(new MaterialData(-13), velocity, 0, 0, 0, count);
     }
 
+    /**@see ParticleItemBreak*/
     public ParticleItemBreak(Location toGo, int count) {
         this(new MaterialData(-13), toGo, 0, 0, 0, count);
     }
 
+    /**@see ParticleItemBreak*/
     public ParticleItemBreak(MaterialData data, int count) {
         this(data, (Location) null, 0, 0, 0, count);
     }
 
+    /**@see ParticleItemBreak*/
     public ParticleItemBreak(MaterialData data, Vector velocity) {
         this(data, velocity, 0, 0, 0, 1);
     }
 
+    /**@see ParticleItemBreak*/
     public ParticleItemBreak(MaterialData data, Location toGo) {
         this(data, toGo, 0, 0, 0, 1);
     }
 
+    /**@see ParticleItemBreak*/
     public ParticleItemBreak(Vector velocity) {
         this(new MaterialData(-13), velocity, 0, 0, 0, 1);
     }
 
+    /**@see ParticleItemBreak*/
     public ParticleItemBreak(Location toGo) {
         this(new MaterialData(-13), toGo, 0, 0, 0, 1);
     }
 
+    /**@see ParticleItemBreak*/
     public ParticleItemBreak(MaterialData data) {
         this(data, (Location) null, 0, 0, 0, 1);
     }
 
+    /**@see ParticleItemBreak*/
     public ParticleItemBreak() {
         this(new MaterialData(-13), (Location) null, 0, 0, 0, 1);
     }

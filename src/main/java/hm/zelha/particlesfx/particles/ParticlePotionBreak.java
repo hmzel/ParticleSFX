@@ -24,20 +24,24 @@ public class ParticlePotionBreak extends Particle {
 
     private PotionType type;
 
+    /**@see ParticlePotionBreak*/
     public ParticlePotionBreak(PotionType type, int count) {
         super(EnumParticle.HEART, 0, 0, 0, 0, count, 0);
 
         this.type = type;
     }
 
+    /**@see ParticlePotionBreak*/
     public ParticlePotionBreak(PotionType type) {
         this(type, 1);
     }
 
+    /**@see ParticlePotionBreak*/
     public ParticlePotionBreak(int count) {
         this(PotionType.WATER, count);
     }
 
+    /**@see ParticlePotionBreak*/
     public ParticlePotionBreak() {
         this(PotionType.WATER, 1);
     }

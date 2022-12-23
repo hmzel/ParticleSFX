@@ -21,10 +21,12 @@ public class LocationSafe extends Location {
     private Consumer<Location> mechanic = null;
     private boolean changed = false;
 
+    /**@see LocationSafe*/
     public LocationSafe(World world, double x, double y, double z) {
         super(world, x, y, z);
     }
 
+    /**@see LocationSafe*/
     public LocationSafe(Location location) {
         super(location.getWorld(), location.getX(), location.getY(), location.getZ());
     }
