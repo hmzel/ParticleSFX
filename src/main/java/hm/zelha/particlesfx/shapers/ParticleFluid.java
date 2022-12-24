@@ -23,7 +23,7 @@ public class ParticleFluid extends ParticleShaper {
 
     private final ThreadLocalRandom rng = ThreadLocalRandom.current();
     private final Location locationHelper2;
-    private final Vector vectorHelper2 = new Vector(0, 0, 0);
+    private final Vector vectorHelper2 = new Vector();
     private LocationSafe spawnLocation;
     private double gravity;
     private double repulsion;

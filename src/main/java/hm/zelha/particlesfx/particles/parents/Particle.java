@@ -28,7 +28,7 @@ public class Particle {
     private final List<CraftPlayer> players = ((CraftServer) Bukkit.getServer()).getOnlinePlayers();
     private final List<CraftPlayer> listHelper = new ArrayList<>();
     private final ThreadLocalRandom rng = ThreadLocalRandom.current();
-    private final Vector vectorHelper = new Vector(0, 0, 0);
+    private final Vector vectorHelper = new Vector();
 
     protected Particle(EnumParticle particle, double offsetX, double offsetY, double offsetZ, double speed, int count, int radius) {
         Validate.notNull(particle, "Particle cannot be null!");

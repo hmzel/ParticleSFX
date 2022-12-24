@@ -13,7 +13,7 @@ import java.util.List;
 public class ParticleSpiral extends ParticleShaper {
 
     private final List<CircleInfo> circles = new ArrayList<>();
-    private final Vector vectorHelper2 = new Vector(0, 0, 0);
+    private final Vector vectorHelper2 = new Vector();
     private final Rotation rotHelper = new Rotation();
     private final CircleInfo circleHelper;
     private boolean rotateCircles = true;

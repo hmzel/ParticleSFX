@@ -26,7 +26,7 @@ public abstract class ParticleShaper extends RotationHandler implements Shape {
      * the .get(int) method without creating any objects */
     protected final List<UUID> players = new ArrayList<>();
     protected final Location locationHelper = new Location(null, 0, 0, 0);
-    protected final Vector vectorHelper = new Vector(0, 0, 0);
+    protected final Vector vectorHelper = new Vector();
     protected BukkitTask animator = null;
     protected Particle particle;
     protected int particleFrequency;

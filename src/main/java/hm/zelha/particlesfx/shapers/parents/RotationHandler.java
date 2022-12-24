@@ -26,7 +26,7 @@ public class RotationHandler {
     protected final Location centroid = new Location(Bukkit.getWorld("world"), 0, 0, 0);
     //rh stands for rotation handler
     protected final Location rhLocationHelper = new Location(Bukkit.getWorld("world"), 0, 0, 0);
-    protected final Vector rhVectorHelper = new Vector(0, 0, 0);
+    protected final Vector rhVectorHelper = new Vector();
     private final double[] arrayHelper = new double[] {0, 0};
 
     public void rotate(double pitch, double yaw, double roll) {
