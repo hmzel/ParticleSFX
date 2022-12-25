@@ -43,20 +43,16 @@ public class ParticleCircle extends ParticleShaper {
 
     @Override
     public void display() {
-        double limitation = Math.PI * 2 * limit / 100;
-        double loopEnd = Math.PI * 2;
-        double loopStart = limitation;
         boolean hasRan = false;
-        double increase = ((Math.PI * 2) - limitation) / particleFrequency;
         boolean trackCount = particlesPerDisplay > 0;
 
-        if (limitInverse) {
-            loopEnd -= limitation;
-            loopStart = 0;
-        }
-
-        for (double radian = loopStart + (increase * overallCount); radian < loopEnd; radian += increase) {
+        for (int i = overallCount; i < particleFrequency; i++) {
             Particle particle = getCurrentParticle();
+            double radian = Math.PI * 2 * (100 - limit) / 100 / particleFrequency * i;
+
+            if (!limitInverse) {
+                radian = -radian;
+            }
 
             vectorHelper.setX(xRadius * Math.cos(radian));
             vectorHelper.setY(0);
