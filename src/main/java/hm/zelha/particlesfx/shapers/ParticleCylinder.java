@@ -16,15 +16,15 @@ public class ParticleCylinder extends ParticleShaper {
 
     //TODO: make it so using rotation methods every tick doesnt cause wacky stuff to happen if all locations are evenly spaced
 
-    private final List<CircleInfo> circles = new ArrayList<>();
+    protected final List<CircleInfo> circles = new ArrayList<>();
     //circumference tracker
-    private final List<Double> cirTracker = new ArrayList<>();
-    private final CircleInfo circleHelper = new CircleInfo(new LocationSafe(Bukkit.getWorld("world"), 0, 0, 0), 0, 0);
-    private final Rotation rotHelper = new Rotation();
-    private boolean rotateCircles = true;
-    private boolean recalculate = true;
-    private double surfaceArea = 0;
-    private int circleFrequency;
+    protected final List<Double> cirTracker = new ArrayList<>();
+    protected final CircleInfo circleHelper = new CircleInfo(new LocationSafe(Bukkit.getWorld("world"), 0, 0, 0), 0, 0);
+    protected final Rotation rotHelper = new Rotation();
+    protected boolean rotateCircles = true;
+    protected boolean recalculate = true;
+    protected double surfaceArea = 0;
+    protected int circleFrequency;
 
     public ParticleCylinder(Particle particle, int circleFrequency, int particleFrequency, CircleInfo... circles) {
         super(particle, particleFrequency);
@@ -225,7 +225,7 @@ public class ParticleCylinder extends ParticleShaper {
         return recalc;
     }
 
-    private void recalcCircumferenceAndArea() {
+    protected void recalcCircumferenceAndArea() {
         cirTracker.clear();
 
         surfaceArea = 0;

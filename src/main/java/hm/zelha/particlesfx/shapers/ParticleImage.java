@@ -81,7 +81,7 @@ public class ParticleImage extends ParticleShaper {
         this(particle, center, path, 0, 0, 2000);
     }
 
-    private ParticleImage(ColorableParticle particle, LocationSafe center, double xRadius, double zRadius, int particleFrequency) {
+    protected ParticleImage(ColorableParticle particle, LocationSafe center, double xRadius, double zRadius, int particleFrequency) {
         super(particle, particleFrequency);
 
         setCenter(center);
@@ -224,7 +224,7 @@ public class ParticleImage extends ParticleShaper {
         super.addParticle(particle, particlesUntilDisplay);
     }
 
-    private void addOrRemoveImages(Object toLoad, boolean remove, int index) {
+    protected void addOrRemoveImages(Object toLoad, boolean remove, int index) {
         if (currentThread != null) {
             try {
                 currentThread.join();

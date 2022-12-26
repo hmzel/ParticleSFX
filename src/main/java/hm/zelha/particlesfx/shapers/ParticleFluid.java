@@ -21,12 +21,12 @@ import static org.bukkit.Material.AIR;
 
 public class ParticleFluid extends ParticleShaper {
 
-    private final ThreadLocalRandom rng = ThreadLocalRandom.current();
-    private final Location locationHelper2;
-    private final Vector vectorHelper2 = new Vector();
-    private LocationSafe spawnLocation;
-    private double gravity;
-    private double repulsion;
+    protected final ThreadLocalRandom rng = ThreadLocalRandom.current();
+    protected final Location locationHelper2;
+    protected final Vector vectorHelper2 = new Vector();
+    protected LocationSafe spawnLocation;
+    protected double gravity;
+    protected double repulsion;
 
     public ParticleFluid(Particle particle, LocationSafe spawnLocation, double gravity, double repulsion, int particleFrequency) {
         super(particle, particleFrequency);

@@ -17,21 +17,21 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class ParticleText extends ParticleShaper {
 
-    private final ThreadLocalRandom rng = ThreadLocalRandom.current();
-    private final List<String> text = new ArrayList<>();
-    private Font font = new Font("Arial", Font.PLAIN, 50);
-    private double xRadius;
-    private double zRadius;
-    private boolean inverted = false;
-    private boolean centered = true;
-    private int borderX = 10;
-    private int borderZ = 10;
-    private BufferedImage image = null;
-    private boolean remakeImage = true;
-    private double width = 0;
-    private double height = 0;
-    private double startX = 0;
-    private double startZ = 0;
+    protected final ThreadLocalRandom rng = ThreadLocalRandom.current();
+    protected final List<String> text = new ArrayList<>();
+    protected Font font = new Font("Arial", Font.PLAIN, 50);
+    protected double xRadius;
+    protected double zRadius;
+    protected boolean inverted = false;
+    protected boolean centered = true;
+    protected int borderX = 10;
+    protected int borderZ = 10;
+    protected BufferedImage image = null;
+    protected boolean remakeImage = true;
+    protected double width = 0;
+    protected double height = 0;
+    protected double startX = 0;
+    protected double startZ = 0;
 
     public ParticleText(Particle particle, LocationSafe center, double xRadius, double zRadius, int particleFrequency, String... text) {
         super(particle, particleFrequency);
@@ -145,7 +145,7 @@ public class ParticleText extends ParticleShaper {
         return clone;
     }
 
-    private void remakeImage() {
+    protected void remakeImage() {
         image = new BufferedImage(1, 1, BufferedImage.TYPE_4BYTE_ABGR);
         Graphics graphics = image.getGraphics();
         List<Rectangle2D> boxes = new ArrayList<>();

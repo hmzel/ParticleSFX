@@ -10,10 +10,10 @@ import java.util.List;
 
 public class ParticleLineCurved extends ParticleLine {
 
-    private final List<CurveInfo> curves = new ArrayList<>();
-    private final Rotation rot3 = new Rotation();
-    private final Vector vectorHelper2 = new Vector();
-    private boolean rotateCurves = true;
+    protected final List<CurveInfo> curves = new ArrayList<>();
+    protected final Rotation rot3 = new Rotation();
+    protected final Vector vectorHelper2 = new Vector();
+    protected boolean rotateCurves = true;
 
     public ParticleLineCurved(Particle particle, int particleFrequency, LocationSafe... locations) {
         super(particle, particleFrequency, locations);

@@ -13,9 +13,9 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class ParticlePolygonFilled extends ParticlePolygon {
 
-    private final ThreadLocalRandom rng = ThreadLocalRandom.current();
-    private final Location locationHelper2;
-    private final Vector vectorHelper2 = new Vector();
+    protected final ThreadLocalRandom rng = ThreadLocalRandom.current();
+    protected final Location locationHelper2;
+    protected final Vector vectorHelper2 = new Vector();
 
     public ParticlePolygonFilled(Particle particle, LocationSafe center, int cornersPerLayer, int layers, double xRadius, double yRadius, double zRadius, int particleFrequency) {
         super(particle, center, cornersPerLayer, layers, xRadius, yRadius, zRadius, particleFrequency);

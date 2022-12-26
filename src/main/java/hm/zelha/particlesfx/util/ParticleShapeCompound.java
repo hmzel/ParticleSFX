@@ -16,9 +16,9 @@ import java.util.logging.Level;
 
 public class ParticleShapeCompound extends RotationHandler implements Shape {
 
-    private final Map<Shape, Integer> shapeLocationIndex = new LinkedHashMap<>();
-    private final Map<String, Shape> nameMap = new HashMap<>();
-    private boolean recalc = false;
+    protected final Map<Shape, Integer> shapeLocationIndex = new LinkedHashMap<>();
+    protected final Map<String, Shape> nameMap = new HashMap<>();
+    protected boolean recalc = false;
 
     public ParticleShapeCompound(Shape... shapes) {
         for (Shape shape : shapes) {
@@ -138,7 +138,7 @@ public class ParticleShapeCompound extends RotationHandler implements Shape {
      *
      * i might later. at some point. we'll see. but im already going insane enough trying to make this spawn of hell.
      */
-    private ArrayListSafe<LocationSafe> reflectLocations(Shape shape) {
+    protected ArrayListSafe<LocationSafe> reflectLocations(Shape shape) {
         try {
             Field f = RotationHandler.class.getDeclaredField("locations");
 

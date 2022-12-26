@@ -12,13 +12,13 @@ import java.util.List;
 
 public class ParticleSpiral extends ParticleShaper {
 
-    private final List<CircleInfo> circles = new ArrayList<>();
-    private final Vector vectorHelper2 = new Vector();
-    private final Rotation rotHelper = new Rotation();
-    private final CircleInfo circleHelper;
-    private boolean rotateCircles = true;
-    private double spin;
-    private int count;
+    protected final List<CircleInfo> circles = new ArrayList<>();
+    protected final Vector vectorHelper2 = new Vector();
+    protected final Rotation rotHelper = new Rotation();
+    protected final CircleInfo circleHelper;
+    protected boolean rotateCircles = true;
+    protected double spin;
+    protected int count;
 
     public ParticleSpiral(Particle particle, double spin, int count, int particleFrequency, CircleInfo... circles) {
         super(particle, particleFrequency);

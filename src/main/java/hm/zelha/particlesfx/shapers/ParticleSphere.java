@@ -20,10 +20,10 @@ public class ParticleSphere extends ParticleSphereSFSA {
     // maybe make this extend ParticleCircle at some point? that makes sense but doesnt at the same time so idrk. decide later
 
     //circumference tracker
-    private final List<Double> cirTracker = new ArrayList<>();
-    private int circleFrequency;
-    private double surfaceArea = 0;
-    private boolean recalculate = true;
+    protected final List<Double> cirTracker = new ArrayList<>();
+    protected int circleFrequency;
+    protected double surfaceArea = 0;
+    protected boolean recalculate = true;
 
     /**@see ParticleSphere*/
     public ParticleSphere(Particle particle, LocationSafe center, double xRadius, double yRadius, double zRadius, double pitch, double yaw, double roll, int circleFrequency, int particleFrequency) {
@@ -171,7 +171,7 @@ public class ParticleSphere extends ParticleSphereSFSA {
         return clone;
     }
 
-    private void recalcCircumferenceAndArea(double loopEndFix, double loopStart, double loopEnd, double increase) {
+    protected void recalcCircumferenceAndArea(double loopEndFix, double loopStart, double loopEnd, double increase) {
         cirTracker.clear();
 
         surfaceArea = 0;
