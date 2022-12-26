@@ -43,6 +43,7 @@ public class ParticleCircleFilled extends ParticleCircle {
 
             if ((!limitInverse && z + zRadius > limitation) || (limitInverse && z + zRadius < limitation)) {
                 count++;
+
                 continue;
             }
 

@@ -40,15 +40,17 @@ public class ParticleCylinder extends ParticleShaper {
         start();
     }
 
+    public ParticleCylinder(Particle particle, int particleFrequency, CircleInfo... circles) {
+        this(particle, circles.length * 5, particleFrequency, circles);
+    }
+
     public ParticleCylinder(Particle particle, CircleInfo... circles) {
-        this(particle, circles.length * 5, 100, circles);
+        this(particle, circles.length * 5, circles.length * 250, circles);
     }
 
     @Override
     public void display() {
         double totalDist = getTotalDistance();
-        double distToTravel = 0;
-        double continuation = 0;
         int circle = 0;
         int current = overallCount;
         boolean hasRan = false;
@@ -71,19 +73,21 @@ public class ParticleCylinder extends ParticleShaper {
         rotHelper.set(circleHelper.getPitch(), circleHelper.getYaw(), circleHelper.getRoll());
 
         main:
-        for (int i = 0; i < circleFrequency; i++, distToTravel = totalDist / (circleFrequency - 1)) {
+        for (int i = 0; i < circleFrequency; i++) {
             CircleInfo circle1 = circles.get(circle);
             CircleInfo circle2 = circles.get(circle + 1);
             double distance = circleHelper.getCenter().distance(circle2.getCenter());
-            double particleAmount = Math.floor(particleFrequency * (cirTracker.get(i) / surfaceArea));
+            double particleAmount = Math.max(Math.floor(particleFrequency * (cirTracker.get(i) / surfaceArea)), 1);
+            double distToTravel = totalDist / (circleFrequency - 1);
 
-            if (particleAmount <= 0) {
-                particleAmount = 1;
+            if (i == 0) {
+                distToTravel = 0;
             }
 
             if (trackCount) {
                 if (current >= particleAmount) {
                     current -= particleAmount;
+
                     continue;
                 }
 
@@ -93,13 +97,11 @@ public class ParticleCylinder extends ParticleShaper {
             }
 
             while (distToTravel > distance) {
-                //i think this only happens because of double inconsistency so its fine to just ignore
-                //in every case where this breaks the while loop the final circle winds up exactly where it should be,
-                //anything off has to be in the millionths of a decimal
+                //in every case where this breaks the while loop the final circle winds up exactly where it should be, so it's fine
                 if (circle + 2 >= circles.size()) break;
 
-                distToTravel -= distance;
                 circle++;
+                distToTravel -= distance;
                 circle1 = circles.get(circle);
                 circle2 = circles.get(circle + 1);
                 distance = circle1.getCenter().distance(circle2.getCenter());
@@ -121,24 +123,9 @@ public class ParticleCylinder extends ParticleShaper {
             circleHelper.setZRadius(circleHelper.getZRadius() + ((circle2.getZRadius() - circle1.getZRadius()) * control));
             rotHelper.add((circle2.getPitch() - circle1.getPitch()) * control, (circle2.getYaw() - circle1.getYaw()) * control, (circle2.getRoll() - circle1.getRoll()) * control);
 
-            double increase = Math.PI * 2 / particleAmount;
-            double start = 0;
-
-            if (!Double.isFinite(increase)) {
-                increase = Math.PI * 2;
-            }
-
-            if (trackCount) {
-                start = increase * current;
-            }
-
-            for (double radian = start + continuation; true; radian += increase) {
-                if (radian > (Math.PI * 2) + continuation) {
-                    continuation = radian - Math.PI * 2;
-                    break;
-                }
-
+            for (int k = current; k < particleAmount; k++) {
                 Particle particle = getCurrentParticle();
+                double radian = Math.PI * 2 / particleAmount * k;
 
                 vectorHelper.setX(circleHelper.getXRadius() * Math.cos(radian));
                 vectorHelper.setY(0);
@@ -242,13 +229,11 @@ public class ParticleCylinder extends ParticleShaper {
             double distance = circleHelper.getCenter().distance(circle2.getCenter());
 
             while (distToTravel > distance) {
-                //i think this only happens because of double inconsistency so its fine to just ignore
-                //in every case where this breaks the while loop the final circle winds up exactly where it should be,
-                //anything off has to be in the millionths of a decimal
+                //in every case where this breaks the while loop the final circle winds up exactly where it should be, so it's fine
                 if (circle + 2 >= circles.size()) break;
 
-                distToTravel -= distance;
                 circle++;
+                distToTravel -= distance;
                 circle1 = circles.get(circle);
                 circle2 = circles.get(circle + 1);
                 distance = circle1.getCenter().distance(circle2.getCenter());
