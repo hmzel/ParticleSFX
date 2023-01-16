@@ -265,12 +265,12 @@ public class ParticleFluid extends ParticleShaper {
         if (spawnLocation == null) return;
 
         if (particleFrequency > locations.size()) {
-            for (int i = locations.size(); i <= particleFrequency; i++) {
+            for (int i = locations.size(); i < particleFrequency; i++) {
                 locations.add(spawnLocation.clone());
                 origins.add(spawnLocation.clone());
             }
         } else if (particleFrequency < locations.size()) {
-            for (int i = particleFrequency; i <= locations.size(); i++) {
+            for (int i = particleFrequency; i < locations.size(); i++) {
                 int index = rng.nextInt(locations.size());
 
                 locations.remove(index);
