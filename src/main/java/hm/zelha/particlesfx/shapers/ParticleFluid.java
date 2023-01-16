@@ -109,10 +109,9 @@ public class ParticleFluid extends ParticleShaper {
                     vectorHelper.setX(rng.nextDouble(repulsion * 2) - repulsion);
                     vectorHelper.setY(rng.nextDouble(repulsion * 2) - repulsion);
                     vectorHelper.setZ(rng.nextDouble(repulsion * 2) - repulsion);
-                } else {
-                    LVMath.divide(vectorHelper, LVMath.getAbsoluteSum(vectorHelper) / repulsion);
                 }
 
+                LVMath.divide(vectorHelper, LVMath.getAbsoluteSum(vectorHelper) / repulsion);
                 locationHelper.add(vectorHelper);
 
                 nearby++;
@@ -124,9 +123,7 @@ public class ParticleFluid extends ParticleShaper {
             }
 
             //gravity
-            vectorHelper.zero();
-            vectorHelper.setY(-gravity);
-            locationHelper.add(vectorHelper);
+            locationHelper.subtract(0, gravity, 0);
 
             //entity collision
             for (int z = 0; z < entityList.size(); z++) {
