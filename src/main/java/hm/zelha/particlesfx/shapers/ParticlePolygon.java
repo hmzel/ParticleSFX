@@ -31,22 +31,16 @@ public class ParticlePolygon extends ParticleShaper {
         } else {
             int arrayPos = 0;
 
-            for (double i = 0; true; i += Math.PI / (layers - 1)) {
-                //the long decimal number is used to cut PI to the 29th decimal place to prevent some double weirdness that i dont even understand
-                if (i > Math.PI - 3.5897932384626433832795028841972e-9) {
-                    i = Math.PI;
-                }
-
-                double x = xRadius * Math.sin(i);
-                double z = zRadius * Math.sin(i);
+            for (int i = 0; i < layers; i++) {
+                double radian = Math.PI / (layers - 1) * i;
+                double x = xRadius * Math.sin(radian);
+                double z = zRadius * Math.sin(radian);
 
                 if (x < 0.05 && z < 0.05) {
-                    polygonLayers[arrayPos] = new PolygonLayer(1, x, z, yRadius * Math.cos(i));
+                    polygonLayers[arrayPos] = new PolygonLayer(1, x, z, yRadius * Math.cos(radian));
                 } else {
-                    polygonLayers[arrayPos] = new PolygonLayer(cornersPerLayer, x, z, yRadius * Math.cos(i));
+                    polygonLayers[arrayPos] = new PolygonLayer(cornersPerLayer, x, z, yRadius * Math.cos(radian));
                 }
-
-                if (i == Math.PI) break;
 
                 arrayPos++;
             }
@@ -93,13 +87,9 @@ public class ParticlePolygon extends ParticleShaper {
     @Override
     public void display() {
         double control = getTotalDistance() / particleFrequency;
-        int current = 0;
+        int current = overallCount;
         boolean hasRan = false;
         boolean trackCount = particlesPerDisplay > 0;
-
-        if (trackCount) {
-            current = overallCount;
-        }
 
         main:
         for (Corner corner : corners) {
@@ -108,17 +98,15 @@ public class ParticlePolygon extends ParticleShaper {
                 Location end = corner.getConnection(i).getLocation();
                 double distance = start.distance(end);
 
-                if (trackCount && current >= distance / control) {
+                if (current >= distance / control) {
                     current -= distance / control;
+
                     continue;
                 }
 
                 locationHelper.zero().add(start);
                 LVMath.subtractToVector(vectorHelper, end, start).normalize().multiply(control);
-
-                if (trackCount) {
-                    locationHelper.add(vectorHelper.getX() * current, vectorHelper.getY() * current, vectorHelper.getZ() * current);
-                }
+                locationHelper.add(vectorHelper.getX() * current, vectorHelper.getY() * current, vectorHelper.getZ() * current);
 
                 for (double length = control * current; length <= distance; length += control) {
                     Particle particle = getCurrentParticle();
@@ -135,8 +123,6 @@ public class ParticlePolygon extends ParticleShaper {
 
                     locationHelper.add(vectorHelper);
                     applyMechanics(ShapeDisplayMechanic.Phase.AFTER_DISPLAY, particle, locationHelper, vectorHelper);
-
-                    overallCount++;
 
                     if (trackCount) {
                         currentCount++;
@@ -235,13 +221,13 @@ public class ParticlePolygon extends ParticleShaper {
         List<Corner> lastCorners = null;
         List<Corner> currentCorners = new ArrayList<>();
         double currentConnection;
-        //last sides + 1 / current sides + 1
 
         for (PolygonLayer layer : layers) {
             currentConnection = 0;
 
-            //the long decimal number is used to cut PI * 2 to the 29th decimal place to prevent some double weirdness that i dont even understand
-            for (double radian = 0; radian < (Math.PI * 2) - 1.4769252867665590057683943387986e-15; radian += Math.PI * 2 / layer.getCorners()) {
+            for (int i = 0; i < layer.getCorners(); i++) {
+                double radian = Math.PI * 2 / layer.getCorners() * i;
+
                 vectorHelper.setX(layer.getXRadius() * Math.cos(radian));
                 vectorHelper.setY(layer.getYPosition());
                 vectorHelper.setZ(layer.getZRadius() * Math.sin(radian));
@@ -250,7 +236,7 @@ public class ParticlePolygon extends ParticleShaper {
                 locationHelper.zero().add(center);
                 locationHelper.add(vectorHelper);
 
-                Corner corner = new Corner(new LocationSafe(locationHelper.getWorld(), locationHelper.getX(), locationHelper.getY(), locationHelper.getZ()));
+                Corner corner = new Corner(new LocationSafe(locationHelper));
 
                 addCorner(corner);
 
@@ -266,8 +252,8 @@ public class ParticlePolygon extends ParticleShaper {
                     if (connectionInc < 2) {
                         corner.connect(lastCorners.get((int) currentConnection));
                     } else {
-                        for (int i = 0; i < (int) connectionInc; i++) {
-                            corner.connect(lastCorners.get(((int) currentConnection) + i));
+                        for (int k = 0; k < (int) connectionInc; k++) {
+                            corner.connect(lastCorners.get(((int) currentConnection) + k));
                         }
                     }
 
@@ -333,7 +319,7 @@ public class ParticlePolygon extends ParticleShaper {
      * @param index index of the corner to remove
      */
     public void removeCorner(int index) {
-        removeCorner(index, false);
+        removeCorner(index, true);
     }
 
     @Override
