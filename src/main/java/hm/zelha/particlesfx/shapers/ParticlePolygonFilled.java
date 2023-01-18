@@ -72,6 +72,7 @@ public class ParticlePolygonFilled extends ParticlePolygon {
 
             if (corner.getConnectionAmount() == 0) {
                 i--;
+
                 continue;
             }
 
@@ -87,6 +88,7 @@ public class ParticlePolygonFilled extends ParticlePolygon {
 
             double startDist = corner.getLocation().distance(startCon.getLocation());
             double endDist = corner.getLocation().distance(endCon.getLocation());
+            double rngDist = rng.nextDouble(startDist);
 
             locationHelper.zero().add(corner.getLocation());
             locationHelper2.zero().add(corner.getLocation());
@@ -94,18 +96,14 @@ public class ParticlePolygonFilled extends ParticlePolygon {
             LVMath.subtractToVector(vectorHelper2, endCon.getLocation(), locationHelper2).normalize();
 
             if (startDist < endDist) {
-                double rngDist = rng.nextDouble(startDist);
-
                 vectorHelper.multiply(rngDist);
                 vectorHelper2.multiply(rng.nextDouble(rngDist, endDist));
             } else if (endDist < startDist) {
-                double rngDist = rng.nextDouble(endDist);
+                rngDist = rng.nextDouble(endDist);
 
                 vectorHelper.multiply(rng.nextDouble(rngDist, startDist));
                 vectorHelper2.multiply(rngDist);
             } else {
-                double rngDist = rng.nextDouble(startDist);
-
                 vectorHelper.multiply(rngDist);
                 vectorHelper2.multiply(rngDist);
             }
@@ -193,13 +191,13 @@ public class ParticlePolygonFilled extends ParticlePolygon {
         List<Corner> lastCorners = null;
         List<Corner> currentCorners = new ArrayList<>();
         double currentConnection;
-        //last sides + 1 / current sides + 1
 
         for (PolygonLayer layer : layers) {
             currentConnection = 0;
 
-            //the long decimal number is used to cut PI * 2 to the 29th decimal place to prevent some double weirdness that i dont even understand
-            for (double radian = 0; radian < (Math.PI * 2) - 1.4769252867665590057683943387986e-15; radian += Math.PI * 2 / layer.getCorners()) {
+            for (int i = 0; i < layer.getCorners(); i++) {
+                double radian = Math.PI * 2 / layer.getCorners() * i;
+
                 vectorHelper.setX(layer.getXRadius() * Math.cos(radian));
                 vectorHelper.setY(layer.getYPosition());
                 vectorHelper.setZ(layer.getZRadius() * Math.sin(radian));
@@ -208,7 +206,7 @@ public class ParticlePolygonFilled extends ParticlePolygon {
                 locationHelper.zero().add(center);
                 locationHelper.add(vectorHelper);
 
-                Corner corner = new Corner(new LocationSafe(locationHelper.getWorld(), locationHelper.getX(), locationHelper.getY(), locationHelper.getZ()));
+                Corner corner = new Corner(new LocationSafe(locationHelper));
 
                 addCorner(corner);
 
@@ -230,8 +228,8 @@ public class ParticlePolygonFilled extends ParticlePolygon {
                         corner.connect(connection);
                         connection.connect(corner);
                     } else {
-                        for (int i = 0; i < (int) connectionInc; i++) {
-                            Corner connection = lastCorners.get(((int) currentConnection) + i);
+                        for (int k = 0; k < (int) connectionInc; k++) {
+                            Corner connection = lastCorners.get(((int) currentConnection) + k);
 
                             corner.connect(connection);
                             connection.connect(corner);
