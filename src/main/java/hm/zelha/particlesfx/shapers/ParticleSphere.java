@@ -62,17 +62,17 @@ public class ParticleSphere extends ParticleSphereSFSA {
 
     /**@see ParticleSphere*/
     public ParticleSphere(Particle particle, LocationSafe center, double xRadius, double yRadius, double zRadius, int particleFrequency) {
-        this(particle, center, xRadius, yRadius, zRadius, 0, 0, 0, particleFrequency / 20, particleFrequency);
+        this(particle, center, xRadius, yRadius, zRadius, 0, 0, 0, (int) (particleFrequency * 0.021), particleFrequency);
     }
 
     /**@see ParticleSphere*/
     public ParticleSphere(Particle particle, LocationSafe center, double radius, int particleFrequency) {
-        this(particle, center, radius, radius, radius, 0, 0, 0, particleFrequency / 20, particleFrequency);
+        this(particle, center, radius, radius, radius, 0, 0, 0, (int) (particleFrequency * 0.021), particleFrequency);
     }
 
     /**@see ParticleSphere*/
     public ParticleSphere(Particle particle, LocationSafe center, double radius) {
-        this(particle, center, radius, radius, radius, 0, 0, 0, (int) (radius * 75 / 20), (int) (radius * 75));
+        this(particle, center, radius, radius, radius, 0, 0, 0, (int) (radius * 75 * 0.021), (int) (radius * 75));
     }
 
     @Override
