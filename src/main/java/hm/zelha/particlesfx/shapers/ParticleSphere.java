@@ -22,24 +22,40 @@ public class ParticleSphere extends ParticleSphereSFSA {
     protected double surfaceArea = 0;
     protected boolean recalculate = true;
 
-    /**@see ParticleSphere*/
+    /**
+     * Note: if circleFrequency is too high it can cause the sphere to look weird, if that's why you're looking at this then I'd suggest lowering it.
+     *
+     * @see ParticleSphere
+     */
     public ParticleSphere(Particle particle, LocationSafe center, double xRadius, double yRadius, double zRadius, double pitch, double yaw, double roll, int circleFrequency, int particleFrequency) {
         super(particle, center, xRadius, yRadius, zRadius, pitch, yaw, roll, particleFrequency);
 
         setCircleFrequency(circleFrequency);
     }
 
-    /**@see ParticleSphere*/
+    /**
+     * Note: if circleFrequency is too high it can cause the sphere to look weird, if that's why you're looking at this then I'd suggest lowering it.
+     *
+     * @see ParticleSphere
+     */
     public ParticleSphere(Particle particle, LocationSafe center, double radius, double pitch, double yaw, double roll, int circleFrequency, int particleFrequency) {
         this(particle, center, radius, radius, radius, pitch, yaw, roll, circleFrequency, particleFrequency);
     }
 
-    /**@see ParticleSphere*/
+    /**
+     * Note: if circleFrequency is too high it can cause the sphere to look weird, if that's why you're looking at this then I'd suggest lowering it.
+     *
+     * @see ParticleSphere
+     */
     public ParticleSphere(Particle particle, LocationSafe center, double xRadius, double yRadius, double zRadius, int circleFrequency, int particleFrequency) {
         this(particle, center, xRadius, yRadius, zRadius, 0, 0, 0, circleFrequency, particleFrequency);
     }
 
-    /**@see ParticleSphere*/
+    /**
+     * Note: if circleFrequency is too high it can cause the sphere to look weird, if that's why you're looking at this then I'd suggest lowering it.
+     *
+     * @see ParticleSphere
+     */
     public ParticleSphere(Particle particle, LocationSafe center, double radius, int circleFrequency, int particleFrequency) {
         this(particle, center, radius, radius, radius, 0, 0, 0, circleFrequency, particleFrequency);
     }
