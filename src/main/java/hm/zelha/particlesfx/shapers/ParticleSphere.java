@@ -105,9 +105,9 @@ public class ParticleSphere extends ParticleSphereSFSA {
                 double radian = Math.PI * 2 / particleAmount * k;
 
                 locationHelper.zero().add(locations.get(0));
-                vectorHelper.setX(Math.cos(radian) * (xRadius * Math.sin(curveRadian)));
+                vectorHelper.setX(xRadius * Math.sin(curveRadian) * Math.cos(radian));
                 vectorHelper.setY(yRadius * Math.cos(curveRadian));
-                vectorHelper.setZ(Math.sin(radian) * (zRadius * Math.sin(curveRadian)));
+                vectorHelper.setZ(zRadius * Math.sin(curveRadian) * Math.sin(radian));
                 applyMechanics(ShapeDisplayMechanic.Phase.BEFORE_ROTATION, particle, locationHelper, vectorHelper);
                 rot.apply(vectorHelper);
                 applyMechanics(ShapeDisplayMechanic.Phase.AFTER_ROTATION, particle, locationHelper, vectorHelper);

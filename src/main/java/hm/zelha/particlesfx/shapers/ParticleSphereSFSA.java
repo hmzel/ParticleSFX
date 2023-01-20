@@ -66,24 +66,20 @@ public class ParticleSphereSFSA extends ParticleShaper {
 
         for (int i = overallCount; i < particleFrequency; i++) {
             Particle particle = getCurrentParticle();
-            //phi multiplier
-            double phiX;
+            double limit;
 
             if (limitInverse) {
-                phiX = i - (i * (limit / 100));
+                limit = i - (i * (this.limit / 100));
             } else {
-                phiX = particleFrequency - (i - (i * (limit / 100)));
+                limit = particleFrequency - (i - (i * (this.limit / 100)));
             }
 
-            double phi = Math.acos(1 - 2D * phiX / particleFrequency);
-            double theta = Math.PI * (1 + Math.sqrt(5)) * i;
-            double x = Math.cos(theta) * Math.sin(phi) * xRadius;
-            double y = Math.cos(phi) * zRadius;
-            double z = Math.sin(theta) * Math.sin(phi) * yRadius;
+            double curveRadian = Math.acos(1 - 2D * limit / particleFrequency);
+            double radian = Math.PI * (1 + Math.sqrt(5)) * i;
 
-            vectorHelper.setX(x);
-            vectorHelper.setY(y);
-            vectorHelper.setZ(z);
+            vectorHelper.setX(xRadius * Math.sin(curveRadian) * Math.cos(radian));
+            vectorHelper.setY(yRadius * Math.cos(curveRadian));
+            vectorHelper.setZ(zRadius * Math.sin(curveRadian) * Math.sin(radian));
             locationHelper.zero().add(getCenter());
             applyMechanics(ShapeDisplayMechanic.Phase.BEFORE_ROTATION, particle, locationHelper, vectorHelper);
             rot.apply(vectorHelper);
