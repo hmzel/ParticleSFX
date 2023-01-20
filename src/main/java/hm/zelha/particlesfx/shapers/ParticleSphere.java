@@ -192,14 +192,23 @@ public class ParticleSphere extends ParticleSphereSFSA {
         recalculate = false;
     }
 
-    public void setxRadius(double xRadius) {
-        super.setxRadius(xRadius);
+    @Override
+    public void setXRadius(double xRadius) {
+        super.setXRadius(xRadius);
 
         recalculate = true;
     }
 
-    public void setzRadius(double zRadius) {
-        super.setzRadius(zRadius);
+    @Override
+    public void setZRadius(double zRadius) {
+        super.setZRadius(zRadius);
+
+        recalculate = true;
+    }
+
+    @Override
+    public void setLimit(double limit) {
+        super.setLimit(limit);
 
         recalculate = true;
     }
@@ -209,12 +218,6 @@ public class ParticleSphere extends ParticleSphereSFSA {
         Validate.isTrue(circleFrequency <= particleFrequency, "You can't have more circles than particles!");
 
         this.circleFrequency = circleFrequency;
-        recalculate = true;
-    }
-
-    public void setLimit(double limit) {
-        super.setLimit(limit);
-
         recalculate = true;
     }
 

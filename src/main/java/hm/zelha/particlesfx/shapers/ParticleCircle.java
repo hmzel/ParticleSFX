@@ -17,10 +17,9 @@ public class ParticleCircle extends ParticleShaper {
     public ParticleCircle(Particle particle, LocationSafe center, double xRadius, double zRadius, double pitch, double yaw, double roll, int particleFrequency) {
         super(particle, particleFrequency);
 
-        this.xRadius = xRadius;
-        this.zRadius = zRadius;
-
         setCenter(center);
+        setXRadius(xRadius);
+        setZRadius(zRadius);
         rot.set(pitch, yaw, roll);
         start();
     }
