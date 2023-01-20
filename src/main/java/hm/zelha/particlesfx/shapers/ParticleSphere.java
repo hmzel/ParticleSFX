@@ -16,9 +16,6 @@ import java.util.List;
  */
 public class ParticleSphere extends ParticleSphereSFSA {
 
-    //TODO: see if theres any way to improve particlesPerDisplay in this class
-    // maybe make this extend ParticleCircle at some point? that makes sense but doesnt at the same time so idrk. decide later
-
     //circumference tracker
     protected final List<Double> cirTracker = new ArrayList<>();
     protected int circleFrequency;
@@ -64,59 +61,37 @@ public class ParticleSphere extends ParticleSphereSFSA {
 
     @Override
     public void display() {
-        int currentCir = 0;
-        double continuation = 0;
-        double limitation = Math.PI * limit / 100;
-        //the long decimal number is used to cut PI to the 29th decimal place to prevent some double weirdness that i dont even understand
-        double loopEndFix = Math.PI - 3.5897932384626433832795028841972e-9;
-        double loopStart = limitation;
-        double loopEnd = Math.PI;
-        double increase = (Math.PI - limitation) / (circleFrequency - 1);
         boolean hasRan = false;
         boolean trackCount = particlesPerDisplay > 0;
-        double current = overallCount;
-
-        if (limitInverse) {
-            loopEnd -= limitation;
-            //cutting loopEnd down to the 29th decimal. reason already stated
-            loopEndFix = loopEnd - ((loopEnd) - (((int) ((loopEnd) * 29)) / 29D));
-            loopStart = 0;
-        }
+        int current = overallCount;
 
         if (recalculate) {
-            recalcCircumferenceAndArea(loopEndFix, loopStart, loopEnd, increase);
+            recalcCircumferenceAndArea();
         }
 
         main:
-        for (double i = loopStart; true; i += increase) {
-            if (i > loopEndFix) {
-                i = loopEnd;
+        for (int i = 0; i < circleFrequency; i++) {
+            double curveRadian = (Math.PI - (Math.PI * limit / 100)) / (circleFrequency - 1) * i;
+            int particleAmount = (int) ((particleFrequency - (circleFrequency / 2D)) * (cirTracker.get(i) / surfaceArea)) + 1;
+
+            if (!limitInverse) {
+                curveRadian += Math.PI * limit / 100;
             }
 
-            double curve = Math.sin(i);
-            double circleInc = (Math.PI * 2) / Math.floor(particleFrequency * (cirTracker.get(currentCir) / surfaceArea));
+            if (trackCount && current >= particleAmount) {
+                current -= particleAmount;
 
-            if (!Double.isFinite(circleInc)) {
-                circleInc = Math.PI * 2;
+                continue;
             }
 
-            for (double radian = continuation; true; radian += circleInc) {
-                if (radian > (Math.PI * 2) + continuation) {
-                    continuation = radian - Math.PI * 2;
-                    break;
-                }
-
-                if (trackCount && current != 0) {
-                    current--;
-                    continue;
-                }
-
+            for (int k = current; k < particleAmount; k++) {
                 Particle particle = getCurrentParticle();
+                double radian = Math.PI * 2 / particleAmount * k;
 
                 locationHelper.zero().add(locations.get(0));
-                vectorHelper.setX(Math.cos(radian) * (xRadius * curve));
-                vectorHelper.setY(yRadius * Math.cos(i));
-                vectorHelper.setZ(Math.sin(radian) * (zRadius * curve));
+                vectorHelper.setX(Math.cos(radian) * (xRadius * Math.sin(curveRadian)));
+                vectorHelper.setY(yRadius * Math.cos(curveRadian));
+                vectorHelper.setZ(Math.sin(radian) * (zRadius * Math.sin(curveRadian)));
                 applyMechanics(ShapeDisplayMechanic.Phase.BEFORE_ROTATION, particle, locationHelper, vectorHelper);
                 rot.apply(vectorHelper);
                 applyMechanics(ShapeDisplayMechanic.Phase.AFTER_ROTATION, particle, locationHelper, vectorHelper);
@@ -138,14 +113,13 @@ public class ParticleSphere extends ParticleSphereSFSA {
 
                     if (currentCount >= particlesPerDisplay) {
                         currentCount = 0;
+
                         break main;
                     }
                 }
             }
 
-            if (i == loopEnd) break;
-
-            currentCir++;
+            current = 0;
         }
 
         if (!trackCount || !hasRan) {
@@ -171,17 +145,19 @@ public class ParticleSphere extends ParticleSphereSFSA {
         return clone;
     }
 
-    protected void recalcCircumferenceAndArea(double loopEndFix, double loopStart, double loopEnd, double increase) {
+    protected void recalcCircumferenceAndArea() {
         cirTracker.clear();
 
         surfaceArea = 0;
 
-        for (double i = loopStart; true; i += increase) {
-            if (i > loopEndFix) {
-                i = loopEnd;
+        for (int i = 0; i < circleFrequency; i++) {
+            double curveRadian = (Math.PI - (Math.PI * limit / 100)) / (circleFrequency - 1) * i;
+
+            if (!limitInverse) {
+                curveRadian += Math.PI * limit / 100;
             }
 
-            double curve = Math.sin(i);
+            double curve = Math.sin(curveRadian);
             double circumference;
 
             if (xRadius == zRadius) {
@@ -195,12 +171,9 @@ public class ParticleSphere extends ParticleSphereSFSA {
 
             cirTracker.add(circumference);
             surfaceArea += circumference;
-
-            if (i == loopEnd) {
-                recalculate = false;
-                break;
-            }
         }
+
+        recalculate = false;
     }
 
     public void setxRadius(double xRadius) {
