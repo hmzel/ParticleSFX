@@ -26,9 +26,7 @@ public class ParticleNote extends Particle {
     public ParticleNote(NoteColor color, int count) {
         super(EnumParticle.NOTE, 0, 0, 0, 0, count, 0);
 
-        Validate.notNull(color, "Color cannot be null!");
-
-        this.color = color;
+        setNoteColor(color);
     }
 
     /**@see ParticleNote*/
@@ -51,18 +49,15 @@ public class ParticleNote extends Particle {
         Validate.notNull(location, "Location cannot be null!");
         Validate.notNull(location.getWorld(), "World cannot be null!");
 
-        int count2 = 1;
         Packet packet = null;
 
         if (color != NoteColor.RANDOM) {
             packet = new PacketPlayOutBlockAction(new BlockPosition(
                     location.getBlockX(), location.getBlockY(), location.getBlockZ()
             ), Blocks.NOTEBLOCK, 0, color.getValue());
-
-            count2 = count;
         }
 
-        for (int i = 0; i != count2; i++) {
+        for (int i = 0; i < (((color != NoteColor.RANDOM)) ? count : 1); i++) {
             for (int i2 = 0; i2 < players.size(); i2++) {
                 EntityPlayer p = players.get(i2).getHandle();
 

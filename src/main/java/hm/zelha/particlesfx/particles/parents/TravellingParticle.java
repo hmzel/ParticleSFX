@@ -25,8 +25,9 @@ public class TravellingParticle extends Particle {
 
         this.inverse = inverse;
         this.control = control;
-        this.velocity = velocity;
-        this.toGo = toGo;
+
+        setVelocity(velocity);
+        setLocationToGo(toGo);
     }
 
     @Override
@@ -34,13 +35,7 @@ public class TravellingParticle extends Particle {
         Validate.notNull(location, "Location cannot be null!");
         Validate.notNull(location.getWorld(), "World cannot be null!");
 
-        int count2 = count;
-
-        if (toGo == null && velocity == null) {
-            count2 = 1;
-        }
-
-        for (int i = 0; i != count2; i++) {
+        for (int i = 0; i < ((toGo == null && velocity == null) ? 1 : count); i++) {
             int count = 0;
             float speed = 1;
             double trueOffsetX = offsetX;
@@ -50,6 +45,7 @@ public class TravellingParticle extends Particle {
 
             if (toGo != null || velocity != null) {
                 addition = generateFakeOffset();
+
                 location.add(addition);
             }
 
@@ -59,6 +55,7 @@ public class TravellingParticle extends Particle {
                 trueOffsetX = -velocity.getX();
                 trueOffsetY = -velocity.getY();
                 trueOffsetZ = -velocity.getZ();
+
                 location.add(velocity);
                 addition.add(velocity);
             } else if (inverse && toGo != null) {

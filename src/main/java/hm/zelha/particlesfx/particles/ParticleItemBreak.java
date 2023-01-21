@@ -136,13 +136,7 @@ public class ParticleItemBreak extends TravellingParticle {
         Validate.notNull(location, "Location cannot be null!");
         Validate.notNull(location.getWorld(), "World cannot be null!");
 
-        int count2 = count;
-
-        if (toGo == null && velocity == null) {
-            count2 = 1;
-        }
-
-        for (int i = 0; i != count2; i++) {
+        for (int i = 0; i < ((toGo == null && velocity == null) ? 1 : count); i++) {
             int count = 0;
             float speed = 1;
             double trueOffsetX = offsetX;
@@ -152,6 +146,7 @@ public class ParticleItemBreak extends TravellingParticle {
 
             if (toGo != null || velocity != null) {
                 addition = generateFakeOffset();
+
                 location.add(addition);
             }
 

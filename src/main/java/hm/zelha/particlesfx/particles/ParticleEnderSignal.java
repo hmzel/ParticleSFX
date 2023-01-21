@@ -37,7 +37,7 @@ public class ParticleEnderSignal extends Particle {
         Validate.notNull(location, "Location cannot be null!");
         Validate.notNull(location.getWorld(), "World cannot be null!");
 
-        for (int i = 0; i != count; i++) {
+        for (int i = 0; i < count; i++) {
             for (int i2 = 0; i2 < players.size(); i2++) {
                 EntityPlayer p = players.get(i2).getHandle();
 

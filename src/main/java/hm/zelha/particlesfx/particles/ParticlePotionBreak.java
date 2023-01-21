@@ -28,7 +28,7 @@ public class ParticlePotionBreak extends Particle {
     public ParticlePotionBreak(PotionType type, int count) {
         super(EnumParticle.HEART, 0, 0, 0, 0, count, 0);
 
-        this.type = type;
+        setPotionType(type);
     }
 
     /**@see ParticlePotionBreak*/
@@ -76,6 +76,8 @@ public class ParticlePotionBreak extends Particle {
     }
 
     public void setPotionType(PotionType type) {
+        Validate.notNull(type, "Potion type can't be null!");
+
         this.type = type;
     }
 

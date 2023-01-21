@@ -54,7 +54,7 @@ public class ParticleDust extends ColorableParticle {
         Validate.notNull(location, "Location cannot be null!");
         Validate.notNull(location.getWorld(), "World cannot be null!");
 
-        for (int i = 0; i != ((color != null) ? count : 1); i++) {
+        for (int i = 0; i < ((color != null) ? count : 1); i++) {
             int trueCount = count;
             double trueOffsetX = offsetX;
             double trueOffsetY = offsetY;

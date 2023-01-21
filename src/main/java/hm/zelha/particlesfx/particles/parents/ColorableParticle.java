@@ -20,7 +20,7 @@ public class ColorableParticle extends Particle {
     protected ColorableParticle(EnumParticle particle, @Nullable Color color, int brightness, double offsetX, double offsetY, double offsetZ, int count) {
         super(particle, offsetX, offsetY, offsetZ, 1, count, 0);
 
-        this.color = color;
+        setColor(color);
         setBrightness(brightness);
     }
 
@@ -29,7 +29,7 @@ public class ColorableParticle extends Particle {
         Validate.notNull(location, "Location cannot be null!");
         Validate.notNull(location.getWorld(), "World cannot be null!");
 
-        for (int i = 0; i != ((color != null) ? count : 1); i++) {
+        for (int i = 0; i < ((color != null) ? count : 1); i++) {
             int trueCount = count;
             double trueOffsetX = offsetX;
             double trueOffsetY = offsetY;
@@ -39,10 +39,10 @@ public class ColorableParticle extends Particle {
 
             if (color != null) {
                 trueCount = 0;
-                trueSpeed = brightness * 0.01;
                 trueOffsetX = color.getRed() / 255D;
                 trueOffsetY = color.getGreen() / 255D;
                 trueOffsetZ = color.getBlue() / 255D;
+                trueSpeed = brightness * 0.01;
                 addition = generateFakeOffset();
 
                 location.add(addition);
