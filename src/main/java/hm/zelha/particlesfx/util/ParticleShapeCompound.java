@@ -92,8 +92,6 @@ public class ParticleShapeCompound extends RotationHandler implements Shape {
             //aka, inverse the current rotation for rot, apply it to all locations, and set that as the origin for rot
             //then we inverse the rotation for rot2, apply that to rot's origins using the last rotated around location,
             //and set that as the origins for rot2
-            Rotation rotHelper = LocationSafe.getRotHelper();
-
             rotHelper.set(-rot.getPitch(), -rot.getYaw(), -rot.getRoll());
             calculateCentroid(locations);
 
@@ -111,8 +109,6 @@ public class ParticleShapeCompound extends RotationHandler implements Shape {
         if (recalc || aroundHasChanged) {
             //get origin centroid, set vectorHelper to the distance between centroid and lastRotatedAround, rotate vectorHelper by the
             //inverse of rot2, set originalCentroid to lastRotatedAround + vectorHelper
-            Rotation rotHelper = LocationSafe.getRotHelper();
-
             if (locations.size() == 1) {
                 centroid.zero().add(locations.get(0));
             } else {

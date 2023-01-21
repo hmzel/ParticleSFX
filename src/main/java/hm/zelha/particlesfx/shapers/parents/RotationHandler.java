@@ -21,6 +21,7 @@ public class RotationHandler {
     protected final List<Location> origins = new ArrayList<>();
     protected final Rotation rot = new Rotation();
     protected final Rotation rot2 = new Rotation();
+    protected final Rotation rotHelper = new Rotation();
     protected final Location originalCentroid = new Location(Bukkit.getWorld("world"), 0, 0, 0);
     protected final Location lastRotatedAround = new Location(Bukkit.getWorld("world"), 0, 0, 0);
     protected final Location centroid = new Location(Bukkit.getWorld("world"), 0, 0, 0);
@@ -32,6 +33,7 @@ public class RotationHandler {
     public void rotate(double pitch, double yaw, double roll) {
         if (locations.size() == 1) {
             rot.add(pitch, yaw, roll);
+
             return;
         }
 
@@ -54,6 +56,7 @@ public class RotationHandler {
         if (locations.size() == 1) {
             //literally just rotating the one location this line makes it seem more complicated than it is
             LVMath.additionToLocation(locations.get(0), around, rot2.apply(LVMath.subtractToVector(rhVectorHelper, originalCentroid, around)));
+
             return;
         }
 
@@ -136,8 +139,6 @@ public class RotationHandler {
         if (locations.size() != 1 && recalculate) {
             //need to set origins to what they would be if the rotation was 0, 0, 0
             //aka, inverse the current rotation for rot, apply it to all locations, and set that as the origin for rot
-            Rotation rotHelper = LocationSafe.getRotHelper();
-
             rotHelper.set(-rot.getPitch(), -rot.getYaw(), -rot.getRoll());
             calculateCentroid(locations);
 
@@ -155,8 +156,6 @@ public class RotationHandler {
         if (recalculate || aroundHasChanged) {
             //get origin centroid, set vectorHelper to the distance between centroid and lastRotatedAround, rotate vectorHelper by the
             //inverse of rot2, set originalCentroid to lastRotatedAround + vectorHelper
-            Rotation rotHelper = LocationSafe.getRotHelper();
-
             if (locations.size() == 1) {
                 centroid.zero().add(locations.get(0));
             } else {

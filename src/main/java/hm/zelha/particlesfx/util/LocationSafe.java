@@ -16,7 +16,6 @@ import java.util.function.Consumer;
  */
 public class LocationSafe extends Location {
 
-    private static final Rotation rotHelper = new Rotation(0, 0, 0);
     private final Map<ParticleShapeCompound, Consumer<Location>> recalcMechanics = new HashMap<>();
     private Consumer<Location> mechanic = null;
     private boolean changed = false;
@@ -279,9 +278,5 @@ public class LocationSafe extends Location {
                 mechanic.accept(this);
             }
         }
-    }
-
-    public static Rotation getRotHelper() {
-        return rotHelper;
     }
 }
