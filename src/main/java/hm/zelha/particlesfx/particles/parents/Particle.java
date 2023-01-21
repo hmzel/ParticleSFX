@@ -34,12 +34,13 @@ public class Particle {
         Validate.notNull(particle, "Particle cannot be null!");
 
         this.particle = particle;
-        this.offsetX = Math.abs(offsetX);
-        this.offsetY = Math.abs(offsetY);
-        this.offsetZ = Math.abs(offsetZ);
-        this.speed = speed;
-        this.count = count;
-        this.radius = radius;
+
+        setOffsetX(offsetX);
+        setOffsetY(offsetY);
+        setOffsetZ(offsetZ);
+        setSpeed(speed);
+        setCount(count);
+        setRadius(radius);
     }
 
     public void display(Location location) {
@@ -120,15 +121,15 @@ public class Particle {
     }
 
     public void setOffsetX(double offsetX) {
-        this.offsetX = offsetX;
+        this.offsetX = Math.abs(offsetX);
     }
 
     public void setOffsetY(double offsetY) {
-        this.offsetY = offsetY;
+        this.offsetY = Math.abs(offsetY);
     }
 
     public void setOffsetZ(double offsetZ) {
-        this.offsetZ = offsetZ;
+        this.offsetZ = Math.abs(offsetZ);
     }
 
     public void setSpeed(double speed) {
