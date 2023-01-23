@@ -28,30 +28,38 @@ public class ParticleCircleFilled extends ParticleCircle {
     //https://medium.com/@vagnerseibert/distributing-points-on-a-sphere-6b593cc05b42
     @Override
     public void display() {
-        int count = particleFrequency;
-        double limitation = zRadius * 2 * limit / 100;
         boolean hasRan = false;
         boolean trackCount = particlesPerDisplay > 0;
+        double count = particleFrequency * 100 / (100 - limit);
+
+        if (!Double.isFinite(count)) {
+            count = 0;
+        }
+
+        count = (int) count;
 
         for (int i = overallCount; i < count; i++) {
-            //somehow evenly increments the radius idk what to name this
-            double r = Math.sqrt((double) i / particleFrequency);
-            //theta = PI * PHI * 2 * i
+            //radian = PI * PHI * 2 * i
             //PHI = golden ratio = (1 + Math.sqrt(5)) / 2
-            double theta = Math.PI * (1 + Math.sqrt(5)) * i;
-            double z = zRadius * r * Math.sin(theta);
+            double radian = Math.PI * (1 + Math.sqrt(5)) * i;
 
-            if ((!limitInverse && z + zRadius > limitation) || (limitInverse && z + zRadius < limitation)) {
-                count++;
+            if (radian - ((int) (radian / (Math.PI * 2))) * (Math.PI * 2) < (Math.PI * 2 * limit / 100)) {
+                overallCount++;
 
                 continue;
             }
 
+            if (limitInverse) {
+                radian = -radian;
+            }
+
             Particle particle = getCurrentParticle();
-            double x = xRadius * r * Math.cos(theta);
+            double r = Math.sqrt((double) i / count);
 
             locationHelper.zero().add(getCenter());
-            vectorHelper.setX(x).setY(0).setZ(z);
+            vectorHelper.setX(xRadius * r * Math.cos(radian));
+            vectorHelper.setY(0);
+            vectorHelper.setZ(zRadius * r * Math.sin(radian));
             applyMechanics(ShapeDisplayMechanic.Phase.BEFORE_ROTATION, particle, locationHelper, vectorHelper);
             rot.apply(vectorHelper);
             applyMechanics(ShapeDisplayMechanic.Phase.AFTER_ROTATION, particle, locationHelper, vectorHelper);
