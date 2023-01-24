@@ -94,6 +94,11 @@ public class ParticleSpiral extends ParticleShaper {
                     locationHelper.zero().add(circleHelper.getCenter());
                     applyMechanics(ShapeDisplayMechanic.Phase.BEFORE_ROTATION, particle, locationHelper, vectorHelper2);
                     rotHelper.apply(vectorHelper2);
+
+                    if (rotateCircles) {
+                        rot.apply(vectorHelper2);
+                    }
+
                     applyMechanics(ShapeDisplayMechanic.Phase.AFTER_ROTATION, particle, locationHelper, vectorHelper2);
                     locationHelper.add(vectorHelper2);
 
@@ -132,19 +137,6 @@ public class ParticleSpiral extends ParticleShaper {
 
         if (!trackCount || !hasRan) {
             overallCount = 0;
-        }
-    }
-
-    @Override
-    public void rotate(double pitch, double yaw, double roll) {
-        super.rotate(pitch, yaw, roll);
-
-        if (rotateCircles) {
-            for (CircleInfo circle : circles) {
-                circle.setPitch(circle.getPitch() + pitch);
-                circle.setYaw(circle.getYaw() + yaw);
-                circle.setRoll(circle.getRoll() + roll);
-            }
         }
     }
 

@@ -14,8 +14,6 @@ import java.util.List;
 
 public class ParticleCylinder extends ParticleShaper {
 
-    //TODO: make it so using rotation methods every tick doesnt cause wacky stuff to happen if all locations are evenly spaced
-
     protected final List<CircleInfo> circles = new ArrayList<>();
     //circumference tracker
     protected final List<Double> cirTracker = new ArrayList<>();
@@ -133,6 +131,11 @@ public class ParticleCylinder extends ParticleShaper {
                 locationHelper.zero().add(circleHelper.getCenter());
                 applyMechanics(ShapeDisplayMechanic.Phase.BEFORE_ROTATION, particle, locationHelper, vectorHelper);
                 rotHelper.apply(vectorHelper);
+
+                if (rotateCircles) {
+                    rot.apply(vectorHelper);
+                }
+
                 applyMechanics(ShapeDisplayMechanic.Phase.AFTER_ROTATION, particle, locationHelper, vectorHelper);
                 locationHelper.add(vectorHelper);
 
@@ -162,19 +165,6 @@ public class ParticleCylinder extends ParticleShaper {
 
         if (!trackCount || !hasRan) {
             overallCount = 0;
-        }
-    }
-
-    @Override
-    public void rotate(double pitch, double yaw, double roll) {
-        super.rotate(pitch, yaw, roll);
-
-        if (rotateCircles) {
-            for (CircleInfo circle : circles) {
-                circle.setPitch(circle.getPitch() + pitch);
-                circle.setYaw(circle.getYaw() + yaw);
-                circle.setRoll(circle.getRoll() + roll);
-            }
         }
     }
 
