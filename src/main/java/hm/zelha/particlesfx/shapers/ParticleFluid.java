@@ -82,12 +82,11 @@ public class ParticleFluid extends ParticleShaper {
             locationHelper2.zero();
 
             //attraction
-            //TODO: make block collision work with this
             if (this.repulsion < 0) {
                 locationHelper2.zero();
 
-                for (int z = 0; z < locations.size(); z++) {
-                    locationHelper2.add(locations.get(z));
+                for (int k = 0; k < locations.size(); k++) {
+                    locationHelper2.add(locations.get(k));
                 }
 
                 locationHelper2.multiply(1D / locations.size());
@@ -97,8 +96,8 @@ public class ParticleFluid extends ParticleShaper {
             }
 
             //repulsion
-            for (int z = 0; z < locations.size(); z++) {
-                Location other = locations.get(z);
+            for (int k = 0; k < locations.size(); k++) {
+                Location other = locations.get(k);
 
                 if (l == other) continue;
                 if (locationHelper.distanceSquared(other) > Math.pow(repulsion, 2)) continue;
@@ -126,8 +125,8 @@ public class ParticleFluid extends ParticleShaper {
             locationHelper.subtract(0, gravity, 0);
 
             //entity collision
-            for (int z = 0; z < entityList.size(); z++) {
-                Entity e = entityList.get(z);
+            for (int k = 0; k < entityList.size(); k++) {
+                Entity e = entityList.get(k);
 
                 //checking if locationHelper is within range of entity
                 if (locationHelper.getX() < e.locX - (e.width / 2) - repulsion) continue;
@@ -170,7 +169,7 @@ public class ParticleFluid extends ParticleShaper {
 
             LVMath.divide(vectorHelper, absoluteSum / increase);
 
-            for (double z = 0; z < absoluteSum; z += increase) {
+            for (double k = 0; k < absoluteSum; k += increase) {
                 locationHelper2.zero().add(l);
 
                 if (locationHelper2.add(increase, 0, 0).getBlock().getType() != AIR && vectorHelper.getX() > 0) {

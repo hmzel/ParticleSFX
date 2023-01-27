@@ -92,19 +92,18 @@ public class ParticleImage extends ParticleShaper {
 
     @Override
     public void display() {
+        if (images.size() == 0) return;
+
         if (frame >= images.size()) {
             frame = 0;
-
-            return;
         }
 
         BufferedImage image = images.get(frame);
-        double limit = particleFrequency;
         boolean hasRan = false;
         boolean trackCount = particlesPerDisplay > 0;
 
         main:
-        for (int i = overallCount; i < limit; i++) {
+        for (int i = overallCount; i < particleFrequency; i++) {
             ColorableParticle particle = (ColorableParticle) getCurrentParticle();
             double x = rng.nextDouble(image.getWidth());
             double z = rng.nextDouble(image.getHeight());
@@ -112,7 +111,7 @@ public class ParticleImage extends ParticleShaper {
             ColorModel model = image.getColorModel();
 
             if (model.hasAlpha() && model.getAlpha(data) == 0) {
-                limit++;
+                i--;
 
                 continue;
             }
@@ -128,7 +127,7 @@ public class ParticleImage extends ParticleShaper {
                 if (green > ignored.getGreen() + fuzz || green < ignored.getGreen() - fuzz) continue;
                 if (blue > ignored.getBlue() + fuzz || blue < ignored.getBlue() - fuzz) continue;
 
-                limit++;
+                i--;
 
                 continue main;
             }
@@ -159,6 +158,7 @@ public class ParticleImage extends ParticleShaper {
 
                 if (currentCount >= particlesPerDisplay) {
                     currentCount = 0;
+
                     break;
                 }
             }
@@ -172,10 +172,6 @@ public class ParticleImage extends ParticleShaper {
                 displaysThisFrame = 0;
                 frame++;
             }
-
-            if (frame >= images.size()) {
-                frame = 0;
-            }
         }
     }
 
@@ -185,7 +181,7 @@ public class ParticleImage extends ParticleShaper {
      */
     @Override
     public ParticleImage clone() {
-        if (currentThread != null) {
+        if (currentThread != null && currentThread != Thread.currentThread()) {
             try {
                 currentThread.join();
             } catch (InterruptedException e) {
@@ -225,7 +221,7 @@ public class ParticleImage extends ParticleShaper {
     }
 
     protected void addOrRemoveImages(Object toLoad, boolean remove, int index) {
-        if (currentThread != null) {
+        if (currentThread != null && currentThread != Thread.currentThread()) {
             try {
                 currentThread.join();
             } catch (InterruptedException e) {
@@ -244,7 +240,7 @@ public class ParticleImage extends ParticleShaper {
 
                 reader.setInput(input);
 
-                double imageAmount = reader.getNumImages(true);
+                int imageAmount = reader.getNumImages(true);
 
                 for (int i = 0; i < imageAmount; i++) {
                     BufferedImage image = reader.read(i);
@@ -257,13 +253,7 @@ public class ParticleImage extends ParticleShaper {
                         images.add(index + i, image);
 
                         if (xRadius == 0 && zRadius == 0) {
-                            if (image.getWidth() >= image.getHeight()) {
-                                setXRadius(3 * ((double) image.getWidth() / image.getHeight()));
-                                setZRadius(3);
-                            } else {
-                                setXRadius(3);
-                                setZRadius(3 * ((double) image.getHeight() / image.getWidth()));
-                            }
+                            setRadius(3);
                         }
                     }
                 }
@@ -278,7 +268,7 @@ public class ParticleImage extends ParticleShaper {
     }
 
     /**
-     * adds an image from a URL (gifs supported!)
+     * adds an image from a URL (gifs supported!) <br><br>
      *
      * <strong> using this method will cause the current thread to stall until any currently running image production is finished. <br></strong>
      * If you don't want to cause lag, use an asynchronous BukkitRunnable!
@@ -295,7 +285,7 @@ public class ParticleImage extends ParticleShaper {
     }
 
     /**
-     * adds an image from a file (gifs supported!)
+     * adds an image from a file (gifs supported!) <br><br>
      *
      * <strong> using this method will cause the current thread to stall until any currently running image production is finished. <br></strong>
      * If you don't want to cause lag, use an asynchronous BukkitRunnable!
@@ -308,7 +298,7 @@ public class ParticleImage extends ParticleShaper {
     }
 
     /**
-     * adds an image from a URL (gifs supported!)
+     * adds an image from a URL (gifs supported!) <br><br>
      *
      * <strong> using this method will cause the current thread to stall until any currently running image production is finished. <br></strong>
      * If you don't want to cause lag, use an asynchronous BukkitRunnable!
@@ -320,7 +310,7 @@ public class ParticleImage extends ParticleShaper {
     }
 
     /**
-     * adds an image from a file (gifs supported!)
+     * adds an image from a file (gifs supported!) <br><br>
      *
      * <strong> using this method will cause the current thread to stall until any currently running image production is finished. <br></strong>
      * If you don't want to cause lag, use an asynchronous BukkitRunnable!
@@ -338,7 +328,7 @@ public class ParticleImage extends ParticleShaper {
     }
 
     /**
-     * gets an image from a URL and removes it (gifs supported!)
+     * gets an image from a URL and removes it (gifs supported!) <br><br>
      *
      * <strong> using this method will cause the current thread to stall until any currently running image production is finished. <br></strong>
      * If you don't want to cause lag, use an asynchronous BukkitRunnable!
@@ -372,7 +362,7 @@ public class ParticleImage extends ParticleShaper {
      * @param index index of frame you want to remove from the frame list
      */
     public void removeFrame(int index) {
-        if (currentThread != null) {
+        if (currentThread != null && currentThread != Thread.currentThread()) {
             try {
                 currentThread.join();
             } catch (InterruptedException e) {
@@ -394,7 +384,7 @@ public class ParticleImage extends ParticleShaper {
      * @param index index of frame you want to be displaying
      */
     public void setCurrentFrame(int index) {
-        if (currentThread != null) {
+        if (currentThread != null && currentThread != Thread.currentThread()) {
             try {
                 currentThread.join();
             } catch (InterruptedException e) {
@@ -418,6 +408,35 @@ public class ParticleImage extends ParticleShaper {
 
         if (locations.size() > 1) {
             locations.remove(0);
+        }
+    }
+    
+    /**
+     * <strong> using this method will cause the current thread to stall until any currently running image production is finished. <br></strong>
+     * If you don't want to cause lag, use an asynchronous BukkitRunnable!
+     * <br><br>
+     * This method uses the current image's aspect ratio to set the X/Z radius, such that the largest side is set to the given radius
+     * and the smallest side is set to (smallest / largest) * radius.
+     * 
+     * @param radius max radius
+     */
+    public void setRadius(double radius) {
+        if (currentThread != null && currentThread != Thread.currentThread()) {
+            try {
+                currentThread.join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
+        BufferedImage image = images.get(frame);
+
+        if (image.getWidth() <= image.getHeight()) {
+            setXRadius(radius * ((double) image.getWidth() / image.getHeight()));
+            setZRadius(radius);
+        } else {
+            setXRadius(radius);
+            setZRadius(radius * ((double) image.getHeight() / image.getWidth()));
         }
     }
 
@@ -453,7 +472,7 @@ public class ParticleImage extends ParticleShaper {
      * @return color at pixel
      */
     public Color getPixelColor(int index, int x, int z) {
-        if (currentThread != null) {
+        if (currentThread != null && currentThread != Thread.currentThread()) {
             try {
                 currentThread.join();
             } catch (InterruptedException e) {
@@ -503,7 +522,7 @@ public class ParticleImage extends ParticleShaper {
      * @return amount of images stored
      */
     public int getFrameAmount() {
-        if (currentThread != null) {
+        if (currentThread != null && currentThread != Thread.currentThread()) {
             try {
                 currentThread.join();
             } catch (InterruptedException e) {
