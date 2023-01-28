@@ -80,7 +80,7 @@ public class ParticleSpiral extends ParticleShaper {
 
                 if (trackCount && current != 0) {
                     circleHelper.getCenter().add(vectorHelper.multiply(current));
-                    vectorHelper.multiply(1 / current);
+                    vectorHelper.multiply(1D / current);
                 }
 
                 for (int k = current; k < particleAmount; k++) {

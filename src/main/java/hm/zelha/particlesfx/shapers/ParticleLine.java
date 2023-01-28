@@ -9,16 +9,13 @@ import org.apache.commons.lang3.Validate;
 import org.bukkit.Location;
 
 public class ParticleLine extends ParticleShaper {
-
-    //TODO: improve display()
-
     public ParticleLine(Particle particle, int particleFrequency, LocationSafe... locations) {
         super(particle, particleFrequency);
 
         Validate.isTrue(locations.length >= 2, "Line must have 2 or more locations!");
 
-        for (int i = 0; i < locations.length; i++) {
-            addLocation(locations[i]);
+        for (LocationSafe location : locations) {
+            addLocation(location);
         }
 
         setWorld(super.locations.get(0).getWorld());
@@ -32,32 +29,31 @@ public class ParticleLine extends ParticleShaper {
     @Override
     public void display() {
         double control = getTotalDistance() / particleFrequency;
-        int current = 0;
-        int estimatedOverallCount = 0;
         boolean hasRan = false;
         boolean trackCount = particlesPerDisplay > 0;
+        int current = overallCount;
 
         main:
         for (int i = 0; i < locations.size() - 1; i++) {
             Location start = locations.get(i);
             Location end = locations.get(i + 1);
-            double distance = start.distance(end);
+            int particleAmount = (int) Math.max(start.distance(end) / control, 1);
 
-            if (trackCount && overallCount >= estimatedOverallCount + (distance / control)) {
-                estimatedOverallCount += distance / control;
+            if (current >= particleAmount) {
+                current -= particleAmount;
+
                 continue;
             }
 
             locationHelper.zero().add(start);
             LVMath.subtractToVector(vectorHelper, end, start).normalize().multiply(control);
 
-            if (trackCount) {
-                current = overallCount - estimatedOverallCount;
-
-                locationHelper.add(vectorHelper.getX() * current, vectorHelper.getY() * current, vectorHelper.getZ() * current);
+            if (current != 0) {
+                locationHelper.add(vectorHelper.multiply(current));
+                vectorHelper.multiply(1D / current);
             }
 
-            for (double length = control * current; length <= distance; length += control) {
+            for (int k = current; k < particleAmount; k++) {
                 Particle particle = getCurrentParticle();
 
                 applyMechanics(ShapeDisplayMechanic.Phase.BEFORE_ROTATION, particle, locationHelper, vectorHelper);
@@ -79,10 +75,13 @@ public class ParticleLine extends ParticleShaper {
 
                     if (currentCount >= particlesPerDisplay) {
                         currentCount = 0;
+
                         break main;
                     }
                 }
             }
+
+            current = 0;
         }
 
         if (!trackCount || !hasRan) {
