@@ -23,33 +23,25 @@ public class ParticleLineCurved extends ParticleLine {
         this(particle, 100, locations);
     }
 
-    //TODO: make this thread-safe (and improve?)
     @Override
     public void display() {
         CurveInfo curve = null;
-        int curveIndex = 0;
-        int current = 0;
-        int estimatedOverallCount = 0;
+        double control = getTotalDistance() / particleFrequency;
+        double curveCurrent = control * overallCount;
+        double curveApex = 0, curveEnd = 0;
         boolean hasRan = false;
         boolean trackCount = particlesPerDisplay > 0;
-        double curveApex = 0, curveEnd = 0, curveCurrent = 0;
-        double control = getTotalDistance() / particleFrequency;
-
-        if (!curves.isEmpty()) {
-            curve = curves.get(curveIndex);
-            curveApex = curve.getApexPosition();
-            curveEnd = curve.getLength();
-        }
+        int current = overallCount;
+        int curveIndex = -1;
 
         main:
         for (int i = 0; i < locations.size() - 1; i++) {
             Location start = locations.get(i);
             Location end = locations.get(i + 1);
-            double distance = start.distance(end);
+            int particleAmount = (int) Math.max(start.distance(end) / control, 1);
 
-            if (trackCount && overallCount >= estimatedOverallCount + (distance / control)) {
-                estimatedOverallCount += distance / control;
-                curveCurrent += distance;
+            if (current >= particleAmount) {
+                current -= particleAmount;
 
                 continue;
             }
@@ -57,33 +49,28 @@ public class ParticleLineCurved extends ParticleLine {
             locationHelper.zero().add(start);
             LVMath.subtractToVector(vectorHelper, end, start).normalize().multiply(control);
 
-            //separated from previous if statement to prevent multiple unused .normalize() calls
-            if (trackCount) {
-                current = overallCount - estimatedOverallCount;
-                curveCurrent += control * current;
-
-                locationHelper.add(vectorHelper.getX() * current, vectorHelper.getY() * current, vectorHelper.getZ() * current);
+            if (current != 0) {
+                locationHelper.add(vectorHelper.multiply(current));
+                vectorHelper.multiply(1D / current);
             }
 
-            for (double length = control * current; length <= distance; length += control) {
+            for (int k = current; k < particleAmount; k++) {
                 Particle particle = getCurrentParticle();
-
-                applyMechanics(ShapeDisplayMechanic.Phase.BEFORE_ROTATION, particle, locationHelper, vectorHelper);
-                vectorHelper2.zero();
-                locationHelper.add(vectorHelper);
-
                 curveCurrent += control;
 
-                while (curveCurrent >= curveEnd) {
-                    curveIndex++;
+                applyMechanics(ShapeDisplayMechanic.Phase.BEFORE_ROTATION, particle, locationHelper, vectorHelper);
+                locationHelper.add(vectorHelper);
+                vectorHelper2.zero();
 
-                    if (curveIndex < curves.size()) {
-                        curve = curves.get(curveIndex);
-                    } else {
+                while (curveCurrent >= curveEnd) {
+                    if (curveIndex + 1 >= curves.size()) {
                         curve = null;
+
                         break;
                     }
 
+                    curveIndex++;
+                    curve = curves.get(curveIndex);
                     curveCurrent -= curveEnd;
                     curveApex = curve.getApexPosition();
                     curveEnd = curve.getLength();
@@ -124,10 +111,13 @@ public class ParticleLineCurved extends ParticleLine {
 
                     if (currentCount >= particlesPerDisplay) {
                         currentCount = 0;
+
                         break main;
                     }
                 }
             }
+
+            current = 0;
         }
 
         if (!trackCount || !hasRan) {
