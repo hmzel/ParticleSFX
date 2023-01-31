@@ -48,18 +48,12 @@ public class ParticleLineCurved extends ParticleLine {
 
             locationHelper.zero().add(start);
             LVMath.subtractToVector(vectorHelper, end, start).normalize().multiply(control);
-
-            if (current != 0) {
-                locationHelper.add(vectorHelper.multiply(current));
-                vectorHelper.multiply(1D / current);
-            }
+            locationHelper.add(vectorHelper.getX() * current, vectorHelper.getY() * current, vectorHelper.getZ() * current);
 
             for (int k = current; k < particleAmount; k++) {
                 Particle particle = getCurrentParticle();
-                curveCurrent += control;
 
                 applyMechanics(ShapeDisplayMechanic.Phase.BEFORE_ROTATION, particle, locationHelper, vectorHelper);
-                locationHelper.add(vectorHelper);
                 vectorHelper2.zero();
 
                 while (curveCurrent >= curveEnd) {
@@ -77,12 +71,10 @@ public class ParticleLineCurved extends ParticleLine {
                 }
 
                 if (curve != null && curve.getHeight() != 0) {
-                    double height = curve.getHeight();
-
                     if (curveCurrent <= curveApex) {
-                        vectorHelper2.setY(height * Math.sin(Math.PI / 2 * curveCurrent / curveApex));
+                        vectorHelper2.setY(curve.getHeight() * Math.sin(Math.PI / 2 * curveCurrent / curveApex));
                     } else {
-                        vectorHelper2.setY(height * Math.sin((Math.PI / 2) - (Math.PI / 2 * (curveCurrent - curveApex) / (curveEnd - curveApex))));
+                        vectorHelper2.setY(curve.getHeight() * Math.sin((Math.PI / 2) - (Math.PI / 2 * (curveCurrent - curveApex) / (curveEnd - curveApex))));
                     }
 
                     rot3.set(curve.getPitch(), curve.getYaw(), curve.getRoll());
@@ -98,7 +90,9 @@ public class ParticleLineCurved extends ParticleLine {
                 }
 
                 overallCount++;
+                curveCurrent += control;
 
+                locationHelper.add(vectorHelper);
                 applyMechanics(ShapeDisplayMechanic.Phase.AFTER_DISPLAY, particle, locationHelper, vectorHelper);
                 locationHelper.subtract(vectorHelper2);
 

@@ -47,17 +47,12 @@ public class ParticleLine extends ParticleShaper {
 
             locationHelper.zero().add(start);
             LVMath.subtractToVector(vectorHelper, end, start).normalize().multiply(control);
-
-            if (current != 0) {
-                locationHelper.add(vectorHelper.multiply(current));
-                vectorHelper.multiply(1D / current);
-            }
+            locationHelper.add(vectorHelper.getX() * current, vectorHelper.getY() * current, vectorHelper.getZ() * current);
 
             for (int k = current; k < particleAmount; k++) {
                 Particle particle = getCurrentParticle();
 
                 applyMechanics(ShapeDisplayMechanic.Phase.BEFORE_ROTATION, particle, locationHelper, vectorHelper);
-                locationHelper.add(vectorHelper);
 
                 if (!players.isEmpty()) {
                     particle.displayForPlayers(locationHelper, players);
@@ -67,6 +62,7 @@ public class ParticleLine extends ParticleShaper {
 
                 overallCount++;
 
+                locationHelper.add(vectorHelper);
                 applyMechanics(ShapeDisplayMechanic.Phase.AFTER_DISPLAY, particle, locationHelper, vectorHelper);
 
                 if (trackCount) {
