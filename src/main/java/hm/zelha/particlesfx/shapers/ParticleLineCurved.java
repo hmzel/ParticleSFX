@@ -82,10 +82,7 @@ public class ParticleLineCurved extends ParticleLine {
                     if (curveCurrent <= curveApex) {
                         vectorHelper2.setY(height * Math.sin(Math.PI / 2 * curveCurrent / curveApex));
                     } else {
-                        //idk what to call this variable it basically determines the decrement of the curve
-                        double v = (curveCurrent - curveApex) / (curveEnd - curveApex);
-
-                        vectorHelper2.setY(height - height * v * Math.sin(Math.PI / 2 * v));
+                        vectorHelper2.setY(height * Math.sin((Math.PI / 2) - (Math.PI / 2 * (curveCurrent - curveApex) / (curveEnd - curveApex))));
                     }
 
                     rot3.set(curve.getPitch(), curve.getYaw(), curve.getRoll());
