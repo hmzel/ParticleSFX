@@ -216,6 +216,7 @@ public class ParticleFluid extends ParticleShaper {
 
                 if (currentCount >= particlesPerDisplay) {
                     currentCount = 0;
+
                     break;
                 }
             }

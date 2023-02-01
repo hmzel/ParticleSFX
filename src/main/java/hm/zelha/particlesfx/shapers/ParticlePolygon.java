@@ -29,20 +29,16 @@ public class ParticlePolygon extends ParticleShaper {
             polygonLayers[0] = new PolygonLayer(cornersPerLayer, xRadius, zRadius, yRadius);
             polygonLayers[1] = new PolygonLayer(cornersPerLayer, xRadius, zRadius, -yRadius);
         } else {
-            int arrayPos = 0;
-
             for (int i = 0; i < layers; i++) {
                 double radian = Math.PI / (layers - 1) * i;
                 double x = xRadius * Math.sin(radian);
                 double z = zRadius * Math.sin(radian);
 
                 if (x < 0.05 && z < 0.05) {
-                    polygonLayers[arrayPos] = new PolygonLayer(1, x, z, yRadius * Math.cos(radian));
+                    polygonLayers[i] = new PolygonLayer(1, x, z, yRadius * Math.cos(radian));
                 } else {
-                    polygonLayers[arrayPos] = new PolygonLayer(cornersPerLayer, x, z, yRadius * Math.cos(radian));
+                    polygonLayers[i] = new PolygonLayer(cornersPerLayer, x, z, yRadius * Math.cos(radian));
                 }
-
-                arrayPos++;
             }
         }
 
@@ -87,19 +83,19 @@ public class ParticlePolygon extends ParticleShaper {
     @Override
     public void display() {
         double control = getTotalDistance() / particleFrequency;
-        int current = overallCount;
         boolean hasRan = false;
         boolean trackCount = particlesPerDisplay > 0;
+        int current = overallCount;
 
         main:
         for (Corner corner : corners) {
             for (int i = 0; i < corner.getConnectionAmount(); i++) {
                 Location start = corner.getLocation();
                 Location end = corner.getConnection(i).getLocation();
-                double distance = start.distance(end);
+                int particleAmount = (int) Math.max(start.distance(end) / control, 1);
 
-                if (current >= distance / control) {
-                    current -= distance / control;
+                if (current >= particleAmount) {
+                    current -= particleAmount;
 
                     continue;
                 }
@@ -108,7 +104,7 @@ public class ParticlePolygon extends ParticleShaper {
                 LVMath.subtractToVector(vectorHelper, end, start).normalize().multiply(control);
                 locationHelper.add(vectorHelper.getX() * current, vectorHelper.getY() * current, vectorHelper.getZ() * current);
 
-                for (double length = control * current; length <= distance; length += control) {
+                for (int k = current; k < particleAmount; k++) {
                     Particle particle = getCurrentParticle();
 
                     applyMechanics(ShapeDisplayMechanic.Phase.BEFORE_ROTATION, particle, locationHelper, vectorHelper);
@@ -130,6 +126,7 @@ public class ParticlePolygon extends ParticleShaper {
 
                         if (currentCount >= particlesPerDisplay) {
                             currentCount = 0;
+
                             break main;
                         }
                     }
@@ -145,20 +142,23 @@ public class ParticlePolygon extends ParticleShaper {
     @Override
     public ParticlePolygon clone() {
         ParticlePolygon clone = new ParticlePolygon(particle, particleFrequency);
-        int index = 0;
 
         for (Corner corner : corners) {
             clone.addCorner(new Corner(corner.getLocation().clone()));
         }
 
-        for (Corner corner : corners) {
-            for (int i = 0; i < corner.getConnectionAmount(); i++) {
-                if (!corners.contains(corner.getConnection(i))) continue;
+        for (int i = 0; i < corners.size(); i++) {
+            Corner corner = corners.get(i);
 
-                clone.getCorner(index).connect(clone.getCorner(corners.lastIndexOf(corner.getConnection(i))));
+            for (int k = 0; k < corner.getConnectionAmount(); k++) {
+                Corner connection = corner.getConnection(k);
+
+                if (corners.contains(connection)) {
+                    clone.getCorner(i).connect(clone.getCorner(corners.lastIndexOf(connection)));
+                } else {
+                    clone.getCorner(i).connect(connection);
+                }
             }
-
-            index++;
         }
 
         clone.secondaryParticles.addAll(secondaryParticles);
@@ -220,10 +220,9 @@ public class ParticlePolygon extends ParticleShaper {
 
         List<Corner> lastCorners = null;
         List<Corner> currentCorners = new ArrayList<>();
-        double currentConnection;
 
         for (PolygonLayer layer : layers) {
-            currentConnection = 0;
+            double currentConnection = 0;
 
             for (int i = 0; i < layer.getCorners(); i++) {
                 double radian = Math.PI * 2 / layer.getCorners() * i;
@@ -248,14 +247,12 @@ public class ParticlePolygon extends ParticleShaper {
 
                 if (lastCorners != null) {
                     double connectionInc = (double) lastCorners.size() / layer.getCorners();
+                    int k = 0;
 
-                    if (connectionInc < 2) {
-                        corner.connect(lastCorners.get((int) currentConnection));
-                    } else {
-                        for (int k = 0; k < (int) connectionInc; k++) {
-                            corner.connect(lastCorners.get(((int) currentConnection) + k));
-                        }
-                    }
+                    do {
+                        corner.connect(lastCorners.get(((int) currentConnection) + k));
+                    } while ((++k) < (int) connectionInc);
+                    //https://stackoverflow.com/questions/33645518/difference-between-and-in-java
 
                     currentConnection += connectionInc;
                 }

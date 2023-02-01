@@ -78,6 +78,7 @@ public class ParticleCircle extends ParticleShaper {
 
                 if (currentCount >= particlesPerDisplay) {
                     currentCount = 0;
+
                     break;
                 }
             }

@@ -155,6 +155,7 @@ public class ParticleCylinder extends ParticleShaper {
 
                     if (currentCount >= particlesPerDisplay) {
                         currentCount = 0;
+
                         break main;
                     }
                 }

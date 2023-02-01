@@ -81,6 +81,7 @@ public class ParticleCircleFilled extends ParticleCircle {
 
                 if (currentCount >= particlesPerDisplay) {
                     currentCount = 0;
+
                     break;
                 }
             }
