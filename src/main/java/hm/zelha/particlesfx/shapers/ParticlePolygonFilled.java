@@ -70,36 +70,32 @@ public class ParticlePolygonFilled extends ParticlePolygon {
             Particle particle = getCurrentParticle();
             Corner corner = corners.get(rng.nextInt(corners.size()));
 
-            if (corner.getConnectionAmount() == 0) {
-                i--;
-
-                continue;
-            }
+            if (corner.getConnectionAmount() == 0) continue;
 
             int index = rng.nextInt(corner.getConnectionAmount());
-            Corner startCon = corner.getConnection(index);
-            Corner endCon;
+            Location start = corner.getConnection(index).getLocation();
+            Location end;
 
             if (index + 1 >= corner.getConnectionAmount()) {
-                endCon = corner.getConnection(0);
+                end = corner.getConnection(0).getLocation();
             } else {
-                endCon = corner.getConnection(index + 1);
+                end = corner.getConnection(index + 1).getLocation();
             }
 
-            double startDist = corner.getLocation().distance(startCon.getLocation());
-            double endDist = corner.getLocation().distance(endCon.getLocation());
-            double rngDist = rng.nextDouble(startDist);
+            double startDist = corner.getLocation().distance(start);
+            double endDist = corner.getLocation().distance(end);
+            double rngDist = rngDouble(startDist);
 
             locationHelper.zero().add(corner.getLocation());
             locationHelper2.zero().add(corner.getLocation());
-            LVMath.subtractToVector(vectorHelper, startCon.getLocation(), locationHelper).normalize();
-            LVMath.subtractToVector(vectorHelper2, endCon.getLocation(), locationHelper2).normalize();
+            LVMath.subtractToVector(vectorHelper, start, locationHelper).normalize();
+            LVMath.subtractToVector(vectorHelper2, end, locationHelper2).normalize();
 
             if (startDist < endDist) {
                 vectorHelper.multiply(rngDist);
                 vectorHelper2.multiply(rng.nextDouble(rngDist, endDist));
             } else if (endDist < startDist) {
-                rngDist = rng.nextDouble(endDist);
+                rngDist = rngDouble(endDist);
 
                 vectorHelper.multiply(rng.nextDouble(rngDist, startDist));
                 vectorHelper2.multiply(rngDist);
@@ -111,15 +107,7 @@ public class ParticlePolygonFilled extends ParticlePolygon {
             locationHelper.add(vectorHelper);
             locationHelper2.add(vectorHelper2);
             LVMath.subtractToVector(vectorHelper, locationHelper2, locationHelper).normalize();
-
-            double dist = locationHelper.distance(locationHelper2);
-
-            if (dist > 0) {
-                vectorHelper.multiply(rng.nextDouble(dist));
-            } else {
-                vectorHelper.multiply(0);
-            }
-
+            vectorHelper.multiply(rngDouble(locationHelper.distance(locationHelper2)));
             applyMechanics(ShapeDisplayMechanic.Phase.BEFORE_ROTATION, particle, locationHelper, vectorHelper);
             locationHelper.add(vectorHelper);
 
@@ -139,6 +127,7 @@ public class ParticlePolygonFilled extends ParticlePolygon {
 
                 if (currentCount >= particlesPerDisplay) {
                     currentCount = 0;
+
                     break;
                 }
             }
@@ -152,20 +141,23 @@ public class ParticlePolygonFilled extends ParticlePolygon {
     @Override
     public ParticlePolygonFilled clone() {
         ParticlePolygonFilled clone = new ParticlePolygonFilled(particle, particleFrequency);
-        int index = 0;
 
         for (Corner corner : corners) {
             clone.addCorner(new Corner(corner.getLocation().clone()));
         }
 
-        for (Corner corner : corners) {
-            for (int i = 0; i < corner.getConnectionAmount(); i++) {
-                if (!corners.contains(corner.getConnection(i))) continue;
+        for (int i = 0; i < corners.size(); i++) {
+            Corner corner = corners.get(i);
 
-                clone.getCorner(index).connect(clone.getCorner(corners.lastIndexOf(corner.getConnection(i))));
+            for (int k = 0; k < corner.getConnectionAmount(); k++) {
+                Corner connection = corner.getConnection(k);
+
+                if (corners.contains(connection)) {
+                    clone.getCorner(i).connect(clone.getCorner(corners.lastIndexOf(connection)));
+                } else {
+                    clone.getCorner(i).connect(connection);
+                }
             }
-
-            index++;
         }
 
         clone.secondaryParticles.addAll(secondaryParticles);
@@ -190,10 +182,9 @@ public class ParticlePolygonFilled extends ParticlePolygon {
 
         List<Corner> lastCorners = null;
         List<Corner> currentCorners = new ArrayList<>();
-        double currentConnection;
 
         for (PolygonLayer layer : layers) {
-            currentConnection = 0;
+            double currentConnection = 0;
 
             for (int i = 0; i < layer.getCorners(); i++) {
                 double radian = Math.PI * 2 / layer.getCorners() * i;
@@ -221,20 +212,14 @@ public class ParticlePolygonFilled extends ParticlePolygon {
 
                 if (lastCorners != null) {
                     double connectionInc = (double) lastCorners.size() / layer.getCorners();
+                    int k = 0;
 
-                    if (connectionInc < 2) {
-                        Corner connection = lastCorners.get((int) currentConnection);
+                    do {
+                        Corner connection = lastCorners.get(((int) currentConnection) + k);
 
                         corner.connect(connection);
                         connection.connect(corner);
-                    } else {
-                        for (int k = 0; k < (int) connectionInc; k++) {
-                            Corner connection = lastCorners.get(((int) currentConnection) + k);
-
-                            corner.connect(connection);
-                            connection.connect(corner);
-                        }
-                    }
+                    } while ((++k) < (int) connectionInc);
 
                     currentConnection += connectionInc;
                 }
@@ -261,6 +246,12 @@ public class ParticlePolygonFilled extends ParticlePolygon {
         }
 
         start();
+    }
+
+    protected double rngDouble(double d) {
+        if (d <= 0) return 0;
+
+        return rng.nextDouble(d);
     }
 
     @Override
