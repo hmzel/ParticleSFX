@@ -1,6 +1,7 @@
 package hm.zelha.particlesfx.util;
 
 import org.apache.commons.lang3.Validate;
+import org.bukkit.Location;
 import org.bukkit.World;
 
 import java.util.ArrayList;
@@ -9,19 +10,14 @@ import java.util.List;
 public class Corner {
 
     private final List<Corner> connections = new ArrayList<>();
-    private final LocationSafe location;
+    private LocationSafe location;
 
     public Corner(LocationSafe location) {
-        Validate.notNull(location, "Location cant be null!");
-        Validate.notNull(location.getWorld(), "Location cannot have a null world!");
-
-        this.location = location;
+        setLocation(location);
     }
 
     public Corner(World world, double x, double y, double z) {
-        Validate.notNull(world, "Location cannot have a null world!");
-
-        this.location = new LocationSafe(world, x, y, z);
+        setLocation(new LocationSafe(world, x, y, z));
     }
 
     public Corner clone() {
@@ -58,11 +54,22 @@ public class Corner {
         connections.set(index, corner);
     }
 
+    public void setLocation(LocationSafe location) {
+        Validate.notNull(location, "Location cannot be null!");
+        Validate.notNull(location.getWorld(), "Location's world cannot be null!");
+
+        if (this.location != null) {
+            location.setChanged(true);
+        }
+
+        this.location = location;
+    }
+
     public Corner getConnection(int index) {
         return connections.get(index);
     }
 
-    public LocationSafe getLocation() {
+    public Location getLocation() {
         return location;
     }
 

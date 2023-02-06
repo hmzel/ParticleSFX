@@ -143,7 +143,7 @@ public class ParticlePolygonFilled extends ParticlePolygon {
         ParticlePolygonFilled clone = new ParticlePolygonFilled(particle, particleFrequency);
 
         for (Corner corner : corners) {
-            clone.addCorner(new Corner(corner.getLocation().clone()));
+            clone.addCorner(new Corner((LocationSafe) corner.getLocation().clone()));
         }
 
         for (int i = 0; i < corners.size(); i++) {

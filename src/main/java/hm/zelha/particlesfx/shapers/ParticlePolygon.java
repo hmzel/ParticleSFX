@@ -8,6 +8,7 @@ import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.util.Vector;
 
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -144,7 +145,7 @@ public class ParticlePolygon extends ParticleShaper {
         ParticlePolygon clone = new ParticlePolygon(particle, particleFrequency);
 
         for (Corner corner : corners) {
-            clone.addCorner(new Corner(corner.getLocation().clone()));
+            clone.addCorner(new Corner((LocationSafe) corner.getLocation().clone()));
         }
 
         for (int i = 0; i < corners.size(); i++) {
@@ -171,6 +172,17 @@ public class ParticlePolygon extends ParticleShaper {
         }
 
         return clone;
+    }
+
+    @Override
+    protected boolean recalculateIfNeeded(@Nullable Location around) {
+        for (int i = 0; i < corners.size(); i++) {
+            if (corners.get(i).getLocation() != locations.get(i)) {
+                locations.set(i, (LocationSafe) corners.get(i).getLocation());
+            }
+        }
+
+        return super.recalculateIfNeeded(around);
     }
 
     /**
@@ -283,9 +295,9 @@ public class ParticlePolygon extends ParticleShaper {
         }
 
         corners.add(corner);
-        locations.add(corner.getLocation());
+        locations.add((LocationSafe) corner.getLocation());
         origins.add(corner.getLocation().clone());
-        corner.getLocation().setChanged(true);
+        ((LocationSafe) corner.getLocation()).setChanged(true);
 
         for (int i : connections) {
             corner.connect(corners.get(i));
