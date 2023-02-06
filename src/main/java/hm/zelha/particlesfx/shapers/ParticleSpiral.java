@@ -4,9 +4,11 @@ import hm.zelha.particlesfx.particles.parents.Particle;
 import hm.zelha.particlesfx.shapers.parents.ParticleShaper;
 import hm.zelha.particlesfx.util.*;
 import org.apache.commons.lang3.Validate;
+import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.util.Vector;
 
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -158,6 +160,17 @@ public class ParticleSpiral extends ParticleShaper {
         }
 
         return clone;
+    }
+
+    @Override
+    protected boolean recalculateIfNeeded(@Nullable Location around) {
+        for (int i = 0; i < circles.size(); i++) {
+            if (circles.get(i).getCenter() != locations.get(i)) {
+                locations.set(i, (LocationSafe) circles.get(i).getCenter());
+            }
+        }
+
+        return super.recalculateIfNeeded(around);
     }
 
     public void addCircle(CircleInfo circle) {

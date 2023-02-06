@@ -15,12 +15,11 @@ public class CircleInfo {
 
     public CircleInfo(LocationSafe center, double xRadius, double zRadius, double pitch, double yaw, double roll) {
         setCenter(center);
-
-        this.pitch = pitch;
-        this.yaw = yaw;
-        this.roll = roll;
-        this.xRadius = xRadius;
-        this.zRadius = zRadius;
+        setPitch(pitch);
+        setYaw(yaw);
+        setRoll(roll);
+        setXRadius(xRadius);
+        setZRadius(zRadius);
     }
 
     public CircleInfo(LocationSafe center, double xRadius, double zRadius) {
@@ -32,11 +31,11 @@ public class CircleInfo {
     }
 
     public CircleInfo inherit(CircleInfo other) {
-        this.xRadius = other.getXRadius();
-        this.zRadius = other.getZRadius();
-        this.pitch = other.pitch;
-        this.yaw = other.yaw;
-        this.roll = other.roll;
+        setPitch(other.pitch);
+        setYaw(other.yaw);
+        setRoll(other.roll);
+        setXRadius(other.xRadius);
+        setZRadius(other.zRadius);
 
         center.setWorld(other.getCenter().getWorld());
         center.zero().add(other.getCenter());

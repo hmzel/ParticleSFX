@@ -194,6 +194,12 @@ public class ParticleCylinder extends ParticleShaper {
 
     @Override
     protected boolean recalculateIfNeeded(@Nullable Location around) {
+        for (int i = 0; i < circles.size(); i++) {
+            if (circles.get(i).getCenter() != locations.get(i)) {
+                locations.set(i, (LocationSafe) circles.get(i).getCenter());
+            }
+        }
+
         boolean recalc = super.recalculateIfNeeded(around);
 
         if (recalc) {
