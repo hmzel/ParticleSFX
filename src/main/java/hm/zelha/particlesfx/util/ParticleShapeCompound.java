@@ -1,5 +1,6 @@
 package hm.zelha.particlesfx.util;
 
+import hm.zelha.particlesfx.shapers.ParticleCircle;
 import hm.zelha.particlesfx.shapers.parents.RotationHandler;
 import hm.zelha.particlesfx.shapers.parents.Shape;
 import org.apache.commons.lang3.Validate;
@@ -52,8 +53,8 @@ public class ParticleShapeCompound extends RotationHandler implements Shape {
         super.rotate(pitch, yaw, roll);
 
         for (Shape shape : shapeLocationIndex.keySet()) {
-            if (shape.getLocationAmount() == 1) {
-                shape.setRotation(rot.getPitch(), rot.getYaw(), rot.getRoll());
+            if (shape instanceof ParticleCircle) {
+                shape.rotate(pitch, yaw, roll);
             }
         }
     }
@@ -88,10 +89,8 @@ public class ParticleShapeCompound extends RotationHandler implements Shape {
         }
 
         if (locations.size() != 1 && recalc) {
-            //need to set both origins to what they would be if the rotation was 0, 0, 0
+            //need to set origins to what they would be if the rotation was 0, 0, 0
             //aka, inverse the current rotation for rot, apply it to all locations, and set that as the origin for rot
-            //then we inverse the rotation for rot2, apply that to rot's origins using the last rotated around location,
-            //and set that as the origins for rot2
             rotHelper.set(-rot.getPitch(), -rot.getYaw(), -rot.getRoll());
             calculateCentroid(locations);
 
@@ -238,6 +237,7 @@ public class ParticleShapeCompound extends RotationHandler implements Shape {
         for (Shape mapShape : shapeLocationIndex.keySet()) {
             if (mapShape == shape) {
                 removeShape(i);
+
                 return;
             }
 
@@ -249,7 +249,6 @@ public class ParticleShapeCompound extends RotationHandler implements Shape {
         Shape[] shapes = shapeLocationIndex.keySet().toArray(new Shape[0]);
         Shape shape = shapes[index];
         ArrayListSafe<LocationSafe> locations = reflectLocations(shape);
-        int locAmount = shape.getLocationAmount();
         int firstIndex;
 
         if (locations == null) return;
@@ -279,7 +278,7 @@ public class ParticleShapeCompound extends RotationHandler implements Shape {
 
         for (int i = index; i < shapeLocationIndex.size(); i++) {
             //subtracting locAmount from all shape location indexes at 'index' and beyond
-            shapeLocationIndex.put(shapes[i], shapeLocationIndex.get(shapes[i]) - locAmount);
+            shapeLocationIndex.put(shapes[i], shapeLocationIndex.get(shapes[i]) - shape.getLocationAmount());
         }
 
         if (getPitch() + getYaw() + getRoll() + getAroundPitch() + getAroundYaw() + getAroundRoll() != 0) {

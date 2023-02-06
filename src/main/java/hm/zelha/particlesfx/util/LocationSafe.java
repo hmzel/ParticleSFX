@@ -36,7 +36,7 @@ public class LocationSafe extends Location {
      * @param x x coordinate
      * @param y y coordinate
      * @param z z coordinate
-     * @param causedByCompound whether or not this was caused by a {@link ParticleShapeCompound}
+     * @param causedByCompound whether this was caused by a {@link ParticleShapeCompound}
      */
     public void setUnsafely(double x, double y, double z, boolean causedByCompound) {
         super.setX(x);
