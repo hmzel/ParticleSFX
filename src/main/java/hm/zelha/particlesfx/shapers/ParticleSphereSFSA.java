@@ -52,12 +52,10 @@ public class ParticleSphereSFSA extends ParticleCircle {
 
         for (int i = overallCount; i < particleFrequency; i++) {
             Particle particle = getCurrentParticle();
-            double limit;
+            double limit = particleFrequency - (i - (i * (this.limit / 100)));
 
             if (limitInverse) {
                 limit = i - (i * (this.limit / 100));
-            } else {
-                limit = particleFrequency - (i - (i * (this.limit / 100)));
             }
 
             double curveRadian = Math.acos(1 - 2D * limit / particleFrequency);
@@ -88,6 +86,7 @@ public class ParticleSphereSFSA extends ParticleCircle {
 
                 if (currentCount >= particlesPerDisplay) {
                     currentCount = 0;
+
                     break;
                 }
             }

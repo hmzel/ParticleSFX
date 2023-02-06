@@ -114,6 +114,7 @@ public class ParticleText extends ParticleShaper {
 
                 if (currentCount >= particlesPerDisplay) {
                     currentCount = 0;
+
                     break;
                 }
             }
@@ -176,14 +177,13 @@ public class ParticleText extends ParticleShaper {
 
         for (int i = 0; i < text.size(); i++) {
             Rectangle2D bounds = boxes.get(i);
-            String text = this.text.get(i);
             int x = borderX;
 
             if (centered) {
                 x += (width / 2) - (bounds.getWidth() / 2);
             }
 
-            graphics.drawString(text, x, currentHeight);
+            graphics.drawString(this.text.get(i), x, currentHeight);
 
             currentHeight += bounds.getHeight();
         }

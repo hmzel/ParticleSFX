@@ -88,13 +88,13 @@ public class ParticleSphere extends ParticleSphereSFSA {
         main:
         for (int i = 0; i < circleFrequency; i++) {
             double curveRadian = (Math.PI - (Math.PI * limit / 100)) / (circleFrequency - 1) * i;
-            int particleAmount = (int) ((particleFrequency - (circleFrequency / 2D)) * (cirTracker.get(i) / surfaceArea)) + 1;
+            int particleAmount = (int) Math.max((particleFrequency - (circleFrequency / 2D)) * (cirTracker.get(i) / surfaceArea), 1);
 
             if (!limitInverse) {
                 curveRadian += Math.PI * limit / 100;
             }
 
-            if (trackCount && current >= particleAmount) {
+            if (current >= particleAmount) {
                 current -= particleAmount;
 
                 continue;
@@ -104,7 +104,7 @@ public class ParticleSphere extends ParticleSphereSFSA {
                 Particle particle = getCurrentParticle();
                 double radian = Math.PI * 2 / particleAmount * k;
 
-                locationHelper.zero().add(locations.get(0));
+                locationHelper.zero().add(getCenter());
                 vectorHelper.setX(xRadius * Math.sin(curveRadian) * Math.cos(radian));
                 vectorHelper.setY(yRadius * Math.cos(curveRadian));
                 vectorHelper.setZ(zRadius * Math.sin(curveRadian) * Math.sin(radian));
@@ -186,6 +186,7 @@ public class ParticleSphere extends ParticleSphereSFSA {
             }
 
             cirTracker.add(circumference);
+
             surfaceArea += circumference;
         }
 

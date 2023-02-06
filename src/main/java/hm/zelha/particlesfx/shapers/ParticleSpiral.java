@@ -25,8 +25,8 @@ public class ParticleSpiral extends ParticleShaper {
 
         Validate.isTrue(circles != null && circles.length >= 2, "Array must contain 2 or more CircleInfos!");
 
-        setCount(count);
         setSpin(spin);
+        setCount(count);
 
         for (CircleInfo circle : circles) {
             addCircle(circle);
@@ -77,11 +77,7 @@ public class ParticleSpiral extends ParticleShaper {
                 LVMath.subtractToVector(vectorHelper, circle2.getCenter(), circle1.getCenter()).multiply(1 / particleAmount);
                 circleHelper.inherit(circle1);
                 rotHelper.set(circle1.getPitch(), circle1.getYaw(), circle1.getRoll());
-
-                if (trackCount && current != 0) {
-                    circleHelper.getCenter().add(vectorHelper.multiply(current));
-                    vectorHelper.multiply(1D / current);
-                }
+                circleHelper.getCenter().add(vectorHelper.getX() * current, vectorHelper.getY() * current, vectorHelper.getZ() * current);
 
                 for (int k = current; k < particleAmount; k++) {
                     //adding (Math.PI * 2 / count * c) makes it so each spiral is evenly spaced
@@ -109,12 +105,12 @@ public class ParticleSpiral extends ParticleShaper {
                     }
 
                     circleHelper.getCenter().add(vectorHelper);
-                    circleHelper.setXRadius(circle1.getXRadius() + ((circle2.getXRadius() - circle1.getXRadius()) / particleAmount * k));
-                    circleHelper.setZRadius(circle1.getZRadius() + ((circle2.getZRadius() - circle1.getZRadius()) / particleAmount * k));
+                    circleHelper.setXRadius(circle1.getXRadius() + ((circle2.getXRadius() - circle1.getXRadius()) / particleAmount * (k + 1)));
+                    circleHelper.setZRadius(circle1.getZRadius() + ((circle2.getZRadius() - circle1.getZRadius()) / particleAmount * (k + 1)));
                     //using Math.abs() because it looks wonky in cases where the rotation is negative
-                    rotHelper.setPitch(circle1.getPitch() + (Math.abs(circle1.getPitch() - circle2.getPitch()) / particleAmount * k));
-                    rotHelper.setYaw(circle1.getYaw() + (Math.abs(circle1.getYaw() - circle2.getYaw()) / particleAmount * k));
-                    rotHelper.setRoll(circle1.getRoll() + (Math.abs(circle1.getRoll() - circle2.getRoll()) / particleAmount * k));
+                    rotHelper.setPitch(circle1.getPitch() + (Math.abs(circle1.getPitch() - circle2.getPitch()) / particleAmount * (k + 1)));
+                    rotHelper.setYaw(circle1.getYaw() + (Math.abs(circle1.getYaw() - circle2.getYaw()) / particleAmount * (k + 1)));
+                    rotHelper.setRoll(circle1.getRoll() + (Math.abs(circle1.getRoll() - circle2.getRoll()) / particleAmount * (k + 1)));
 
                     overallCount++;
 
@@ -126,6 +122,7 @@ public class ParticleSpiral extends ParticleShaper {
 
                         if (currentCount >= particlesPerDisplay) {
                             currentCount = 0;
+
                             break main;
                         }
                     }
