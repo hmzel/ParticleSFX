@@ -12,15 +12,12 @@ public class CurveInfo {
     private double roll;
 
     public CurveInfo(double height, double length, double apexPosition, double pitch, double yaw, double roll) {
-        Validate.isTrue(length > 0, "Length must be greater than 0!");
-        Validate.isTrue(apexPosition < length && apexPosition >= 0, "Apex must be within the line!");
-
-        this.height = height;
-        this.length = length;
-        this.apexPosition = apexPosition;
-        this.pitch = pitch;
-        this.yaw = yaw;
-        this.roll = roll;
+        setHeight(height);
+        setLength(length);
+        setApexPosition(apexPosition);
+        setPitch(pitch);
+        setYaw(yaw);
+        setRoll(roll);
     }
 
     public CurveInfo(double height, double length, double apexPosition) {
@@ -33,30 +30,6 @@ public class CurveInfo {
 
     public CurveInfo clone() {
         return new CurveInfo(height, length, apexPosition, pitch, yaw, roll);
-    }
-
-    public double getHeight() {
-        return height;
-    }
-
-    public double getLength() {
-        return length;
-    }
-
-    public double getApexPosition() {
-        return apexPosition;
-    }
-
-    public double getPitch() {
-        return pitch;
-    }
-
-    public double getYaw() {
-        return yaw;
-    }
-
-    public double getRoll() {
-        return roll;
     }
 
     public void setHeight(double height) {
@@ -85,5 +58,29 @@ public class CurveInfo {
 
     public void setRoll(double roll) {
         this.roll = roll;
+    }
+
+    public double getHeight() {
+        return height;
+    }
+
+    public double getLength() {
+        return length;
+    }
+
+    public double getApexPosition() {
+        return apexPosition;
+    }
+
+    public double getPitch() {
+        return pitch;
+    }
+
+    public double getYaw() {
+        return yaw;
+    }
+
+    public double getRoll() {
+        return roll;
     }
 }
