@@ -33,6 +33,34 @@ public class Rotation {
         axisRotation = null;
     }
 
+    public Rotation clone() {
+        return new Rotation().inherit(this);
+    }
+
+    public Rotation inherit(Rotation rotation) {
+        if (axisRotation != null) {
+            axisRotation.inherit(rotation.axisRotation);
+        }
+
+        axes[0] = rotation.axes[0];
+        axes[1] = rotation.axes[1];
+        axes[2] = rotation.axes[2];
+        oldPitchCosAndSin[0] = rotation.oldPitchCosAndSin[0];
+        oldPitchCosAndSin[1] = rotation.oldPitchCosAndSin[1];
+        oldYawCosAndSin[0] = rotation.oldYawCosAndSin[0];
+        oldYawCosAndSin[1] = rotation.oldYawCosAndSin[1];
+        oldRollCosAndSin[0] = rotation.oldRollCosAndSin[0];
+        oldRollCosAndSin[1] = rotation.oldRollCosAndSin[1];
+        pitch = rotation.pitch;
+        yaw = rotation.yaw;
+        roll = rotation.roll;
+        oldPitch = rotation.oldPitch;
+        oldYaw = rotation.oldYaw;
+        oldRoll = rotation.oldRoll;
+
+        return this;
+    }
+
     public Vector apply(Vector v) {
         if (axisRotation != null) {
             axisRotation.apply(v);

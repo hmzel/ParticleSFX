@@ -24,7 +24,7 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
- * code mostly copied from {@link com.sun.imageio.plugins.gif.GIFImageReader}, except the read method exits the loop if it goes past the buffer.
+ * code copied from {@link com.sun.imageio.plugins.gif.GIFImageReader}, except the read method exits the loop if it goes past the buffer.
  * some gifs it loads fine, others have a few visual artifacts. but its particles, so who cares?
  * <br><br>
  * https://stackoverflow.com/questions/22259714/arrayindexoutofboundsexception-4096-while-reading-gif-file
