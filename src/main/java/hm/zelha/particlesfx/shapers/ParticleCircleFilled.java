@@ -96,6 +96,8 @@ public class ParticleCircleFilled extends ParticleCircle {
     public ParticleCircleFilled clone() {
         ParticleCircleFilled clone = new ParticleCircleFilled(particle, locations.get(0).clone(), xRadius, zRadius, getPitch(), getYaw(), getRoll(), particleFrequency);
 
+        clone.rot.inherit(rot);
+        clone.rot2.inherit(rot2);
         clone.secondaryParticles.addAll(secondaryParticles);
         clone.mechanics.addAll(mechanics);
         clone.players.addAll(players);

@@ -147,6 +147,8 @@ public class ParticleSphere extends ParticleSphereSFSA {
     public ParticleSphere clone() {
         ParticleSphere clone = new ParticleSphere(particle, locations.get(0).clone(), xRadius, yRadius, zRadius, getPitch(), getYaw(), getRoll(), circleFrequency, particleFrequency);
 
+        clone.rot.inherit(rot);
+        clone.rot2.inherit(rot2);
         clone.secondaryParticles.addAll(secondaryParticles);
         clone.mechanics.addAll(mechanics);
         clone.players.addAll(players);

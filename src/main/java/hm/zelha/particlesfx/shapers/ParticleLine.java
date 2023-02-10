@@ -95,6 +95,8 @@ public class ParticleLine extends ParticleShaper {
 
         ParticleLine clone = new ParticleLine(particle, particleFrequency, locations);
 
+        clone.rot.inherit(rot);
+        clone.rot2.inherit(rot2);
         clone.secondaryParticles.addAll(secondaryParticles);
         clone.mechanics.addAll(mechanics);
         clone.players.addAll(players);

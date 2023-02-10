@@ -70,7 +70,12 @@ public class ParticleShapeCompound extends RotationHandler implements Shape {
             i++;
         }
 
-        return new ParticleShapeCompound(shapes);
+        ParticleShapeCompound clone = new ParticleShapeCompound(shapes);
+
+        clone.rot.inherit(rot);
+        clone.rot2.inherit(rot2);
+
+        return clone;
     }
 
     @Override

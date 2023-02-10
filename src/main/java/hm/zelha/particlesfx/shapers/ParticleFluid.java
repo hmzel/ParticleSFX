@@ -241,6 +241,8 @@ public class ParticleFluid extends ParticleShaper {
             clone.origins.add(l.clone());
         }
 
+        clone.rot.inherit(rot);
+        clone.rot2.inherit(rot2);
         clone.secondaryParticles.addAll(secondaryParticles);
         clone.mechanics.addAll(mechanics);
         clone.players.addAll(players);

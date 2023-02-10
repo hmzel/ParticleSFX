@@ -129,6 +129,8 @@ public class ParticleText extends ParticleShaper {
     public ParticleText clone() {
         ParticleText clone = new ParticleText(particle, locations.get(0), xRadius, zRadius, particleFrequency, text.toArray(new String[0]));
 
+        clone.rot.inherit(rot);
+        clone.rot2.inherit(rot2);
         clone.secondaryParticles.addAll(secondaryParticles);
         clone.mechanics.addAll(mechanics);
         clone.players.addAll(players);

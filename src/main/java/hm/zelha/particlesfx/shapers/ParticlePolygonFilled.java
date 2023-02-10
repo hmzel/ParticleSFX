@@ -160,6 +160,8 @@ public class ParticlePolygonFilled extends ParticlePolygon {
             }
         }
 
+        clone.rot.inherit(rot);
+        clone.rot2.inherit(rot2);
         clone.secondaryParticles.addAll(secondaryParticles);
         clone.mechanics.addAll(mechanics);
         clone.players.addAll(players);

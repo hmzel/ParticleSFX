@@ -198,10 +198,12 @@ public class ParticleImage extends ParticleShaper {
             clone.addIgnoredColor(color.clone());
         }
 
-        clone.images.addAll(images);
+        clone.rot.inherit(rot);
+        clone.rot2.inherit(rot2);
         clone.secondaryParticles.addAll(secondaryParticles);
         clone.mechanics.addAll(mechanics);
         clone.players.addAll(players);
+        clone.images.addAll(images);
         clone.setParticlesPerDisplay(particlesPerDisplay);
         clone.setFuzz(fuzz);
         clone.setFrameDelay(frameDelay);

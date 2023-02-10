@@ -149,11 +149,13 @@ public class ParticleSpiral extends ParticleShaper {
 
         ParticleSpiral clone = new ParticleSpiral(particle, spin, count, particleFrequency, circles);
 
-        clone.setRotateCircles(rotateCircles);
+        clone.rot.inherit(rot);
+        clone.rot2.inherit(rot2);
         clone.secondaryParticles.addAll(secondaryParticles);
         clone.mechanics.addAll(mechanics);
         clone.players.addAll(players);
         clone.setParticlesPerDisplay(particlesPerDisplay);
+        clone.setRotateCircles(rotateCircles);
 
         if (animator == null) {
             clone.stop();
