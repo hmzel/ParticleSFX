@@ -224,6 +224,10 @@ public class Rotation {
         axisRotation.setRoll(roll);
     }
 
+    public Axis[] getRotationOrder() {
+        return new Axis[] {axes[0], axes[1], axes[2]};
+    }
+
     public double getPitch() {
         return pitch;
     }
