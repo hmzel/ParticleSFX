@@ -1,6 +1,5 @@
 package hm.zelha.particlesfx.util;
 
-import hm.zelha.particlesfx.shapers.ParticleCircle;
 import hm.zelha.particlesfx.shapers.parents.RotationHandler;
 import hm.zelha.particlesfx.shapers.parents.Shape;
 import org.apache.commons.lang3.Validate;
@@ -53,7 +52,7 @@ public class ParticleShapeCompound extends RotationHandler implements Shape {
         super.rotate(pitch, yaw, roll);
 
         for (Shape shape : shapeLocationIndex.keySet()) {
-            if (shape instanceof ParticleCircle) {
+            if (shape.getLocationAmount() == 1) {
                 shape.rotate(pitch, yaw, roll);
             }
         }

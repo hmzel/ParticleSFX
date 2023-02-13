@@ -31,12 +31,6 @@ public class RotationHandler {
     private final double[] arrayHelper = new double[] {0, 0};
 
     public void rotate(double pitch, double yaw, double roll) {
-        if (locations.size() == 1) {
-            rot.add(pitch, yaw, roll);
-
-            return;
-        }
-
         recalculateIfNeeded(null);
         rot.add(pitch, yaw, roll);
         calculateCentroid(origins);
@@ -52,15 +46,7 @@ public class RotationHandler {
 
         recalculateIfNeeded(around);
         rot2.add(pitch, yaw, roll);
-
-        if (locations.size() == 1) {
-            //literally just rotating the one location this line makes it seem more complicated than it is
-            LVMath.additionToLocation(locations.get(0), around, rot2.apply(LVMath.subtractToVector(rhVectorHelper, originalCentroid, around)));
-
-            return;
-        }
-
-        //getting distance between original centroid and around, rotating it, and adding it to around to get the genuine location
+        //getting distance between original centroid and around, rotating it, and adding it to around to get the genuine centroid
         LVMath.additionToLocation(rhLocationHelper, around, rot2.apply(LVMath.subtractToVector(rhVectorHelper, originalCentroid, around)));
         calculateCentroid(origins);
 
@@ -72,12 +58,7 @@ public class RotationHandler {
     }
 
     public void face(Location toFace) {
-        if (locations.size() == 1) {
-            centroid.zero().add(locations.get(0));
-        } else {
-            calculateCentroid(origins);
-        }
-
+        calculateCentroid(origins);
         //if we don't recalculate now getDirection() may be off if locations were changed by outside influence
         recalculateIfNeeded(null);
 
@@ -136,7 +117,7 @@ public class RotationHandler {
             }
         }
 
-        if (locations.size() != 1 && recalculate) {
+        if (recalculate) {
             //need to set origins to what they would be if the rotation was 0, 0, 0
             //aka, inverse the current rotation for rot, apply it to all locations, and set that as the origin for rot
             rotHelper.set(-rot.getPitch(), -rot.getYaw(), -rot.getRoll());
@@ -153,15 +134,10 @@ public class RotationHandler {
             }
         }
 
-        if (recalculate || aroundHasChanged) {
+        if (aroundHasChanged) {
             //get origin centroid, set vectorHelper to the distance between centroid and lastRotatedAround, rotate vectorHelper by the
             //inverse of rot2, set originalCentroid to lastRotatedAround + vectorHelper
-            if (locations.size() == 1) {
-                centroid.zero().add(locations.get(0));
-            } else {
-                calculateCentroid(origins);
-            }
-
+            calculateCentroid(origins);
             rotHelper.set(-rot2.getPitch(), -rot2.getYaw(), -rot2.getRoll());
             LVMath.subtractToVector(rhVectorHelper, centroid, lastRotatedAround);
             rotHelper.applyRoll(rhVectorHelper);
@@ -213,10 +189,7 @@ public class RotationHandler {
 
         for (int i = 0; i < locations.size(); i++) {
             locations.get(i).setWorld(world);
-
-            if (origins.size() > i) {
-                origins.get(i).setWorld(world);
-            }
+            origins.get(i).setWorld(world);
         }
     }
 
@@ -361,7 +334,6 @@ public class RotationHandler {
     public double getTotalDistance() {
         double dist = 0;
 
-        //adding the distance between every circle to dist
         for (int i = 0; i < locations.size() - 1; i++) {
             dist += locations.get(i).distance(locations.get(i + 1));
         }

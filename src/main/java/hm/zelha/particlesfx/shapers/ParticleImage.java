@@ -404,12 +404,13 @@ public class ParticleImage extends ParticleShaper {
         Validate.notNull(center.getWorld(), "Location's world cannot be null!");
 
         locations.add(center);
+        origins.add(center.clone());
         setWorld(center.getWorld());
-        originalCentroid.zero().add(center);
         center.setChanged(true);
 
         if (locations.size() > 1) {
             locations.remove(0);
+            origins.remove(0);
         }
     }
     
