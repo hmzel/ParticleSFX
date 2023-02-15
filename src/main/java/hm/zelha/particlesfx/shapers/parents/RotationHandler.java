@@ -122,8 +122,8 @@ public class RotationHandler {
             //aka, inverse the rotation, apply it to all locations, and set that as the origin for rot
             Rotation.Axis[] axes = rot.getRotationOrder();
 
-            rotHelper.set(-rot.getPitch(), -rot.getYaw(), -rot.getRoll());
-            rotHelper.setAxis(-rot.getAxisPitch(), -rot.getAxisYaw(), -rot.getAxisRoll());
+            rotHelper.set(-rot.getAxisPitch(), -rot.getAxisYaw(), -rot.getAxisRoll());
+            rotHelper.setAxis(-rot.getPitch(), -rot.getYaw(), -rot.getRoll());
             rotHelper.setRotationOrder(axes[2], axes[1], axes[0]);
             calculateCentroid(locations);
 
@@ -138,8 +138,8 @@ public class RotationHandler {
             //inverse of rot2, set originalCentroid to lastRotatedAround + vectorHelper
             Rotation.Axis[] axes = rot2.getRotationOrder();
 
-            rotHelper.set(-rot2.getPitch(), -rot2.getYaw(), -rot2.getRoll());
-            rotHelper.setAxis(-rot2.getAxisPitch(), -rot2.getAxisYaw(), -rot2.getAxisRoll());
+            rotHelper.set(-rot2.getAxisPitch(), -rot2.getAxisYaw(), -rot2.getAxisRoll());
+            rotHelper.setAxis(-rot2.getPitch(), -rot2.getYaw(), -rot2.getRoll());
             rotHelper.setRotationOrder(axes[2], axes[1], axes[0]);
             calculateCentroid(origins);
             LVMath.additionToLocation(originalCentroid, lastRotatedAround, rotHelper.apply(LVMath.subtractToVector(rhVectorHelper, centroid, lastRotatedAround)));
