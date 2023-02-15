@@ -58,9 +58,9 @@ public class RotationHandler {
     }
 
     public void face(Location toFace) {
-        calculateCentroid(origins);
         //if we don't recalculate now getDirection() may be off if locations were changed by outside influence
         recalculateIfNeeded(null);
+        calculateCentroid(origins);
 
         double[] direction = getDirection(toFace, centroid);
 
@@ -197,6 +197,7 @@ public class RotationHandler {
     }
 
     public void setRotationOrder(Rotation.Axis first, Rotation.Axis second, Rotation.Axis third) {
+        recalculateIfNeeded(null);
         rot.setRotationOrder(first, second, third);
         rotate(0, 0, 0);
     }
@@ -218,6 +219,7 @@ public class RotationHandler {
     }
 
     public void setAroundRotationOrder(Location around, Rotation.Axis first, Rotation.Axis second, Rotation.Axis third) {
+        recalculateIfNeeded(around);
         rot2.setRotationOrder(first, second, third);
         rotateAroundLocation(around, 0, 0, 0);
     }
@@ -235,41 +237,49 @@ public class RotationHandler {
     }
 
     public void setAxisRotation(double pitch, double yaw, double roll) {
+        recalculateIfNeeded(null);
         rot.setAxis(pitch, yaw, roll);
         rotate(0, 0, 0);
     }
 
     public void setAxisPitch(double pitch) {
+        recalculateIfNeeded(null);
         rot.setAxisPitch(pitch);
         rotate(0, 0, 0);
     }
 
     public void setAxisYaw(double yaw) {
+        recalculateIfNeeded(null);
         rot.setAxisYaw(yaw);
         rotate(0, 0, 0);
     }
 
     public void setAxisRoll(double roll) {
+        recalculateIfNeeded(null);
         rot.setAxisRoll(roll);
         rotate(0, 0, 0);
     }
 
     public void setAroundAxisRotation(Location around, double pitch, double yaw, double roll) {
+        recalculateIfNeeded(around);
         rot2.setAxis(pitch, yaw, roll);
         rotateAroundLocation(around, 0, 0, 0);
     }
 
     public void setAroundAxisPitch(Location around, double pitch) {
+        recalculateIfNeeded(around);
         rot2.setAxisPitch(pitch);
         rotateAroundLocation(around, 0, 0, 0);
     }
 
     public void setAroundAxisYaw(Location around, double yaw) {
+        recalculateIfNeeded(around);
         rot2.setAxisYaw(yaw);
         rotateAroundLocation(around, 0, 0, 0);
     }
 
     public void setAroundAxisRoll(Location around, double roll) {
+        recalculateIfNeeded(around);
         rot2.setAxisRoll(roll);
         rotateAroundLocation(around, 0, 0, 0);
     }
