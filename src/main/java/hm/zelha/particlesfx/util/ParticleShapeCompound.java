@@ -5,7 +5,6 @@ import hm.zelha.particlesfx.shapers.parents.Shape;
 import org.apache.commons.lang3.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.util.Vector;
 
 import javax.annotation.Nullable;
 import java.lang.reflect.Field;
@@ -75,6 +74,20 @@ public class ParticleShapeCompound extends RotationHandler implements Shape {
         clone.rot2.inherit(rot2);
 
         return clone;
+    }
+
+    @Override
+    public void setDelay(int delay) {
+        for (Shape shape : shapeLocationIndex.keySet()) {
+            shape.setDelay(delay);
+        }
+    }
+
+    @Override
+    public void setDisplayPosition(int position) {
+        for (Shape shape : shapeLocationIndex.keySet()) {
+            shape.setDisplayPosition(position);
+        }
     }
 
     @Override
