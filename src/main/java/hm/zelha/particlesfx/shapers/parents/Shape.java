@@ -29,6 +29,10 @@ public interface Shape {
 
     public Shape clone();
 
+    public void setDelay(int delay);
+
+    public void setDisplayPosition(int position);
+
     public void setWorld(World world);
 
     public void setRotation(double pitch, double yaw, double roll);
