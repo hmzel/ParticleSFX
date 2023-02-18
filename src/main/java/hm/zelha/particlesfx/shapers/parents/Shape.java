@@ -1,5 +1,6 @@
 package hm.zelha.particlesfx.shapers.parents;
 
+import hm.zelha.particlesfx.util.Rotation;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.util.Vector;
@@ -32,6 +33,8 @@ public interface Shape {
 
     public void setRotation(double pitch, double yaw, double roll);
 
+    public void setRotationOrder(Rotation.Axis first, Rotation.Axis second, Rotation.Axis third);
+
     public void setPitch(double pitch);
 
     public void setYaw(double yaw);
@@ -40,11 +43,29 @@ public interface Shape {
 
     public void setAroundRotation(Location around, double pitch, double yaw, double roll);
 
+    public void setAroundRotationOrder(Location around, Rotation.Axis first, Rotation.Axis second, Rotation.Axis third);
+
     public void setAroundPitch(Location around, double pitch);
 
     public void setAroundYaw(Location around, double yaw);
 
     public void setAroundRoll(Location around, double roll);
+
+    public void setAxisRotation(double pitch, double yaw, double roll);
+
+    public void setAxisPitch(double pitch);
+
+    public void setAxisYaw(double yaw);
+
+    public void setAxisRoll(double roll);
+
+    public void setAroundAxisRotation(Location around, double pitch, double yaw, double roll);
+
+    public void setAroundAxisPitch(Location around, double pitch);
+
+    public void setAroundAxisYaw(Location around, double yaw);
+
+    public void setAroundAxisRoll(Location around, double roll);
 
     public double getPitch();
 
@@ -57,6 +78,20 @@ public interface Shape {
     public double getAroundYaw();
 
     public double getAroundRoll();
+
+    public double getAxisPitch();
+
+    public double getAxisYaw();
+
+    public double getAxisRoll();
+
+    public double getAroundAxisPitch();
+
+    public double getAroundAxisYaw();
+
+    public double getAroundAxisRoll();
+
+    public Location[] getLocations();
 
     public int getLocationAmount();
 
