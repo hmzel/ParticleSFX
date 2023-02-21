@@ -71,6 +71,8 @@ public interface Shape {
 
     public void setAroundAxisRoll(Location around, double roll);
 
+    public World getWorld();
+
     public double getPitch();
 
     public double getYaw();

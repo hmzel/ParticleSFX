@@ -284,6 +284,10 @@ public class RotationHandler {
         rotateAroundLocation(around, 0, 0, 0);
     }
 
+    public World getWorld() {
+        return rhLocationHelper.getWorld();
+    }
+
     public double getPitch() {
         return rot.getPitch();
     }
