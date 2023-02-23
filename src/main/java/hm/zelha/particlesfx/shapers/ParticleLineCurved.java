@@ -79,6 +79,15 @@ public class ParticleLineCurved extends ParticleLine {
 
                     rot3.set(curve.getPitch(), curve.getYaw(), curve.getRoll());
                     rot3.apply(vectorHelper2);
+
+                    if (rotateCurves) {
+                        rot.apply(vectorHelper2);
+
+                        for (ParticleShapeCompound compound : compounds) {
+                            rotHelper.inherit(compound).apply(vectorHelper2);
+                        }
+                    }
+
                     applyMechanics(ShapeDisplayMechanic.Phase.AFTER_ROTATION, particle, locationHelper, vectorHelper2);
                     locationHelper.add(vectorHelper2);
                 }
@@ -113,19 +122,6 @@ public class ParticleLineCurved extends ParticleLine {
 
         if (!trackCount || !hasRan) {
             overallCount = 0;
-        }
-    }
-
-    @Override
-    public void rotate(double pitch, double yaw, double roll) {
-        super.rotate(pitch, yaw, roll);
-
-        if (rotateCurves) {
-            for (CurveInfo curve : curves) {
-                curve.setPitch(curve.getPitch() + pitch);
-                curve.setYaw(curve.getYaw() + yaw);
-                curve.setRoll(curve.getRoll() + roll);
-            }
         }
     }
 

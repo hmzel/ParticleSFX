@@ -94,6 +94,10 @@ public class ParticleSpiral extends ParticleShaper {
 
                     if (rotateCircles) {
                         rot.apply(vectorHelper2);
+
+                        for (ParticleShapeCompound compound : compounds) {
+                            rotHelper.inherit(compound).apply(vectorHelper2);
+                        }
                     }
 
                     applyMechanics(ShapeDisplayMechanic.Phase.AFTER_ROTATION, particle, locationHelper, vectorHelper2);

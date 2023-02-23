@@ -2,6 +2,7 @@ package hm.zelha.particlesfx.shapers;
 
 import hm.zelha.particlesfx.particles.parents.Particle;
 import hm.zelha.particlesfx.util.LocationSafe;
+import hm.zelha.particlesfx.util.ParticleShapeCompound;
 import hm.zelha.particlesfx.util.ShapeDisplayMechanic;
 
 public class ParticleCircleFilled extends ParticleCircle {
@@ -62,6 +63,11 @@ public class ParticleCircleFilled extends ParticleCircle {
             vectorHelper.setZ(zRadius * r * Math.sin(radian));
             applyMechanics(ShapeDisplayMechanic.Phase.BEFORE_ROTATION, particle, locationHelper, vectorHelper);
             rot.apply(vectorHelper);
+
+            for (ParticleShapeCompound compound : compounds) {
+                rotHelper.inherit(compound).apply(vectorHelper);
+            }
+
             applyMechanics(ShapeDisplayMechanic.Phase.AFTER_ROTATION, particle, locationHelper, vectorHelper);
             locationHelper.add(vectorHelper);
 

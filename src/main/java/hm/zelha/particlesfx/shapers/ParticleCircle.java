@@ -3,6 +3,7 @@ package hm.zelha.particlesfx.shapers;
 import hm.zelha.particlesfx.particles.parents.Particle;
 import hm.zelha.particlesfx.shapers.parents.ParticleShaper;
 import hm.zelha.particlesfx.util.LocationSafe;
+import hm.zelha.particlesfx.util.ParticleShapeCompound;
 import hm.zelha.particlesfx.util.ShapeDisplayMechanic;
 import org.apache.commons.lang3.Validate;
 import org.bukkit.Location;
@@ -59,6 +60,11 @@ public class ParticleCircle extends ParticleShaper {
             locationHelper.zero().add(getCenter());
             applyMechanics(ShapeDisplayMechanic.Phase.BEFORE_ROTATION, particle, locationHelper, vectorHelper);
             rot.apply(vectorHelper);
+
+            for (ParticleShapeCompound compound : compounds) {
+                rotHelper.inherit(compound).apply(vectorHelper);
+            }
+
             applyMechanics(ShapeDisplayMechanic.Phase.AFTER_ROTATION, particle, locationHelper, vectorHelper);
             locationHelper.add(vectorHelper);
 

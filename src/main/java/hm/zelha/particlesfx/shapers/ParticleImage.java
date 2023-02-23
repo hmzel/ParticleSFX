@@ -4,10 +4,7 @@ import com.sun.imageio.plugins.gif.GIFImageReader;
 import hm.zelha.particlesfx.particles.parents.ColorableParticle;
 import hm.zelha.particlesfx.particles.parents.Particle;
 import hm.zelha.particlesfx.shapers.parents.ParticleShaper;
-import hm.zelha.particlesfx.util.Color;
-import hm.zelha.particlesfx.util.LocationSafe;
-import hm.zelha.particlesfx.util.PatchedGIFImageReader;
-import hm.zelha.particlesfx.util.ShapeDisplayMechanic;
+import hm.zelha.particlesfx.util.*;
 import org.apache.commons.lang3.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -139,6 +136,11 @@ public class ParticleImage extends ParticleShaper {
             vectorHelper.setZ(((z / image.getHeight() * 2) - 1) * -zRadius);
             applyMechanics(ShapeDisplayMechanic.Phase.BEFORE_ROTATION, particle, locationHelper, vectorHelper);
             rot.apply(vectorHelper);
+
+            for (ParticleShapeCompound compound : compounds) {
+                rotHelper.inherit(compound).apply(vectorHelper);
+            }
+
             applyMechanics(ShapeDisplayMechanic.Phase.AFTER_ROTATION, particle, locationHelper, vectorHelper);
             locationHelper.add(vectorHelper);
 

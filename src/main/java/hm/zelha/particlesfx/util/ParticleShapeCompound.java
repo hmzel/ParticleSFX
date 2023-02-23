@@ -47,17 +47,6 @@ public class ParticleShapeCompound extends RotationHandler implements Shape {
     }
 
     @Override
-    public void rotate(double pitch, double yaw, double roll) {
-        super.rotate(pitch, yaw, roll);
-
-        for (Shape shape : shapeLocationIndex.keySet()) {
-            if (shape.getLocationAmount() == 1) {
-                shape.rotate(pitch, yaw, roll);
-            }
-        }
-    }
-
-    @Override
     public ParticleShapeCompound clone() {
         Shape[] shapes = new Shape[shapeLocationIndex.size()];
 
@@ -110,14 +99,14 @@ public class ParticleShapeCompound extends RotationHandler implements Shape {
             //aka, inverse the rotation, apply it to all locations, and set that as the origin for rot
             Rotation.Axis[] axes = rot.getRotationOrder();
 
-            rotHelper.set(-rot.getAxisPitch(), -rot.getAxisYaw(), -rot.getAxisRoll());
-            rotHelper.setAxis(-rot.getPitch(), -rot.getYaw(), -rot.getRoll());
-            rotHelper.setRotationOrder(axes[2], axes[1], axes[0]);
+            rhRotHelper.set(-rot.getAxisPitch(), -rot.getAxisYaw(), -rot.getAxisRoll());
+            rhRotHelper.setAxis(-rot.getPitch(), -rot.getYaw(), -rot.getRoll());
+            rhRotHelper.setRotationOrder(axes[2], axes[1], axes[0]);
             calculateCentroid(locations);
 
             for (int i = 0; i < locations.size(); i++) {
                 //getting the distance between the centroid and the location, rotating it, adding it to the centroid, and setting that as the origin
-                LVMath.additionToLocation(origins.get(i), centroid, rotHelper.apply(LVMath.subtractToVector(rhVectorHelper, locations.get(i), centroid)));
+                LVMath.additionToLocation(origins.get(i), centroid, rhRotHelper.apply(LVMath.subtractToVector(rhVectorHelper, locations.get(i), centroid)));
             }
         }
 
@@ -126,11 +115,11 @@ public class ParticleShapeCompound extends RotationHandler implements Shape {
             //inverse of rot2, set originalCentroid to lastRotatedAround + vectorHelper
             Rotation.Axis[] axes = rot2.getRotationOrder();
 
-            rotHelper.set(-rot2.getAxisPitch(), -rot2.getAxisYaw(), -rot2.getAxisRoll());
-            rotHelper.setAxis(-rot2.getPitch(), -rot2.getYaw(), -rot2.getRoll());
-            rotHelper.setRotationOrder(axes[2], axes[1], axes[0]);
+            rhRotHelper.set(-rot2.getAxisPitch(), -rot2.getAxisYaw(), -rot2.getAxisRoll());
+            rhRotHelper.setAxis(-rot2.getPitch(), -rot2.getYaw(), -rot2.getRoll());
+            rhRotHelper.setRotationOrder(axes[2], axes[1], axes[0]);
             calculateCentroid(origins);
-            LVMath.additionToLocation(originalCentroid, lastRotatedAround, rotHelper.apply(LVMath.subtractToVector(rhVectorHelper, centroid, lastRotatedAround)));
+            LVMath.additionToLocation(originalCentroid, lastRotatedAround, rhRotHelper.apply(LVMath.subtractToVector(rhVectorHelper, centroid, lastRotatedAround)));
         }
 
         return recalc;

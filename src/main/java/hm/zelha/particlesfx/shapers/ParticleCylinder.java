@@ -17,6 +17,7 @@ public class ParticleCylinder extends ParticleShaper {
     protected final List<CircleInfo> circles = new ArrayList<>();
     //circumference tracker
     protected final List<Double> cirTracker = new ArrayList<>();
+    protected final Rotation rotHelper2 = new Rotation();
     protected final CircleInfo circleHelper = new CircleInfo(new LocationSafe(Bukkit.getWorld("world"), 0, 0, 0), 0, 0);
     protected boolean rotateCircles = true;
     protected boolean recalculate = true;
@@ -133,6 +134,10 @@ public class ParticleCylinder extends ParticleShaper {
 
                 if (rotateCircles) {
                     rot.apply(vectorHelper);
+
+                    for (ParticleShapeCompound compound : compounds) {
+                        rotHelper2.inherit(compound).apply(vectorHelper);
+                    }
                 }
 
                 applyMechanics(ShapeDisplayMechanic.Phase.AFTER_ROTATION, particle, locationHelper, vectorHelper);
