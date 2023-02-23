@@ -16,7 +16,6 @@ public class ParticleSpiral extends ParticleShaper {
 
     protected final List<CircleInfo> circles = new ArrayList<>();
     protected final Vector vectorHelper2 = new Vector();
-    protected final Rotation rotHelper = new Rotation();
     protected final CircleInfo circleHelper;
     protected boolean rotateCircles = true;
     protected double spin;

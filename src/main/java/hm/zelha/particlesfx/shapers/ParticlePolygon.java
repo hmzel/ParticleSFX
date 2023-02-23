@@ -15,7 +15,6 @@ import java.util.List;
 public class ParticlePolygon extends ParticleShaper {
 
     protected final List<Corner> corners = new ArrayList<>();
-    protected final Rotation rotHelper = new Rotation();
     protected final Location locationHelper2 = new Location(null, 0, 0, 0);
     protected final Vector vectorHelper2 = new Vector();
 

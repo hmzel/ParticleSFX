@@ -18,7 +18,6 @@ public class ParticleCylinder extends ParticleShaper {
     //circumference tracker
     protected final List<Double> cirTracker = new ArrayList<>();
     protected final CircleInfo circleHelper = new CircleInfo(new LocationSafe(Bukkit.getWorld("world"), 0, 0, 0), 0, 0);
-    protected final Rotation rotHelper = new Rotation();
     protected boolean rotateCircles = true;
     protected boolean recalculate = true;
     protected double surfaceArea = 0;
