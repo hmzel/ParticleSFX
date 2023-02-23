@@ -234,14 +234,14 @@ public class ParticleShapeCompound extends RotationHandler implements Shape {
             origins.add(l.clone());
         }
 
+        addCompound(this, (RotationHandler) shape);
+
         if (getPitch() + getYaw() + getRoll() + getAroundPitch() + getAroundYaw() + getAroundRoll() != 0) {
             recalc = true;
         }
     }
 
     public void removeShape(String name) {
-        if (!nameMap.containsKey(name)) return;
-
         Shape shape = nameMap.get(name);
         int i = 0;
 
@@ -286,6 +286,8 @@ public class ParticleShapeCompound extends RotationHandler implements Shape {
                 nameMap.remove(string);
             }
         }
+
+        removeCompound(this, (RotationHandler) shape);
 
         for (int i = index; i < shapeLocationIndex.size(); i++) {
             //subtracting locAmount from all shape location indexes at 'index' and beyond

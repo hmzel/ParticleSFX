@@ -1,9 +1,6 @@
 package hm.zelha.particlesfx.shapers.parents;
 
-import hm.zelha.particlesfx.util.ArrayListSafe;
-import hm.zelha.particlesfx.util.LVMath;
-import hm.zelha.particlesfx.util.LocationSafe;
-import hm.zelha.particlesfx.util.Rotation;
+import hm.zelha.particlesfx.util.*;
 import org.apache.commons.lang3.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -19,6 +16,7 @@ public class RotationHandler {
 
     protected final List<LocationSafe> locations = new ArrayListSafe<>(this);
     protected final List<Location> origins = new ArrayList<>();
+    protected final List<ParticleShapeCompound> compounds = new ArrayList<>();
     protected final Rotation rot = new Rotation();
     protected final Rotation rot2 = new Rotation();
     protected final Rotation rotHelper = new Rotation();
@@ -42,7 +40,7 @@ public class RotationHandler {
     }
 
     public void rotateAroundLocation(Location around, double pitch, double yaw, double roll) {
-        Validate.isTrue(around.getWorld().equals(centroid.getWorld()), "Cant rotate around locations in different worlds!");
+        Validate.isTrue(around.getWorld().equals(getWorld()), "Cant rotate around locations in different worlds!");
 
         recalculateIfNeeded(around);
         rot2.add(pitch, yaw, roll);
@@ -148,17 +146,7 @@ public class RotationHandler {
         return recalculate;
     }
 
-    protected void calculateCentroid(List<? extends Location> locations) {
-        centroid.zero();
-
-        for (int i = 0; i < locations.size(); i++) {
-            centroid.add(locations.get(i));
-        }
-
-        centroid.multiply(1d / locations.size());
-    }
-
-    private double[] getDirection(Location toFace, Location around) {
+    protected double[] getDirection(Location toFace, Location around) {
         Validate.isTrue(toFace.getWorld().equals(around.getWorld()), "Locations must be in the same world!");
 
         LVMath.subtractToVector(rhVectorHelper, toFace, around);
@@ -178,6 +166,44 @@ public class RotationHandler {
         arrayHelper[1] = yaw;
 
         return arrayHelper;
+    }
+
+    protected void calculateCentroid(List<? extends Location> locations) {
+        centroid.zero();
+
+        for (int i = 0; i < locations.size(); i++) {
+            centroid.add(locations.get(i));
+        }
+
+        centroid.multiply(1d / locations.size());
+    }
+
+    protected void addCompound(ParticleShapeCompound compound, RotationHandler shape) {
+        if (shape instanceof ParticleShapeCompound) {
+            ParticleShapeCompound c = (ParticleShapeCompound) shape;
+
+            for (int i = 0; i < c.getShapeAmount(); i++) {
+                addCompound(compound, (RotationHandler) c.getShape(i));
+            }
+
+            return;
+        }
+
+        shape.compounds.add(compound);
+    }
+
+    protected void removeCompound(ParticleShapeCompound compound, RotationHandler shape) {
+        if (shape instanceof ParticleShapeCompound) {
+            ParticleShapeCompound c = (ParticleShapeCompound) shape;
+
+            for (int i = 0; i < c.getShapeAmount(); i++) {
+                removeCompound(compound, (RotationHandler) c.getShape(i));
+            }
+
+            return;
+        }
+
+        shape.compounds.remove(compound);
     }
 
     public void setWorld(World world) {
@@ -355,7 +381,7 @@ public class RotationHandler {
     }
 
     public Location getClonedCenter() {
-        Location l = new Location(centroid.getWorld(), 0, 0, 0);
+        Location l = new Location(getWorld(), 0, 0, 0);
 
         for (int i = 0; i < locations.size(); i++) {
             l.add(locations.get(i));
