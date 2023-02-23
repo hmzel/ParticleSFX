@@ -73,11 +73,15 @@ public interface Shape {
 
     public World getWorld();
 
+    public Rotation.Axis[] getRotationOrder();
+
     public double getPitch();
 
     public double getYaw();
 
     public double getRoll();
+
+    public Rotation.Axis[] getAroundRotationOrder();
 
     public double getAroundPitch();
 
