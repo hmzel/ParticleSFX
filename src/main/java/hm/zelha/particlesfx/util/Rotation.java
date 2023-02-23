@@ -1,5 +1,6 @@
 package hm.zelha.particlesfx.util;
 
+import hm.zelha.particlesfx.shapers.parents.Shape;
 import org.apache.commons.lang3.Validate;
 import org.bukkit.util.Vector;
 
@@ -57,6 +58,16 @@ public class Rotation {
         oldPitch = rotation.oldPitch;
         oldYaw = rotation.oldYaw;
         oldRoll = rotation.oldRoll;
+
+        return this;
+    }
+
+    public Rotation inherit(Shape shape) {
+        Axis[] axes = shape.getRotationOrder();
+
+        setRotationOrder(axes[0], axes[1], axes[2]);
+        set(shape.getPitch(), shape.getYaw(), shape.getRoll());
+        setAxis(shape.getAxisPitch(), shape.getAxisYaw(), shape.getAxisRoll());
 
         return this;
     }
