@@ -315,6 +315,10 @@ public class RotationHandler {
         return rhLocationHelper.getWorld();
     }
 
+    public Rotation.Axis[] getRotationOrder() {
+        return rot.getRotationOrder().clone();
+    }
+
     public double getPitch() {
         return rot.getPitch();
     }
@@ -325,6 +329,10 @@ public class RotationHandler {
 
     public double getRoll() {
         return rot.getRoll();
+    }
+
+    public Rotation.Axis[] getAroundRotationOrder() {
+        return rot2.getRotationOrder().clone();
     }
 
     public double getAroundPitch() {
