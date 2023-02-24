@@ -2,10 +2,13 @@ package hm.zelha.particlesfx.util;
 
 import org.apache.commons.lang3.Validate;
 import org.bukkit.Location;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.util.NumberConversions;
 
 /** contains static utility methods with various functions */
-public class ParticleSFX {
+public final class ParticleSFX {
+
+    private static Plugin plugin = null;
 
     private ParticleSFX() {
     }
@@ -22,5 +25,13 @@ public class ParticleSFX {
         double yaw = Math.toDegrees((Math.atan2(-x, z) + (Math.PI * 2)) % (Math.PI * 2));
 
         return new double[] {pitch, yaw};
+    }
+
+    public static void setPlugin(Plugin plugin) {
+        ParticleSFX.plugin = plugin;
+    }
+
+    public static Plugin getPlugin() {
+        return plugin;
     }
 }

@@ -1,6 +1,6 @@
 package hm.zelha.particlesfx.shapers.parents;
 
-import hm.zelha.particlesfx.ParticleSFXMain;
+import hm.zelha.particlesfx.util.ParticleSFX;
 import hm.zelha.particlesfx.particles.parents.Particle;
 import hm.zelha.particlesfx.util.ShapeDisplayMechanic;
 import org.apache.commons.lang3.Validate;
@@ -43,14 +43,14 @@ public abstract class ParticleShaper extends RotationHandler implements Shape {
     public void start() {
         if (animator != null) return;
 
-        Validate.isTrue(ParticleSFXMain.getPlugin() != null, "Plugin is null! please put ParticleSFXMain.setPlugin(this) in your onEnable() method!");
+        Validate.isTrue(ParticleSFX.getPlugin() != null, "Plugin is null! please put ParticleSFX.setPlugin(this) in your onEnable() method!");
 
         animator = new BukkitRunnable() {
             @Override
             public void run() {
                 display();
             }
-        }.runTaskTimerAsynchronously(ParticleSFXMain.getPlugin(), 1, delay);
+        }.runTaskTimerAsynchronously(ParticleSFX.getPlugin(), 1, delay);
     }
 
     public void stop() {
