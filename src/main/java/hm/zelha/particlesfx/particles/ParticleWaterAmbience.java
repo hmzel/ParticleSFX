@@ -26,4 +26,11 @@ public class ParticleWaterAmbience extends Particle {
     public ParticleWaterAmbience() {
         this(0, 0, 0, 1);
     }
+
+    @Override
+    public ParticleWaterAmbience inherit(Particle particle) {
+        super.inherit(particle);
+
+        return this;
+    }
 }

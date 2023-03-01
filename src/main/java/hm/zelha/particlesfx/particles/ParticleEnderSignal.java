@@ -21,7 +21,6 @@ import java.util.List;
  * Type.VISUAL effects are also locked to specific coordinates of the block they're played on because their internal system uses BlockPosition
  */
 public class ParticleEnderSignal extends Particle {
-
     /**@see ParticleEnderSignal*/
     public ParticleEnderSignal(int count) {
         super(EnumParticle.HEART, 0, 0, 0, 0, count, 0);
@@ -30,6 +29,13 @@ public class ParticleEnderSignal extends Particle {
     /**@see ParticleEnderSignal*/
     public ParticleEnderSignal() {
         this(1);
+    }
+
+    @Override
+    public ParticleEnderSignal inherit(Particle particle) {
+        super.inherit(particle);
+
+        return this;
     }
 
     @Override

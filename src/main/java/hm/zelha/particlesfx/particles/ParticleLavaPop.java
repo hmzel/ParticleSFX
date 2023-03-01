@@ -19,4 +19,11 @@ public class ParticleLavaPop extends Particle {
     public ParticleLavaPop() {
         this(0, 0, 0, 1);
     }
+
+    @Override
+    public ParticleLavaPop inherit(Particle particle) {
+        super.inherit(particle);
+
+        return this;
+    }
 }

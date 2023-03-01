@@ -50,6 +50,17 @@ public class ParticleExplosionLarge extends Particle {
     }
 
     @Override
+    public ParticleExplosionLarge inherit(Particle particle) {
+        super.inherit(particle);
+
+        if (particle instanceof ParticleExplosionLarge) {
+            size = ((ParticleExplosionLarge) particle).size;
+        }
+
+        return this;
+    }
+
+    @Override
     protected void display(Location location, List<CraftPlayer> players) {
         Validate.notNull(location, "Location cannot be null!");
         Validate.notNull(location.getWorld(), "World cannot be null!");

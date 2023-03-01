@@ -45,6 +45,17 @@ public class ParticleNote extends Particle {
     }
 
     @Override
+    public ParticleNote inherit(Particle particle) {
+        super.inherit(particle);
+
+        if (particle instanceof ParticleNote) {
+            color = ((ParticleNote) particle).color;
+        }
+
+        return this;
+    }
+
+    @Override
     protected void display(Location location, List<CraftPlayer> players) {
         Validate.notNull(location, "Location cannot be null!");
         Validate.notNull(location.getWorld(), "World cannot be null!");

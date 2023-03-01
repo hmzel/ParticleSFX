@@ -19,4 +19,11 @@ public class ParticleFootstep extends Particle {
     public ParticleFootstep() {
         this(0, 0, 0, 1);
     }
+
+    @Override
+    public ParticleFootstep inherit(Particle particle) {
+        super.inherit(particle);
+
+        return this;
+    }
 }

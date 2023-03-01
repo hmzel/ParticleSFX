@@ -19,4 +19,11 @@ public class ParticleDripWater extends Particle {
     public ParticleDripWater() {
         this(0, 0, 0, 1);
     }
+
+    @Override
+    public ParticleDripWater inherit(Particle particle) {
+        super.inherit(particle);
+
+        return this;
+    }
 }

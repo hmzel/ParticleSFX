@@ -31,6 +31,19 @@ public class TravellingParticle extends Particle {
     }
 
     @Override
+    public TravellingParticle inherit(Particle particle) {
+        super.inherit(particle);
+
+        if (particle instanceof TravellingParticle) {
+            TravellingParticle inheritance = (TravellingParticle) particle;
+            toGo = inheritance.toGo;
+            velocity = inheritance.velocity;
+        }
+
+        return this;
+    }
+
+    @Override
     protected void display(Location location, List<CraftPlayer> players) {
         Validate.notNull(location, "Location cannot be null!");
         Validate.notNull(location.getWorld(), "World cannot be null!");

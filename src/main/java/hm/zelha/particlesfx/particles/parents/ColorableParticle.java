@@ -25,6 +25,19 @@ public class ColorableParticle extends Particle {
     }
 
     @Override
+    public ColorableParticle inherit(Particle particle) {
+        super.inherit(particle);
+
+        if (particle instanceof ColorableParticle) {
+            ColorableParticle inheritance = (ColorableParticle) particle;
+            color = inheritance.color;
+            brightness = inheritance.brightness;
+        }
+
+        return this;
+    }
+
+    @Override
     protected void display(Location location, List<CraftPlayer> players) {
         Validate.notNull(location, "Location cannot be null!");
         Validate.notNull(location.getWorld(), "World cannot be null!");

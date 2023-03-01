@@ -19,4 +19,11 @@ public class ParticleHeart extends Particle {
     public ParticleHeart() {
         this(0, 0, 0, 1);
     }
+
+    @Override
+    public ParticleHeart inherit(Particle particle) {
+        super.inherit(particle);
+
+        return this;
+    }
 }

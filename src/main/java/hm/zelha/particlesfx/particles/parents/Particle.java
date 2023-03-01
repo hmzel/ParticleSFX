@@ -71,6 +71,17 @@ public class Particle {
         display(location, listHelper);
     }
 
+    public Particle inherit(Particle particle) {
+        offsetX = particle.offsetX;
+        offsetY = particle.offsetY;
+        offsetZ = particle.offsetZ;
+        speed = particle.speed;
+        count = particle.count;
+        radius = particle.radius;
+
+        return this;
+    }
+
     protected void display(Location location, List<CraftPlayer> players) {
         Validate.notNull(location, "Location cannot be null!");
         Validate.notNull(location.getWorld(), "World cannot be null!");

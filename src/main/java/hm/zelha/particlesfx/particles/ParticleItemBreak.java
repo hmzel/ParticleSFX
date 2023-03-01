@@ -1,5 +1,6 @@
 package hm.zelha.particlesfx.particles;
 
+import hm.zelha.particlesfx.particles.parents.Particle;
 import hm.zelha.particlesfx.particles.parents.TravellingParticle;
 import net.minecraft.server.v1_8_R3.EntityPlayer;
 import net.minecraft.server.v1_8_R3.EnumParticle;
@@ -129,6 +130,17 @@ public class ParticleItemBreak extends TravellingParticle {
     /**@see ParticleItemBreak*/
     public ParticleItemBreak() {
         this(new MaterialData(-13), (Location) null, 0, 0, 0, 1);
+    }
+
+    @Override
+    public ParticleItemBreak inherit(Particle particle) {
+        super.inherit(particle);
+
+        if (particle instanceof ParticleItemBreak) {
+            data = ((ParticleItemBreak) particle).data;
+        }
+
+        return this;
     }
 
     @Override

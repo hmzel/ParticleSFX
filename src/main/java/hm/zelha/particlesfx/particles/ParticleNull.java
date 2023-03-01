@@ -30,4 +30,11 @@ public class ParticleNull extends Particle {
     @Override
     protected void display(Location location, List<CraftPlayer> players) {
     }
+
+    @Override
+    public ParticleNull inherit(Particle particle) {
+        super.inherit(particle);
+
+        return this;
+    }
 }

@@ -1,5 +1,6 @@
 package hm.zelha.particlesfx.particles;
 
+import hm.zelha.particlesfx.particles.parents.Particle;
 import hm.zelha.particlesfx.particles.parents.TravellingParticle;
 import net.minecraft.server.v1_8_R3.EnumParticle;
 import org.bukkit.Location;
@@ -44,5 +45,12 @@ public class ParticleExplosionDust extends TravellingParticle {
 
     public ParticleExplosionDust() {
         this((Location) null, 0, 0, 0, 1);
+    }
+
+    @Override
+    public ParticleExplosionDust inherit(Particle particle) {
+        super.inherit(particle);
+
+        return this;
     }
 }

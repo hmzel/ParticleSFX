@@ -19,4 +19,11 @@ public class ParticleBarrier extends Particle {
     public ParticleBarrier() {
         this(0, 0, 0, 1);
     }
+
+    @Override
+    public ParticleBarrier inherit(Particle particle) {
+        super.inherit(particle);
+
+        return this;
+    }
 }

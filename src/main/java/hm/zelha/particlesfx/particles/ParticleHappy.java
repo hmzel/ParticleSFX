@@ -19,4 +19,11 @@ public class ParticleHappy extends Particle {
     public ParticleHappy() {
         this(0, 0, 0, 1);
     }
+
+    @Override
+    public ParticleHappy inherit(Particle particle) {
+        super.inherit(particle);
+
+        return this;
+    }
 }

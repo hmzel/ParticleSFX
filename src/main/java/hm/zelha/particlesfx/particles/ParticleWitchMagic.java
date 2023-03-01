@@ -19,4 +19,11 @@ public class ParticleWitchMagic extends Particle {
     public ParticleWitchMagic() {
         this(0, 0, 0, 1);
     }
+
+    @Override
+    public ParticleWitchMagic inherit(Particle particle) {
+        super.inherit(particle);
+
+        return this;
+    }
 }

@@ -19,4 +19,11 @@ public class ParticleVoid extends Particle {
     public ParticleVoid() {
         this(0, 0, 0, 1);
     }
+
+    @Override
+    public ParticleVoid inherit(Particle particle) {
+        super.inherit(particle);
+
+        return this;
+    }
 }

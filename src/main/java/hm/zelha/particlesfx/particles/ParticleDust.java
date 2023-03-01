@@ -1,6 +1,7 @@
 package hm.zelha.particlesfx.particles;
 
 import hm.zelha.particlesfx.particles.parents.ColorableParticle;
+import hm.zelha.particlesfx.particles.parents.Particle;
 import hm.zelha.particlesfx.util.Color;
 import net.minecraft.server.v1_8_R3.EntityPlayer;
 import net.minecraft.server.v1_8_R3.EnumParticle;
@@ -47,6 +48,17 @@ public class ParticleDust extends ColorableParticle {
 
     public ParticleDust() {
         this(null, 100, 0, 0, 0, 1);
+    }
+
+    @Override
+    public ParticleDust inherit(Particle particle) {
+        super.inherit(particle);
+
+        if (particle instanceof ParticleDust) {
+            pureColor = ((ParticleDust) particle).pureColor;
+        }
+
+        return this;
     }
 
     @Override

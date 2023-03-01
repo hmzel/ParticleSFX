@@ -19,4 +19,11 @@ public class ParticleSplash extends Particle {
     public ParticleSplash() {
         this(0, 0, 0, 1);
     }
+
+    @Override
+    public ParticleSplash inherit(Particle particle) {
+        super.inherit(particle);
+
+        return this;
+    }
 }

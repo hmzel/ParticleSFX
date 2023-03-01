@@ -19,4 +19,11 @@ public class ParticleSpell extends Particle {
     public ParticleSpell() {
         this(0, 0, 0, 1);
     }
+
+    @Override
+    public ParticleSpell inherit(Particle particle) {
+        super.inherit(particle);
+
+        return this;
+    }
 }

@@ -1,6 +1,7 @@
 package hm.zelha.particlesfx.particles;
 
 import hm.zelha.particlesfx.particles.parents.ColorableParticle;
+import hm.zelha.particlesfx.particles.parents.Particle;
 import hm.zelha.particlesfx.util.Color;
 import net.minecraft.server.v1_8_R3.EnumParticle;
 
@@ -37,5 +38,12 @@ public class ParticleSwirl extends ColorableParticle {
 
     public ParticleSwirl() {
         this(null, 100, 0, 0, 0, 1);
+    }
+
+    @Override
+    public ParticleSwirl inherit(Particle particle) {
+        super.inherit(particle);
+
+        return this;
     }
 }

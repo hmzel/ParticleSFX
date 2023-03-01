@@ -19,4 +19,11 @@ public class ParticleExplosionHuge extends Particle {
     public ParticleExplosionHuge() {
         this(0, 0, 0, 1);
     }
+
+    @Override
+    public ParticleExplosionHuge inherit(Particle particle) {
+        super.inherit(particle);
+
+        return this;
+    }
 }

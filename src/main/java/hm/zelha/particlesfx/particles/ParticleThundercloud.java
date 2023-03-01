@@ -19,4 +19,11 @@ public class ParticleThundercloud extends Particle {
     public ParticleThundercloud() {
         this(0, 0, 0, 1);
     }
+
+    @Override
+    public ParticleThundercloud inherit(Particle particle) {
+        super.inherit(particle);
+
+        return this;
+    }
 }
