@@ -154,6 +154,12 @@ public class ParticleText extends ParticleShaper {
         return clone;
     }
 
+    @Override
+    public void scale(double x, double y, double z) {
+        setXRadius(getXRadius() * x);
+        setZRadius(getZRadius() * z);
+    }
+
     protected void remakeImage() {
         image = new BufferedImage(1, 1, BufferedImage.TYPE_4BYTE_ABGR);
         Graphics graphics = image.getGraphics();

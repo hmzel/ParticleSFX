@@ -199,6 +199,16 @@ public class ParticleCylinder extends ParticleShaper {
     }
 
     @Override
+    public void scale(double x, double y, double z) {
+        super.scale(x, y, z);
+
+        for (CircleInfo circle : circles) {
+            circle.setXRadius(circle.getXRadius() * x);
+            circle.setZRadius(circle.getZRadius() * z);
+        }
+    }
+
+    @Override
     protected boolean recalculateIfNeeded(@Nullable Location around) {
         for (int i = 0; i < circles.size(); i++) {
             if (circles.get(i).getCenter() != locations.get(i)) {

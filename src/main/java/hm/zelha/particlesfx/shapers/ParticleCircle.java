@@ -115,6 +115,12 @@ public class ParticleCircle extends ParticleShaper {
         return clone;
     }
 
+    @Override
+    public void scale(double x, double y, double z) {
+        setXRadius(getXRadius() * x);
+        setZRadius(getZRadius() * z);
+    }
+
     public void setCenter(LocationSafe center) {
         Validate.notNull(center, "Location cannot be null!");
         Validate.notNull(center.getWorld(), "Location's world cannot be null!");

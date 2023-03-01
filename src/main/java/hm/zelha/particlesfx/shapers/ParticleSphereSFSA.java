@@ -123,6 +123,12 @@ public class ParticleSphereSFSA extends ParticleCircle {
         return clone;
     }
 
+    @Override
+    public void scale(double x, double y, double z) {
+        super.scale(x, y, z);
+        setYRadius(getYRadius() * y);
+    }
+
     public void setYRadius(double yRadius) {
         this.yRadius = yRadius;
     }

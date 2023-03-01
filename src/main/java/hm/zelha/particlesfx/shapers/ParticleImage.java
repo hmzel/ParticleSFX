@@ -218,6 +218,12 @@ public class ParticleImage extends ParticleShaper {
     }
 
     @Override
+    public void scale(double x, double y, double z) {
+        setXRadius(getXRadius() * x);
+        setZRadius(getZRadius() * z);
+    }
+
+    @Override
     public void addParticle(Particle particle, int particlesUntilDisplay) {
         Validate.isInstanceOf(ColorableParticle.class, particle, "ParticleImage particles must be colorable!");
 
