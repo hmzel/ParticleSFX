@@ -26,4 +26,9 @@ public class ParticleLavaPop extends Particle {
 
         return this;
     }
+
+    @Override
+    public ParticleLavaPop clone() {
+        return new ParticleLavaPop().inherit(this);
+    }
 }

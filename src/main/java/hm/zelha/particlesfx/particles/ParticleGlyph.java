@@ -53,4 +53,9 @@ public class ParticleGlyph extends TravellingParticle {
 
         return this;
     }
+
+    @Override
+    public ParticleGlyph clone() {
+        return new ParticleGlyph().inherit(this);
+    }
 }

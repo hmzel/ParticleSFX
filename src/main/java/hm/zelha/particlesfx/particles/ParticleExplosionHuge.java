@@ -26,4 +26,9 @@ public class ParticleExplosionHuge extends Particle {
 
         return this;
     }
+
+    @Override
+    public ParticleExplosionHuge clone() {
+        return new ParticleExplosionHuge().inherit(this);
+    }
 }

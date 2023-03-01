@@ -39,6 +39,11 @@ public class ParticleEnderSignal extends Particle {
     }
 
     @Override
+    public ParticleEnderSignal clone() {
+        return new ParticleEnderSignal().inherit(this);
+    }
+
+    @Override
     protected void display(Location location, List<CraftPlayer> players) {
         Validate.notNull(location, "Location cannot be null!");
         Validate.notNull(location.getWorld(), "World cannot be null!");

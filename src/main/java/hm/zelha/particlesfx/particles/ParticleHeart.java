@@ -26,4 +26,9 @@ public class ParticleHeart extends Particle {
 
         return this;
     }
+
+    @Override
+    public ParticleHeart clone() {
+        return new ParticleHeart().inherit(this);
+    }
 }

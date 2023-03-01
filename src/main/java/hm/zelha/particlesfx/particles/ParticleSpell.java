@@ -26,4 +26,9 @@ public class ParticleSpell extends Particle {
 
         return this;
     }
+
+    @Override
+    public ParticleSpell clone() {
+        return new ParticleSpell().inherit(this);
+    }
 }

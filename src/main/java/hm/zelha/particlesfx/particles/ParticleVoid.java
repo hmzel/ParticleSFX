@@ -26,4 +26,9 @@ public class ParticleVoid extends Particle {
 
         return this;
     }
+
+    @Override
+    public ParticleVoid clone() {
+        return new ParticleVoid().inherit(this);
+    }
 }

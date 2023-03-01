@@ -53,4 +53,9 @@ public class ParticleSnowDust extends TravellingParticle {
 
         return this;
     }
+
+    @Override
+    public ParticleSnowDust clone() {
+        return new ParticleSnowDust().inherit(this);
+    }
 }

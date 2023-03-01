@@ -62,6 +62,11 @@ public class ParticleDust extends ColorableParticle {
     }
 
     @Override
+    public ParticleDust clone() {
+        return new ParticleDust().inherit(this);
+    }
+
+    @Override
     protected void display(Location location, List<CraftPlayer> players) {
         Validate.notNull(location, "Location cannot be null!");
         Validate.notNull(location.getWorld(), "World cannot be null!");

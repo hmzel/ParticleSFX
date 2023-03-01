@@ -53,4 +53,9 @@ public class ParticleSmokeLarge extends TravellingParticle {
 
         return this;
     }
+
+    @Override
+    public ParticleSmokeLarge clone() {
+        return new ParticleSmokeLarge().inherit(this);
+    }
 }

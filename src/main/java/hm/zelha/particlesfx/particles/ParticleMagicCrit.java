@@ -53,4 +53,9 @@ public class ParticleMagicCrit extends TravellingParticle {
 
         return this;
     }
+
+    @Override
+    public ParticleMagicCrit clone() {
+        return new ParticleMagicCrit().inherit(this);
+    }
 }

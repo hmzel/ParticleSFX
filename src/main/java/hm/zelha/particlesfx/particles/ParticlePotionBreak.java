@@ -58,6 +58,11 @@ public class ParticlePotionBreak extends Particle {
     }
 
     @Override
+    public ParticlePotionBreak clone() {
+        return new ParticlePotionBreak().inherit(this);
+    }
+
+    @Override
     protected void display(Location location, List<CraftPlayer> players) {
         Validate.notNull(location, "Location cannot be null!");
         Validate.notNull(location.getWorld(), "World cannot be null!");

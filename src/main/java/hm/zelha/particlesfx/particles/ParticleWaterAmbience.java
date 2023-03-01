@@ -33,4 +33,9 @@ public class ParticleWaterAmbience extends Particle {
 
         return this;
     }
+
+    @Override
+    public ParticleWaterAmbience clone() {
+        return new ParticleWaterAmbience().inherit(this);
+    }
 }

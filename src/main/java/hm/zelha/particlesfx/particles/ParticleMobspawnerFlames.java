@@ -36,6 +36,11 @@ public class ParticleMobspawnerFlames extends Particle {
     }
 
     @Override
+    public ParticleMobspawnerFlames clone() {
+        return new ParticleMobspawnerFlames().inherit(this);
+    }
+
+    @Override
     protected void display(Location location, List<CraftPlayer> players) {
         Validate.notNull(location, "Location cannot be null!");
         Validate.notNull(location.getWorld(), "World cannot be null!");

@@ -37,4 +37,9 @@ public class ParticleNull extends Particle {
 
         return this;
     }
+
+    @Override
+    public ParticleNull clone() {
+        return new ParticleNull().inherit(this);
+    }
 }

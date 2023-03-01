@@ -53,4 +53,9 @@ public class ParticleCloud extends TravellingParticle {
 
         return this;
     }
+
+    @Override
+    public ParticleCloud clone() {
+        return new ParticleCloud().inherit(this);
+    }
 }

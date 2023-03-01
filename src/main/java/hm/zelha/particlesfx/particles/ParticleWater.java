@@ -68,4 +68,9 @@ public class ParticleWater extends TravellingParticle {
 
         return this;
     }
+
+    @Override
+    public ParticleWater clone() {
+        return new ParticleWater().inherit(this);
+    }
 }

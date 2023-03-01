@@ -26,4 +26,9 @@ public class ParticleHappy extends Particle {
 
         return this;
     }
+
+    @Override
+    public ParticleHappy clone() {
+        return new ParticleHappy().inherit(this);
+    }
 }

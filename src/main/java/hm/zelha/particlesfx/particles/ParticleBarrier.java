@@ -26,4 +26,9 @@ public class ParticleBarrier extends Particle {
 
         return this;
     }
+
+    @Override
+    public ParticleBarrier clone() {
+        return new ParticleBarrier().inherit(this);
+    }
 }

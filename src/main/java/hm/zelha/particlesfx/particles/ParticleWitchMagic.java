@@ -26,4 +26,9 @@ public class ParticleWitchMagic extends Particle {
 
         return this;
     }
+
+    @Override
+    public ParticleWitchMagic clone() {
+        return new ParticleWitchMagic().inherit(this);
+    }
 }

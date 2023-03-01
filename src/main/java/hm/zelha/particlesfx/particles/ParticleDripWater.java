@@ -26,4 +26,9 @@ public class ParticleDripWater extends Particle {
 
         return this;
     }
+
+    @Override
+    public ParticleDripWater clone() {
+        return new ParticleDripWater().inherit(this);
+    }
 }

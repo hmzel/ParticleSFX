@@ -26,4 +26,9 @@ public class ParticleSplash extends Particle {
 
         return this;
     }
+
+    @Override
+    public ParticleSplash clone() {
+        return new ParticleSplash().inherit(this);
+    }
 }

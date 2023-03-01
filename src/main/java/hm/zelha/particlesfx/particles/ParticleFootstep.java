@@ -26,4 +26,9 @@ public class ParticleFootstep extends Particle {
 
         return this;
     }
+
+    @Override
+    public ParticleFootstep clone() {
+        return new ParticleFootstep().inherit(this);
+    }
 }

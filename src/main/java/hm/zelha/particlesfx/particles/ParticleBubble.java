@@ -66,4 +66,9 @@ public class ParticleBubble extends TravellingParticle {
 
         return this;
     }
+
+    @Override
+    public ParticleBubble clone() {
+        return new ParticleBubble().inherit(this);
+    }
 }

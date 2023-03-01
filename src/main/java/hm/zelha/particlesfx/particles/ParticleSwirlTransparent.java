@@ -46,4 +46,9 @@ public class ParticleSwirlTransparent extends ColorableParticle {
 
         return this;
     }
+
+    @Override
+    public ParticleSwirlTransparent clone() {
+        return new ParticleSwirlTransparent().inherit(this);
+    }
 }

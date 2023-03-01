@@ -12,7 +12,7 @@ import org.bukkit.util.Vector;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class TravellingParticle extends Particle {
+public abstract class TravellingParticle extends Particle {
 
     //some travelling particles have to be handled differently due to internal minecraft jank
     protected final boolean inverse;
@@ -42,6 +42,9 @@ public class TravellingParticle extends Particle {
 
         return this;
     }
+
+    @Override
+    public abstract TravellingParticle clone();
 
     @Override
     protected void display(Location location, List<CraftPlayer> players) {

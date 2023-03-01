@@ -12,7 +12,7 @@ import org.bukkit.util.Vector;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class ColorableParticle extends Particle {
+public abstract class ColorableParticle extends Particle {
 
     protected Color color;
     protected int brightness;
@@ -36,6 +36,9 @@ public class ColorableParticle extends Particle {
 
         return this;
     }
+
+    @Override
+    public abstract ColorableParticle clone();
 
     @Override
     protected void display(Location location, List<CraftPlayer> players) {

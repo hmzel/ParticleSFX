@@ -53,4 +53,9 @@ public class ParticleFireworksSpark extends TravellingParticle {
 
         return this;
     }
+
+    @Override
+    public ParticleFireworksSpark clone() {
+        return new ParticleFireworksSpark().inherit(this);
+    }
 }

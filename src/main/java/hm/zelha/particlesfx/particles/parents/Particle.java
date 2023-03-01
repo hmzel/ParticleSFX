@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
 
-public class Particle {
+public abstract class Particle {
 
     protected final EnumParticle particle;
     protected double offsetX;
@@ -81,6 +81,8 @@ public class Particle {
 
         return this;
     }
+
+    public abstract Particle clone();
 
     protected void display(Location location, List<CraftPlayer> players) {
         Validate.notNull(location, "Location cannot be null!");

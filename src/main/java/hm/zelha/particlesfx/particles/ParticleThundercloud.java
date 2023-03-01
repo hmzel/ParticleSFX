@@ -26,4 +26,9 @@ public class ParticleThundercloud extends Particle {
 
         return this;
     }
+
+    @Override
+    public ParticleThundercloud clone() {
+        return new ParticleThundercloud().inherit(this);
+    }
 }

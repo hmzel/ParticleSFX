@@ -46,4 +46,9 @@ public class ParticleSwirl extends ColorableParticle {
 
         return this;
     }
+
+    @Override
+    public ParticleSwirl clone() {
+        return new ParticleSwirl().inherit(this);
+    }
 }

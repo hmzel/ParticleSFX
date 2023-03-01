@@ -53,4 +53,9 @@ public class ParticlePortal extends TravellingParticle {
 
         return this;
     }
+
+    @Override
+    public ParticlePortal clone() {
+        return new ParticlePortal().inherit(this);
+    }
 }
