@@ -66,6 +66,40 @@ public class ParticleShapeCompound extends RotationHandler implements Shape {
     }
 
     @Override
+    public void scale(double x, double y, double z) {
+        super.scale(x, y, z);
+
+        //Some shapes have extra code in their scale methods, we need to run that without modifying the locations twice.
+
+        for (Shape shape : shapeLocationIndex.keySet()) {
+            try {
+                if (!shape.getClass().getMethod("scale", double.class, double.class, double.class).getDeclaringClass().equals(RotationHandler.class)) {
+                    double[][] coordinateArray = new double[shape.getLocationAmount()][3];
+                    int i = 0;
+
+                    for (Location l : shape.getLocations()) {
+                        coordinateArray[i][0] = l.getX();
+                        coordinateArray[i][1] = l.getY();
+                        coordinateArray[i][2] = l.getZ();
+                        i++;
+                    }
+
+                    i = 0;
+
+                    shape.scale(x, y, z);
+
+                    for (Location l : shape.getLocations()) {
+                        l.zero().add(coordinateArray[i][0], coordinateArray[i][1], coordinateArray[i][2]);
+                        i++;
+                    }
+                }
+            } catch (NoSuchMethodException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    @Override
     public void setDelay(int delay) {
         for (Shape shape : shapeLocationIndex.keySet()) {
             shape.setDelay(delay);
