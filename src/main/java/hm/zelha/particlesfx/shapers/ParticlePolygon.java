@@ -88,7 +88,7 @@ public class ParticlePolygon extends ParticleShaper {
             for (int i = 0; i < corner.getConnectionAmount(); i++) {
                 Location start = corner.getLocation();
                 Location end = corner.getConnection(i).getLocation();
-                int particleAmount = (int) Math.max(start.distance(end) / control, 1);
+                int particleAmount = (int) (start.distance(end) / control) + 1;
 
                 if (current >= particleAmount) {
                     current -= particleAmount;
