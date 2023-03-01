@@ -27,6 +27,10 @@ public interface Shape {
 
     public void move(Location location);
 
+    public void scale(double x, double y, double z);
+
+    public void scale(double scale);
+
     public Shape clone();
 
     public void setDelay(int delay);

@@ -5,8 +5,6 @@ import hm.zelha.particlesfx.shapers.parents.ParticleShaper;
 import hm.zelha.particlesfx.util.*;
 import org.apache.commons.lang3.Validate;
 import org.bukkit.Location;
-import org.bukkit.World;
-import org.bukkit.util.Vector;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
@@ -15,8 +13,6 @@ import java.util.List;
 public class ParticlePolygon extends ParticleShaper {
 
     protected final List<Corner> corners = new ArrayList<>();
-    protected final Location locationHelper2 = new Location(null, 0, 0, 0);
-    protected final Vector vectorHelper2 = new Vector();
 
     public ParticlePolygon(Particle particle, LocationSafe center, int cornersPerLayer, int layers, double xRadius, double yRadius, double zRadius, int particleFrequency) {
         super(particle, particleFrequency);
@@ -186,44 +182,6 @@ public class ParticlePolygon extends ParticleShaper {
         return super.recalculateIfNeeded(around);
     }
 
-    /**
-     * Resizes this shape proportionally to its radiuses, such that a cube with the xyz radiuses of 4, 3, 4, resized by 2, 2, 2, would have its
-     * radiuses become 5, 3.75, 5.
-     *
-     * @param x x increase
-     * @param y y increase
-     * @param z z increase
-     */
-    public void resize(double x, double y, double z) {
-        locationHelper2.zero();
-
-        for (LocationSafe location : locations) {
-            locationHelper2.add(location);
-        }
-
-        locationHelper2.multiply(1d / locations.size());
-
-        for (LocationSafe l : locations) {
-            LVMath.subtractToVector(vectorHelper2, l, locationHelper2);
-            //making the vector have an absolute sum of 1
-            LVMath.divide(vectorHelper2, LVMath.getAbsoluteSum(vectorHelper2));
-            vectorHelper2.setX(vectorHelper2.getX() * x);
-            vectorHelper2.setY(vectorHelper2.getY() * y);
-            vectorHelper2.setZ(vectorHelper2.getZ() * z);
-            l.add(vectorHelper2);
-        }
-    }
-
-    /**
-     * Resizes this shape proportionally to its radiuses, such that a cube with the xyz radiuses of 4, 3, 4, resized by 2, would have its
-     * radiuses become 5, 3.75, 5.
-     *
-     * @param increase amount to increase radiuses by
-     */
-    public void resize(double increase) {
-        resize(increase, increase, increase);
-    }
-
     protected void initLayers(LocationSafe center, PolygonLayer... layers) {
         Validate.notNull(center, "Center cant be null!");
         Validate.notNull(center.getWorld(), "World cant be null!");
@@ -330,12 +288,6 @@ public class ParticlePolygon extends ParticleShaper {
      */
     public void removeCorner(int index) {
         removeCorner(index, true);
-    }
-
-    @Override
-    public void setWorld(World world) {
-        super.setWorld(world);
-        locationHelper2.setWorld(world);
     }
 
     public Corner getCorner(int index) {

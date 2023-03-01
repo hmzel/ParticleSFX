@@ -93,6 +93,36 @@ public class RotationHandler {
         }
     }
 
+    /**
+     * Rescales this shape such that a shape with the xyz radiuses of 4, 3, 4, resized by 1.25, 1.25, 1.25, would have its
+     * radiuses become 5, 3.75, 5.
+     *
+     * @param x x scale
+     * @param y y scale
+     * @param z z scale
+     */
+    public void scale(double x, double y, double z) {
+        calculateCentroid(locations);
+
+        for (LocationSafe l : locations) {
+            LVMath.subtractToVector(rhVectorHelper, l, centroid);
+            rhVectorHelper.setX(rhVectorHelper.getX() * x);
+            rhVectorHelper.setY(rhVectorHelper.getY() * y);
+            rhVectorHelper.setZ(rhVectorHelper.getZ() * z);
+            LVMath.additionToLocation(l, centroid, rhVectorHelper);
+        }
+    }
+
+    /**
+     * Rescales this shape such that a shape with the xyz radiuses of 4, 3, 4, resized by 1.25, would have its
+     * radiuses become 5, 3.75, 5.
+     *
+     * @param scale scale amount
+     */
+    public void scale(double scale) {
+        scale(scale, scale, scale);
+    }
+
     protected boolean recalculateIfNeeded(@Nullable Location around) {
         boolean recalculate = false;
         boolean aroundHasChanged = false;
