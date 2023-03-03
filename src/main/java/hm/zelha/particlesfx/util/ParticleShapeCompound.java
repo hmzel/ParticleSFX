@@ -234,11 +234,12 @@ public class ParticleShapeCompound extends RotationHandler implements Shape {
 
             for (Map.Entry<Shape, Integer> entry : shapeLocationIndex.entrySet()) {
                 if (owner == entry.getKey()) {
-                    //adding index to the last pair's index to get the index of the locations in the list
-                    int removeIndex = shapeLocationIndex.get(last) + index;
+                    if (last != null) {
+                        index += shapeLocationIndex.get(last);
+                    }
 
-                    this.locations.remove(removeIndex);
-                    origins.remove(removeIndex);
+                    this.locations.remove(index);
+                    origins.remove(index);
 
                     locationRemoved = true;
                 }
