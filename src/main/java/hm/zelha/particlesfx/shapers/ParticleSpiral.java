@@ -14,66 +14,66 @@ import java.util.List;
 
 public class ParticleSpiral extends ParticleShaper {
 
-    protected final List<CircleInfo> circles = new ArrayList<>();
+    protected final List<CircleInfo> circleInfos = new ArrayList<>();
     protected final Vector vectorHelper2 = new Vector();
     protected final CircleInfo circleHelper;
     protected boolean rotateCircles = true;
     protected double spin;
     protected int count;
 
-    public ParticleSpiral(Particle particle, double spin, int count, int particleFrequency, CircleInfo... circles) {
+    public ParticleSpiral(Particle particle, double spin, int count, int particleFrequency, CircleInfo... circleInfos) {
         super(particle, particleFrequency);
 
-        Validate.isTrue(circles != null && circles.length >= 2, "Array must contain 2 or more CircleInfos!");
+        Validate.isTrue(circleInfos != null && circleInfos.length >= 2, "Array must contain 2 or more CircleInfos!");
 
         setSpin(spin);
         setCount(count);
 
-        for (CircleInfo circle : circles) {
-            addCircle(circle);
+        for (CircleInfo circle : circleInfos) {
+            addCircleInfo(circle);
         }
 
-        this.circleHelper = this.circles.get(0).clone();
+        this.circleHelper = this.circleInfos.get(0).clone();
 
-        setWorld(circles[0].getCenter().getWorld());
+        setWorld(circleInfos[0].getCenter().getWorld());
         start();
     }
 
-    public ParticleSpiral(Particle particle, double spin, int count, CircleInfo... extraCircles) {
-        this(particle, spin, count, 500, extraCircles);
+    public ParticleSpiral(Particle particle, double spin, int count, CircleInfo... circleInfos) {
+        this(particle, spin, count, 500, circleInfos);
     }
 
-    public ParticleSpiral(Particle particle, double spin, CircleInfo... extraCircles) {
-        this(particle, spin, 1, 500, extraCircles);
+    public ParticleSpiral(Particle particle, double spin, CircleInfo... circleInfos) {
+        this(particle, spin, 1, 500, circleInfos);
     }
 
-    public ParticleSpiral(Particle particle, int count, CircleInfo... extraCircles) {
-        this(particle, extraCircles.length, count, 500, extraCircles);
+    public ParticleSpiral(Particle particle, int count, CircleInfo... circleInfos) {
+        this(particle, circleInfos.length, count, 500, circleInfos);
     }
 
-    public ParticleSpiral(Particle particle, CircleInfo... extraCircles) {
-        this(particle, extraCircles.length, 1, 500, extraCircles);
+    public ParticleSpiral(Particle particle, CircleInfo... circleInfos) {
+        this(particle, circleInfos.length, 1, 500, circleInfos);
     }
 
     @Override
     public void display() {
-        double particleAmount = (double) particleFrequency / count / (circles.size() - 1);
-        double endRotation = Math.PI * 2 * spin / (circles.size() - 1);
+        double particleAmount = (double) particleFrequency / count / (circleInfos.size() - 1);
+        double endRotation = Math.PI * 2 * spin / (circleInfos.size() - 1);
         boolean hasRan = false;
         boolean trackCount = particlesPerDisplay > 0;
         int current = overallCount;
 
         main:
         for (int c = 0; c < count; c++) {
-            for (int i = 0; i < circles.size() - 1; i++) {
+            for (int i = 0; i < circleInfos.size() - 1; i++) {
                 if (current >= particleAmount) {
                     current -= particleAmount;
 
                     continue;
                 }
 
-                CircleInfo circle1 = circles.get(i);
-                CircleInfo circle2 = circles.get(i + 1);
+                CircleInfo circle1 = circleInfos.get(i);
+                CircleInfo circle2 = circleInfos.get(i + 1);
 
                 LVMath.subtractToVector(vectorHelper, circle2.getCenter(), circle1.getCenter()).multiply(1 / particleAmount);
                 circleHelper.inherit(circle1);
@@ -144,10 +144,10 @@ public class ParticleSpiral extends ParticleShaper {
 
     @Override
     public ParticleSpiral clone() {
-        CircleInfo[] circles = new CircleInfo[this.circles.size()];
+        CircleInfo[] circles = new CircleInfo[this.circleInfos.size()];
 
-        for (int i = 0; i < this.circles.size(); i++) {
-            circles[i] = this.circles.get(i).clone();
+        for (int i = 0; i < this.circleInfos.size(); i++) {
+            circles[i] = this.circleInfos.get(i).clone();
         }
 
         ParticleSpiral clone = new ParticleSpiral(particle, spin, count, particleFrequency, circles);
@@ -171,7 +171,7 @@ public class ParticleSpiral extends ParticleShaper {
     public void scale(double x, double y, double z) {
         super.scale(x, y, z);
 
-        for (CircleInfo circle : circles) {
+        for (CircleInfo circle : circleInfos) {
             circle.setXRadius(circle.getXRadius() * x);
             circle.setZRadius(circle.getZRadius() * z);
         }
@@ -179,32 +179,32 @@ public class ParticleSpiral extends ParticleShaper {
 
     @Override
     protected boolean recalculateIfNeeded(@Nullable Location around) {
-        for (int i = 0; i < circles.size(); i++) {
-            if (circles.get(i).getCenter() != locations.get(i)) {
-                locations.set(i, (LocationSafe) circles.get(i).getCenter());
+        for (int i = 0; i < circleInfos.size(); i++) {
+            if (circleInfos.get(i).getCenter() != locations.get(i)) {
+                locations.set(i, (LocationSafe) circleInfos.get(i).getCenter());
             }
         }
 
         return super.recalculateIfNeeded(around);
     }
 
-    public void addCircle(CircleInfo circle) {
-        Validate.notNull(circle, "Circles cant be null!");
+    public void addCircleInfo(CircleInfo circleInfo) {
+        Validate.notNull(circleInfo, "CircleInfo cant be null!");
 
-        if (circles.size() != 0) {
-            Validate.isTrue(circle.getCenter().getWorld().equals(circles.get(0).getCenter().getWorld()), "Circle's worlds must be the same!");
+        if (circleInfos.size() != 0) {
+            Validate.isTrue(circleInfo.getCenter().getWorld().equals(circleInfos.get(0).getCenter().getWorld()), "CircleInfo's worlds must be the same!");
         }
 
-        circles.add(circle);
-        locations.add((LocationSafe) circle.getCenter());
-        origins.add(((LocationSafe) circle.getCenter()).clone());
-        ((LocationSafe) circle.getCenter()).setChanged(true);
+        circleInfos.add(circleInfo);
+        locations.add((LocationSafe) circleInfo.getCenter());
+        origins.add(((LocationSafe) circleInfo.getCenter()).clone());
+        ((LocationSafe) circleInfo.getCenter()).setChanged(true);
     }
 
-    public void removeCircle(int index) {
-        Validate.isTrue(circles.size() - 1 >= 2, "List must contain 2 or more CircleInfos!");
+    public void removeCircleInfo(int index) {
+        Validate.isTrue(circleInfos.size() - 1 >= 2, "List must contain 2 or more CircleInfos!");
 
-        circles.remove(index);
+        circleInfos.remove(index);
         locations.remove(index);
         origins.remove(index);
         locations.get(0).setChanged(true);
@@ -240,8 +240,8 @@ public class ParticleSpiral extends ParticleShaper {
         return rotateCircles;
     }
 
-    public CircleInfo getCircle(int index) {
-        return circles.get(index);
+    public CircleInfo getCircleInfo(int index) {
+        return circleInfos.get(index);
     }
 
     public double getSpin() {
@@ -250,5 +250,9 @@ public class ParticleSpiral extends ParticleShaper {
 
     public int getCount() {
         return count;
+    }
+
+    public int getCircleInfoAmount() {
+        return circleInfos.size();
     }
 }

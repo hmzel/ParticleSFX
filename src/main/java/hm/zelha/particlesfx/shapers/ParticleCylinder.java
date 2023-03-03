@@ -4,7 +4,6 @@ import hm.zelha.particlesfx.particles.parents.Particle;
 import hm.zelha.particlesfx.shapers.parents.ParticleShaper;
 import hm.zelha.particlesfx.util.*;
 import org.apache.commons.lang3.Validate;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 
@@ -14,42 +13,44 @@ import java.util.List;
 
 public class ParticleCylinder extends ParticleShaper {
 
-    protected final List<CircleInfo> circles = new ArrayList<>();
+    protected final List<CircleInfo> circleInfos = new ArrayList<>();
     //circumference tracker
     protected final List<Double> cirTracker = new ArrayList<>();
     protected final Rotation rotHelper2 = new Rotation();
-    protected final CircleInfo circleHelper = new CircleInfo(new LocationSafe(Bukkit.getWorld("world"), 0, 0, 0), 0, 0);
+    protected final CircleInfo circleHelper;
     protected boolean rotateCircles = true;
     protected boolean recalculate = true;
     protected double surfaceArea = 0;
     protected int circleFrequency;
 
-    public ParticleCylinder(Particle particle, int circleFrequency, int particleFrequency, CircleInfo... circles) {
+    public ParticleCylinder(Particle particle, int circleFrequency, int particleFrequency, CircleInfo... circleInfos) {
         super(particle, particleFrequency);
 
-        Validate.isTrue(circles != null && circles.length >= 2, "Array must contain 2 or more CircleInfos!");
+        Validate.isTrue(circleInfos != null && circleInfos.length >= 2, "Array must contain 2 or more CircleInfos!");
 
-        for (CircleInfo circle : circles) {
-            addCircle(circle);
+        for (CircleInfo circle : circleInfos) {
+            addCircleInfo(circle);
         }
 
+        this.circleHelper = this.circleInfos.get(0).clone();
+
         setCircleFrequency(circleFrequency);
-        setWorld(this.circles.get(0).getCenter().getWorld());
+        setWorld(this.circleInfos.get(0).getCenter().getWorld());
         start();
     }
 
-    public ParticleCylinder(Particle particle, int particleFrequency, CircleInfo... circles) {
-        this(particle, circles.length * 5, particleFrequency, circles);
+    public ParticleCylinder(Particle particle, int particleFrequency, CircleInfo... circleInfos) {
+        this(particle, circleInfos.length * 5, particleFrequency, circleInfos);
     }
 
-    public ParticleCylinder(Particle particle, CircleInfo... circles) {
-        this(particle, circles.length * 5, circles.length * 250, circles);
+    public ParticleCylinder(Particle particle, CircleInfo... circleInfos) {
+        this(particle, circleInfos.length * 5, circleInfos.length * 250, circleInfos);
     }
 
     @Override
     public void display() {
         double totalDist = getTotalDistance();
-        int circle = 0;
+        int circleIndex = 0;
         int current = overallCount;
         boolean hasRan = false;
         boolean trackCount = particlesPerDisplay > 0;
@@ -57,8 +58,8 @@ public class ParticleCylinder extends ParticleShaper {
         //need to do this here to make sure circumference & surface area aren't screwed up by outside modification of locations
         recalculateIfNeeded(null);
 
-        for (int i = 0; i < circles.size(); i++) {
-            if (circles.get(i).isModified()) {
+        for (int i = 0; i < circleInfos.size(); i++) {
+            if (circleInfos.get(i).isModified()) {
                 recalculate = true;
             }
         }
@@ -67,13 +68,13 @@ public class ParticleCylinder extends ParticleShaper {
             recalcCircumferenceAndArea();
         }
 
-        circleHelper.inherit(circles.get(0));
+        circleHelper.inherit(circleInfos.get(0));
         rotHelper.set(circleHelper.getPitch(), circleHelper.getYaw(), circleHelper.getRoll());
 
         main:
         for (int i = 0; i < circleFrequency; i++) {
-            CircleInfo circle1 = circles.get(circle);
-            CircleInfo circle2 = circles.get(circle + 1);
+            CircleInfo circle1 = circleInfos.get(circleIndex);
+            CircleInfo circle2 = circleInfos.get(circleIndex + 1);
             double distance = circleHelper.getCenter().distance(circle2.getCenter());
             double particleAmount = Math.max(Math.floor(particleFrequency * (cirTracker.get(i) / surfaceArea)), 1);
             double distToTravel = totalDist / (circleFrequency - 1);
@@ -96,12 +97,12 @@ public class ParticleCylinder extends ParticleShaper {
 
             while (distToTravel > distance) {
                 //in every case where this breaks the while loop the final circle winds up exactly where it should be, so it's fine
-                if (circle + 2 >= circles.size()) break;
+                if (circleIndex + 2 >= circleInfos.size()) break;
 
-                circle++;
+                circleIndex++;
                 distToTravel -= distance;
-                circle1 = circles.get(circle);
-                circle2 = circles.get(circle + 1);
+                circle1 = circleInfos.get(circleIndex);
+                circle2 = circleInfos.get(circleIndex + 1);
                 distance = circle1.getCenter().distance(circle2.getCenter());
 
                 circleHelper.inherit(circle1);
@@ -175,10 +176,10 @@ public class ParticleCylinder extends ParticleShaper {
 
     @Override
     public ParticleCylinder clone() {
-        CircleInfo[] circles = new CircleInfo[this.circles.size()];
+        CircleInfo[] circles = new CircleInfo[this.circleInfos.size()];
 
-        for (int i = 0; i < this.circles.size(); i++) {
-            circles[i] = this.circles.get(i).clone();
+        for (int i = 0; i < this.circleInfos.size(); i++) {
+            circles[i] = this.circleInfos.get(i).clone();
         }
 
         ParticleCylinder clone = new ParticleCylinder(particle, circleFrequency, particleFrequency, circles);
@@ -202,7 +203,7 @@ public class ParticleCylinder extends ParticleShaper {
     public void scale(double x, double y, double z) {
         super.scale(x, y, z);
 
-        for (CircleInfo circle : circles) {
+        for (CircleInfo circle : circleInfos) {
             circle.setXRadius(circle.getXRadius() * x);
             circle.setZRadius(circle.getZRadius() * z);
         }
@@ -210,9 +211,9 @@ public class ParticleCylinder extends ParticleShaper {
 
     @Override
     protected boolean recalculateIfNeeded(@Nullable Location around) {
-        for (int i = 0; i < circles.size(); i++) {
-            if (circles.get(i).getCenter() != locations.get(i)) {
-                locations.set(i, (LocationSafe) circles.get(i).getCenter());
+        for (int i = 0; i < circleInfos.size(); i++) {
+            if (circleInfos.get(i).getCenter() != locations.get(i)) {
+                locations.set(i, (LocationSafe) circleInfos.get(i).getCenter());
             }
         }
 
@@ -232,23 +233,23 @@ public class ParticleCylinder extends ParticleShaper {
         recalculate = false;
         double totalDist = getTotalDistance();
         double distToTravel = 0;
-        int circle = 0;
+        int circleIndex = 0;
 
-        circleHelper.inherit(circles.get(0));
+        circleHelper.inherit(circleInfos.get(0));
 
         for (int i = 0; i < circleFrequency; i++) {
-            CircleInfo circle1 = circles.get(circle);
-            CircleInfo circle2 = circles.get(circle + 1);
+            CircleInfo circle1 = circleInfos.get(circleIndex);
+            CircleInfo circle2 = circleInfos.get(circleIndex + 1);
             double distance = circleHelper.getCenter().distance(circle2.getCenter());
 
             while (distToTravel > distance) {
                 //in every case where this breaks the while loop the final circle winds up exactly where it should be, so it's fine
-                if (circle + 2 >= circles.size()) break;
+                if (circleIndex + 2 >= circleInfos.size()) break;
 
-                circle++;
+                circleIndex++;
                 distToTravel -= distance;
-                circle1 = circles.get(circle);
-                circle2 = circles.get(circle + 1);
+                circle1 = circleInfos.get(circleIndex);
+                circle2 = circleInfos.get(circleIndex + 1);
                 distance = circle1.getCenter().distance(circle2.getCenter());
 
                 circleHelper.inherit(circle1);
@@ -282,25 +283,25 @@ public class ParticleCylinder extends ParticleShaper {
         }
     }
 
-    public void addCircle(CircleInfo circle) {
-        Validate.notNull(circle, "Circles cant be null!");
+    public void addCircleInfo(CircleInfo circleInfo) {
+        Validate.notNull(circleInfo, "CircleInfo cant be null!");
 
-        if (circles.size() != 0) {
-            Validate.isTrue(circle.getCenter().getWorld().equals(circles.get(0).getCenter().getWorld()), "Circle's worlds must be the same!");
+        if (circleInfos.size() != 0) {
+            Validate.isTrue(circleInfo.getCenter().getWorld().equals(circleInfos.get(0).getCenter().getWorld()), "CircleInfo's worlds must be the same!");
         }
 
-        circles.add(circle);
-        locations.add((LocationSafe) circle.getCenter());
-        origins.add(((LocationSafe) circle.getCenter()).clone());
-        ((LocationSafe) circle.getCenter()).setChanged(true);
+        circleInfos.add(circleInfo);
+        locations.add((LocationSafe) circleInfo.getCenter());
+        origins.add(((LocationSafe) circleInfo.getCenter()).clone());
+        ((LocationSafe) circleInfo.getCenter()).setChanged(true);
 
         recalculate = true;
     }
 
-    public void removeCircle(int index) {
-        Validate.isTrue(circles.size() - 1 >= 2, "List must contain 2 or more CircleInfos!");
+    public void removeCircleInfo(int index) {
+        Validate.isTrue(circleInfos.size() - 1 >= 2, "List must contain 2 or more CircleInfos!");
 
-        circles.remove(index);
+        circleInfos.remove(index);
         locations.remove(index);
         origins.remove(index);
         locations.get(0).setChanged(true);
@@ -335,15 +336,15 @@ public class ParticleCylinder extends ParticleShaper {
         return rotateCircles;
     }
 
-    public CircleInfo getCircle(int index) {
-        return circles.get(index);
+    public CircleInfo getCircleInfo(int index) {
+        return circleInfos.get(index);
     }
 
     public int getCircleFrequency() {
         return circleFrequency;
     }
 
-    public int getCircleAmount() {
-        return circles.size();
+    public int getCircleInfoAmount() {
+        return circleInfos.size();
     }
 }
