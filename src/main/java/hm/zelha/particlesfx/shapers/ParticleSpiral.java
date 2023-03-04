@@ -181,7 +181,8 @@ public class ParticleSpiral extends ParticleShaper {
     protected boolean recalculateIfNeeded(@Nullable Location around) {
         for (int i = 0; i < circleInfos.size(); i++) {
             if (circleInfos.get(i).getCenter() != locations.get(i)) {
-                locations.set(i, (LocationSafe) circleInfos.get(i).getCenter());
+                locations.remove(i);
+                locations.add(i, (LocationSafe) circleInfos.get(i).getCenter());
             }
         }
 

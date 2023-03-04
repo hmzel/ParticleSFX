@@ -175,7 +175,8 @@ public class ParticlePolygon extends ParticleShaper {
     protected boolean recalculateIfNeeded(@Nullable Location around) {
         for (int i = 0; i < corners.size(); i++) {
             if (corners.get(i).getLocation() != locations.get(i)) {
-                locations.set(i, (LocationSafe) corners.get(i).getLocation());
+                locations.remove(i);
+                locations.add(i, (LocationSafe) corners.get(i).getLocation());
             }
         }
 
