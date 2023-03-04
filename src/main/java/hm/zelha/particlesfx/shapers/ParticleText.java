@@ -230,6 +230,10 @@ public class ParticleText extends ParticleShaper {
     public void addLines(int index, String... strings) {
         Validate.isTrue(strings != null && strings.length != 0, "Can't add nothing!");
 
+        for (String text : strings) {
+            Validate.isTrue(font.canDisplayUpTo(text) == -1, "Font can't display given strings!");
+        }
+
         this.text.addAll(index, Arrays.asList(strings));
 
         remakeImage = true;
@@ -257,6 +261,8 @@ public class ParticleText extends ParticleShaper {
     }
 
     public void setLine(int line, String text) {
+        Validate.isTrue(font.canDisplayUpTo(text) == -1, "Font can't display given text!");
+
         this.text.set(line, text);
 
         remakeImage = true;
