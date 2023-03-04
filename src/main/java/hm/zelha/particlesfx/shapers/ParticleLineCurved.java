@@ -154,8 +154,12 @@ public class ParticleLineCurved extends ParticleLine {
         return clone;
     }
 
+    public void addCurve(int index, CurveInfo curve) {
+        curves.add(index, curve);
+    }
+
     public void addCurve(CurveInfo curve) {
-        curves.add(curve);
+        addCurve(curves.size(), curve);
     }
 
     public void removeCurve(int index) {

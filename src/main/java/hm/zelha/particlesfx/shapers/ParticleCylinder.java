@@ -284,19 +284,23 @@ public class ParticleCylinder extends ParticleShaper {
         }
     }
 
-    public void addCircleInfo(CircleInfo circleInfo) {
+    public void addCircleInfo(int index, CircleInfo circleInfo) {
         Validate.notNull(circleInfo, "CircleInfo cant be null!");
 
         if (circleInfos.size() != 0) {
             Validate.isTrue(circleInfo.getCenter().getWorld().equals(circleInfos.get(0).getCenter().getWorld()), "CircleInfo's worlds must be the same!");
         }
 
-        circleInfos.add(circleInfo);
-        locations.add((LocationSafe) circleInfo.getCenter());
-        origins.add(((LocationSafe) circleInfo.getCenter()).clone());
+        circleInfos.add(index, circleInfo);
+        locations.add(index, (LocationSafe) circleInfo.getCenter());
+        origins.add(index, ((LocationSafe) circleInfo.getCenter()).clone());
         ((LocationSafe) circleInfo.getCenter()).setChanged(true);
 
         recalculate = true;
+    }
+
+    public void addCircleInfo(CircleInfo circleInfo) {
+        addCircleInfo(circleInfos.size(), circleInfo);
     }
 
     public void removeCircleInfo(int index) {

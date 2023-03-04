@@ -109,17 +109,21 @@ public class ParticleLine extends ParticleShaper {
         return clone;
     }
 
-    public void addLocation(LocationSafe location) {
+    public void addLocation(int index, LocationSafe location) {
         Validate.notNull(location, "Location can't be null!");
-        Validate.notNull(location.getWorld(), "Locations cannot have null worlds!");
+        Validate.notNull(location.getWorld(), "Locations can't have null worlds!");
 
         if (locations.size() != 0) {
-            Validate.isTrue(location.getWorld().equals(locations.get(0).getWorld()), "Locations cannot have different worlds!");
+            Validate.isTrue(location.getWorld().equals(locations.get(0).getWorld()), "Locations can't have different worlds!");
         }
 
-        locations.add(location);
-        origins.add(location.clone());
+        locations.add(index, location);
+        origins.add(index, location.clone());
         location.setChanged(true);
+    }
+
+    public void addLocation(LocationSafe location) {
+        addLocation(locations.size(), location);
     }
 
     public void removeLocation(int index) {

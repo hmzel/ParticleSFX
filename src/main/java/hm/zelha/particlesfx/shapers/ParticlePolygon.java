@@ -242,10 +242,11 @@ public class ParticlePolygon extends ParticleShaper {
     }
 
     /**
+     * @param index where the corner should be put in the list
      * @param corner corner to add
      * @param connections index of other corners to connect to the added corner
      */
-    public void addCorner(Corner corner, int... connections) {
+    public void addCorner(int index, Corner corner, int... connections) {
         Validate.notNull(corner, "Corner cant be null!");
 
         if (!locations.isEmpty()) {
@@ -254,14 +255,22 @@ public class ParticlePolygon extends ParticleShaper {
             setWorld(corner.getLocation().getWorld());
         }
 
-        corners.add(corner);
-        locations.add((LocationSafe) corner.getLocation());
-        origins.add(corner.getLocation().clone());
+        corners.add(index, corner);
+        locations.add(index, (LocationSafe) corner.getLocation());
+        origins.add(index, corner.getLocation().clone());
         ((LocationSafe) corner.getLocation()).setChanged(true);
 
         for (int i : connections) {
             corner.connect(corners.get(i));
         }
+    }
+
+    /**
+     * @param corner corner to add
+     * @param connections index of other corners to connect to the added corner
+     */
+    public void addCorner(Corner corner, int... connections) {
+        addCorner(corners.size(), corner, connections);
     }
 
     /**

@@ -227,12 +227,16 @@ public class ParticleText extends ParticleShaper {
         remakeImage = false;
     }
 
-    public void addLines(String... strings) {
+    public void addLines(int index, String... strings) {
         Validate.isTrue(strings != null && strings.length != 0, "Can't add nothing!");
 
-        this.text.addAll(Arrays.asList(strings));
+        this.text.addAll(index, Arrays.asList(strings));
 
         remakeImage = true;
+    }
+
+    public void addLines(String... strings) {
+        addLines(text.size(), strings);
     }
 
     public void removeLine(int line) {
