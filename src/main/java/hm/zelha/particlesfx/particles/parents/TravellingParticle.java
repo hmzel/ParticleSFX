@@ -168,6 +168,7 @@ public abstract class TravellingParticle extends Particle {
 
     public void setLocationToGo(@Nullable Location location) {
         this.toGo = location;
+        this.velocity = null;
     }
 
     /**
@@ -175,6 +176,7 @@ public abstract class TravellingParticle extends Particle {
      */
     public void setVelocity(@Nullable Vector velocity) {
         this.velocity = velocity;
+        this.toGo = null;
     }
 
     /**
@@ -184,6 +186,7 @@ public abstract class TravellingParticle extends Particle {
      */
     public void setVelocity(double x, double y, double z) {
         this.velocity = new Vector(x, y, z);
+        this.toGo = null;
     }
 
     /**
