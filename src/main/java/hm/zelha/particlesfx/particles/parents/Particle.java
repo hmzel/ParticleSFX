@@ -71,6 +71,10 @@ public abstract class Particle {
         display(location, listHelper);
     }
 
+    /**
+     * @param particle particle for this object to copy data from
+     * @return this object
+     */
     public Particle inherit(Particle particle) {
         offsetX = particle.offsetX;
         offsetY = particle.offsetY;

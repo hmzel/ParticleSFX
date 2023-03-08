@@ -109,6 +109,9 @@ public abstract class ColorableParticle extends Particle {
         }
     }
 
+    /**
+     * @param brightness how saturated the color should be, from 0-100
+     */
     public void setBrightness(int brightness) {
         Validate.isTrue(brightness >= 0 && brightness <= 100, "Brightness must be between 0 and 100!");
 
@@ -116,7 +119,7 @@ public abstract class ColorableParticle extends Particle {
     }
 
     /**
-     * nullable to allow for randomly colored particles without use of boolean constructors
+     * nullable to allow for randomly colored particles without being complicated
      *
      * @return color this particle is using
      */

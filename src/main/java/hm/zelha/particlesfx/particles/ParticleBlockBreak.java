@@ -15,7 +15,7 @@ import org.bukkit.util.Vector;
 import java.util.List;
 
 /**
- * warning: the speed of this particle is inconsistent due to gravity and other internal factors that aren't accounted for
+ * warning: the speed of this particle is inconsistent due to gravity and other factors that aren't accounted for
  */
 public class ParticleBlockBreak extends TravellingParticle {
 

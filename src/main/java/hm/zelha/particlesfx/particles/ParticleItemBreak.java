@@ -17,7 +17,7 @@ import java.util.List;
  * this particle can have the material of any tangible item, regardless of if it can break or not <br>
  * ex: stone works fine, but air will not because it isn't an item you can have in your hand. <br><br>
  *
- * warning: the speed of this particle is inconsistent due to gravity and other internal factors that aren't accounted for
+ * warning: the speed of this particle is inconsistent due to gravity and other factors that aren't accounted for
  */
 public class ParticleItemBreak extends TravellingParticle {
 

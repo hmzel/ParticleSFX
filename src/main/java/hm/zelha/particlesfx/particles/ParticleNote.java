@@ -9,12 +9,12 @@ import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import java.util.List;
 
 /**
- * due to how the internal systems work, offset is only useable if the color is NoteColor.RANDOM,
- * so i didnt bother to add constructors for that <br>
- * feel free to use Particle.setOffset(?) though!
+ * due to how the minecraft systems work, offset is only usable if the color is NoteColor.RANDOM,
+ * so I didn't bother to add constructors for that <br>
+ * feel free to use setOffset() methods though!
  * <br><br>
  * also, all ParticleNotes with a NoteColor other than NoteColor.RANDOM have a fixed radius that is quite small,
- * due to internal systems, again.
+ * due to minecraft systems, again.
  * <br><br>
  * (speed is unused regardless)
  */
@@ -102,14 +102,14 @@ public class ParticleNote extends Particle {
         this.color = color;
     }
 
-
     public NoteColor getNoteColor() {
         return color;
     }
 
+
     /**
      * it might look weird if you use NoteColor.RANDOM with other notecolors because all notecolors besides NoteColor.RANDOM
-     * are locked to 0.5, 0.5, 0.5 of the block theyre spawned at
+     * are locked to 0.5, 0.5, 0.5 of the block they're spawned at
      */
     public enum NoteColor {
         CYAN(0),

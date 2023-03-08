@@ -18,7 +18,7 @@ import java.util.List;
  * <br><br>
  * since Effect.POTION_BREAK is Type.VISUAL, the radius, speed, and offsets are unused internally, and the default radius is quite small.
  * <br><br>
- * Type.VISUAL effects are also locked to specific coordinates of the block they're played on because their internal system uses BlockPosition
+ * Type.VISUAL effects are also locked to specific coordinates of the block they're played on because their packet uses BlockPosition
  */
 public class ParticlePotionBreak extends Particle {
 

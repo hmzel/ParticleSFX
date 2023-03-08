@@ -152,7 +152,7 @@ public class ParticleDust extends ColorableParticle {
      * and you're kinda locked into specific colors because lowering the brightness will make it not pure
      * aka no purple or brown or other colors like that
      *
-     * @param pureColor whether or not the color should be pure
+     * @param pureColor whether the color should be pure
      * @return this object
      */
     public ParticleDust setPureColor(boolean pureColor) {
