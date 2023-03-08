@@ -93,14 +93,6 @@ public class RotationHandler {
         }
     }
 
-    /**
-     * Rescales this shape such that a shape with the xyz radiuses of 4, 3, 4, resized by 1.25, 1.25, 1.25, would have its
-     * radiuses become 5, 3.75, 5.
-     *
-     * @param x x scale
-     * @param y y scale
-     * @param z z scale
-     */
     public void scale(double x, double y, double z) {
         calculateCentroid(locations);
 
@@ -113,12 +105,6 @@ public class RotationHandler {
         }
     }
 
-    /**
-     * Rescales this shape such that a shape with the xyz radiuses of 4, 3, 4, resized by 1.25, would have its
-     * radiuses become 5, 3.75, 5.
-     *
-     * @param scale scale amount
-     */
     public void scale(double scale) {
         scale(scale, scale, scale);
     }
