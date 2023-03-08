@@ -88,12 +88,14 @@ public abstract class ParticleShaper extends RotationHandler implements Shape {
         }
     }
 
+    /**
+     * adds a particle for this shape to display after a certain amount of other particles
+     *
+     * @param particle particle to add
+     * @param particlesUntilDisplay how many particles need to be displayed before this one
+     */
     public void addParticle(Particle particle, int particlesUntilDisplay) {
         secondaryParticles.add(Pair.of(particle, particlesUntilDisplay));
-    }
-
-    public void removeParticle(int index) {
-        secondaryParticles.remove(index);
     }
 
     /**
@@ -102,25 +104,22 @@ public abstract class ParticleShaper extends RotationHandler implements Shape {
      * the given mechanic will run before the location is modified to display the next particle, allowing you to modify the
      * addition vector however you want, though doing so may be very volatile
      * <br><br>
-     * keep in mind that all changes to the given objects will be reflected in the display() method <br>
-     * and, considering that the display() method is often called many times per tick, try to make sure the mechanic isnt very
+     * keep in mind that all changes to the given objects will be reflected in the display() method, and considering that
+     * the display() method often displays hundreds of particles, try to make sure the mechanic isn't very
      * resource-intensive
      * <br><br>
      * {@link ShapeDisplayMechanic#apply(Particle, Location, Vector, int)}
      *
-     * @param phase phase for the mechanic to run
+     * @param phase phase that the mechanic should run at
      * @param mechanic mechanic to run during display
      */
     public void addMechanic(ShapeDisplayMechanic.Phase phase, ShapeDisplayMechanic mechanic) {
         mechanics.add(Pair.of(mechanic, phase));
     }
 
-    public void removeMechanic(int index) {
-        mechanics.remove(index);
-    }
-
     /**
      * adds a player for this shape to display to, defaults to all online players in the shape's world if the list is empty
+     *
      * @param player player to add
      */
     public void addPlayer(Player player) {
@@ -129,10 +128,43 @@ public abstract class ParticleShaper extends RotationHandler implements Shape {
 
     /**
      * adds a player for this shape to display to, defaults to all online players in the shape's world if the list is empty
+     *
      * @param uuid ID of player to add
      */
     public void addPlayer(UUID uuid) {
         players.add(uuid);
+    }
+
+    /**
+     * @see ParticleShaper#addParticle(Particle, int)
+     * @param index index of particle in list (main particle is not in list)
+     */
+    public void removeParticle(int index) {
+        secondaryParticles.remove(index);
+    }
+
+    /**
+     * @see ParticleShaper#addMechanic(ShapeDisplayMechanic.Phase, ShapeDisplayMechanic)
+     * @param index index of mechanic in list
+     */
+    public void removeMechanic(int index) {
+        mechanics.remove(index);
+    }
+
+    /**
+     * @see ParticleShaper#addPlayer(Player)
+     * @param index index of player to remove from list
+     */
+    public void removePlayer(int index) {
+        players.remove(index);
+    }
+
+    /**
+     * @see ParticleShaper#addPlayer(Player)
+     * @param player player to remove from list
+     */
+    public void removePlayer(Player player) {
+        players.remove(player.getUniqueId());
     }
 
     /**
@@ -143,14 +175,6 @@ public abstract class ParticleShaper extends RotationHandler implements Shape {
         if (players.isEmpty()) return true;
 
         return players.contains(player.getUniqueId());
-    }
-
-    public void removePlayer(int index) {
-        players.remove(index);
-    }
-
-    public void removePlayer(Player player) {
-        players.remove(player.getUniqueId());
     }
 
     public void setParticle(Particle particle) {
@@ -175,9 +199,6 @@ public abstract class ParticleShaper extends RotationHandler implements Shape {
         this.particlesPerDisplay = particlesPerDisplay;
     }
 
-    /**
-     * @param delay amount of ticks between {@link ParticleShaper#display()} being called
-     */
     public void setDelay(int delay) {
         stop();
 
@@ -186,13 +207,6 @@ public abstract class ParticleShaper extends RotationHandler implements Shape {
         start();
     }
 
-    /**
-     * sets the current position of the shape's animation <br>
-     * (aka, sets the tracker that tells the shape how many particles have been displayed until this point) <br>
-     * only works if {@link ParticleShaper#setParticlesPerDisplay(int)} is set to something greater than 0.
-     *
-     * @param position position for shape to display at
-     */
     public void setDisplayPosition(int position) {
         currentCount = 0;
         overallCount = position;
@@ -208,6 +222,11 @@ public abstract class ParticleShaper extends RotationHandler implements Shape {
         return particle;
     }
 
+    /**
+     * @see ParticleShaper#addParticle(Particle, int) 
+     * @param index index of particle to get from the list
+     * @return a pair of the particle and the amount of particles before it should be displayed
+     */
     public Pair<Particle, Integer> getSecondaryParticle(int index) {
         return secondaryParticles.get(index);
     }
@@ -216,14 +235,25 @@ public abstract class ParticleShaper extends RotationHandler implements Shape {
         return particleFrequency;
     }
 
+    /**
+     * @see ParticleShaper#setParticlesPerDisplay(int) 
+     * @return the amount of particles per display
+     */
     public int getParticlesPerDisplay() {
         return particlesPerDisplay;
     }
 
+    /**
+     * @return amount of ticks between {@link ParticleShaper#display()} being called
+     */
     public int getDelay() {
         return delay;
     }
 
+    /**
+     * @see ParticleShaper#addParticle(Particle, int) 
+     * @return the amount of extra particles that this shape uses
+     */
     public int getSecondaryParticleAmount() {
         return secondaryParticles.size();
     }

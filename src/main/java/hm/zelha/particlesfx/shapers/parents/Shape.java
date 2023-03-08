@@ -33,8 +33,17 @@ public interface Shape {
 
     public Shape clone();
 
+    /**
+     * @param delay amount of ticks between {@link ParticleShaper#display()} being called
+     */
     public void setDelay(int delay);
 
+    /**
+     * sets the current position of the shape's animation <br>
+     * (aka, sets the tracker that tells the shape how many particles have been displayed until this point) <br>
+     *
+     * @param position position for shape to display at
+     */
     public void setDisplayPosition(int position);
 
     public void setWorld(World world);
