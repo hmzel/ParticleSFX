@@ -346,7 +346,11 @@ public class ParticleText extends ParticleShaper {
         return borderZ;
     }
 
-    public int getLines() {
+    public String[] getText() {
+        return text.toArray(new String[0]);
+    }
+
+    public int getLineAmount() {
         return text.size();
     }
 }
