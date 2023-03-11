@@ -291,20 +291,32 @@ public class ParticleText extends ParticleShaper {
         this.zRadius = zRadius;
     }
 
+    /**
+     * @param inverted whether particles should appear within the text or outlining the text, default false
+     */
     public void setInverted(boolean inverted) {
         this.inverted = inverted;
     }
 
+    /**
+     * @param centered whether the text should be centered or not, default true
+     */
     public void setCentered(boolean centered) {
         this.centered = centered;
         remakeImage = true;
     }
 
+    /**
+     * @param borderX how wide the border around the text should be, only used if {@link ParticleText#isInverted()} is true.
+     */
     public void setBorderX(int borderX) {
         this.borderX = borderX;
         remakeImage = true;
     }
 
+    /**
+     * @param borderZ how tall the border around the text should be, only used if {@link ParticleText#isInverted()} is true.
+     */
     public void setBorderZ(int borderZ) {
         this.borderZ = borderZ;
         remakeImage = true;
@@ -330,18 +342,30 @@ public class ParticleText extends ParticleShaper {
         return zRadius;
     }
 
+    /**
+     * @return whether particles should appear within the text or outlining the text, default false
+     */
     public boolean isInverted() {
         return inverted;
     }
 
+    /**
+     * @return whether the text should be centered or not, default true
+     */
     public boolean isCentered() {
         return centered;
     }
 
+    /**
+     * @return how wide the border around the text should be, only used if {@link ParticleText#isInverted()} is true.
+     */
     public int getBorderX() {
         return borderX;
     }
 
+    /**
+     * @return how tall the border around the text should be, only used if {@link ParticleText#isInverted()} is true.
+     */
     public int getBorderZ() {
         return borderZ;
     }
