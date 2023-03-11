@@ -222,6 +222,9 @@ public class ParticleSphere extends ParticleSphereSFSA {
         recalculate = true;
     }
 
+    /**
+     * @param circleFrequency amount of circles in the sphere
+     */
     public void setCircleFrequency(int circleFrequency) {
         Validate.isTrue(circleFrequency >= 3, "You cant have a sphere with only 2 points!");
         Validate.isTrue(circleFrequency <= particleFrequency, "You can't have more circles than particles!");
@@ -230,6 +233,9 @@ public class ParticleSphere extends ParticleSphereSFSA {
         recalculate = true;
     }
 
+    /**
+     * @return amount of circles in the sphere
+     */
     public int getCircleFrequency() {
         return circleFrequency;
     }

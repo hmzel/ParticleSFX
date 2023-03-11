@@ -314,6 +314,9 @@ public class ParticleCylinder extends ParticleShaper {
         recalculate = true;
     }
 
+    /**
+     * @param circleFrequency amount of circles in the cylinder
+     */
     public void setCircleFrequency(int circleFrequency) {
         Validate.isTrue(circleFrequency > 1, "circleFrequency must be greater than 1! if you only want one circle, use ParticleCircle");
 
@@ -345,6 +348,9 @@ public class ParticleCylinder extends ParticleShaper {
         return circleInfos.get(index);
     }
 
+    /**
+     * @return amount of circles in the cylinder
+     */
     public int getCircleFrequency() {
         return circleFrequency;
     }
