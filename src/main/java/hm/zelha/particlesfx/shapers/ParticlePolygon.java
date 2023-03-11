@@ -293,9 +293,6 @@ public class ParticlePolygon extends ParticleShaper {
         }
     }
 
-    /**
-     * @param index index of the corner to remove
-     */
     public void removeCorner(int index) {
         removeCorner(index, true);
     }

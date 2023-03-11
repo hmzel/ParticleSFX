@@ -133,6 +133,14 @@ public class ParticleSphereSFSA extends ParticleCircle {
         this.yRadius = yRadius;
     }
 
+    /**
+     * @param limitInverse determines if the limit cuts off at the top or bottom. default false (top)
+     */
+    @Override
+    public void setLimitInverse(boolean limitInverse) {
+        super.setLimitInverse(limitInverse);
+    }
+
     public double getYRadius() {
         return yRadius;
     }
