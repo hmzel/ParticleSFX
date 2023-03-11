@@ -221,10 +221,16 @@ public class ParticleSpiral extends ParticleShaper {
         circleHelper.getCenter().setWorld(world);
     }
 
+    /**
+     * @param spin how many times the spiral goes in a circle throughout the whole shape
+     */
     public void setSpin(double spin) {
         this.spin = spin;
     }
 
+    /**
+     * @param count how many spirals this shape displays
+     */
     public void setCount(int count) {
         Validate.isTrue(count > 0, "Count cant be 0 or less!");
 
@@ -249,10 +255,16 @@ public class ParticleSpiral extends ParticleShaper {
         return circleInfos.get(index);
     }
 
+    /**
+     * @return how many times the spiral goes in a circle throughout the whole shape
+     */
     public double getSpin() {
         return spin;
     }
 
+    /**
+     * @return how many spirals this shape displays
+     */
     public int getCount() {
         return count;
     }
