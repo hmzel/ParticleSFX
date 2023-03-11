@@ -478,8 +478,8 @@ public class ParticleImage extends ParticleShaper {
      * If you don't want to cause lag, use an asynchronous BukkitRunnable!
      *
      * @param index frame to get the color from
-     * @param x width of pixel
-     * @param z height of pixel
+     * @param x horizontal position of pixel
+     * @param z vertical position of pixel
      * @return color at pixel
      */
     public Color getPixelColor(int index, int x, int z) {
@@ -510,10 +510,16 @@ public class ParticleImage extends ParticleShaper {
         return zRadius;
     }
 
+    /**
+     * @return how similar pixel colors have to be to ignored colors in order to be ignored
+     */
     public int getFuzz() {
         return fuzz;
     }
 
+    /**
+     * @return amount of times to display before switching to the next frame
+     */
     public int getFrameDelay() {
         return frameDelay;
     }
