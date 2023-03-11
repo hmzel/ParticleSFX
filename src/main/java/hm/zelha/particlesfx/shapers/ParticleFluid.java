@@ -287,14 +287,23 @@ public class ParticleFluid extends ParticleShaper {
         locationHelper2.setWorld(world);
     }
 
+    /**
+     * @param gravity how much the particle moves towards the ground per display
+     */
     public void setGravity(double gravity) {
         this.gravity = gravity;
     }
 
+    /**
+     * @param repulsion how close particles have to be to push each other away
+     */
     public void setRepulsion(double repulsion) {
         this.repulsion = repulsion;
     }
 
+    /**
+     * @param spawnLocation where particles will appear when increasing particle frequency
+     */
     public void setSpawnLocation(LocationSafe spawnLocation) {
         Validate.notNull(spawnLocation, "Location cannot be null!");
         Validate.notNull(spawnLocation.getWorld(), "Location's world cannot be null!");
@@ -302,14 +311,23 @@ public class ParticleFluid extends ParticleShaper {
         this.spawnLocation = spawnLocation;
     }
 
+    /**
+     * @return how much the particle moves towards the ground per display
+     */
     public double getGravity() {
         return gravity;
     }
 
+    /**
+     * @return how close particles have to be to push each other away
+     */
     public double getRepulsion() {
         return repulsion;
     }
 
+    /**
+     * @return where particles will appear when increasing particle frequency
+     */
     public LocationSafe getSpawnLocation() {
         return spawnLocation;
     }
