@@ -145,7 +145,7 @@ public class ParticleCircle extends ParticleShaper {
     }
 
     /**
-     * @param limit percentage of the sphere that should generate, such that 0 would be the entire sphere and 50 would be a half sphere.
+     * @param limit percentage of the shape that should generate, such that 0 would be the entire shape and 50 would be half the shape.
      */
     public void setLimit(double limit) {
         Validate.isTrue(limit >= 0 && limit <= 100, "Limit is meant to be a percentage, and cannot be below 0 or above 100");
@@ -154,7 +154,7 @@ public class ParticleCircle extends ParticleShaper {
     }
 
     /**
-     * @param limitInverse determines if the limit cuts off the top or the bottom. default false (top)
+     * @param limitInverse determines if the limit cuts off at the left or right. default false (left)
      */
     public void setLimitInverse(boolean limitInverse) {
         this.limitInverse = limitInverse;
@@ -173,14 +173,14 @@ public class ParticleCircle extends ParticleShaper {
     }
 
     /**
-     * @return percentage of the sphere that should generate, such that 0 would be the entire sphere and 50 would be a half sphere.
+     * @return percentage of the circle that should generate, such that 0 would be the entire sphere and 50 would be a half sphere.
      */
     public double getLimit() {
         return limit;
     }
 
     /**
-     * @return if the limit cuts off the top or the bottom. default false (top)
+     * @return determines if the limit cuts off at the left or right. default false (left)
      */
     public boolean isLimitInverse() {
         return limitInverse;
