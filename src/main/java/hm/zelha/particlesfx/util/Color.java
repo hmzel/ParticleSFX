@@ -42,6 +42,11 @@ public class Color {
         return new Color(red, green, blue);
     }
 
+    /**
+     * makes this object unmodifiable
+     *
+     * @return this object
+     */
     public Color lock() {
         locked = true;
 
@@ -98,6 +103,9 @@ public class Color {
         return blue;
     }
 
+    /**
+     * @return whether this object can be modified
+     */
     public boolean isLocked() {
         return locked;
     }

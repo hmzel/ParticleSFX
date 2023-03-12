@@ -30,6 +30,10 @@ public class CircleInfo {
         return new CircleInfo(center.clone(), xRadius, zRadius, pitch, yaw, roll);
     }
 
+    /**
+     * @param other CircleInfo for this object to copy data from
+     * @return this object
+     */
     public CircleInfo inherit(CircleInfo other) {
         setPitch(other.pitch);
         setYaw(other.yaw);
