@@ -42,6 +42,9 @@ public class CurveInfo {
         this.length = length;
     }
 
+    /**
+     * @param apexPosition where the highest point of the curve should be, must be less than length and greater than 0
+     */
     public void setApexPosition(double apexPosition) {
         Validate.isTrue(apexPosition < length && apexPosition >= 0, "Apex must be within the line!");
 
@@ -68,6 +71,9 @@ public class CurveInfo {
         return length;
     }
 
+    /**
+     * @return where the highest point of the curve should be
+     */
     public double getApexPosition() {
         return apexPosition;
     }

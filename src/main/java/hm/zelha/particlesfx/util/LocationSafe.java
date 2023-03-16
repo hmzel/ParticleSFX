@@ -17,7 +17,6 @@ import java.util.function.Consumer;
 public class LocationSafe extends Location {
 
     private final Map<ParticleShapeCompound, Consumer<Location>> recalcMechanics = new HashMap<>();
-    private Consumer<Location> mechanic = null;
     private boolean changed = false;
 
     /**@see LocationSafe*/
@@ -75,71 +74,28 @@ public class LocationSafe extends Location {
         recalcMechanics.remove(owner);
     }
 
-    /**
-     * WARNING: DO NOT USE OUTSIDE PARTICLESFX INTERNALS. <br><br>
-     *
-     * DO NOT COME TO ME ABOUT EVERYTHING SCREWING UP IF YOU DO
-     *
-     * @param mechanic mechanic to be ran when this location is modified
-     */
-    public void setMechanic(Consumer<Location> mechanic) {
-        this.mechanic = mechanic;
-    }
-
     @Override
     public void setX(double x) {
         super.setX(x);
-        changed = true;
-
-        if (mechanic != null) {
-            mechanic.accept(this);
-        }
-
-        for (Consumer<Location> mechanic : recalcMechanics.values()) {
-            mechanic.accept(this);
-        }
+        setChanged(true);
     }
 
     @Override
     public void setY(double y) {
         super.setY(y);
-        changed = true;
-
-        if (mechanic != null) {
-            mechanic.accept(this);
-        }
-
-        for (Consumer<Location> mechanic : recalcMechanics.values()) {
-            mechanic.accept(this);
-        }
+        setChanged(true);
     }
 
     @Override
     public void setZ(double z) {
         super.setZ(z);
-        changed = true;
-
-        if (mechanic != null) {
-            mechanic.accept(this);
-        }
-
-        for (Consumer<Location> mechanic : recalcMechanics.values()) {
-            mechanic.accept(this);
-        }
+        setChanged(true);
     }
 
     @Override
     public Location add(Vector vec) {
         super.add(vec);
-        changed = true;
-
-        if (mechanic != null) {
-            mechanic.accept(this);
-        }
-
-        for (Consumer<Location> mechanic : recalcMechanics.values()) {
-            mechanic.accept(this);
-        }
+        setChanged(true);
 
         return this;
     }
@@ -147,15 +103,7 @@ public class LocationSafe extends Location {
     @Override
     public Location add(Location vec) {
         super.add(vec);
-        changed = true;
-
-        if (mechanic != null) {
-            mechanic.accept(this);
-        }
-
-        for (Consumer<Location> mechanic : recalcMechanics.values()) {
-            mechanic.accept(this);
-        }
+        setChanged(true);
 
         return this;
     }
@@ -163,15 +111,7 @@ public class LocationSafe extends Location {
     @Override
     public Location add(double x, double y, double z) {
         super.add(x, y, z);
-        changed = true;
-
-        if (mechanic != null) {
-            mechanic.accept(this);
-        }
-
-        for (Consumer<Location> mechanic : recalcMechanics.values()) {
-            mechanic.accept(this);
-        }
+        setChanged(true);
 
         return this;
     }
@@ -179,15 +119,7 @@ public class LocationSafe extends Location {
     @Override
     public Location subtract(Vector vec) {
         super.subtract(vec);
-        changed = true;
-
-        if (mechanic != null) {
-            mechanic.accept(this);
-        }
-
-        for (Consumer<Location> mechanic : recalcMechanics.values()) {
-            mechanic.accept(this);
-        }
+        setChanged(true);
 
         return this;
     }
@@ -195,15 +127,7 @@ public class LocationSafe extends Location {
     @Override
     public Location subtract(Location vec) {
         super.subtract(vec);
-        changed = true;
-
-        if (mechanic != null) {
-            mechanic.accept(this);
-        }
-
-        for (Consumer<Location> mechanic : recalcMechanics.values()) {
-            mechanic.accept(this);
-        }
+        setChanged(true);
 
         return this;
     }
@@ -211,15 +135,7 @@ public class LocationSafe extends Location {
     @Override
     public Location subtract(double x, double y, double z) {
         super.subtract(x, y, z);
-        changed = true;
-
-        if (mechanic != null) {
-            mechanic.accept(this);
-        }
-
-        for (Consumer<Location> mechanic : recalcMechanics.values()) {
-            mechanic.accept(this);
-        }
+        setChanged(true);
 
         return this;
     }
@@ -227,15 +143,7 @@ public class LocationSafe extends Location {
     @Override
     public Location multiply(double m) {
         super.multiply(m);
-        changed = true;
-
-        if (mechanic != null) {
-            mechanic.accept(this);
-        }
-
-        for (Consumer<Location> mechanic : recalcMechanics.values()) {
-            mechanic.accept(this);
-        }
+        setChanged(true);
 
         return this;
     }
@@ -243,22 +151,9 @@ public class LocationSafe extends Location {
     @Override
     public Location zero() {
         super.zero();
-        changed = true;
-
-        if (mechanic != null) {
-            mechanic.accept(this);
-        }
-
-        for (Consumer<Location> mechanic : recalcMechanics.values()) {
-            mechanic.accept(this);
-        }
+        setChanged(true);
 
         return this;
-    }
-
-    @Override
-    public void setWorld(World world) {
-        super.setWorld(world);
     }
 
     @Override
