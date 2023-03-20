@@ -13,6 +13,11 @@ public final class ParticleSFX {
     private ParticleSFX() {
     }
 
+    /**
+     * @param toFace the location to get the direction towards
+     * @param location the starting location
+     * @return a double array of the pitch and yaw of the direction where the pitch is [0] and the yaw is [1]
+     */
     public static double[] getDirection(Location toFace, Location location) {
         Validate.isTrue(toFace.getWorld().equals(location.getWorld()), "Locations must be in the same world!");
 
@@ -27,10 +32,16 @@ public final class ParticleSFX {
         return new double[] {pitch, yaw};
     }
 
+    /**
+     * @param plugin the plugin for all of this dependency's BukkitRunnables to be assigned to
+     */
     public static void setPlugin(Plugin plugin) {
         ParticleSFX.plugin = plugin;
     }
 
+    /**
+     * @return the plugin that this dependency is using for BukkitRunnables
+     */
     public static Plugin getPlugin() {
         return plugin;
     }
