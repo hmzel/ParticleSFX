@@ -181,6 +181,13 @@ public class ParticleShapeCompound extends RotationHandler implements Shape {
         }
     }
 
+    /**
+     * Adds the given shape to this ParticleShapeCompound under the given name, so that you can easily access the shape via
+     * {@link ParticleShapeCompound#getShape(String)}
+     *
+     * @param shape shape to add
+     * @param name name of shape
+     */
     public void addShape(Shape shape, String name) {
         nameMap.put(name, shape);
         addShape(shape);
@@ -265,6 +272,11 @@ public class ParticleShapeCompound extends RotationHandler implements Shape {
         }
     }
 
+    /**
+     * Removes every shape with the given name from this ParticleShapeCompound. will do nothing if there are no shapes with the given name
+     * 
+     * @param name name of the shape to remove
+     */
     public void removeShape(String name) {
         Shape shape = nameMap.get(name);
         int i = 0;
@@ -323,6 +335,10 @@ public class ParticleShapeCompound extends RotationHandler implements Shape {
         }
     }
 
+    /**
+     * @param name name of shape, as added via {@link ParticleShapeCompound#addShape(Shape, String)}
+     * @return the shape with the given name
+     */
     public Shape getShape(String name) {
         return nameMap.get(name);
     }
