@@ -7,7 +7,7 @@ import org.apache.commons.lang3.Validate;
  */
 public class PolygonLayer {
 
-    private int corners;
+    private int cornerAmount;
     private double xRadius;
     private double zRadius;
     private double yPosition;
@@ -16,8 +16,8 @@ public class PolygonLayer {
     private double roll;
 
     /**@see PolygonLayer*/
-    public PolygonLayer(int corners, double xRadius, double zRadius, double yPosition, double pitch, double yaw, double roll) {
-        setCorners(corners);
+    public PolygonLayer(int cornerAmount, double xRadius, double zRadius, double yPosition, double pitch, double yaw, double roll) {
+        setCornerAmount(cornerAmount);
         setXRadius(xRadius);
         setZRadius(zRadius);
         setYPosition(yPosition);
@@ -27,29 +27,29 @@ public class PolygonLayer {
     }
 
     /**@see PolygonLayer*/
-    public PolygonLayer(int corners, double xRadius, double zRadius, double yPosition, double yaw) {
-        this(corners, xRadius, zRadius, yPosition, 0, yaw, 0);
+    public PolygonLayer(int cornerAmount, double xRadius, double zRadius, double yPosition, double yaw) {
+        this(cornerAmount, xRadius, zRadius, yPosition, 0, yaw, 0);
     }
 
     /**@see PolygonLayer*/
-    public PolygonLayer(int corners, double xRadius, double zRadius, double yPosition) {
-        this(corners, xRadius, zRadius, yPosition, 0, 0, 0);
+    public PolygonLayer(int cornerAmount, double xRadius, double zRadius, double yPosition) {
+        this(cornerAmount, xRadius, zRadius, yPosition, 0, 0, 0);
     }
 
     /**@see PolygonLayer*/
-    public PolygonLayer(int corners, double radius, double yPosition) {
-        this(corners, radius, radius, yPosition, 0, 0, 0);
+    public PolygonLayer(int cornerAmount, double radius, double yPosition) {
+        this(cornerAmount, radius, radius, yPosition, 0, 0, 0);
     }
 
     /**@see PolygonLayer*/
-    public PolygonLayer(int corners, double radius) {
-        this(corners, radius, radius, 0, 0 ,0, 0);
+    public PolygonLayer(int cornerAmount, double radius) {
+        this(cornerAmount, radius, radius, 0, 0 ,0, 0);
     }
 
-    public void setCorners(int corners) {
-        Validate.isTrue(corners > 0, "Cant have less than 1 corner!");
+    public void setCornerAmount(int cornerAmount) {
+        Validate.isTrue(cornerAmount > 0, "Cant have less than 1 corner!");
 
-        this.corners = corners;
+        this.cornerAmount = cornerAmount;
     }
 
     public void setXRadius(double xRadius) {
@@ -76,8 +76,8 @@ public class PolygonLayer {
         this.roll = roll;
     }
 
-    public int getCorners() {
-        return corners;
+    public int getCornerAmount() {
+        return cornerAmount;
     }
 
     public double getXRadius() {
