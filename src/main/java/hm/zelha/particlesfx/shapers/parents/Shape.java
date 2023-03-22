@@ -7,9 +7,15 @@ import org.bukkit.util.Vector;
 
 public interface Shape {
 
-    public void start();
+    /**
+     * @return this object
+     */
+    public Shape start();
 
-    public void stop();
+    /**
+     * @return this object
+     */
+    public Shape stop();
 
     public void display();
 

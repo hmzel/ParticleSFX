@@ -1,5 +1,6 @@
 package hm.zelha.particlesfx.shapers;
 
+import hm.zelha.particlesfx.shapers.parents.Shape;
 import hm.zelha.particlesfx.util.ParticleSFX;
 import hm.zelha.particlesfx.particles.parents.Particle;
 import hm.zelha.particlesfx.shapers.parents.ParticleShaper;
@@ -42,8 +43,8 @@ public class ParticleFluid extends ParticleShaper {
     }
 
     @Override
-    public void start() {
-        if (animator != null) return;
+    public Shape start() {
+        if (animator != null) return this;
 
         Validate.isTrue(ParticleSFX.getPlugin() != null, "Plugin is null! please put ParticleSFX.setPlugin(this) in your onEnable() method!");
 
@@ -56,6 +57,8 @@ public class ParticleFluid extends ParticleShaper {
                 } catch (IllegalStateException ignored) {}
             }
         }.runTaskTimerAsynchronously(ParticleSFX.getPlugin(), 1, 1);
+
+        return this;
     }
 
     @Override

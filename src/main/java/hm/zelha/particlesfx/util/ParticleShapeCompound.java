@@ -26,17 +26,21 @@ public class ParticleShapeCompound extends RotationHandler implements Shape {
     }
 
     @Override
-    public void start() {
+    public Shape start() {
         for (Shape shape : shapeLocationIndex.keySet()) {
             shape.start();
         }
+
+        return this;
     }
 
     @Override
-    public void stop() {
+    public Shape stop() {
         for (Shape shape : shapeLocationIndex.keySet()) {
             shape.stop();
         }
+
+        return this;
     }
 
     @Override

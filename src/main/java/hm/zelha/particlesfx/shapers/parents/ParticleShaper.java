@@ -40,8 +40,8 @@ public abstract class ParticleShaper extends RotationHandler implements Shape {
         setParticleFrequency(particleFrequency);
     }
 
-    public void start() {
-        if (animator != null) return;
+    public Shape start() {
+        if (animator != null) return this;
 
         Validate.isTrue(ParticleSFX.getPlugin() != null, "Plugin is null! please put ParticleSFX.setPlugin(this) in your onEnable() method!");
 
@@ -51,13 +51,17 @@ public abstract class ParticleShaper extends RotationHandler implements Shape {
                 display();
             }
         }.runTaskTimerAsynchronously(ParticleSFX.getPlugin(), 1, delay);
+
+        return this;
     }
 
-    public void stop() {
-        if (animator == null) return;
+    public Shape stop() {
+        if (animator == null) return this;
 
         animator.cancel();
         animator = null;
+
+        return this;
     }
 
     public abstract void display();
