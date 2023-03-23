@@ -47,6 +47,10 @@ public class CircleInfo {
         return this;
     }
 
+    public boolean isModified() {
+        return modified;
+    }
+
     public void setCenter(LocationSafe center) {
         Validate.notNull(center, "Location cannot be null!");
         Validate.notNull(center.getWorld(), "Location's world cannot be null!");
@@ -80,6 +84,10 @@ public class CircleInfo {
         this.roll = roll;
     }
 
+    public void setModified(boolean modified) {
+        this.modified = modified;
+    }
+
     public Location getCenter() {
         return center;
     }
@@ -102,13 +110,5 @@ public class CircleInfo {
 
     public double getRoll() {
         return roll;
-    }
-
-    public boolean isModified() {
-        boolean modified = this.modified;
-
-        this.modified = false;
-
-        return modified;
     }
 }

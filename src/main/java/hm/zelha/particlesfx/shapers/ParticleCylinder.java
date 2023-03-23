@@ -60,6 +60,8 @@ public class ParticleCylinder extends ParticleShaper {
 
         for (int i = 0; i < circleInfos.size(); i++) {
             if (circleInfos.get(i).isModified()) {
+                circleInfos.get(i).setModified(false);
+
                 recalculate = true;
             }
         }
