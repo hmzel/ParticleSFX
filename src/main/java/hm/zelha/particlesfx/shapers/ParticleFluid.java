@@ -28,6 +28,7 @@ public class ParticleFluid extends ParticleShaper {
     protected LocationSafe spawnLocation;
     protected double gravity;
     protected double repulsion;
+    protected double attraction;
 
     public ParticleFluid(Particle particle, LocationSafe spawnLocation, double gravity, double repulsion, int particleFrequency) {
         super(particle, particleFrequency);
@@ -63,7 +64,6 @@ public class ParticleFluid extends ParticleShaper {
 
     @Override
     public void display() {
-        double repulsion = Math.abs(this.repulsion);
         boolean hasRan = false;
         boolean trackCount = particlesPerDisplay > 0;
 
@@ -85,7 +85,7 @@ public class ParticleFluid extends ParticleShaper {
             locationHelper2.zero();
 
             //attraction
-            if (this.repulsion < 0) {
+            if (attraction > 0) {
                 locationHelper2.zero();
 
                 for (int k = 0; k < locations.size(); k++) {
@@ -94,7 +94,7 @@ public class ParticleFluid extends ParticleShaper {
 
                 locationHelper2.multiply(1D / locations.size());
                 LVMath.subtractToVector(vectorHelper, locationHelper2, locationHelper);
-                LVMath.divide(vectorHelper, LVMath.getAbsoluteSum(vectorHelper) / repulsion);
+                LVMath.divide(vectorHelper, LVMath.getAbsoluteSum(vectorHelper) / attraction);
                 locationHelper.add(vectorHelper);
             }
 
@@ -250,6 +250,7 @@ public class ParticleFluid extends ParticleShaper {
         clone.mechanics.addAll(mechanics);
         clone.players.addAll(players);
         clone.setParticlesPerDisplay(particlesPerDisplay);
+        clone.setAttraction(attraction);
 
         if (animator == null) {
             clone.stop();
@@ -301,7 +302,14 @@ public class ParticleFluid extends ParticleShaper {
      * @param repulsion how close particles have to be to push each other away
      */
     public void setRepulsion(double repulsion) {
-        this.repulsion = repulsion;
+        this.repulsion = Math.abs(repulsion);
+    }
+
+    /**
+     * @param attraction how much particles move toward each other
+     */
+    public void setAttraction(double attraction) {
+        this.attraction = Math.abs(attraction);
     }
 
     /**
@@ -326,6 +334,13 @@ public class ParticleFluid extends ParticleShaper {
      */
     public double getRepulsion() {
         return repulsion;
+    }
+
+    /**
+     * @return how much particles move toward each other
+     */
+    public double getAttraction() {
+        return attraction;
     }
 
     /**

@@ -29,10 +29,10 @@ public final class LVMath {
     /**
      * @param vector vector to divide
      * @param dividend number to divide the given vector's X, Y, and Z coordinates by
-     * @return the given vector, with its coordinates divided by the given dividend or zeroed if the dividend is 0.
+     * @return the given vector, with its coordinates divided by the given dividend or zeroed if the dividend is 0 or not finite.
      */
     public static Vector divide(Vector vector, double dividend) {
-        if (dividend == 0) return vector.zero();
+        if (dividend == 0 || !Double.isFinite(dividend)) return vector.zero();
 
         return vector.multiply(1 / dividend);
     }
