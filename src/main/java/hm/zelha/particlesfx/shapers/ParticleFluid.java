@@ -28,6 +28,7 @@ public class ParticleFluid extends ParticleShaper {
     protected LocationSafe spawnLocation;
     protected double gravity;
     protected double repulsion;
+    protected double repulsionDistance;
     protected double attraction;
 
     public ParticleFluid(Particle particle, LocationSafe spawnLocation, double gravity, double repulsion, int particleFrequency) {
@@ -40,6 +41,7 @@ public class ParticleFluid extends ParticleShaper {
         setParticleFrequency(particleFrequency);
         setGravity(gravity);
         setRepulsion(repulsion);
+        setRepulsionDistance(repulsion);
         start();
     }
 
@@ -103,7 +105,7 @@ public class ParticleFluid extends ParticleShaper {
                 Location other = locations.get(k);
 
                 if (l == other) continue;
-                if (locationHelper.distanceSquared(other) > Math.pow(repulsion, 2)) continue;
+                if (locationHelper.distanceSquared(other) > Math.pow(repulsionDistance, 2)) continue;
 
                 LVMath.subtractToVector(vectorHelper, locationHelper, other);
 
@@ -250,6 +252,7 @@ public class ParticleFluid extends ParticleShaper {
         clone.mechanics.addAll(mechanics);
         clone.players.addAll(players);
         clone.setParticlesPerDisplay(particlesPerDisplay);
+        clone.setRepulsionDistance(repulsionDistance);
         clone.setAttraction(attraction);
 
         if (animator == null) {
@@ -299,10 +302,17 @@ public class ParticleFluid extends ParticleShaper {
     }
 
     /**
-     * @param repulsion how close particles have to be to push each other away
+     * @param repulsion how much particles push each other away
      */
     public void setRepulsion(double repulsion) {
         this.repulsion = Math.abs(repulsion);
+    }
+
+    /**
+     * @param repulsionDistance how close particles have to be to push each other away
+     */
+    public void setRepulsionDistance(double repulsionDistance) {
+        this.repulsionDistance = Math.abs(repulsionDistance);
     }
 
     /**
@@ -330,10 +340,17 @@ public class ParticleFluid extends ParticleShaper {
     }
 
     /**
-     * @return how close particles have to be to push each other away
+     * @return how much particles push each other away
      */
     public double getRepulsion() {
         return repulsion;
+    }
+
+    /**
+     * @return how close particles have to be to push each other away
+     */
+    public double getRepulsionDistance() {
+        return repulsionDistance;
     }
 
     /**
