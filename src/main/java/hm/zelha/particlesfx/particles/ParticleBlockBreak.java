@@ -1,36 +1,27 @@
 package hm.zelha.particlesfx.particles;
 
+import hm.zelha.particlesfx.particles.parents.MaterialParticle;
 import hm.zelha.particlesfx.particles.parents.Particle;
-import hm.zelha.particlesfx.particles.parents.TravellingParticle;
-import net.minecraft.server.v1_8_R3.EntityPlayer;
 import net.minecraft.server.v1_8_R3.EnumParticle;
-import net.minecraft.server.v1_8_R3.PacketPlayOutWorldParticles;
-import org.apache.commons.lang3.Validate;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.material.MaterialData;
 import org.bukkit.util.Vector;
-
-import java.util.List;
 
 /**
  * warning: the speed of this particle is inconsistent due to gravity and other factors that aren't accounted for
  */
-public class ParticleBlockBreak extends TravellingParticle {
-
-    private MaterialData data;
-
+public class ParticleBlockBreak extends MaterialParticle {
     /**@see ParticleBlockBreak*/
     public ParticleBlockBreak(MaterialData data, Vector velocity, double offsetX, double offsetY, double offsetZ, int count) {
-        super(EnumParticle.BLOCK_DUST, false, 0.105, velocity, null, offsetX, offsetY, offsetZ, count);
+        super(EnumParticle.BLOCK_DUST, false, 0.105, data, velocity, null, offsetX, offsetY, offsetZ, count);
 
         setMaterialData(data);
     }
 
     /**@see ParticleBlockBreak*/
     public ParticleBlockBreak(MaterialData data, Location toGo, double offsetX, double offsetY, double offsetZ, int count) {
-        super(EnumParticle.BLOCK_DUST, false, 0.105, null, toGo, offsetX, offsetY, offsetZ, count);
+        super(EnumParticle.BLOCK_DUST, false, 0.105, data, null, toGo, offsetX, offsetY, offsetZ, count);
 
         setMaterialData(data);
     }
@@ -134,10 +125,6 @@ public class ParticleBlockBreak extends TravellingParticle {
     public ParticleBlockBreak inherit(Particle particle) {
         super.inherit(particle);
 
-        if (particle instanceof ParticleBlockBreak) {
-            data = ((ParticleBlockBreak) particle).data;
-        }
-
         return this;
     }
 
@@ -147,71 +134,7 @@ public class ParticleBlockBreak extends TravellingParticle {
     }
 
     @Override
-    protected void display(Location location, List<CraftPlayer> players) {
-        Validate.notNull(location, "Location cannot be null!");
-        Validate.notNull(location.getWorld(), "World cannot be null!");
-
-        for (int i = 0; i < ((toGo == null && velocity == null) ? 1 : count); i++) {
-            int count = 0;
-            float speed = 1;
-            double trueOffsetX = offsetX;
-            double trueOffsetY = offsetY;
-            double trueOffsetZ = offsetZ;
-            Vector addition = null;
-
-            if (toGo != null || velocity != null) {
-                addition = generateFakeOffset();
-
-                location.add(addition);
-            }
-
-            if (velocity != null) {
-                trueOffsetX = velocity.getX() * control;
-                trueOffsetY = velocity.getY() * control;
-                trueOffsetZ = velocity.getZ() * control;
-            } else if (toGo != null) {
-                trueOffsetX = (toGo.getX() - location.getX()) * control;
-                trueOffsetY = (toGo.getY() - location.getY()) * control;
-                trueOffsetZ = (toGo.getZ() - location.getZ()) * control;
-            } else {
-                speed = 0;
-                count = this.count;
-            }
-
-            for (int i2 = 0; i2 < players.size(); i2++) {
-                EntityPlayer p = players.get(i2).getHandle();
-
-                if (p == null) continue;
-                if (!location.getWorld().getName().equals(p.world.getWorld().getName())) continue;
-
-                if (radius != 0) {
-                    double distance = Math.pow(location.getX() - p.locX, 2) + Math.pow(location.getY() - p.locY, 2) + Math.pow(location.getZ() - p.locZ, 2);
-
-                    if (distance > Math.pow(radius, 2)) continue;
-                }
-
-                p.playerConnection.sendPacket(
-                        new PacketPlayOutWorldParticles(
-                                particle, true, (float) location.getX(), (float) location.getY(), (float) location.getZ(),
-                                (float) trueOffsetX, (float) trueOffsetY, (float) trueOffsetZ, speed, count, (data.getData() << 12 | data.getItemTypeId() & 4095)
-                        )
-                );
-            }
-
-            if (addition != null) {
-                location.subtract(addition);
-            }
-        }
-    }
-
-    public void setMaterialData(MaterialData data) {
-        Validate.notNull(data, "Data cannot be null!");
-        Validate.isTrue(data.getItemType().isBlock(), "Material must be a block!");
-
-        this.data = data;
-    }
-
-    public MaterialData getMaterialData() {
-        return data;
+    protected int[] getPacketData() {
+        return new int[] {(data.getData() << 12 | data.getItemTypeId() & 4095)};
     }
 }
