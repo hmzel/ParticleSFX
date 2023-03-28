@@ -93,7 +93,7 @@ public class LocationSafe extends Location {
     }
 
     @Override
-    public Location add(Vector vec) {
+    public LocationSafe add(Vector vec) {
         super.add(vec);
         setChanged(true);
 
@@ -101,7 +101,7 @@ public class LocationSafe extends Location {
     }
 
     @Override
-    public Location add(Location vec) {
+    public LocationSafe add(Location vec) {
         super.add(vec);
         setChanged(true);
 
@@ -109,7 +109,7 @@ public class LocationSafe extends Location {
     }
 
     @Override
-    public Location add(double x, double y, double z) {
+    public LocationSafe add(double x, double y, double z) {
         super.add(x, y, z);
         setChanged(true);
 
@@ -117,7 +117,7 @@ public class LocationSafe extends Location {
     }
 
     @Override
-    public Location subtract(Vector vec) {
+    public LocationSafe subtract(Vector vec) {
         super.subtract(vec);
         setChanged(true);
 
@@ -125,7 +125,7 @@ public class LocationSafe extends Location {
     }
 
     @Override
-    public Location subtract(Location vec) {
+    public LocationSafe subtract(Location vec) {
         super.subtract(vec);
         setChanged(true);
 
@@ -133,7 +133,7 @@ public class LocationSafe extends Location {
     }
 
     @Override
-    public Location subtract(double x, double y, double z) {
+    public LocationSafe subtract(double x, double y, double z) {
         super.subtract(x, y, z);
         setChanged(true);
 
@@ -141,7 +141,7 @@ public class LocationSafe extends Location {
     }
 
     @Override
-    public Location multiply(double m) {
+    public LocationSafe multiply(double m) {
         super.multiply(m);
         setChanged(true);
 
@@ -149,7 +149,7 @@ public class LocationSafe extends Location {
     }
 
     @Override
-    public Location zero() {
+    public LocationSafe zero() {
         super.zero();
         setChanged(true);
 
