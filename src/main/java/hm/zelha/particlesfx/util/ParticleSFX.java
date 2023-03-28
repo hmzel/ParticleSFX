@@ -2,6 +2,8 @@ package hm.zelha.particlesfx.util;
 
 import hm.zelha.particlesfx.particles.parents.Particle;
 import hm.zelha.particlesfx.shapers.ParticleLineCurved;
+import hm.zelha.particlesfx.shapers.ParticlePolygon;
+import hm.zelha.particlesfx.shapers.ParticlePolygonFilled;
 import org.apache.commons.lang3.Validate;
 import org.bukkit.Location;
 import org.bukkit.plugin.Plugin;
@@ -16,6 +18,32 @@ public final class ParticleSFX {
     }
 
     /**
+     * Makes a 3D cube.
+     *
+     * @param particle particle to use
+     * @param center the center of where the shape should be
+     * @param size the X and Z radius will be the same as the given size, and the Y radius will be the size * 0.75.
+     * @param particleFrequency particle amount
+     * @return the shape displaying the cube
+     */
+    public static ParticlePolygon cube(Particle particle, LocationSafe center, double size, int particleFrequency) {
+        return new ParticlePolygon(particle, center, 4, 2, size, size * 0.75, size, particleFrequency);
+    }
+
+    /**
+     * Makes a filled 3D cube.
+     *
+     * @param particle particle to use
+     * @param center the center of where the shape should be
+     * @param size the X and Z radius will be the same as the given size, and the Y radius will be the size * 0.75.
+     * @param particleFrequency particle amount
+     * @return the shape displaying the cube
+     */
+    public static ParticlePolygonFilled cubeFilled(Particle particle, LocationSafe center, double size, int particleFrequency) {
+        return new ParticlePolygonFilled(particle, center, 4, 2, size, size * 0.75, size, particleFrequency);
+    }
+
+    /**
      * the size parameter isn't followed exactly and will probably need some fine-tuning to get correct. <br>
      * if it helps, a size of 1 goes up from the center 1.2 blocks and down from the center 1.5 blocks. <br>
      * it'd be pretty complicated to fix and i don't want to spend that much time on an util method that barely anyone will use.
@@ -24,9 +52,9 @@ public final class ParticleSFX {
      * @param center the center of where the shape should be
      * @param size radius of the heart
      * @param particleFrequency particle amount
-     * @return the shape of the heart
+     * @return the shape displaying the heart
      */
-    public static ParticleLineCurved heart2D(Particle particle, Location center, double size, int particleFrequency) {
+    public static ParticleLineCurved heart2D(Particle particle, LocationSafe center, double size, int particleFrequency) {
         ParticleLineCurved heart = new ParticleLineCurved(particle, particleFrequency, new LocationSafe(center).add(0, 0, -size - (size * 0.4)), new LocationSafe(center).add(size * 1.2, 0, size - (size * 0.4)), new LocationSafe(center).add(-(size * 1.2), 0, size - (size * 0.4)), new LocationSafe(center).add(0, 0, -size - (size * 0.4)));
         Location[] locations = heart.getLocations();
         
