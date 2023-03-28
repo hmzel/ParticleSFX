@@ -1,16 +1,41 @@
 package hm.zelha.particlesfx.util;
 
+import hm.zelha.particlesfx.particles.parents.Particle;
+import hm.zelha.particlesfx.shapers.ParticleLineCurved;
 import org.apache.commons.lang3.Validate;
 import org.bukkit.Location;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.util.NumberConversions;
 
-/** contains static utility methods with various functions */
+/** contains static utility methods with various functions meant to showcase how this dependency can be used. */
 public final class ParticleSFX {
 
     private static Plugin plugin = null;
 
     private ParticleSFX() {
+    }
+
+    /**
+     * the size parameter isn't followed exactly and will probably need some fine-tuning to get correct. <br>
+     * if it helps, a size of 1 goes up from the center 1.2 blocks and down from the center 1.5 blocks. <br>
+     * it'd be pretty complicated to fix and i don't want to spend that much time on an util method that barely anyone will use.
+     *
+     * @param particle particle to use
+     * @param center the center of where the shape should be
+     * @param size radius of the heart
+     * @param particleFrequency particle amount
+     * @return the shape of the heart
+     */
+    public static ParticleLineCurved heart2D(Particle particle, Location center, double size, int particleFrequency) {
+        ParticleLineCurved heart = new ParticleLineCurved(particle, particleFrequency, new LocationSafe(center).add(0, 0, -size - (size * 0.4)), new LocationSafe(center).add(size * 1.2, 0, size - (size * 0.4)), new LocationSafe(center).add(-(size * 1.2), 0, size - (size * 0.4)), new LocationSafe(center).add(0, 0, -size - (size * 0.4)));
+        Location[] locations = heart.getLocations();
+        
+        heart.addCurve(new CurveInfo(size * 0.4, locations[0].distance(locations[1]), locations[0].distance(locations[1]) / 2, 90, -65, 0));
+        heart.addCurve(new CurveInfo(size * 0.7, locations[1].distance(locations[2]) / 2, locations[1].distance(locations[2]) / 4, 90, -20, 0));
+        heart.addCurve(new CurveInfo(size * 0.7, locations[1].distance(locations[2]) / 2, locations[1].distance(locations[2]) / 4, 90, 20, 0));
+        heart.addCurve(new CurveInfo(size * 0.4, locations[2].distance(locations[3]), locations[2].distance(locations[3]) / 2, 90, 65, 0));
+
+        return heart;
     }
 
     /**
