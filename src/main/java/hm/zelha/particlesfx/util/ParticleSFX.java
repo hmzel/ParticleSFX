@@ -1,10 +1,7 @@
 package hm.zelha.particlesfx.util;
 
 import hm.zelha.particlesfx.particles.parents.Particle;
-import hm.zelha.particlesfx.shapers.ParticleCylinder;
-import hm.zelha.particlesfx.shapers.ParticleLineCurved;
-import hm.zelha.particlesfx.shapers.ParticlePolygon;
-import hm.zelha.particlesfx.shapers.ParticlePolygonFilled;
+import hm.zelha.particlesfx.shapers.*;
 import org.apache.commons.lang3.Validate;
 import org.bukkit.Location;
 import org.bukkit.plugin.Plugin;
@@ -65,6 +62,25 @@ public final class ParticleSFX {
         heart.addCurve(new CurveInfo(size * 0.4, locations[2].distance(locations[3]), locations[2].distance(locations[3]) / 2, 90, 65, 0));
 
         return heart;
+    }
+
+    /**
+     * @param particle particle to use
+     * @param center the center of where the shape should be
+     * @param size radius of the pentagram
+     * @param particleFrequency particle amount
+     * @return the shape displaying the pentagram
+     */
+    public static ParticleLine pentagram(Particle particle, LocationSafe center, double size, int particleFrequency) {
+        return new ParticleLine(
+                particle, particleFrequency,
+                new LocationSafe(center).add(0, 0, size),
+                new LocationSafe(center).add(size * -0.56, 0, size * -0.89),
+                new LocationSafe(center).add(size, 0, size * 0.33),
+                new LocationSafe(center).add(-size, 0, size * 0.33),
+                new LocationSafe(center).add(size * 0.56, 0, size * -0.89),
+                new LocationSafe(center).add(0, 0, size)
+        );
     }
 
     /**
