@@ -67,6 +67,30 @@ public final class ParticleSFX {
     /**
      * @param particle particle to use
      * @param center the center of where the shape should be
+     * @param size radius of the star
+     * @param particleFrequency particle amount
+     * @return the shape displaying the star
+     */
+    public static ParticleLine star(Particle particle, LocationSafe center, double size, int particleFrequency) {
+        return new ParticleLine(
+                particle, particleFrequency,
+                new LocationSafe(center).add(0, 0, size),
+                new LocationSafe(center).add(size * -0.2, 0, size * 0.33),
+                new LocationSafe(center).add(-size, 0, size * 0.33),
+                new LocationSafe(center).add(size * -0.33, 0, size * -0.2),
+                new LocationSafe(center).add(size * -0.56, 0, size * -0.89),
+                new LocationSafe(center).add(0, 0, size * -0.46),
+                new LocationSafe(center).add(size * 0.56, 0, size * -0.89),
+                new LocationSafe(center).add(size * 0.33, 0, size * -0.2),
+                new LocationSafe(center).add(size, 0, size * 0.33),
+                new LocationSafe(center).add(size * 0.2, 0, size * 0.33),
+                new LocationSafe(center).add(0, 0, size)
+        );
+    }
+
+    /**
+     * @param particle particle to use
+     * @param center the center of where the shape should be
      * @param size radius of the pentagram
      * @param particleFrequency particle amount
      * @return the shape displaying the pentagram
