@@ -251,7 +251,7 @@ public class ParticlePolygonFilled extends ParticlePolygon {
     }
 
     protected double rngDouble(double d) {
-        if (d <= 0) return 0;
+        if (d <= 0 || !Double.isFinite(d)) return 0;
 
         return rng.nextDouble(d);
     }
