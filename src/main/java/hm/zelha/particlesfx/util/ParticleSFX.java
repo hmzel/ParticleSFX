@@ -1,6 +1,7 @@
 package hm.zelha.particlesfx.util;
 
 import hm.zelha.particlesfx.particles.parents.Particle;
+import hm.zelha.particlesfx.shapers.ParticleCylinder;
 import hm.zelha.particlesfx.shapers.ParticleLineCurved;
 import hm.zelha.particlesfx.shapers.ParticlePolygon;
 import hm.zelha.particlesfx.shapers.ParticlePolygonFilled;
@@ -64,6 +65,64 @@ public final class ParticleSFX {
         heart.addCurve(new CurveInfo(size * 0.4, locations[2].distance(locations[3]), locations[2].distance(locations[3]) / 2, 90, 65, 0));
 
         return heart;
+    }
+
+    /**
+     * @param particle particle to use
+     * @param center the center of where the shape should be
+     * @param xRadius what the X radius should be
+     * @param zRadius what the Z radius should be
+     * @param circleSize radius of the circles that the donut will be made out of
+     * @param circleFrequency number of circles to make the donut out of
+     * @param particleFrequency particle amount
+     * @return the shape displaying the donut
+     */
+    public static ParticleCylinder donut(Particle particle, LocationSafe center, double xRadius, double zRadius, double circleSize, int circleFrequency, int particleFrequency) {
+        CircleInfo[] circles = new CircleInfo[circleFrequency];
+
+        for (int i = 0; i < circleFrequency; i++) {
+            double radian = Math.PI * 2 / circleFrequency * i;
+
+            circles[i] = new CircleInfo(new LocationSafe(center).add(xRadius * Math.cos(radian), 0, zRadius * Math.sin(radian)), circleSize, circleSize, 90, (360D / circleFrequency * i), 0);
+        }
+
+        return new ParticleCylinder(particle, circleFrequency, particleFrequency, circles);
+    }
+
+    /**
+     * @param particle particle to use
+     * @param center the center of where the shape should be
+     * @param radius what the radius should be
+     * @param circleSize radius of the circles that the donut will be made out of
+     * @param circleFrequency number of circles to make the donut out of
+     * @param particleFrequency particle amount
+     * @return the shape displaying the donut
+     */
+    public static ParticleCylinder donut(Particle particle, LocationSafe center, double radius, double circleSize, int circleFrequency, int particleFrequency) {
+        return donut(particle, center, radius, radius, circleSize, circleFrequency, particleFrequency);
+    }
+
+    /**
+     * @param particle particle to use
+     * @param center the center of where the shape should be
+     * @param radius what the radius should be
+     * @param circleFrequency number of circles to make the donut out of
+     * @param particleFrequency particle amount
+     * @return the shape displaying the donut
+     */
+    public static ParticleCylinder donut(Particle particle, LocationSafe center, double radius, int circleFrequency, int particleFrequency) {
+        return donut(particle, center, radius, radius, radius / 5, circleFrequency, particleFrequency);
+    }
+
+    /**
+     * @param particle particle to use
+     * @param center the center of where the shape should be
+     * @param radius what the radius should be
+     * @param particleFrequency particle amount
+     * @return the shape displaying the donut
+     */
+    public static ParticleCylinder donut(Particle particle, LocationSafe center, double radius, int particleFrequency) {
+        return donut(particle, center, radius, radius, radius / 5, (int) (radius * 15), particleFrequency);
     }
 
     /**
