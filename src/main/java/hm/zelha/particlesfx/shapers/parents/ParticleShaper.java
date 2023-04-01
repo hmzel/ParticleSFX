@@ -263,6 +263,13 @@ public abstract class ParticleShaper extends RotationHandler implements Shape {
     }
 
     /**
+     * @return the UUIDs of all the players that this shape displays to. displays to all players if this list is empty
+     */
+    public List<UUID> getPlayers() {
+        return new ArrayList<>(players);
+    }
+
+    /**
      * @return amount of players this shape displays to
      */
     public int getPlayerAmount() {
