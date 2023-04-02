@@ -166,6 +166,62 @@ public final class ParticleSFX {
     }
 
     /**
+     * @param particle particle to use
+     * @param bottom where the bottom of the shape should be
+     * @param xRadius what the X radius should be
+     * @param zRadius what the Z radius should be
+     * @param height how high this shape should extend
+     * @param particleFrequency particle amount
+     * @return the shape displaying the tornado
+     */
+    public static ParticleSpiral tornado(Particle particle, LocationSafe bottom, double xRadius, double zRadius, double height, int particleFrequency) {
+        ParticleSpiral spi = new ParticleSpiral(particle, 15, 1, particleFrequency / 2,
+                new CircleInfo(bottom, 0, 0),
+                new CircleInfo(new LocationSafe(bottom).add(0, height * 0.75, 0), xRadius * 0.6, zRadius * 0.6),
+                new CircleInfo(new LocationSafe(bottom).add(0, height, 0), xRadius, zRadius)
+        );
+
+        spi.addMechanic(ShapeDisplayMechanic.Phase.AFTER_DISPLAY, ((mechParticle, current, addition, count) -> {
+            CircleInfo top = spi.getCircleInfo(spi.getCircleInfoAmount() - 1);
+
+            if (count == 1) {
+                for (int i = 0; i < spi.getCircleInfoAmount(); i++) {
+                    //i cant figure out a way to do this that makes the spin look decent at every size so this is good enough
+                    spi.getCircleInfo(i).setYaw(spi.getCircleInfo(i).getYaw() - Math.toDegrees(Math.PI * 0.04 * Math.sqrt((Math.pow(top.getXRadius(), 2) + Math.pow(top.getZRadius(), 2)) / 2)));
+                }
+            }
+
+            mechParticle.setOffsetX(top.getXRadius());
+            mechParticle.setOffsetY(top.getCenter().distance(spi.getCircleInfo(0).getCenter()) / 10);
+            mechParticle.setOffsetZ(top.getZRadius());
+
+            if (!spi.getPlayers().isEmpty()) {
+                mechParticle.displayForPlayers(top.getCenter(), spi.getPlayers());
+            } else {
+                mechParticle.display(top.getCenter());
+            }
+
+            mechParticle.setOffsetX(0);
+            mechParticle.setOffsetY(0);
+            mechParticle.setOffsetZ(0);
+        }));
+
+        return spi;
+    }
+
+    /**
+     * @param particle particle to use
+     * @param bottom where the bottom of the shape should be
+     * @param radius what the radius should be
+     * @param height how high this shape should extend
+     * @param particleFrequency particle amount
+     * @return the shape displaying the tornado
+     */
+    public static ParticleSpiral tornado(Particle particle, LocationSafe bottom, double radius, double height, int particleFrequency) {
+        return tornado(particle, bottom, radius, radius, height, particleFrequency);
+    }
+
+    /**
      * @param toFace the location to get the direction towards
      * @param location the starting location
      * @return a double array of the pitch and yaw of the direction where the pitch is [0] and the yaw is [1]
