@@ -35,9 +35,7 @@ public abstract class Particle {
 
         this.particle = particle;
 
-        setOffsetX(offsetX);
-        setOffsetY(offsetY);
-        setOffsetZ(offsetZ);
+        setOffset(offsetX, offsetY, offsetZ);
         setSpeed(speed);
         setCount(count);
         setRadius(radius);
@@ -135,6 +133,12 @@ public abstract class Particle {
         }
 
         return vectorHelper;
+    }
+
+    public void setOffset(double x, double y, double z) {
+        setOffsetX(x);
+        setOffsetY(y);
+        setOffsetZ(z);
     }
 
     public void setOffsetX(double offsetX) {

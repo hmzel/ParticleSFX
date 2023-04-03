@@ -191,9 +191,7 @@ public final class ParticleSFX {
                 }
             }
 
-            mechParticle.setOffsetX(top.getXRadius());
-            mechParticle.setOffsetY(top.getCenter().distance(spi.getCircleInfo(0).getCenter()) / 10);
-            mechParticle.setOffsetZ(top.getZRadius());
+            mechParticle.setOffset(top.getXRadius(), top.getCenter().distance(spi.getCircleInfo(0).getCenter()) / 10, top.getZRadius());
 
             if (!spi.getPlayers().isEmpty()) {
                 mechParticle.displayForPlayers(top.getCenter(), spi.getPlayers());
@@ -201,9 +199,7 @@ public final class ParticleSFX {
                 mechParticle.display(top.getCenter());
             }
 
-            mechParticle.setOffsetX(0);
-            mechParticle.setOffsetY(0);
-            mechParticle.setOffsetZ(0);
+            mechParticle.setOffset(0, 0, 0);
         }));
 
         return spi;
