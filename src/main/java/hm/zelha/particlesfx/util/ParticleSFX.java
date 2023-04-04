@@ -6,10 +6,14 @@ import org.apache.commons.lang3.Validate;
 import org.bukkit.Location;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.util.NumberConversions;
+import org.bukkit.util.Vector;
+
+import java.util.concurrent.ThreadLocalRandom;
 
 /** contains static utility methods with various functions meant to showcase how this dependency can be used. */
 public final class ParticleSFX {
 
+    private static final ThreadLocalRandom rng = ThreadLocalRandom.current();
     private static Plugin plugin = null;
 
     private ParticleSFX() {
@@ -163,6 +167,93 @@ public final class ParticleSFX {
      */
     public static ParticleCylinder donut(Particle particle, LocationSafe center, double radius, int particleFrequency) {
         return donut(particle, center, radius, radius, radius / 5, (int) (radius * 15), particleFrequency);
+    }
+
+    /**
+     * @param rainParticle particle to use for rain
+     * @param cloudParticle particle to use for the cloud
+     * @param center the center of where the cloud should be and where the rain should spawn
+     * @param xRadius what the x radius should be
+     * @param yRadius what the y radius should be
+     * @param zRadius what the z radius should be
+     * @param rainAmount amount of rain particles
+     * @param cloudAmount amount of cloud particles
+     * @return the shape displaying the raincloud
+     */
+    public static ParticleFluid raincloud(Particle rainParticle, Particle cloudParticle, LocationSafe center, double xRadius, double yRadius, double zRadius, int rainAmount, int cloudAmount) {
+        ParticleFluid rain = new ParticleFluid(rainParticle, center, 0.75, 0.5, 1);
+        Vector v = new Vector();
+
+        rain.addMechanic(ShapeDisplayMechanic.Phase.AFTER_DISPLAY, ((particle, current, addition, count) -> {
+            if (count == 1) {
+                Location l = rain.getSpawnLocation();
+
+                if (rain.getParticleFrequency() < rainAmount) {
+                    for (int i = 0; i < (int) Math.ceil(rainAmount / 100D); i++) {
+                        v.setX(rng.nextDouble(xRadius * 2) - xRadius);
+                        v.setY(rng.nextDouble(yRadius * 2) - yRadius);
+                        v.setZ(rng.nextDouble(zRadius * 2) - zRadius);
+
+                        l.add(v);
+                        rain.setParticleFrequency(rain.getParticleFrequency() + 1);
+                        l.subtract(v);
+                    }
+                } else {
+                    rain.setParticleFrequency(rain.getParticleFrequency() - (int) Math.ceil(rainAmount / 100D));
+                }
+
+                cloudParticle.setOffset(xRadius, yRadius, zRadius);
+
+                for (int i = 0; i < cloudAmount; i++) {
+                    if (!rain.getPlayers().isEmpty()) {
+                        cloudParticle.displayForPlayers(l, rain.getPlayers());
+                    } else {
+                        cloudParticle.display(l);
+                    }
+                }
+            }
+        }));
+
+        return rain;
+    }
+
+    /**
+     * @param rainParticle particle to use for rain
+     * @param cloudParticle particle to use for the cloud
+     * @param center the center of where the cloud should be and where the rain should spawn
+     * @param xRadius what the x radius should be
+     * @param yRadius what the y radius should be
+     * @param zRadius what the z radius should be
+     * @param rainAmount amount of rain and cloud particles
+     * @return the shape displaying the raincloud
+     */
+    public static ParticleFluid raincloud(Particle rainParticle, Particle cloudParticle, LocationSafe center, double xRadius, double yRadius, double zRadius, int rainAmount) {
+        return raincloud(rainParticle, cloudParticle, center, xRadius, yRadius, zRadius, rainAmount, rainAmount);
+    }
+
+    /**
+     * @param rainParticle particle to use for rain
+     * @param cloudParticle particle to use for the cloud
+     * @param center the center of where the cloud should be and where the rain should spawn
+     * @param xRadius what the x radius should be
+     * @param zRadius what the z radius should be
+     * @param rainAmount amount of rain and cloud particles
+     * @return the shape displaying the raincloud
+     */
+    public static ParticleFluid raincloud(Particle rainParticle, Particle cloudParticle, LocationSafe center, double xRadius, double zRadius, int rainAmount) {
+        return raincloud(rainParticle, cloudParticle, center, xRadius, (xRadius + zRadius) / 2 * 0.4, zRadius, rainAmount, rainAmount);
+    }
+
+    /**
+     * @param rainParticle particle to use for rain
+     * @param cloudParticle particle to use for the cloud
+     * @param center the center of where the cloud should be and where the rain should spawn
+     * @param radius what the radius should be
+     * @param rainAmount amount of rain and cloud particles
+     * @return the shape displaying the raincloud
+     */
+    public static ParticleFluid raincloud(Particle rainParticle, Particle cloudParticle, LocationSafe center, double radius, int rainAmount) {
+        return raincloud(rainParticle, cloudParticle, center, radius, radius / 2 * 0.4, radius, rainAmount, rainAmount);
     }
 
     /**
