@@ -115,9 +115,12 @@ public class ParticleCylinder extends ParticleShaper {
 
             if (!Double.isFinite(control)) {
                 control = 1;
+
+                vectorHelper.zero();
+            } else {
+                LVMath.subtractToVector(vectorHelper, circle2.getCenter(), circle1.getCenter()).normalize().multiply(distToTravel);
             }
 
-            LVMath.subtractToVector(vectorHelper, circle2.getCenter(), circle1.getCenter()).normalize().multiply(distToTravel);
             circleHelper.getCenter().add(vectorHelper);
             //adding pitch, yaw, roll, x and z radius changes based on (circle2 - circle1) * (current position / distance between circles)
             circleHelper.setXRadius(circleHelper.getXRadius() + ((circle2.getXRadius() - circle1.getXRadius()) * control));
@@ -262,9 +265,12 @@ public class ParticleCylinder extends ParticleShaper {
 
             if (!Double.isFinite(control)) {
                 control = 1;
+
+                vectorHelper.zero();
+            } else {
+                LVMath.subtractToVector(vectorHelper, circle2.getCenter(), circle1.getCenter()).normalize().multiply(distToTravel);
             }
 
-            LVMath.subtractToVector(vectorHelper, circle2.getCenter(), circle1.getCenter()).normalize().multiply(distToTravel);
             circleHelper.getCenter().add(vectorHelper);
             //adding x and z radius changes based on (circle2 - circle1) * (current position / distance between circles)
             circleHelper.setXRadius(circleHelper.getXRadius() + ((circle2.getXRadius() - circle1.getXRadius()) * control));
