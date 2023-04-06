@@ -201,6 +201,58 @@ public final class ParticleSFX {
     }
 
     /**
+     * @param particle particle to use
+     * @param bottom where the bottom of the shape should be
+     * @param xRadius what the x radius should be
+     * @param zRadius what the z radius should be
+     * @param height what the height should be
+     * @param particleFrequency particle amount
+     * @return the shape displaying the mushroom
+     */
+    public static ParticleCylinder mushroom(Particle particle, LocationSafe bottom, double xRadius, double zRadius, double height, int particleFrequency) {
+        ParticleCylinder shroom = new ParticleCylinder(particle, (int) ((((xRadius + zRadius) / 2) + height) * 2.5), particleFrequency,
+                new CircleInfo(new LocationSafe(bottom), xRadius * 0.225, zRadius * 0.225),
+                new CircleInfo(new LocationSafe(bottom).add(0, height * 0.15, 0), xRadius * 0.15, xRadius * 0.15),
+                new CircleInfo(new LocationSafe(bottom).add(0, height * 0.85, 0), xRadius * 0.15, xRadius * 0.15),
+                new CircleInfo(new LocationSafe(bottom).add(0, height, 0), 0, 0)
+        );
+
+        for (int i = 0; i < 15; i++) {
+            double radian = Math.PI * 0.5 / 15 * i;
+
+            shroom.addCircleInfo(new CircleInfo(new LocationSafe(bottom).add(0, (height * 0.71) + (height * 0.27 * Math.cos(radian)), 0), xRadius * Math.sin(radian), zRadius * Math.sin(radian)));
+        }
+
+        shroom.addCircleInfo(new CircleInfo(new LocationSafe(bottom).add(0, height * 0.71, 0), xRadius * 0.9, zRadius * 0.9));
+        shroom.addCircleInfo(new CircleInfo(new LocationSafe(bottom).add(0, height * 0.85, 0), xRadius * 0.15, zRadius * 0.15));
+
+        return shroom;
+    }
+
+    /**
+     * @param particle particle to use
+     * @param bottom where the bottom of the shape should be
+     * @param radius what the radius should be
+     * @param height what the height should be
+     * @param particleFrequency particle amount
+     * @return the shape displaying the mushroom
+     */
+    public static ParticleCylinder mushroom(Particle particle, LocationSafe bottom, double radius, double height, int particleFrequency) {
+        return mushroom(particle, bottom, radius, radius, height, particleFrequency);
+    }
+
+    /**
+     * @param particle particle to use
+     * @param bottom where the bottom of the shape should be
+     * @param size the X and Z radius will be the same as the given size, and the height will be the size * 2.6
+     * @param particleFrequency particle amount
+     * @return the shape displaying the mushroom
+     */
+    public static ParticleCylinder mushroom(Particle particle, LocationSafe bottom, double size, int particleFrequency) {
+        return mushroom(particle, bottom, size, size, size * 2.6, particleFrequency);
+    }
+
+    /**
      * @param rainParticle particle to use for rain
      * @param cloudParticle particle to use for the cloud
      * @param center the center of where the cloud should be and where the rain should spawn
