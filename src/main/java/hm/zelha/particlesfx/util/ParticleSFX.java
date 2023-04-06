@@ -20,8 +20,6 @@ public final class ParticleSFX {
     }
 
     /**
-     * Makes a 3D cube.
-     *
      * @param particle particle to use
      * @param center the center of where the shape should be
      * @param size the X and Z radius will be the same as the given size, and the Y radius will be the size * 0.75.
@@ -33,8 +31,6 @@ public final class ParticleSFX {
     }
 
     /**
-     * Makes a filled 3D cube.
-     *
      * @param particle particle to use
      * @param center the center of where the shape should be
      * @param size the X and Z radius will be the same as the given size, and the Y radius will be the size * 0.75.
@@ -43,6 +39,41 @@ public final class ParticleSFX {
      */
     public static ParticlePolygonFilled cubeFilled(Particle particle, LocationSafe center, double size, int particleFrequency) {
         return new ParticlePolygonFilled(particle, center, 4, 2, size, size * 0.75, size, particleFrequency);
+    }
+
+    /**
+     * @param particle particle to use
+     * @param center the center of where the shape should be
+     * @param sides how many sides the pyramid should have
+     * @param size the X, Y, and Z radius of this pyramid
+     * @param particleFrequency particle amount
+     * @return the shape displaying the pyramid
+     */
+    public static ParticlePolygon pyramid(Particle particle, LocationSafe center, int sides, double size, int particleFrequency) {
+        Validate.isTrue(sides > 2, "Pyramids must have more than 2 sides!");
+
+        return new ParticlePolygon(particle, center, particleFrequency,
+                new PolygonLayer(1, 0, 0, size / 2),
+                new PolygonLayer(sides, size, size, -(size / 2))
+        );
+    }
+
+    /**
+     * @param particle particle to use
+     * @param center the center of where the shape should be
+     * @param sides how many sides the pyramid should have
+     * @param size the X, Y, and Z radius of this pyramid
+     * @param particleFrequency particle amount
+     * @return the shape displaying the pyramid
+     */
+    public static ParticlePolygonFilled pyramidFilled(Particle particle, LocationSafe center, int sides, double size, int particleFrequency) {
+        Validate.isTrue(sides > 2, "Pyramids must have more than 2 sides!");
+
+        return new ParticlePolygonFilled(particle, center, particleFrequency,
+                new PolygonLayer(1, 0, 0, size / 2),
+                new PolygonLayer(sides, size, size, -(size / 2)),
+                new PolygonLayer(1, 0, 0, -(size / 2))
+        );
     }
 
     /**
