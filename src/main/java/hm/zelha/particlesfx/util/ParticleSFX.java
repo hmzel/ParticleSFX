@@ -201,6 +201,64 @@ public final class ParticleSFX {
     }
 
     /**
+     * The given {@link ParticleShapeCompound} contains a {@link ParticleLineCurved}, named "stem", and another ParticleShapeCompound,
+     * named "head", which contains 11 {@link ParticleCircleFilled}s, named "center" and "petal1" to "petal10" <br><br>
+     *
+     * You can get the individual shapes using {@link ParticleShapeCompound#getShape(String)}
+     *
+     * @param particle particle to use
+     * @param bottom where the bottom of the stem should be
+     * @param flowerSize the radius of the flower
+     * @param stemHeight the height of the stem
+     * @param particleFrequency particle amount
+     * @return a ParticleShapeCompound containing all the shapes used to display this flower
+     */
+    public static ParticleShapeCompound flower(Particle particle, LocationSafe bottom, double flowerSize, double stemHeight, int particleFrequency) {
+        ParticleShapeCompound flower = new ParticleShapeCompound();
+        ParticleShapeCompound head = new ParticleShapeCompound();
+        ParticleLineCurved stem = new ParticleLineCurved(particle, (int) (particleFrequency * 0.077), bottom, new LocationSafe(bottom).add(stemHeight * 0.15, stemHeight, 0));
+        ParticleCircleFilled center = new ParticleCircleFilled(particle, (LocationSafe) stem.getLocation(1), flowerSize / 2, flowerSize / 2, 0, 0, 0, (int) (particleFrequency * 0.154));
+
+        for (int i = 0; i < 10; i++) {
+            double radian = Math.PI * 2 / 10 * i;
+
+            ParticleCircleFilled petal = new ParticleCircleFilled(particle,
+                    new LocationSafe(center.getCenter()).add(
+                            flowerSize * 0.9 * Math.cos(radian),
+                            -(flowerSize * 0.13),
+                            flowerSize * 0.9 * Math.sin(radian)
+                    ), flowerSize / 4, flowerSize / 2, -15, 90 + (360D / 10 * i), 0, (int) (particleFrequency * 0.077)
+            );
+
+            head.addShape(petal, "petal" + (i + 1));
+        }
+
+        stem.addCurve(new CurveInfo(stemHeight * 0.1, stem.getTotalDistance(), stem.getTotalDistance() * 0.75, 90, 90, 0));
+        head.addShape(center, "center");
+        head.rotate(125, 90, 0);
+        flower.addShape(stem, "stem");
+        flower.addShape(head, "head");
+
+        return flower;
+    }
+
+    /**
+     * The given {@link ParticleShapeCompound} contains a {@link ParticleLineCurved}, named "stem", and another ParticleShapeCompound,
+     * named "head", which contains 11 {@link ParticleCircleFilled}s, named "center" and "petal1" to "petal10" <br><br>
+     *
+     * You can get the individual shapes using {@link ParticleShapeCompound#getShape(String)}
+     *
+     * @param particle particle to use
+     * @param bottom where the bottom of the stem should be
+     * @param size the stem height is equal to the given size, and the flower size is the given size * 0.15
+     * @param particleFrequency particle amount
+     * @return a ParticleShapeCompound containing all the shapes used to display this flower
+     */
+    public static ParticleShapeCompound flower(Particle particle, LocationSafe bottom, double size, int particleFrequency) {
+        return flower(particle, bottom, size * 0.15, size, particleFrequency);
+    }
+
+    /**
      * @param particle particle to use
      * @param bottom where the bottom of the shape should be
      * @param xRadius what the x radius should be
