@@ -301,6 +301,10 @@ public class ParticlePolygon extends ParticleShaper {
         return corners.get(index);
     }
 
+    public Corner[] getCorners() {
+        return corners.toArray(new Corner[0]);
+    }
+
     public int getCornerAmount() {
         return corners.size();
     }

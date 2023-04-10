@@ -356,6 +356,10 @@ public class ParticleCylinder extends ParticleShaper {
         return circleInfos.get(index);
     }
 
+    public CircleInfo[] getCircleInfos() {
+        return circleInfos.toArray(new CircleInfo[0]);
+    }
+
     /**
      * @return amount of circles in the cylinder
      */

@@ -255,6 +255,10 @@ public class ParticleSpiral extends ParticleShaper {
         return circleInfos.get(index);
     }
 
+    public CircleInfo[] getCircleInfos() {
+        return circleInfos.toArray(new CircleInfo[0]);
+    }
+
     /**
      * @return how many times the spiral goes in a circle throughout the whole shape
      */
