@@ -8,6 +8,8 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.util.NumberConversions;
 import org.bukkit.util.Vector;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 /** contains static utility methods with various functions meant to showcase how this dependency can be used. */
@@ -198,6 +200,75 @@ public final class ParticleSFX {
      */
     public static ParticleCylinder donut(Particle particle, LocationSafe center, double radius, int particleFrequency) {
         return donut(particle, center, radius, radius, radius / 5, (int) (radius * 15), particleFrequency);
+    }
+
+    /**
+     * The given {@link ParticleShapeCompound} contains a {@link ParticleCylinder}, named "cup", a {@link ParticleSpiral}, named "bottom",
+     * and a {@link ParticleLineCurved}, named "handle" <br><br>
+     *
+     * You can get the individual shapes using {@link ParticleShapeCompound#getShape(String)}
+     *
+     * @param particle particle to use
+     * @param bottom where the bottom of the cup should be
+     * @param xRadius what the x radius should be
+     * @param zRadius what the z radius should be
+     * @param height what the height should be
+     * @param particleFrequency particle amount
+     * @return a ParticleShapeCompound containing all the shapes used to display this cup
+     */
+    public static ParticleShapeCompound cup(Particle particle, LocationSafe bottom, double xRadius, double zRadius, double height, int particleFrequency) {
+        ParticleShapeCompound cup = new ParticleShapeCompound();
+        List<CircleInfo> circles = new ArrayList<>();
+
+        for (int i = 0; i < 20; i++) {
+            double heightRadian = (Math.PI * 0.5 / 20 * i);
+            double curveRadian = (Math.PI * 0.2) + (Math.PI * 0.3 / 20 * i);
+
+            circles.add(new CircleInfo(bottom.clone().add(0, height - (height * Math.cos(heightRadian)), 0), xRadius * Math.sin(curveRadian), zRadius * Math.sin(curveRadian)));
+        }
+
+        ParticleCylinder base = new ParticleCylinder(particle, (int) (height * 2), (int) (particleFrequency * 0.80), circles.toArray(new CircleInfo[0]));
+        ParticleLineCurved handle = new ParticleLineCurved(particle, (int) (particleFrequency * 0.05), bottom.clone().add(circles.get(6).getXRadius(), circles.get(6).getCenter().getY() - bottom.getY(), 0), bottom.clone().add(circles.get(18).getXRadius(), circles.get(18).getCenter().getY() - bottom.getY(), 0));
+
+        handle.addCurve(new CurveInfo(xRadius * 0.9, handle.getTotalDistance(), handle.getTotalDistance() / 2, 60, 270, 0));
+        cup.addShape(new ParticleSpiral(particle, 10, 5, (int) (particleFrequency * 0.15), new CircleInfo(bottom.clone(), 0, 0), new CircleInfo(bottom.clone(), xRadius * Math.sin(Math.PI * 0.25), zRadius * Math.sin(Math.PI * 0.25))), "bottom");
+        cup.addShape(base, "cup");
+        cup.addShape(handle, "handle");
+
+        return cup;
+    }
+
+    /**
+     * The given {@link ParticleShapeCompound} contains a {@link ParticleCylinder}, named "cup", a {@link ParticleSpiral}, named "bottom",
+     * and a {@link ParticleLineCurved}, named "handle" <br><br>
+     *
+     * You can get the individual shapes using {@link ParticleShapeCompound#getShape(String)}
+     *
+     * @param particle particle to use
+     * @param bottom where the bottom of the cup should be
+     * @param radius what the radius should be
+     * @param height what the height should be
+     * @param particleFrequency particle amount
+     * @return a ParticleShapeCompound containing all the shapes used to display this cup
+     */
+    public static ParticleShapeCompound cup(Particle particle, LocationSafe bottom, double radius, double height, int particleFrequency) {
+        return cup(particle, bottom, radius, radius, height, particleFrequency);
+    }
+
+    /**
+     * The given {@link ParticleShapeCompound} contains a {@link ParticleCylinder}, named "cup", a {@link ParticleSpiral}, named "bottom",
+     * and a {@link ParticleLineCurved}, named "handle" <br><br>
+     *
+     * You can get the individual shapes using {@link ParticleShapeCompound#getShape(String)}
+     *
+     * @param particle particle to use
+     * @param bottom where the bottom of the cup should be
+     * @param size the x and z radius are the given size, and the height is the size * 2
+     * @param particleFrequency particle amount
+     * @return a ParticleShapeCompound containing all the shapes used to display this cup
+     */
+    public static ParticleShapeCompound cup(Particle particle, LocationSafe bottom, double size, int particleFrequency) {
+        return cup(particle, bottom, size, size, size * 2, particleFrequency);
     }
 
     /**
