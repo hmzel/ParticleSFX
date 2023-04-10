@@ -90,7 +90,7 @@ public final class ParticleSFX {
      * @return the shape displaying the heart
      */
     public static ParticleLineCurved heart2D(Particle particle, LocationSafe center, double size, int particleFrequency) {
-        ParticleLineCurved heart = new ParticleLineCurved(particle, particleFrequency, new LocationSafe(center).add(0, 0, -size - (size * 0.4)), new LocationSafe(center).add(size * 1.2, 0, size - (size * 0.4)), new LocationSafe(center).add(-(size * 1.2), 0, size - (size * 0.4)), new LocationSafe(center).add(0, 0, -size - (size * 0.4)));
+        ParticleLineCurved heart = new ParticleLineCurved(particle, particleFrequency, center.clone().add(0, 0, -size - (size * 0.4)), center.clone().add(size * 1.2, 0, size - (size * 0.4)), center.clone().add(-(size * 1.2), 0, size - (size * 0.4)), center.clone().add(0, 0, -size - (size * 0.4)));
         Location[] locations = heart.getLocations();
         
         heart.addCurve(new CurveInfo(size * 0.4, locations[0].distance(locations[1]), locations[0].distance(locations[1]) / 2, 90, -65, 0));
@@ -111,17 +111,17 @@ public final class ParticleSFX {
     public static ParticleLine star(Particle particle, LocationSafe center, double size, int particleFrequency) {
         return new ParticleLine(
                 particle, particleFrequency,
-                new LocationSafe(center).add(0, 0, size),
-                new LocationSafe(center).add(size * -0.2, 0, size * 0.33),
-                new LocationSafe(center).add(-size, 0, size * 0.33),
-                new LocationSafe(center).add(size * -0.33, 0, size * -0.2),
-                new LocationSafe(center).add(size * -0.56, 0, size * -0.89),
-                new LocationSafe(center).add(0, 0, size * -0.46),
-                new LocationSafe(center).add(size * 0.56, 0, size * -0.89),
-                new LocationSafe(center).add(size * 0.33, 0, size * -0.2),
-                new LocationSafe(center).add(size, 0, size * 0.33),
-                new LocationSafe(center).add(size * 0.2, 0, size * 0.33),
-                new LocationSafe(center).add(0, 0, size)
+                center.clone().add(0, 0, size),
+                center.clone().add(size * -0.2, 0, size * 0.33),
+                center.clone().add(-size, 0, size * 0.33),
+                center.clone().add(size * -0.33, 0, size * -0.2),
+                center.clone().add(size * -0.56, 0, size * -0.89),
+                center.clone().add(0, 0, size * -0.46),
+                center.clone().add(size * 0.56, 0, size * -0.89),
+                center.clone().add(size * 0.33, 0, size * -0.2),
+                center.clone().add(size, 0, size * 0.33),
+                center.clone().add(size * 0.2, 0, size * 0.33),
+                center.clone().add(0, 0, size)
         );
     }
 
@@ -135,12 +135,12 @@ public final class ParticleSFX {
     public static ParticleLine pentagram(Particle particle, LocationSafe center, double size, int particleFrequency) {
         return new ParticleLine(
                 particle, particleFrequency,
-                new LocationSafe(center).add(0, 0, size),
-                new LocationSafe(center).add(size * -0.56, 0, size * -0.89),
-                new LocationSafe(center).add(size, 0, size * 0.33),
-                new LocationSafe(center).add(-size, 0, size * 0.33),
-                new LocationSafe(center).add(size * 0.56, 0, size * -0.89),
-                new LocationSafe(center).add(0, 0, size)
+                center.clone().add(0, 0, size),
+                center.clone().add(size * -0.56, 0, size * -0.89),
+                center.clone().add(size, 0, size * 0.33),
+                center.clone().add(-size, 0, size * 0.33),
+                center.clone().add(size * 0.56, 0, size * -0.89),
+                center.clone().add(0, 0, size)
         );
     }
 
@@ -160,7 +160,7 @@ public final class ParticleSFX {
         for (int i = 0; i < circleFrequency; i++) {
             double radian = Math.PI * 2 / circleFrequency * i;
 
-            circles[i] = new CircleInfo(new LocationSafe(center).add(xRadius * Math.cos(radian), 0, zRadius * Math.sin(radian)), circleSize, circleSize, 90, (360D / circleFrequency * i), 0);
+            circles[i] = new CircleInfo(center.clone().add(xRadius * Math.cos(radian), 0, zRadius * Math.sin(radian)), circleSize, circleSize, 90, (360D / circleFrequency * i), 0);
         }
 
         return new ParticleCylinder(particle, circleFrequency, particleFrequency, circles);
@@ -287,7 +287,7 @@ public final class ParticleSFX {
     public static ParticleShapeCompound flower(Particle particle, LocationSafe bottom, double flowerSize, double stemHeight, int particleFrequency) {
         ParticleShapeCompound flower = new ParticleShapeCompound();
         ParticleShapeCompound head = new ParticleShapeCompound();
-        ParticleLineCurved stem = new ParticleLineCurved(particle, (int) (particleFrequency * 0.077), bottom, new LocationSafe(bottom).add(stemHeight * 0.15, stemHeight, 0));
+        ParticleLineCurved stem = new ParticleLineCurved(particle, (int) (particleFrequency * 0.077), bottom, bottom.clone().add(stemHeight * 0.15, stemHeight, 0));
         ParticleCircleFilled center = new ParticleCircleFilled(particle, (LocationSafe) stem.getLocation(1), flowerSize / 2, flowerSize / 2, 0, 0, 0, (int) (particleFrequency * 0.154));
 
         for (int i = 0; i < 10; i++) {
@@ -340,20 +340,20 @@ public final class ParticleSFX {
      */
     public static ParticleCylinder mushroom(Particle particle, LocationSafe bottom, double xRadius, double zRadius, double height, int particleFrequency) {
         ParticleCylinder shroom = new ParticleCylinder(particle, (int) ((((xRadius + zRadius) / 2) + height) * 2.5), particleFrequency,
-                new CircleInfo(new LocationSafe(bottom), xRadius * 0.225, zRadius * 0.225),
-                new CircleInfo(new LocationSafe(bottom).add(0, height * 0.15, 0), xRadius * 0.15, xRadius * 0.15),
-                new CircleInfo(new LocationSafe(bottom).add(0, height * 0.85, 0), xRadius * 0.15, xRadius * 0.15),
-                new CircleInfo(new LocationSafe(bottom).add(0, height, 0), 0, 0)
+                new CircleInfo(bottom.clone(), xRadius * 0.225, zRadius * 0.225),
+                new CircleInfo(bottom.clone().add(0, height * 0.15, 0), xRadius * 0.15, xRadius * 0.15),
+                new CircleInfo(bottom.clone().add(0, height * 0.85, 0), xRadius * 0.15, xRadius * 0.15),
+                new CircleInfo(bottom.clone().add(0, height, 0), 0, 0)
         );
 
         for (int i = 0; i < 15; i++) {
             double radian = Math.PI * 0.5 / 15 * i;
 
-            shroom.addCircleInfo(new CircleInfo(new LocationSafe(bottom).add(0, (height * 0.71) + (height * 0.27 * Math.cos(radian)), 0), xRadius * Math.sin(radian), zRadius * Math.sin(radian)));
+            shroom.addCircleInfo(new CircleInfo(bottom.clone().add(0, (height * 0.71) + (height * 0.27 * Math.cos(radian)), 0), xRadius * Math.sin(radian), zRadius * Math.sin(radian)));
         }
 
-        shroom.addCircleInfo(new CircleInfo(new LocationSafe(bottom).add(0, height * 0.71, 0), xRadius * 0.9, zRadius * 0.9));
-        shroom.addCircleInfo(new CircleInfo(new LocationSafe(bottom).add(0, height * 0.85, 0), xRadius * 0.15, zRadius * 0.15));
+        shroom.addCircleInfo(new CircleInfo(bottom.clone().add(0, height * 0.71, 0), xRadius * 0.9, zRadius * 0.9));
+        shroom.addCircleInfo(new CircleInfo(bottom.clone().add(0, height * 0.85, 0), xRadius * 0.15, zRadius * 0.15));
 
         return shroom;
     }
@@ -480,8 +480,8 @@ public final class ParticleSFX {
     public static ParticleSpiral tornado(Particle particle, LocationSafe bottom, double xRadius, double zRadius, double height, int particleFrequency) {
         ParticleSpiral spi = new ParticleSpiral(particle, 15, 1, particleFrequency / 2,
                 new CircleInfo(bottom, 0, 0),
-                new CircleInfo(new LocationSafe(bottom).add(0, height * 0.75, 0), xRadius * 0.6, zRadius * 0.6),
-                new CircleInfo(new LocationSafe(bottom).add(0, height, 0), xRadius, zRadius)
+                new CircleInfo(bottom.clone().add(0, height * 0.75, 0), xRadius * 0.6, zRadius * 0.6),
+                new CircleInfo(bottom.clone().add(0, height, 0), xRadius, zRadius)
         );
 
         spi.addMechanic(ShapeDisplayMechanic.Phase.AFTER_DISPLAY, ((mechParticle, current, addition, count) -> {
