@@ -1,6 +1,7 @@
 package hm.zelha.particlesfx.util;
 
 import hm.zelha.particlesfx.particles.parents.Particle;
+import hm.zelha.particlesfx.particles.parents.TravellingParticle;
 import hm.zelha.particlesfx.shapers.*;
 import org.apache.commons.lang3.Validate;
 import org.bukkit.Location;
@@ -379,6 +380,43 @@ public final class ParticleSFX {
      */
     public static ParticleCylinder mushroom(Particle particle, LocationSafe bottom, double size, int particleFrequency) {
         return mushroom(particle, bottom, size, size, size * 2.6, particleFrequency);
+    }
+
+    /**
+     * Creates a sphere with the particles travelling away from the center
+     *
+     * @param particle particle to use
+     * @param center the center of where the shape should be
+     * @param xRadius what the X radius should be
+     * @param yRadius what the Y radius should be
+     * @param zRadius what the Z radius should be
+     * @param particleFrequency particle amount
+     * @return the shape displaying the sun
+     */
+    public static ParticleSphereSFSA sun(TravellingParticle particle, LocationSafe center, double xRadius, double yRadius, double zRadius, int particleFrequency) {
+        ParticleSphereSFSA sun = new ParticleSphereSFSA(particle, center, xRadius, yRadius, zRadius, particleFrequency);
+        Vector v = new Vector();
+
+        sun.addMechanic(ShapeDisplayMechanic.Phase.AFTER_ROTATION, ((p, current, addition, count) -> {
+            if (p instanceof TravellingParticle) {
+                ((TravellingParticle) p).setVelocity(v.zero().add(addition).multiply(3));
+            }
+        }));
+
+        return sun;
+    }
+
+    /**
+     * Creates a sphere with the particles travelling away from the center.
+     *
+     * @param particle particle to use
+     * @param center the center of where the shape should be
+     * @param radius what the radius should be
+     * @param particleFrequency particle amount
+     * @return the shape displaying the sun
+     */
+    public static ParticleSphereSFSA sun(TravellingParticle particle, LocationSafe center, double radius, int particleFrequency) {
+        return sun(particle, center, radius, radius, radius, particleFrequency);
     }
 
     /**
