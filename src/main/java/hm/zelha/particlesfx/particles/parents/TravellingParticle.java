@@ -26,8 +26,8 @@ public abstract class TravellingParticle extends Particle {
         this.inverse = inverse;
         this.control = control;
 
-        setVelocity(velocity);
-        setLocationToGo(toGo);
+        if (velocity != null) setVelocity(velocity);
+        if (toGo != null) setLocationToGo(toGo);
     }
 
     @Override
