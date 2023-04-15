@@ -420,6 +420,54 @@ public final class ParticleSFX {
     }
 
     /**
+     * The given {@link ParticleShapeCompound} contains a {@link ParticleSphereSFSA}, named "nucleus", and three {@link ParticleCircle}s,
+     * named "electron1" to "electron3" <br><br>
+     *
+     * You can get the individual shapes using {@link ParticleShapeCompound#getShape(String)}
+     *
+     * @param nucleus particle to use for the nucleus
+     * @param electron particle to use for the electrons
+     * @param center the center of where the shape should be
+     * @param radius what the radius should be
+     * @param particleFrequency particle amount
+     * @return a ParticleShapeCompound containing all the shapes used to display this atom
+     */
+    public static ParticleShapeCompound atom(Particle nucleus, Particle electron, LocationSafe center, double radius, int particleFrequency) {
+        ParticleShapeCompound atom = new ParticleShapeCompound();
+
+        atom.addShape(new ParticleSphereSFSA(nucleus, center, radius * 0.2, (int) (particleFrequency * 0.8)), "nucleus");
+
+        for (int i = 0; i < 3; i++) {
+            ParticleCircle circle = new ParticleCircle(electron, center, radius, radius, 90 + (120D / 2 * i), 0, 0, particleFrequency);
+
+            circle.setParticlesPerDisplay((int) Math.ceil(circle.getParticleFrequency() * 0.066));
+            circle.setDisplayPosition(circle.getParticleFrequency() / 2 * i);
+            atom.addShape(circle, "electron" + (i + 1));
+        }
+
+        nucleus.setOffset(radius * 0.025, radius * 0.025, radius * 0.025);
+        electron.setOffset(radius * 0.025, radius * 0.025, radius * 0.025);
+
+        return atom;
+    }
+
+    /**
+     * The given {@link ParticleShapeCompound} contains a {@link ParticleSphereSFSA}, named "nucleus", and three {@link ParticleCircle}s,
+     * named "electron1" to "electron3" <br><br>
+     *
+     * You can get the individual shapes using {@link ParticleShapeCompound#getShape(String)}
+     *
+     * @param particle particle to use
+     * @param center the center of where the shape should be
+     * @param radius what the radius should be
+     * @param particleFrequency particle amount
+     * @return a ParticleShapeCompound containing all the shapes used to display this atom
+     */
+    public static ParticleShapeCompound atom(Particle particle, LocationSafe center, double radius, int particleFrequency) {
+        return atom(particle, particle, center, radius, particleFrequency);
+    }
+
+    /**
      * @param rainParticle particle to use for rain
      * @param cloudParticle particle to use for the cloud
      * @param center the center of where the cloud should be and where the rain should spawn
