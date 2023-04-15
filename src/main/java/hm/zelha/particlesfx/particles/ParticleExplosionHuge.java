@@ -1,7 +1,7 @@
 package hm.zelha.particlesfx.particles;
 
 import hm.zelha.particlesfx.particles.parents.Particle;
-import net.minecraft.server.v1_8_R3.EnumParticle;
+import net.minecraft.server.v1_9_R1.EnumParticle;
 
 public class ParticleExplosionHuge extends Particle {
     public ParticleExplosionHuge(double offsetX, double offsetY, double offsetZ, int count) {
