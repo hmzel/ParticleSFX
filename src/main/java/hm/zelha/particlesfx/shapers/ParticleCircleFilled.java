@@ -31,13 +31,7 @@ public class ParticleCircleFilled extends ParticleCircle {
     public void display() {
         boolean hasRan = false;
         boolean trackCount = particlesPerDisplay > 0;
-        double count = particleFrequency * 100 / (100 - limit);
-
-        if (!Double.isFinite(count)) {
-            count = 0;
-        }
-
-        count = (int) count;
+        int count = (int) (particleFrequency * 100 / (100 - limit));
 
         for (int i = overallCount; i < count; i++) {
             //radian = PI * PHI * 2 * i

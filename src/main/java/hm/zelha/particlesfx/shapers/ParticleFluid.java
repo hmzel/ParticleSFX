@@ -101,24 +101,26 @@ public class ParticleFluid extends ParticleShaper {
             }
 
             //repulsion
-            for (int k = 0; k < locations.size(); k++) {
-                Location other = locations.get(k);
+            if (repulsion > 0) {
+                for (int k = 0; k < locations.size(); k++) {
+                    Location other = locations.get(k);
 
-                if (l == other) continue;
-                if (locationHelper.distanceSquared(other) > Math.pow(repulsionDistance, 2)) continue;
+                    if (l == other) continue;
+                    if (locationHelper.distanceSquared(other) > Math.pow(repulsionDistance, 2)) continue;
 
-                LVMath.subtractToVector(vectorHelper, locationHelper, other);
+                    LVMath.subtractToVector(vectorHelper, locationHelper, other);
 
-                if (LVMath.getAbsoluteSum(vectorHelper) == 0) {
-                    vectorHelper.setX(rng.nextDouble(repulsion * 2) - repulsion);
-                    vectorHelper.setY(rng.nextDouble(repulsion * 2) - repulsion);
-                    vectorHelper.setZ(rng.nextDouble(repulsion * 2) - repulsion);
+                    if (LVMath.getAbsoluteSum(vectorHelper) == 0) {
+                        vectorHelper.setX(rng.nextDouble(repulsion * 2) - repulsion);
+                        vectorHelper.setY(rng.nextDouble(repulsion * 2) - repulsion);
+                        vectorHelper.setZ(rng.nextDouble(repulsion * 2) - repulsion);
+                    }
+
+                    LVMath.divide(vectorHelper, LVMath.getAbsoluteSum(vectorHelper) / repulsion);
+                    locationHelper.add(vectorHelper);
+
+                    nearby++;
                 }
-
-                LVMath.divide(vectorHelper, LVMath.getAbsoluteSum(vectorHelper) / repulsion);
-                locationHelper.add(vectorHelper);
-
-                nearby++;
             }
 
             //go up if theres more than 2 particles nearby
