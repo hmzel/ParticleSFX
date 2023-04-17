@@ -1,7 +1,7 @@
 package hm.zelha.particlesfx.particles;
 
 import hm.zelha.particlesfx.particles.parents.Particle;
-import net.minecraft.server.v1_9_R2.EnumParticle;
+import net.minecraft.server.v1_10_R1.EnumParticle;
 
 public class ParticleSpell extends Particle {
     public ParticleSpell(double offsetX, double offsetY, double offsetZ, int count) {

@@ -1,12 +1,12 @@
 package hm.zelha.particlesfx.particles.parents;
 
 import hm.zelha.particlesfx.util.Color;
-import net.minecraft.server.v1_9_R2.EntityPlayer;
-import net.minecraft.server.v1_9_R2.EnumParticle;
-import net.minecraft.server.v1_9_R2.PacketPlayOutWorldParticles;
+import net.minecraft.server.v1_10_R1.EntityPlayer;
+import net.minecraft.server.v1_10_R1.EnumParticle;
+import net.minecraft.server.v1_10_R1.PacketPlayOutWorldParticles;
 import org.apache.commons.lang3.Validate;
 import org.bukkit.Location;
-import org.bukkit.craftbukkit.v1_9_R2.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_10_R1.entity.CraftPlayer;
 import org.bukkit.util.Vector;
 
 import javax.annotation.Nullable;
