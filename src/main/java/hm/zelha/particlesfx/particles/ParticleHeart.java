@@ -1,7 +1,7 @@
 package hm.zelha.particlesfx.particles;
 
 import hm.zelha.particlesfx.particles.parents.Particle;
-import net.minecraft.server.v1_9_R1.EnumParticle;
+import net.minecraft.server.v1_9_R2.EnumParticle;
 
 public class ParticleHeart extends Particle {
     public ParticleHeart(double offsetX, double offsetY, double offsetZ, int count) {

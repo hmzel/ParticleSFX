@@ -2,7 +2,7 @@ package hm.zelha.particlesfx.particles;
 
 import hm.zelha.particlesfx.particles.parents.Particle;
 import hm.zelha.particlesfx.particles.parents.SizeableParticle;
-import net.minecraft.server.v1_9_R1.EnumParticle;
+import net.minecraft.server.v1_9_R2.EnumParticle;
 
 public class ParticleSweepAttack extends SizeableParticle {
     public ParticleSweepAttack(double size, double offsetX, double offsetY, double offsetZ, int count) {
