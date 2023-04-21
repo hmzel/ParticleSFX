@@ -2,6 +2,7 @@ package hm.zelha.particlesfx.particles.parents;
 
 import net.minecraft.server.v1_10_R1.EntityPlayer;
 import net.minecraft.server.v1_10_R1.EnumParticle;
+import net.minecraft.server.v1_10_R1.Packet;
 import net.minecraft.server.v1_10_R1.PacketPlayOutWorldParticles;
 import org.apache.commons.lang3.Validate;
 import org.bukkit.Bukkit;
@@ -90,24 +91,34 @@ public abstract class Particle {
         Validate.notNull(location, "Location cannot be null!");
         Validate.notNull(location.getWorld(), "World cannot be null!");
 
-        for (int i = 0; i < players.size(); i++) {
-            EntityPlayer p = players.get(i).getHandle();
+        for (int i = 0; i < ((getPacketCount() != count) ? count : 1); i++) {
+            for (int k = 0; k < players.size(); k++) {
+                EntityPlayer p = players.get(k).getHandle();
 
-            if (p == null) continue;
-            if (!location.getWorld().getName().equals(p.world.getWorld().getName())) continue;
+                if (p == null) continue;
+                if (!location.getWorld().getName().equals(p.world.getWorld().getName())) continue;
 
-            if (radius != 0) {
-                double distance = Math.pow(location.getX() - p.locX, 2) + Math.pow(location.getY() - p.locY, 2) + Math.pow(location.getZ() - p.locZ, 2);
+                if (radius != 0) {
+                    double distance = Math.pow(location.getX() - p.locX, 2) + Math.pow(location.getY() - p.locY, 2) + Math.pow(location.getZ() - p.locZ, 2);
 
-                if (distance > Math.pow(radius, 2)) continue;
+                    if (distance > Math.pow(radius, 2)) continue;
+                }
+
+                float[] xyz = getXYZ(location);
+                float[] offsets = getOffsets();
+                Packet strangePacket = getStrangePacket();
+
+                if (strangePacket != null) {
+                    p.playerConnection.sendPacket(strangePacket);
+                } else {
+                    p.playerConnection.sendPacket(
+                            new PacketPlayOutWorldParticles(
+                                    particle, true, xyz[0], xyz[1], xyz[2], offsets[0], offsets[1], offsets[2],
+                                    getPacketSpeed(), getPacketCount(), getPacketData()
+                            )
+                    );
+                }
             }
-
-            p.playerConnection.sendPacket(
-                    new PacketPlayOutWorldParticles(
-                            particle, true, (float) location.getX(), (float) location.getY(), (float) location.getZ(),
-                            (float) offsetX, (float) offsetY, (float) offsetZ, (float) speed, count
-                    )
-            );
         }
     }
 
@@ -133,6 +144,30 @@ public abstract class Particle {
         }
 
         return vectorHelper;
+    }
+
+    protected float[] getXYZ(Location location) {
+        return new float[] {(float) location.getX(), (float) location.getY(), (float) location.getZ()};
+    }
+
+    protected float[] getOffsets() {
+        return new float[] {(float) offsetX, (float) offsetY, (float) offsetZ};
+    }
+
+    protected float getPacketSpeed() {
+        return (float) speed;
+    }
+
+    protected int getPacketCount() {
+        return count;
+    }
+
+    protected int[] getPacketData() {
+        return new int[0];
+    }
+
+    protected Packet getStrangePacket() {
+        return null;
     }
 
     public void setOffset(double x, double y, double z) {
@@ -189,27 +224,3 @@ public abstract class Particle {
         return radius;
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
