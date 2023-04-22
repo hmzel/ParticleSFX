@@ -6,8 +6,7 @@ import org.bukkit.Effect;
 import org.bukkit.Location;
 
 /**
- * while this effect is really cool, it summons around 30 particles per effect, which will look strange if many of them are displayed
- * due to the 4,000 client-side limit
+ * while this effect is really cool, it summons around 30 particles per effect.
  * <br><br>
  * since Effect.ENDER_SIGNAL is Type.VISUAL, the radius, speed, and offsets are unused internally, and the default radius is quite small.
  * <br><br>
