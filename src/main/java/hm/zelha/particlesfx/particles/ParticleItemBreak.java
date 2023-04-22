@@ -2,7 +2,9 @@ package hm.zelha.particlesfx.particles;
 
 import hm.zelha.particlesfx.particles.parents.MaterialParticle;
 import hm.zelha.particlesfx.particles.parents.Particle;
+import hm.zelha.particlesfx.particles.parents.TravellingParticle;
 import net.minecraft.server.v1_9_R1.EnumParticle;
+import org.apache.commons.lang3.Validate;
 import org.bukkit.Location;
 import org.bukkit.material.MaterialData;
 import org.bukkit.util.Vector;
@@ -13,17 +15,20 @@ import org.bukkit.util.Vector;
  *
  * warning: the speed of this particle is inconsistent due to gravity and other factors that aren't accounted for
  */
-public class ParticleItemBreak extends MaterialParticle {
+public class ParticleItemBreak extends TravellingParticle implements MaterialParticle {
+
+    protected MaterialData data;
+
     /**@see ParticleItemBreak*/
     public ParticleItemBreak(MaterialData data, Vector velocity, double offsetX, double offsetY, double offsetZ, int count) {
-        super(EnumParticle.ITEM_CRACK, false, 0.105, data, velocity, null, offsetX, offsetY, offsetZ, count);
+        super(EnumParticle.ITEM_CRACK, false, 0.105, velocity, null, offsetX, offsetY, offsetZ, count);
 
         setMaterialData(data);
     }
 
     /**@see ParticleItemBreak*/
     public ParticleItemBreak(MaterialData data, Location toGo, double offsetX, double offsetY, double offsetZ, int count) {
-        super(EnumParticle.ITEM_CRACK, false, 0.105, data, null, toGo, offsetX, offsetY, offsetZ, count);
+        super(EnumParticle.ITEM_CRACK, false, 0.105, null, toGo, offsetX, offsetY, offsetZ, count);
 
         setMaterialData(data);
     }
@@ -127,6 +132,10 @@ public class ParticleItemBreak extends MaterialParticle {
     public ParticleItemBreak inherit(Particle particle) {
         super.inherit(particle);
 
+        if (particle instanceof ParticleBlockBreak) {
+            data = ((ParticleBlockBreak) particle).data;
+        }
+
         return this;
     }
 
@@ -138,5 +147,16 @@ public class ParticleItemBreak extends MaterialParticle {
     @Override
     protected int[] getPacketData() {
         return new int[] {data.getItemTypeId(), data.getData()};
+    }
+
+    public void setMaterialData(MaterialData data) {
+        Validate.notNull(data, "Data cannot be null!");
+        Validate.isTrue(data.getItemType().isBlock(), "Material must be a block!");
+
+        this.data = data;
+    }
+
+    public MaterialData getMaterialData() {
+        return data;
     }
 }
