@@ -21,6 +21,7 @@ import java.util.concurrent.ThreadLocalRandom;
 public abstract class Particle {
 
     protected final EnumParticle particle;
+    protected final Vector fakeOffsetHelper = new Vector();
     protected final Vector xyzHelper = new Vector();
     protected final Vector offsetHelper = new Vector();
     protected double offsetX;
@@ -32,7 +33,6 @@ public abstract class Particle {
     private final List<CraftPlayer> players = ((CraftServer) Bukkit.getServer()).getOnlinePlayers();
     private final List<CraftPlayer> listHelper = new ArrayList<>();
     private final ThreadLocalRandom rng = ThreadLocalRandom.current();
-    private final Vector fakeOffsetHelper = new Vector();
 
     protected Particle(EnumParticle particle, double offsetX, double offsetY, double offsetZ, double speed, int count, int radius) {
         Validate.notNull(particle, "Particle cannot be null!");
@@ -108,7 +108,7 @@ public abstract class Particle {
                 }
 
                 Vector xyz = getXYZ(location);
-                Vector offsets = getOffsets();
+                Vector offsets = getOffsets(location);
                 Packet strangePacket = getStrangePacket();
 
                 if (strangePacket != null) {
@@ -153,7 +153,7 @@ public abstract class Particle {
         return LVMath.toVector(xyzHelper, location);
     }
 
-    protected Vector getOffsets() {
+    protected Vector getOffsets(Location location) {
         return offsetHelper.zero().setX(offsetX).setY(offsetY).setZ(offsetZ);
     }
 
