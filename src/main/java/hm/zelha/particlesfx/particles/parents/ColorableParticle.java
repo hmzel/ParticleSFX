@@ -1,7 +1,7 @@
 package hm.zelha.particlesfx.particles.parents;
 
 import hm.zelha.particlesfx.util.Color;
-import net.minecraft.server.v1_10_R1.EnumParticle;
+import net.minecraft.server.v1_11_R1.EnumParticle;
 import org.apache.commons.lang3.Validate;
 import org.bukkit.Location;
 import org.bukkit.util.Vector;
