@@ -3,16 +3,11 @@ package hm.zelha.particlesfx.particles;
 import hm.zelha.particlesfx.particles.parents.ColorableParticle;
 import hm.zelha.particlesfx.particles.parents.Particle;
 import hm.zelha.particlesfx.util.Color;
-import net.minecraft.server.v1_9_R2.EntityPlayer;
 import net.minecraft.server.v1_9_R2.EnumParticle;
-import net.minecraft.server.v1_9_R2.PacketPlayOutWorldParticles;
-import org.apache.commons.lang3.Validate;
 import org.bukkit.Location;
-import org.bukkit.craftbukkit.v1_9_R2.entity.CraftPlayer;
 import org.bukkit.util.Vector;
 
 import javax.annotation.Nullable;
-import java.util.List;
 
 public class ParticleDust extends ColorableParticle {
 
@@ -67,80 +62,37 @@ public class ParticleDust extends ColorableParticle {
     }
 
     @Override
-    protected void display(Location location, List<CraftPlayer> players) {
-        Validate.notNull(location, "Location cannot be null!");
-        Validate.notNull(location.getWorld(), "World cannot be null!");
+    protected Vector getOffsets(Location location) {
+        Vector offsets = super.getOffsets(location);
 
-        for (int i = 0; i < ((color != null) ? count : 1); i++) {
-            int trueCount = count;
-            double trueOffsetX = offsetX;
-            double trueOffsetY = offsetY;
-            double trueOffsetZ = offsetZ;
-            double trueSpeed;
-            Vector addition = null;
+        if (pureColor) {
+            offsets.setX(Float.MAX_VALUE * (color.getRed() / 255D));
+            offsets.setY(Float.MAX_VALUE * (color.getGreen() / 255D));
+            offsets.setZ(Float.MAX_VALUE * (color.getBlue() / 255D));
 
-            if (color != null) {
-                trueCount = 0;
-
-                if (pureColor) {
-                    trueSpeed = 1;
-                    trueOffsetX = Float.MAX_VALUE * (color.getRed() / 255D);
-                    trueOffsetY = Float.MAX_VALUE * (color.getGreen() / 255D);
-                    trueOffsetZ = Float.MAX_VALUE * (color.getBlue() / 255D);
-
-                    if (trueOffsetX == 0) {
-                        trueOffsetX = Float.MIN_VALUE;
-                    }
-
-                    if (trueOffsetY == 0) {
-                        trueOffsetY = Float.MIN_VALUE;
-                    }
-
-                    if (trueOffsetZ == 0) {
-                        trueOffsetZ = Float.MIN_VALUE;
-                    }
-                } else {
-                    trueSpeed = brightness * 0.01;
-                    trueOffsetX = color.getRed() / 255D;
-                    trueOffsetY = color.getGreen() / 255D;
-                    trueOffsetZ = color.getBlue() / 255D;
-
-                    if (color.getRed() == 0) {
-                        trueOffsetX = 0.0001;
-                    }
-                }
-
-                addition = generateFakeOffset();
-
-                location.add(addition);
-            } else {
-                trueSpeed = 1;
+            if (offsets.getX() == 0) {
+                offsets.setX(Float.MIN_VALUE);
             }
 
-            for (int i2 = 0; i2 < players.size(); i2++) {
-                EntityPlayer p = players.get(i2).getHandle();
-
-                if (p == null) continue;
-                if (!location.getWorld().getName().equals(p.world.getWorld().getName())) continue;
-
-                if (radius != 0) {
-                    double distance = Math.pow(location.getX() - p.locX, 2) + Math.pow(location.getY() - p.locY, 2) + Math.pow(location.getZ() - p.locZ, 2);
-
-                    if (distance > Math.pow(radius, 2)) continue;
-                }
-
-                p.playerConnection.sendPacket(
-                        new PacketPlayOutWorldParticles(
-                                particle, true, (float) location.getX(), (float) location.getY(), (float) location.getZ(),
-                                (float) trueOffsetX, (float) trueOffsetY, (float) trueOffsetZ, (float) trueSpeed, trueCount
-                        )
-                );
+            if (offsets.getY() == 0) {
+                offsets.setY(Float.MIN_VALUE);
             }
 
-            if (addition != null) {
-                location.subtract(addition);
+            if (offsets.getZ() == 0) {
+                offsets.setZ(Float.MIN_VALUE);
             }
+        } else if (color.getRed() == 0) {
+            offsets.setX(0.0001);
         }
+
+        return offsets;
+    }
+
+    @Override
+    protected float getPacketSpeed() {
+        if (pureColor) return 1;
+
+        return super.getPacketSpeed();
     }
 
     /**
