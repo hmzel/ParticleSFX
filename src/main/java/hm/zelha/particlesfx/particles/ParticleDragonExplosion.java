@@ -1,10 +1,10 @@
 package hm.zelha.particlesfx.particles;
 
 import hm.zelha.particlesfx.particles.parents.Particle;
-import net.minecraft.server.v1_9_R2.BlockPosition;
-import net.minecraft.server.v1_9_R2.EnumParticle;
-import net.minecraft.server.v1_9_R2.Packet;
-import net.minecraft.server.v1_9_R2.PacketPlayOutWorldEvent;
+import net.minecraft.server.v1_10_R1.BlockPosition;
+import net.minecraft.server.v1_10_R1.EnumParticle;
+import net.minecraft.server.v1_10_R1.Packet;
+import net.minecraft.server.v1_10_R1.PacketPlayOutWorldEvent;
 import org.bukkit.Effect;
 import org.bukkit.Location;
 
