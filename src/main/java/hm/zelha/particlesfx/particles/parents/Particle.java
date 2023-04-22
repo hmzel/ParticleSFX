@@ -1,5 +1,6 @@
 package hm.zelha.particlesfx.particles.parents;
 
+import hm.zelha.particlesfx.util.LVMath;
 import net.minecraft.server.v1_10_R1.EntityPlayer;
 import net.minecraft.server.v1_10_R1.EnumParticle;
 import net.minecraft.server.v1_10_R1.Packet;
@@ -20,6 +21,8 @@ import java.util.concurrent.ThreadLocalRandom;
 public abstract class Particle {
 
     protected final EnumParticle particle;
+    protected final Vector xyzHelper = new Vector();
+    protected final Vector offsetHelper = new Vector();
     protected double offsetX;
     protected double offsetY;
     protected double offsetZ;
@@ -29,7 +32,7 @@ public abstract class Particle {
     private final List<CraftPlayer> players = ((CraftServer) Bukkit.getServer()).getOnlinePlayers();
     private final List<CraftPlayer> listHelper = new ArrayList<>();
     private final ThreadLocalRandom rng = ThreadLocalRandom.current();
-    private final Vector vectorHelper = new Vector();
+    private final Vector fakeOffsetHelper = new Vector();
 
     protected Particle(EnumParticle particle, double offsetX, double offsetY, double offsetZ, double speed, int count, int radius) {
         Validate.notNull(particle, "Particle cannot be null!");
@@ -104,8 +107,8 @@ public abstract class Particle {
                     if (distance > Math.pow(radius, 2)) continue;
                 }
 
-                float[] xyz = getXYZ(location);
-                float[] offsets = getOffsets();
+                Vector xyz = getXYZ(location);
+                Vector offsets = getOffsets();
                 Packet strangePacket = getStrangePacket();
 
                 if (strangePacket != null) {
@@ -113,8 +116,8 @@ public abstract class Particle {
                 } else {
                     p.playerConnection.sendPacket(
                             new PacketPlayOutWorldParticles(
-                                    particle, true, xyz[0], xyz[1], xyz[2], offsets[0], offsets[1], offsets[2],
-                                    getPacketSpeed(), getPacketCount(), getPacketData()
+                                    particle, true, (float) xyz.getX(), (float) xyz.getY(), (float) xyz.getZ(), (float) offsets.getX(),
+                                    (float) offsets.getY(), (float) offsets.getZ(), getPacketSpeed(), getPacketCount(), getPacketData()
                             )
                     );
                 }
@@ -129,29 +132,29 @@ public abstract class Particle {
      * @return a vector meant to be added to a location to mimic particle offset
      */
     protected Vector generateFakeOffset() {
-        vectorHelper.zero();
+        fakeOffsetHelper.zero();
 
         if (offsetX != 0) {
-            vectorHelper.setX(rng.nextDouble(offsetX * 2) - offsetX);
+            fakeOffsetHelper.setX(rng.nextDouble(offsetX * 2) - offsetX);
         }
 
         if (offsetY != 0) {
-            vectorHelper.setY(rng.nextDouble(offsetY * 2) - offsetY);
+            fakeOffsetHelper.setY(rng.nextDouble(offsetY * 2) - offsetY);
         }
 
         if (offsetZ != 0) {
-            vectorHelper.setZ(rng.nextDouble(offsetZ * 2) - offsetZ);
+            fakeOffsetHelper.setZ(rng.nextDouble(offsetZ * 2) - offsetZ);
         }
 
-        return vectorHelper;
+        return fakeOffsetHelper;
     }
 
-    protected float[] getXYZ(Location location) {
-        return new float[] {(float) location.getX(), (float) location.getY(), (float) location.getZ()};
+    protected Vector getXYZ(Location location) {
+        return LVMath.toVector(xyzHelper, location);
     }
 
-    protected float[] getOffsets() {
-        return new float[] {(float) offsetX, (float) offsetY, (float) offsetZ};
+    protected Vector getOffsets() {
+        return offsetHelper.zero().setX(offsetX).setY(offsetY).setZ(offsetZ);
     }
 
     protected float getPacketSpeed() {
