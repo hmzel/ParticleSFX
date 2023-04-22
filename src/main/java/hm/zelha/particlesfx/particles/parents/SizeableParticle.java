@@ -8,8 +8,6 @@ import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_9_R2.entity.CraftPlayer;
 import org.bukkit.util.Vector;
 
-import java.util.List;
-
 public abstract class SizeableParticle extends Particle {
 
     protected double size;
@@ -17,7 +15,7 @@ public abstract class SizeableParticle extends Particle {
     protected SizeableParticle(EnumParticle particle, double size, double offsetX, double offsetY, double offsetZ, double speed, int count, int radius) {
         super(particle, offsetX, offsetY, offsetZ, speed, count, radius);
 
-        this.size = size;
+        setSize(size);
     }
 
     @Override
@@ -35,37 +33,23 @@ public abstract class SizeableParticle extends Particle {
     public abstract SizeableParticle clone();
 
     @Override
-    protected void display(Location location, List<CraftPlayer> players) {
-        Validate.notNull(location, "Location cannot be null!");
-        Validate.notNull(location.getWorld(), "World cannot be null!");
+    protected Vector getXYZ(Location location) {
+        return super.getXYZ(location).add(generateFakeOffset());
+    }
 
-        for (int i = 0; i != count; i++) {
-            Vector addition = generateFakeOffset();
+    @Override
+    protected Vector getOffsets(Location location) {
+        return super.getOffsets(location).zero().setX(-(size) + 2);
+    }
 
-            location.add(addition);
+    @Override
+    protected float getPacketSpeed() {
+        return 1;
+    }
 
-            for (int i2 = 0; i2 < players.size(); i2++) {
-                EntityPlayer p = players.get(i2).getHandle();
-
-                if (p == null) continue;
-                if (!location.getWorld().getName().equals(p.world.getWorld().getName())) continue;
-
-                if (radius != 0) {
-                    double distance = Math.pow(location.getX() - p.locX, 2) + Math.pow(location.getY() - p.locY, 2) + Math.pow(location.getZ() - p.locZ, 2);
-
-                    if (distance > Math.pow(radius, 2)) continue;
-                }
-
-                p.playerConnection.sendPacket(
-                        new PacketPlayOutWorldParticles(
-                                particle, true, (float) location.getX(), (float) location.getY(), (float) location.getZ(),
-                                (float) -(size) + 2, 0, 0, (float) 1, 0
-                        )
-                );
-            }
-
-            location.subtract(addition);
-        }
+    @Override
+    protected int getPacketCount() {
+        return 0;
     }
 
     public void setSize(double size) {
