@@ -1,16 +1,12 @@
 package hm.zelha.particlesfx.particles.parents;
 
-import net.minecraft.server.v1_8_R3.EntityPlayer;
 import net.minecraft.server.v1_8_R3.EnumParticle;
-import net.minecraft.server.v1_8_R3.PacketPlayOutWorldParticles;
-import org.apache.commons.lang3.Validate;
+import hm.zelha.particlesfx.util.LVMath;
 import org.bukkit.Location;
-import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
 import javax.annotation.Nullable;
-import java.util.List;
 
 public abstract class TravellingParticle extends Particle {
 
@@ -45,78 +41,6 @@ public abstract class TravellingParticle extends Particle {
 
     @Override
     public abstract TravellingParticle clone();
-
-    @Override
-    protected void display(Location location, List<CraftPlayer> players) {
-        Validate.notNull(location, "Location cannot be null!");
-        Validate.notNull(location.getWorld(), "World cannot be null!");
-
-        for (int i = 0; i < ((toGo == null && velocity == null) ? 1 : count); i++) {
-            int count = 0;
-            float speed = 1;
-            double trueOffsetX = offsetX;
-            double trueOffsetY = offsetY;
-            double trueOffsetZ = offsetZ;
-            Vector addition = null;
-
-            if (toGo != null || velocity != null) {
-                addition = generateFakeOffset();
-
-                location.add(addition);
-            }
-
-            Location trueLocation = location;
-
-            if (inverse && velocity != null) {
-                trueOffsetX = -velocity.getX();
-                trueOffsetY = -velocity.getY();
-                trueOffsetZ = -velocity.getZ();
-
-                location.add(velocity);
-                addition.add(velocity);
-            } else if (inverse && toGo != null) {
-                trueOffsetX = location.getX() - toGo.getX();
-                trueOffsetY = location.getY() - toGo.getY();
-                trueOffsetZ = location.getZ() - toGo.getZ();
-                trueLocation = toGo;
-            } else if (velocity != null) {
-                trueOffsetX = velocity.getX() * control;
-                trueOffsetY = velocity.getY() * control;
-                trueOffsetZ = velocity.getZ() * control;
-            } else if (toGo != null) {
-                trueOffsetX = (toGo.getX() - location.getX()) * control;
-                trueOffsetY = (toGo.getY() - location.getY()) * control;
-                trueOffsetZ = (toGo.getZ() - location.getZ()) * control;
-            } else {
-                speed = 0;
-                count = this.count;
-            }
-
-            for (int i2 = 0; i2 < players.size(); i2++) {
-                EntityPlayer p = players.get(i2).getHandle();
-
-                if (p == null) continue;
-                if (!location.getWorld().getName().equals(p.world.getWorld().getName())) continue;
-
-                if (radius != 0) {
-                    double distance = Math.pow(location.getX() - p.locX, 2) + Math.pow(location.getY() - p.locY, 2) + Math.pow(location.getZ() - p.locZ, 2);
-
-                    if (distance > Math.pow(radius, 2)) continue;
-                }
-
-                p.playerConnection.sendPacket(
-                        new PacketPlayOutWorldParticles(
-                                particle, true, (float) trueLocation.getX(), (float) trueLocation.getY(), (float) trueLocation.getZ(),
-                                (float) trueOffsetX, (float) trueOffsetY, (float) trueOffsetZ, speed, count
-                        )
-                );
-            }
-
-            if (addition != null) {
-                location.subtract(addition);
-            }
-        }
-    }
 
     /**
      * Displays this particle with the given location and location to go without changing this object's toGo variable
@@ -190,6 +114,58 @@ public abstract class TravellingParticle extends Particle {
 
         this.toGo = oldToGo;
         this.velocity = old;
+    }
+
+    @Override
+    protected Vector getXYZ(Location location) {
+        Vector xyz = super.getXYZ(location);
+
+        if (inverse) {
+            if (velocity != null) {
+                xyz.add(velocity);
+            }
+
+            if (toGo != null) {
+                LVMath.toVector(xyz, toGo);
+            }
+        }
+
+        if (velocity != null || toGo != null) {
+            xyz.add(generateFakeOffset());
+        }
+
+        return xyz;
+    }
+
+    @Override
+    protected Vector getOffsets(Location location) {
+        Vector offsets = super.getOffsets(location);
+
+        if (inverse && velocity != null) {
+            offsets.zero().subtract(velocity);
+        } else if (inverse && toGo != null) {
+            LVMath.subtractToVector(offsets, location, toGo).add(fakeOffsetHelper);
+        } else if (velocity != null) {
+            offsets.zero().add(velocity).multiply(control);
+        } else if (toGo != null) {
+            LVMath.subtractToVector(offsets, toGo, location).subtract(fakeOffsetHelper).multiply(control);
+        }
+
+        return offsets;
+    }
+
+    @Override
+    protected float getPacketSpeed() {
+        if (velocity != null || toGo != null) return 1;
+
+        return super.getPacketSpeed();
+    }
+
+    @Override
+    protected int getPacketCount() {
+        if (velocity != null || toGo != null) return 0;
+
+        return super.getPacketCount();
     }
 
     /**
