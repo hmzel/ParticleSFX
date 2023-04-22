@@ -109,7 +109,7 @@ public abstract class Particle {
 
                 Vector xyz = getXYZ(location);
                 Vector offsets = getOffsets(location);
-                Packet strangePacket = getStrangePacket();
+                Packet strangePacket = getStrangePacket(location);
 
                 if (strangePacket != null) {
                     p.playerConnection.sendPacket(strangePacket);
@@ -169,7 +169,7 @@ public abstract class Particle {
         return new int[0];
     }
 
-    protected Packet getStrangePacket() {
+    protected Packet getStrangePacket(Location location) {
         return null;
     }
 
