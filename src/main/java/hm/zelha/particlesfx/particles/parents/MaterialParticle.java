@@ -1,105 +1,54 @@
 package hm.zelha.particlesfx.particles.parents;
 
-import net.minecraft.server.v1_9_R2.EntityPlayer;
-import net.minecraft.server.v1_9_R2.EnumParticle;
-import net.minecraft.server.v1_9_R2.PacketPlayOutWorldParticles;
-import org.apache.commons.lang3.Validate;
 import org.bukkit.Location;
-import org.bukkit.craftbukkit.v1_9_R2.entity.CraftPlayer;
+import org.bukkit.entity.Player;
 import org.bukkit.material.MaterialData;
-import org.bukkit.util.Vector;
 
 import java.util.List;
+import java.util.UUID;
 
-public abstract class MaterialParticle extends TravellingParticle {
+public interface MaterialParticle {
+    public void display(Location location);
 
-    protected MaterialData data;
+    public void displayForPlayers(Location location, Player... players);
 
-    protected MaterialParticle(EnumParticle particle, boolean inverse, double control, MaterialData data, Vector velocity, Location toGo, double offsetX, double offsetY, double offsetZ, int count) {
-        super(particle, inverse, control, velocity, toGo, offsetX, offsetY, offsetZ, count);
+    public void displayForPlayers(Location location, List<UUID> players);
 
-        setMaterialData(data);
-    }
+    /**
+     * @param particle particle for this object to copy data from
+     * @return this object
+     */
+    public MaterialParticle inherit(Particle particle);
 
-    @Override
-    public MaterialParticle inherit(Particle particle) {
-        super.inherit(particle);
+    public abstract MaterialParticle clone();
 
-        if (particle instanceof MaterialParticle) {
-            data = ((MaterialParticle) particle).data;
-        }
+    public void setMaterialData(MaterialData data);
 
-        return this;
-    }
+    public void setOffset(double x, double y, double z);
 
-    @Override
-    protected void display(Location location, List<CraftPlayer> players) {
-        Validate.notNull(location, "Location cannot be null!");
-        Validate.notNull(location.getWorld(), "World cannot be null!");
+    public void setOffsetX(double offsetX);
 
-        for (int i = 0; i < ((toGo == null && velocity == null) ? 1 : count); i++) {
-            int count = 0;
-            float speed = 1;
-            double trueOffsetX = offsetX;
-            double trueOffsetY = offsetY;
-            double trueOffsetZ = offsetZ;
-            Vector addition = null;
+    public void setOffsetY(double offsetY);
 
-            if (toGo != null || velocity != null) {
-                addition = generateFakeOffset();
+    public void setOffsetZ(double offsetZ);
 
-                location.add(addition);
-            }
+    public void setSpeed(double speed);
 
-            if (velocity != null) {
-                trueOffsetX = velocity.getX() * control;
-                trueOffsetY = velocity.getY() * control;
-                trueOffsetZ = velocity.getZ() * control;
-            } else if (toGo != null) {
-                trueOffsetX = (toGo.getX() - location.getX()) * control;
-                trueOffsetY = (toGo.getY() - location.getY()) * control;
-                trueOffsetZ = (toGo.getZ() - location.getZ()) * control;
-            } else {
-                speed = 0;
-                count = this.count;
-            }
+    public void setCount(int count);
 
-            for (int i2 = 0; i2 < players.size(); i2++) {
-                EntityPlayer p = players.get(i2).getHandle();
+    public void setRadius(int radius);
 
-                if (p == null) continue;
-                if (!location.getWorld().getName().equals(p.world.getWorld().getName())) continue;
+    public MaterialData getMaterialData();
 
-                if (radius != 0) {
-                    double distance = Math.pow(location.getX() - p.locX, 2) + Math.pow(location.getY() - p.locY, 2) + Math.pow(location.getZ() - p.locZ, 2);
+    public double getOffsetX();
 
-                    if (distance > Math.pow(radius, 2)) continue;
-                }
+    public double getOffsetY();
 
-                p.playerConnection.sendPacket(
-                        new PacketPlayOutWorldParticles(
-                                particle, true, (float) location.getX(), (float) location.getY(), (float) location.getZ(),
-                                (float) trueOffsetX, (float) trueOffsetY, (float) trueOffsetZ, speed, count, getPacketData()
-                        )
-                );
-            }
+    public double getOffsetZ();
 
-            if (addition != null) {
-                location.subtract(addition);
-            }
-        }
-    }
+    public double getSpeed();
 
-    protected abstract int[] getPacketData();
+    public int getCount();
 
-    public void setMaterialData(MaterialData data) {
-        Validate.notNull(data, "Data cannot be null!");
-        Validate.isTrue(data.getItemType().isBlock(), "Material must be a block!");
-
-        this.data = data;
-    }
-
-    public MaterialData getMaterialData() {
-        return data;
-    }
+    public int getRadius();
 }
