@@ -8,11 +8,11 @@ import org.bukkit.util.Vector;
 
 public class ParticleFireworksSpark extends TravellingParticle {
     public ParticleFireworksSpark(Location toGo, double offsetX, double offsetY, double offsetZ, int count) {
-        super(EnumParticle.FIREWORKS_SPARK, false, 0.09, null, toGo, offsetX, offsetY, offsetZ, count);
+        super(EnumParticle.FIREWORKS_SPARK, false, 0.103, null, toGo, offsetX, offsetY, offsetZ, count);
     }
 
     public ParticleFireworksSpark(Vector velocity, double offsetX, double offsetY, double offsetZ, int count) {
-        super(EnumParticle.FIREWORKS_SPARK, false, 0.09, velocity, null, offsetX, offsetY, offsetZ, count);
+        super(EnumParticle.FIREWORKS_SPARK, false, 0.103, velocity, null, offsetX, offsetY, offsetZ, count);
     }
 
     public ParticleFireworksSpark(Location toGo, double offsetX, double offsetY, double offsetZ) {
