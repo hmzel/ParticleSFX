@@ -8,11 +8,11 @@ import org.bukkit.util.Vector;
 
 public class ParticleMagicCrit extends TravellingParticle {
     public ParticleMagicCrit(Location toGo, double offsetX, double offsetY, double offsetZ, int count) {
-        super(EnumParticle.CRIT_MAGIC, false, 0.75, null, toGo, offsetX, offsetY, offsetZ, count);
+        super(EnumParticle.CRIT_MAGIC, false, 0.83, null, toGo, offsetX, offsetY, offsetZ, count);
     }
 
     public ParticleMagicCrit(Vector velocity, double offsetX, double offsetY, double offsetZ, int count) {
-        super(EnumParticle.CRIT_MAGIC, false, 0.75, velocity, null, offsetX, offsetY, offsetZ, count);
+        super(EnumParticle.CRIT_MAGIC, false, 0.83, velocity, null, offsetX, offsetY, offsetZ, count);
     }
 
     public ParticleMagicCrit(Location toGo, double offsetX, double offsetY, double offsetZ) {
