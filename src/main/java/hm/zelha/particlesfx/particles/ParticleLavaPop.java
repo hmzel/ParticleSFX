@@ -1,7 +1,7 @@
 package hm.zelha.particlesfx.particles;
 
 import hm.zelha.particlesfx.particles.parents.Particle;
-import net.minecraft.server.v1_11_R1.EnumParticle;
+import net.minecraft.server.v1_12_R1.EnumParticle;
 
 public class ParticleLavaPop extends Particle {
     public ParticleLavaPop(double offsetX, double offsetY, double offsetZ, int count) {

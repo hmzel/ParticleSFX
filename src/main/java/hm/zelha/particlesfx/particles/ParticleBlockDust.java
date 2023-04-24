@@ -2,7 +2,7 @@ package hm.zelha.particlesfx.particles;
 
 import hm.zelha.particlesfx.particles.parents.MaterialParticle;
 import hm.zelha.particlesfx.particles.parents.Particle;
-import net.minecraft.server.v1_11_R1.EnumParticle;
+import net.minecraft.server.v1_12_R1.EnumParticle;
 import org.apache.commons.lang3.Validate;
 import org.bukkit.Material;
 import org.bukkit.material.MaterialData;
