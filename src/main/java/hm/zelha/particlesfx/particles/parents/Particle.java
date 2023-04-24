@@ -149,26 +149,59 @@ public abstract class Particle {
         return fakeOffsetHelper;
     }
 
+    /**
+     * Meant to be overridden by child classes to modify the X/Y/Z values of the packet sent to the player.
+     *
+     * @param location the location passed into the display method
+     * @return the xyzHelper with the modified X/Y/Z values
+     */
     protected Vector getXYZ(Location location) {
         return LVMath.toVector(xyzHelper, location);
     }
 
+    /**
+     * Meant to be overridden by child classes to modify the offset values of the packet sent to the player.
+     *
+     * @param location the location passed into the display method
+     * @return the offsetHelper with the modified offset values
+     */
     protected Vector getOffsets(Location location) {
         return offsetHelper.zero().setX(offsetX).setY(offsetY).setZ(offsetZ);
     }
 
+    /**
+     * Meant to be overridden by child classes to modify the speed value of the packet sent to the player.
+     *
+     * @return the modified speed value
+     */
     protected float getPacketSpeed() {
         return (float) speed;
     }
 
+    /**
+     * Meant to be overridden by child classes to modify the count value of the packet sent to the player.
+     *
+     * @return the modified count value
+     */
     protected int getPacketCount() {
         return count;
     }
 
+    /**
+     * Meant to be overridden by child classes to add extra data to the packet sent to the player.
+     *
+     * @return the extra packet data
+     */
     protected int[] getPacketData() {
         return new int[0];
     }
 
+    /**
+     * Meant to be overridden by child classes when a different packet is needed to display the particle.
+     *
+     * @param location the location passed into the display method
+     * @return the different packet
+     */
     protected Packet getStrangePacket(Location location) {
         return null;
     }
