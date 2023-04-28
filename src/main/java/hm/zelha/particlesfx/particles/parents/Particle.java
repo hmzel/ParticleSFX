@@ -1,15 +1,12 @@
 package hm.zelha.particlesfx.particles.parents;
 
 import hm.zelha.particlesfx.util.LVMath;
-import net.minecraft.server.v1_12_R1.EntityPlayer;
-import net.minecraft.server.v1_12_R1.EnumParticle;
-import net.minecraft.server.v1_12_R1.Packet;
-import net.minecraft.server.v1_12_R1.PacketPlayOutWorldParticles;
+import net.minecraft.server.v1_13_R1.*;
 import org.apache.commons.lang3.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.craftbukkit.v1_12_R1.CraftServer;
-import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_13_R1.CraftServer;
+import org.bukkit.craftbukkit.v1_13_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
@@ -20,7 +17,8 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public abstract class Particle {
 
-    protected final EnumParticle particle;
+    protected static final RegistryMaterials<MinecraftKey, net.minecraft.server.v1_13_R1.Particle<? extends ParticleParam>> REGISTRY = net.minecraft.server.v1_13_R1.Particle.REGISTRY;
+    protected final ParticleParam particle;
     protected final Vector fakeOffsetHelper = new Vector();
     protected final Vector xyzHelper = new Vector();
     protected final Vector offsetHelper = new Vector();
@@ -34,7 +32,7 @@ public abstract class Particle {
     private final List<CraftPlayer> listHelper = new ArrayList<>();
     private final ThreadLocalRandom rng = ThreadLocalRandom.current();
 
-    protected Particle(EnumParticle particle, double offsetX, double offsetY, double offsetZ, double speed, int count, int radius) {
+    protected Particle(ParticleParam particle, double offsetX, double offsetY, double offsetZ, double speed, int count, int radius) {
         Validate.notNull(particle, "Particle cannot be null!");
 
         this.particle = particle;
@@ -117,7 +115,7 @@ public abstract class Particle {
                     p.playerConnection.sendPacket(
                             new PacketPlayOutWorldParticles(
                                     particle, true, (float) xyz.getX(), (float) xyz.getY(), (float) xyz.getZ(), (float) offsets.getX(),
-                                    (float) offsets.getY(), (float) offsets.getZ(), getPacketSpeed(), getPacketCount(), getPacketData()
+                                    (float) offsets.getY(), (float) offsets.getZ(), getPacketSpeed(), getPacketCount()
                             )
                     );
                 }
@@ -185,15 +183,6 @@ public abstract class Particle {
      */
     protected int getPacketCount() {
         return count;
-    }
-
-    /**
-     * Meant to be overridden by child classes to add extra data to the packet sent to the player.
-     *
-     * @return the extra packet data
-     */
-    protected int[] getPacketData() {
-        return new int[0];
     }
 
     /**
