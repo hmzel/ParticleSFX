@@ -2,17 +2,18 @@ package hm.zelha.particlesfx.particles;
 
 import hm.zelha.particlesfx.particles.parents.Particle;
 import hm.zelha.particlesfx.particles.parents.TravellingParticle;
-import net.minecraft.server.v1_12_R1.EnumParticle;
+import net.minecraft.server.v1_13_R1.MinecraftKey;
+import net.minecraft.server.v1_13_R1.ParticleType;
 import org.bukkit.Location;
 import org.bukkit.util.Vector;
 
 public class ParticleDamage extends TravellingParticle {
     public ParticleDamage(Location toGo, double offsetX, double offsetY, double offsetZ, int count) {
-        super(EnumParticle.DAMAGE_INDICATOR, false, 0.69, null, toGo, offsetX, offsetY, offsetZ, count);
+        super((ParticleType) REGISTRY.get(new MinecraftKey("damage_indicator")), false, 0.69, null, toGo, offsetX, offsetY, offsetZ, count);
     }
 
     public ParticleDamage(Vector velocity, double offsetX, double offsetY, double offsetZ, int count) {
-        super(EnumParticle.DAMAGE_INDICATOR, false, 0.69, velocity, null, offsetX, offsetY, offsetZ, count);
+        super((ParticleType) REGISTRY.get(new MinecraftKey("damage_indicator")), false, 0.69, velocity, null, offsetX, offsetY, offsetZ, count);
     }
 
     public ParticleDamage(Location toGo, double offsetX, double offsetY, double offsetZ) {
