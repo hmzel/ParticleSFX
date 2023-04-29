@@ -1,58 +1,53 @@
 package hm.zelha.particlesfx.particles.parents;
 
-import net.minecraft.server.v1_12_R1.EnumParticle;
 import org.bukkit.Location;
-import org.bukkit.util.Vector;
+import org.bukkit.entity.Player;
 
-public abstract class SizeableParticle extends Particle {
+import java.util.List;
+import java.util.UUID;
 
-    protected double size;
+public interface SizeableParticle {
+    public void display(Location location);
 
-    protected SizeableParticle(EnumParticle particle, double size, double offsetX, double offsetY, double offsetZ, double speed, int count, int radius) {
-        super(particle, offsetX, offsetY, offsetZ, speed, count, radius);
+    public void displayForPlayers(Location location, Player... players);
 
-        setSize(size);
-    }
+    public void displayForPlayers(Location location, List<UUID> players);
 
-    @Override
-    public SizeableParticle inherit(Particle particle) {
-        super.inherit(particle);
+    /**
+     * @param particle particle for this object to copy data from
+     * @return this object
+     */
+    public SizeableParticle inherit(Particle particle);
 
-        if (particle instanceof SizeableParticle) {
-            size = ((SizeableParticle) particle).size;
-        }
-
-        return this;
-    }
-
-    @Override
     public abstract SizeableParticle clone();
 
-    @Override
-    protected Vector getXYZ(Location location) {
-        return super.getXYZ(location).add(generateFakeOffset());
-    }
+    public void setSize(double size);
 
-    @Override
-    protected Vector getOffsets(Location location) {
-        return super.getOffsets(location).zero().setX(-(size) + 2);
-    }
+    public void setOffset(double x, double y, double z);
 
-    @Override
-    protected float getPacketSpeed() {
-        return 1;
-    }
+    public void setOffsetX(double offsetX);
 
-    @Override
-    protected int getPacketCount() {
-        return 0;
-    }
+    public void setOffsetY(double offsetY);
 
-    public void setSize(double size) {
-        this.size = size;
-    }
+    public void setOffsetZ(double offsetZ);
 
-    public double getSize() {
-        return size;
-    }
+    public void setSpeed(double speed);
+
+    public void setCount(int count);
+
+    public void setRadius(int radius);
+
+    public double getSize();
+
+    public double getOffsetX();
+
+    public double getOffsetY();
+
+    public double getOffsetZ();
+
+    public double getSpeed();
+
+    public int getCount();
+
+    public int getRadius();
 }
