@@ -18,10 +18,10 @@ import java.util.concurrent.ThreadLocalRandom;
 public abstract class Particle {
 
     protected static final RegistryMaterials<MinecraftKey, net.minecraft.server.v1_13_R1.Particle<? extends ParticleParam>> REGISTRY = net.minecraft.server.v1_13_R1.Particle.REGISTRY;
-    protected final ParticleParam particle;
     protected final Vector fakeOffsetHelper = new Vector();
     protected final Vector xyzHelper = new Vector();
     protected final Vector offsetHelper = new Vector();
+    protected ParticleParam particle;
     protected double offsetX;
     protected double offsetY;
     protected double offsetZ;
@@ -33,8 +33,6 @@ public abstract class Particle {
     private final ThreadLocalRandom rng = ThreadLocalRandom.current();
 
     protected Particle(ParticleParam particle, double offsetX, double offsetY, double offsetZ, double speed, int count, int radius) {
-        Validate.notNull(particle, "Particle cannot be null!");
-
         this.particle = particle;
 
         setOffset(offsetX, offsetY, offsetZ);

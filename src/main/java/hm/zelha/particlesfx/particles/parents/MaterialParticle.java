@@ -1,8 +1,8 @@
 package hm.zelha.particlesfx.particles.parents;
 
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
-import org.bukkit.material.MaterialData;
 
 import java.util.List;
 import java.util.UUID;
@@ -22,7 +22,7 @@ public interface MaterialParticle {
 
     public abstract MaterialParticle clone();
 
-    public void setMaterialData(MaterialData data);
+    public void setMaterial(Material material);
 
     public void setOffset(double x, double y, double z);
 
@@ -38,7 +38,7 @@ public interface MaterialParticle {
 
     public void setRadius(int radius);
 
-    public MaterialData getMaterialData();
+    public Material getMaterial();
 
     public double getOffsetX();
 
