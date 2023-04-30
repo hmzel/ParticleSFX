@@ -3,13 +3,14 @@ package hm.zelha.particlesfx.particles;
 import hm.zelha.particlesfx.particles.parents.ColorableParticle;
 import hm.zelha.particlesfx.particles.parents.Particle;
 import hm.zelha.particlesfx.util.Color;
-import net.minecraft.server.v1_12_R1.EnumParticle;
+import net.minecraft.server.v1_13_R1.MinecraftKey;
+import net.minecraft.server.v1_13_R1.ParticleType;
 
 import javax.annotation.Nullable;
 
 public class ParticleSwirlTransparent extends ColorableParticle {
     public ParticleSwirlTransparent(@Nullable Color color, int brightness, double offsetX, double offsetY, double offsetZ, int count) {
-        super(EnumParticle.SPELL_MOB_AMBIENT, color, brightness, offsetX, offsetY, offsetZ, count);
+        super((ParticleType) REGISTRY.get(new MinecraftKey("ambient_entity_effect")), color, brightness, offsetX, offsetY, offsetZ, count);
     }
 
     public ParticleSwirlTransparent(double offsetX, double offsetY, double offsetZ, int count) {
