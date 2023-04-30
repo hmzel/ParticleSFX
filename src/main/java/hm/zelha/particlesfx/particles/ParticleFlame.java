@@ -2,17 +2,18 @@ package hm.zelha.particlesfx.particles;
 
 import hm.zelha.particlesfx.particles.parents.Particle;
 import hm.zelha.particlesfx.particles.parents.TravellingParticle;
-import net.minecraft.server.v1_12_R1.EnumParticle;
+import net.minecraft.server.v1_13_R1.MinecraftKey;
+import net.minecraft.server.v1_13_R1.ParticleType;
 import org.bukkit.Location;
 import org.bukkit.util.Vector;
 
 public class ParticleFlame extends TravellingParticle {
     public ParticleFlame(Location toGo, double offsetX, double offsetY, double offsetZ, int count) {
-        super(EnumParticle.FLAME, false, 0.07, null, toGo, offsetX, offsetY, offsetZ, count);
+        super((ParticleType) REGISTRY.get(new MinecraftKey("flame")), false, 0.07, null, toGo, offsetX, offsetY, offsetZ, count);
     }
 
     public ParticleFlame(Vector velocity, double offsetX, double offsetY, double offsetZ, int count) {
-        super(EnumParticle.FLAME, false, 0.07, velocity, null, offsetX, offsetY, offsetZ, count);
+        super((ParticleType) REGISTRY.get(new MinecraftKey("flame")), false, 0.07, velocity, null, offsetX, offsetY, offsetZ, count);
     }
 
     public ParticleFlame(Location toGo, double offsetX, double offsetY, double offsetZ) {

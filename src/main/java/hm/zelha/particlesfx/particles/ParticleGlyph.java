@@ -2,17 +2,18 @@ package hm.zelha.particlesfx.particles;
 
 import hm.zelha.particlesfx.particles.parents.Particle;
 import hm.zelha.particlesfx.particles.parents.TravellingParticle;
-import net.minecraft.server.v1_12_R1.EnumParticle;
+import net.minecraft.server.v1_13_R1.MinecraftKey;
+import net.minecraft.server.v1_13_R1.ParticleType;
 import org.bukkit.Location;
 import org.bukkit.util.Vector;
 
 public class ParticleGlyph extends TravellingParticle {
     public ParticleGlyph(Location toGo, double offsetX, double offsetY, double offsetZ, int count) {
-        super(EnumParticle.ENCHANTMENT_TABLE, true, 0, null, toGo, offsetX, offsetY, offsetZ, count);
+        super((ParticleType) REGISTRY.get(new MinecraftKey("enchant")), true, 0, null, toGo, offsetX, offsetY, offsetZ, count);
     }
 
     public ParticleGlyph(Vector velocity, double offsetX, double offsetY, double offsetZ, int count) {
-        super(EnumParticle.ENCHANTMENT_TABLE, true, 0, velocity, null, offsetX, offsetY, offsetZ, count);
+        super((ParticleType) REGISTRY.get(new MinecraftKey("enchant")), true, 0, velocity, null, offsetX, offsetY, offsetZ, count);
     }
 
     public ParticleGlyph(Location toGo, double offsetX, double offsetY, double offsetZ) {
