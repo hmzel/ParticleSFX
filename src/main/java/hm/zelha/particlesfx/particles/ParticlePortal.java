@@ -2,17 +2,18 @@ package hm.zelha.particlesfx.particles;
 
 import hm.zelha.particlesfx.particles.parents.Particle;
 import hm.zelha.particlesfx.particles.parents.TravellingParticle;
-import net.minecraft.server.v1_12_R1.EnumParticle;
+import net.minecraft.server.v1_13_R1.MinecraftKey;
+import net.minecraft.server.v1_13_R1.ParticleType;
 import org.bukkit.Location;
 import org.bukkit.util.Vector;
 
 public class ParticlePortal extends TravellingParticle {
     public ParticlePortal(Location toGo, double offsetX, double offsetY, double offsetZ, int count) {
-        super(EnumParticle.PORTAL, true, 0, null, toGo, offsetX, offsetY, offsetZ, count);
+        super((ParticleType) REGISTRY.get(new MinecraftKey("portal")), true, 0, null, toGo, offsetX, offsetY, offsetZ, count);
     }
 
     public ParticlePortal(Vector velocity, double offsetX, double offsetY, double offsetZ, int count) {
-        super(EnumParticle.PORTAL, true, 0, velocity, null, offsetX, offsetY, offsetZ, count);
+        super((ParticleType) REGISTRY.get(new MinecraftKey("portal")), true, 0, velocity, null, offsetX, offsetY, offsetZ, count);
     }
 
     public ParticlePortal(Location toGo, double offsetX, double offsetY, double offsetZ) {

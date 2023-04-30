@@ -1,10 +1,9 @@
 package hm.zelha.particlesfx.particles;
 
 import hm.zelha.particlesfx.particles.parents.Particle;
-import net.minecraft.server.v1_12_R1.BlockPosition;
-import net.minecraft.server.v1_12_R1.EnumParticle;
-import net.minecraft.server.v1_12_R1.Packet;
-import net.minecraft.server.v1_12_R1.PacketPlayOutWorldEvent;
+import net.minecraft.server.v1_13_R1.BlockPosition;
+import net.minecraft.server.v1_13_R1.Packet;
+import net.minecraft.server.v1_13_R1.PacketPlayOutWorldEvent;
 import org.apache.commons.lang3.Validate;
 import org.bukkit.Effect;
 import org.bukkit.Location;
@@ -23,7 +22,7 @@ public class ParticlePotionBreak extends Particle {
 
     /**@see ParticlePotionBreak*/
     public ParticlePotionBreak(PotionType type, int count) {
-        super(EnumParticle.HEART, 0, 0, 0, 0, count, 0);
+        super(null, 0, 0, 0, 0, count, 0);
 
         setPotionType(type);
     }

@@ -2,9 +2,8 @@ package hm.zelha.particlesfx.particles;
 
 import hm.zelha.particlesfx.particles.parents.Particle;
 import hm.zelha.particlesfx.shapers.parents.ParticleShaper;
-import net.minecraft.server.v1_12_R1.EnumParticle;
 import org.bukkit.Location;
-import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_13_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 
 import java.util.List;
@@ -16,7 +15,7 @@ import java.util.List;
 public class ParticleNull extends Particle {
     /**@see ParticleNull*/
     public ParticleNull() {
-        super(EnumParticle.HEART, 0, 0, 0, 0, 0, 0);
+        super(null, 0, 0, 0, 0, 0, 0);
     }
 
     @Override
