@@ -1,11 +1,12 @@
 package hm.zelha.particlesfx.particles;
 
 import hm.zelha.particlesfx.particles.parents.Particle;
-import net.minecraft.server.v1_12_R1.EnumParticle;
+import net.minecraft.server.v1_13_R1.MinecraftKey;
+import net.minecraft.server.v1_13_R1.ParticleType;
 
 public class ParticleThundercloud extends Particle {
     public ParticleThundercloud(double offsetX, double offsetY, double offsetZ, int count) {
-        super(EnumParticle.VILLAGER_ANGRY, offsetX, offsetY, offsetZ, 1, count, 0);
+        super((ParticleType) REGISTRY.get(new MinecraftKey("angry_villager")), offsetX, offsetY, offsetZ, 1, count, 0);
     }
 
     public ParticleThundercloud(double offsetX, double offsetY, double offsetZ) {

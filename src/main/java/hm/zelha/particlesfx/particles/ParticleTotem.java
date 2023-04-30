@@ -2,17 +2,18 @@ package hm.zelha.particlesfx.particles;
 
 import hm.zelha.particlesfx.particles.parents.Particle;
 import hm.zelha.particlesfx.particles.parents.TravellingParticle;
-import net.minecraft.server.v1_12_R1.EnumParticle;
+import net.minecraft.server.v1_13_R1.MinecraftKey;
+import net.minecraft.server.v1_13_R1.ParticleType;
 import org.bukkit.Location;
 import org.bukkit.util.Vector;
 
 public class ParticleTotem extends TravellingParticle {
     public ParticleTotem(Location toGo, double offsetX, double offsetY, double offsetZ, int count) {
-        super(EnumParticle.TOTEM, false, 0.44, null, toGo, offsetX, offsetY, offsetZ, count);
+        super((ParticleType) REGISTRY.get(new MinecraftKey("totem_of_undying")), false, 0.44, null, toGo, offsetX, offsetY, offsetZ, count);
     }
 
     public ParticleTotem(Vector velocity, double offsetX, double offsetY, double offsetZ, int count) {
-        super(EnumParticle.TOTEM, false, 0.44, velocity, null, offsetX, offsetY, offsetZ, count);
+        super((ParticleType) REGISTRY.get(new MinecraftKey("totem_of_undying")), false, 0.44, velocity, null, offsetX, offsetY, offsetZ, count);
     }
 
     public ParticleTotem(Location toGo, double offsetX, double offsetY, double offsetZ) {
