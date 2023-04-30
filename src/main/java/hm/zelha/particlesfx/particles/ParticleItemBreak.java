@@ -3,10 +3,13 @@ package hm.zelha.particlesfx.particles;
 import hm.zelha.particlesfx.particles.parents.MaterialParticle;
 import hm.zelha.particlesfx.particles.parents.Particle;
 import hm.zelha.particlesfx.particles.parents.TravellingParticle;
-import net.minecraft.server.v1_12_R1.EnumParticle;
+import net.minecraft.server.v1_13_R1.MinecraftKey;
+import net.minecraft.server.v1_13_R1.ParticleParamItem;
 import org.apache.commons.lang3.Validate;
 import org.bukkit.Location;
-import org.bukkit.material.MaterialData;
+import org.bukkit.Material;
+import org.bukkit.craftbukkit.v1_13_R1.inventory.CraftItemStack;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
 /**
@@ -16,124 +19,121 @@ import org.bukkit.util.Vector;
  * warning: the speed of this particle is inconsistent due to gravity and other factors that aren't accounted for
  */
 public class ParticleItemBreak extends TravellingParticle implements MaterialParticle {
-
-    protected MaterialData data;
-
     /**@see ParticleItemBreak*/
-    public ParticleItemBreak(MaterialData data, Vector velocity, double offsetX, double offsetY, double offsetZ, int count) {
-        super(EnumParticle.ITEM_CRACK, false, 0.105, velocity, null, offsetX, offsetY, offsetZ, count);
+    public ParticleItemBreak(Material material, Vector velocity, double offsetX, double offsetY, double offsetZ, int count) {
+        super(null, false, 0.105, velocity, null, offsetX, offsetY, offsetZ, count);
 
-        setMaterialData(data);
+        setMaterial(material);
     }
 
     /**@see ParticleItemBreak*/
-    public ParticleItemBreak(MaterialData data, Location toGo, double offsetX, double offsetY, double offsetZ, int count) {
-        super(EnumParticle.ITEM_CRACK, false, 0.105, null, toGo, offsetX, offsetY, offsetZ, count);
+    public ParticleItemBreak(Material material, Location toGo, double offsetX, double offsetY, double offsetZ, int count) {
+        super(null, false, 0.105, null, toGo, offsetX, offsetY, offsetZ, count);
 
-        setMaterialData(data);
+        setMaterial(material);
     }
 
     /**@see ParticleItemBreak*/
     public ParticleItemBreak(Vector velocity, double offsetX, double offsetY, double offsetZ, int count) {
-        this(new MaterialData(-13), velocity, offsetX, offsetY, offsetZ, count);
+        this(Material.DRAGON_EGG, velocity, offsetX, offsetY, offsetZ, count);
     }
 
     /**@see ParticleItemBreak*/
     public ParticleItemBreak(Location toGo, double offsetX, double offsetY, double offsetZ, int count) {
-        this(new MaterialData(-13), toGo, offsetX, offsetY, offsetZ, count);
+        this(Material.DRAGON_EGG, toGo, offsetX, offsetY, offsetZ, count);
     }
 
     /**@see ParticleItemBreak*/
-    public ParticleItemBreak(MaterialData data, double offsetX, double offsetY, double offsetZ, int count) {
-        this(data, (Location) null, offsetX, offsetY, offsetZ, count);
+    public ParticleItemBreak(Material material, double offsetX, double offsetY, double offsetZ, int count) {
+        this(material, (Location) null, offsetX, offsetY, offsetZ, count);
     }
 
     /**@see ParticleItemBreak*/
-    public ParticleItemBreak(MaterialData data, Vector velocity, double offsetX, double offsetY, double offsetZ) {
-        this(data, velocity, offsetX, offsetY, offsetZ, 1);
+    public ParticleItemBreak(Material material, Vector velocity, double offsetX, double offsetY, double offsetZ) {
+        this(material, velocity, offsetX, offsetY, offsetZ, 1);
     }
 
     /**@see ParticleItemBreak*/
-    public ParticleItemBreak(MaterialData data, Location toGo, double offsetX, double offsetY, double offsetZ) {
-        this(data, toGo, offsetX, offsetY, offsetZ, 1);
+    public ParticleItemBreak(Material material, Location toGo, double offsetX, double offsetY, double offsetZ) {
+        this(material, toGo, offsetX, offsetY, offsetZ, 1);
     }
 
     /**@see ParticleItemBreak*/
     public ParticleItemBreak(Vector velocity, double offsetX, double offsetY, double offsetZ) {
-        this(new MaterialData(-13), velocity, offsetX, offsetY, offsetZ, 1);
+        this(Material.DRAGON_EGG, velocity, offsetX, offsetY, offsetZ, 1);
     }
 
     /**@see ParticleItemBreak*/
     public ParticleItemBreak(Location toGo, double offsetX, double offsetY, double offsetZ) {
-        this(new MaterialData(-13), toGo, offsetX, offsetY, offsetZ, 1);
+        this(Material.DRAGON_EGG, toGo, offsetX, offsetY, offsetZ, 1);
     }
 
     /**@see ParticleItemBreak*/
-    public ParticleItemBreak(MaterialData data, double offsetX, double offsetY, double offsetZ) {
-        this(data, (Location) null, offsetX, offsetY, offsetZ, 1);
+    public ParticleItemBreak(Material material, double offsetX, double offsetY, double offsetZ) {
+        this(material, (Location) null, offsetX, offsetY, offsetZ, 1);
     }
 
     /**@see ParticleItemBreak*/
-    public ParticleItemBreak(MaterialData data, Vector velocity, int count) {
-        this(data, velocity, 0, 0, 0, count);
+    public ParticleItemBreak(Material material, Vector velocity, int count) {
+        this(material, velocity, 0, 0, 0, count);
     }
 
     /**@see ParticleItemBreak*/
-    public ParticleItemBreak(MaterialData data, Location toGo, int count) {
-        this(data, toGo, 0, 0, 0, count);
+    public ParticleItemBreak(Material material, Location toGo, int count) {
+        this(material, toGo, 0, 0, 0, count);
     }
 
     /**@see ParticleItemBreak*/
     public ParticleItemBreak(Vector velocity, int count) {
-        this(new MaterialData(-13), velocity, 0, 0, 0, count);
+        this(Material.DRAGON_EGG, velocity, 0, 0, 0, count);
     }
 
     /**@see ParticleItemBreak*/
     public ParticleItemBreak(Location toGo, int count) {
-        this(new MaterialData(-13), toGo, 0, 0, 0, count);
+        this(Material.DRAGON_EGG, toGo, 0, 0, 0, count);
     }
 
     /**@see ParticleItemBreak*/
-    public ParticleItemBreak(MaterialData data, int count) {
-        this(data, (Location) null, 0, 0, 0, count);
+    public ParticleItemBreak(Material material, int count) {
+        this(material, (Location) null, 0, 0, 0, count);
     }
 
     /**@see ParticleItemBreak*/
-    public ParticleItemBreak(MaterialData data, Vector velocity) {
-        this(data, velocity, 0, 0, 0, 1);
+    public ParticleItemBreak(Material material, Vector velocity) {
+        this(material, velocity, 0, 0, 0, 1);
     }
 
     /**@see ParticleItemBreak*/
-    public ParticleItemBreak(MaterialData data, Location toGo) {
-        this(data, toGo, 0, 0, 0, 1);
+    public ParticleItemBreak(Material material, Location toGo) {
+        this(material, toGo, 0, 0, 0, 1);
     }
 
     /**@see ParticleItemBreak*/
     public ParticleItemBreak(Vector velocity) {
-        this(new MaterialData(-13), velocity, 0, 0, 0, 1);
+        this(Material.DRAGON_EGG, velocity, 0, 0, 0, 1);
     }
 
     /**@see ParticleItemBreak*/
     public ParticleItemBreak(Location toGo) {
-        this(new MaterialData(-13), toGo, 0, 0, 0, 1);
+        this(Material.DRAGON_EGG, toGo, 0, 0, 0, 1);
     }
 
     /**@see ParticleItemBreak*/
-    public ParticleItemBreak(MaterialData data) {
-        this(data, (Location) null, 0, 0, 0, 1);
+    public ParticleItemBreak(Material material) {
+        this(material, (Location) null, 0, 0, 0, 1);
     }
 
     /**@see ParticleItemBreak*/
     public ParticleItemBreak() {
-        this(new MaterialData(-13), (Location) null, 0, 0, 0, 1);
+        this(Material.DRAGON_EGG, (Location) null, 0, 0, 0, 1);
     }
 
     @Override
     public ParticleItemBreak inherit(Particle particle) {
         super.inherit(particle);
 
-        if (particle instanceof ParticleBlockBreak) {
-            data = ((ParticleBlockBreak) particle).data;
+        if (particle instanceof ParticleItemBreak) {
+            this.particle = ((ParticleItemBreak) particle).particle;
         }
 
         return this;
@@ -144,19 +144,21 @@ public class ParticleItemBreak extends TravellingParticle implements MaterialPar
         return new ParticleItemBreak().inherit(this);
     }
 
-    @Override
-    protected int[] getPacketData() {
-        return new int[] {data.getItemTypeId(), data.getData()};
+    public void setMaterial(Material material) {
+        Validate.notNull(material, "material cannot be null!");
+
+        particle = new ParticleParamItem((net.minecraft.server.v1_13_R1.Particle) REGISTRY.get(new MinecraftKey("item")), CraftItemStack.asNMSCopy(new ItemStack(material)));
     }
 
-    public void setMaterialData(MaterialData data) {
-        Validate.notNull(data, "Data cannot be null!");
-        Validate.isTrue(data.getItemType().isBlock(), "Material must be a block!");
+    public Material getMaterial() {
+        String s = this.particle.a();
 
-        this.data = data;
-    }
+        for (Material m : Material.values()) {
+            if (s.contains(m.name().toLowerCase())) {
+                return m;
+            }
+        }
 
-    public MaterialData getMaterialData() {
-        return data;
+        return null;
     }
 }
