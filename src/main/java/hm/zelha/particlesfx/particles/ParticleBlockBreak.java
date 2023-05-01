@@ -2,11 +2,12 @@ package hm.zelha.particlesfx.particles;
 
 import hm.zelha.particlesfx.particles.parents.MaterialParticle;
 import hm.zelha.particlesfx.particles.parents.Particle;
-import net.minecraft.server.v1_13_R1.MinecraftKey;
-import net.minecraft.server.v1_13_R1.ParticleParamBlock;
+import net.minecraft.server.v1_13_R2.IRegistry;
+import net.minecraft.server.v1_13_R2.MinecraftKey;
+import net.minecraft.server.v1_13_R2.ParticleParamBlock;
 import org.apache.commons.lang3.Validate;
 import org.bukkit.Material;
-import org.bukkit.craftbukkit.v1_13_R1.block.data.CraftBlockData;
+import org.bukkit.craftbukkit.v1_13_R2.block.data.CraftBlockData;
 
 public class ParticleBlockBreak extends Particle implements MaterialParticle {
     public ParticleBlockBreak(Material material, double offsetX, double offsetY, double offsetZ, int count) {
@@ -63,7 +64,7 @@ public class ParticleBlockBreak extends Particle implements MaterialParticle {
         Validate.notNull(material, "Material cannot be null!");
         Validate.isTrue(material.isBlock(), "Material must be a block!");
 
-        particle = new ParticleParamBlock((net.minecraft.server.v1_13_R1.Particle) REGISTRY.get(new MinecraftKey("block")), ((CraftBlockData) material.createBlockData()).getState());
+        particle = new ParticleParamBlock((net.minecraft.server.v1_13_R2.Particle) IRegistry.PARTICLE_TYPE.get(new MinecraftKey("block")), ((CraftBlockData) material.createBlockData()).getState());
     }
 
     public Material getMaterial() {

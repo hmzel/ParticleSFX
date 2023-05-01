@@ -1,12 +1,12 @@
 package hm.zelha.particlesfx.particles.parents;
 
 import hm.zelha.particlesfx.util.LVMath;
-import net.minecraft.server.v1_13_R1.*;
+import net.minecraft.server.v1_13_R2.*;
 import org.apache.commons.lang3.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.craftbukkit.v1_13_R1.CraftServer;
-import org.bukkit.craftbukkit.v1_13_R1.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_13_R2.CraftServer;
+import org.bukkit.craftbukkit.v1_13_R2.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
@@ -17,7 +17,6 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public abstract class Particle {
 
-    protected static final RegistryMaterials<MinecraftKey, net.minecraft.server.v1_13_R1.Particle<? extends ParticleParam>> REGISTRY = net.minecraft.server.v1_13_R1.Particle.REGISTRY;
     protected final Vector fakeOffsetHelper = new Vector();
     protected final Vector xyzHelper = new Vector();
     protected final Vector offsetHelper = new Vector();

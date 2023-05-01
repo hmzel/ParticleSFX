@@ -1,12 +1,13 @@
 package hm.zelha.particlesfx.particles;
 
 import hm.zelha.particlesfx.particles.parents.Particle;
-import net.minecraft.server.v1_13_R1.MinecraftKey;
-import net.minecraft.server.v1_13_R1.ParticleType;
+import net.minecraft.server.v1_13_R2.IRegistry;
+import net.minecraft.server.v1_13_R2.MinecraftKey;
+import net.minecraft.server.v1_13_R2.ParticleType;
 
 public class ParticleSwirl extends Particle {
     public ParticleSwirl(double offsetX, double offsetY, double offsetZ, int count) {
-        super((ParticleType) REGISTRY.get(new MinecraftKey("effect")), offsetX, offsetY, offsetZ, 1, count, 0);
+        super((ParticleType) IRegistry.PARTICLE_TYPE.get(new MinecraftKey("effect")), offsetX, offsetY, offsetZ, 1, count, 0);
     }
 
     public ParticleSwirl(double offsetX, double offsetY, double offsetZ) {

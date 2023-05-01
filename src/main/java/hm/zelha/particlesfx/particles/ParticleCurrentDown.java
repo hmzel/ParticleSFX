@@ -1,8 +1,9 @@
 package hm.zelha.particlesfx.particles;
 
 import hm.zelha.particlesfx.particles.parents.Particle;
-import net.minecraft.server.v1_13_R1.MinecraftKey;
-import net.minecraft.server.v1_13_R1.ParticleType;
+import net.minecraft.server.v1_13_R2.IRegistry;
+import net.minecraft.server.v1_13_R2.MinecraftKey;
+import net.minecraft.server.v1_13_R2.ParticleType;
 
 /**
  * this particle almost instantly disappears when displayed out of water, which can be displeasing to the eyes
@@ -10,7 +11,7 @@ import net.minecraft.server.v1_13_R1.ParticleType;
 public class ParticleCurrentDown extends Particle {
     /** @see ParticleCurrentDown */
     public ParticleCurrentDown(double offsetX, double offsetY, double offsetZ, int count) {
-        super((ParticleType) REGISTRY.get(new MinecraftKey("current_down")), offsetX, offsetY, offsetZ, 0, count, 0);
+        super((ParticleType) IRegistry.PARTICLE_TYPE.get(new MinecraftKey("current_down")), offsetX, offsetY, offsetZ, 0, count, 0);
     }
 
     /** @see ParticleCurrentDown */

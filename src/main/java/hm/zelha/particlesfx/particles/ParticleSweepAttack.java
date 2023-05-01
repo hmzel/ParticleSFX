@@ -2,8 +2,9 @@ package hm.zelha.particlesfx.particles;
 
 import hm.zelha.particlesfx.particles.parents.Particle;
 import hm.zelha.particlesfx.particles.parents.SizeableParticle;
-import net.minecraft.server.v1_13_R1.MinecraftKey;
-import net.minecraft.server.v1_13_R1.ParticleType;
+import net.minecraft.server.v1_13_R2.IRegistry;
+import net.minecraft.server.v1_13_R2.MinecraftKey;
+import net.minecraft.server.v1_13_R2.ParticleType;
 import org.bukkit.Location;
 import org.bukkit.util.Vector;
 
@@ -12,7 +13,7 @@ public class ParticleSweepAttack extends Particle implements SizeableParticle {
     protected double size;
 
     public ParticleSweepAttack(double size, double offsetX, double offsetY, double offsetZ, int count) {
-        super((ParticleType) REGISTRY.get(new MinecraftKey("sweep_attack")), offsetX, offsetY, offsetZ, 0, count, 0);
+        super((ParticleType) IRegistry.PARTICLE_TYPE.get(new MinecraftKey("sweep_attack")), offsetX, offsetY, offsetZ, 0, count, 0);
 
         setSize(size);
     }
