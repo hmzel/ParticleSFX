@@ -7,11 +7,10 @@ import hm.zelha.particlesfx.shapers.parents.ParticleShaper;
 import hm.zelha.particlesfx.util.LVMath;
 import hm.zelha.particlesfx.util.LocationSafe;
 import hm.zelha.particlesfx.util.ShapeDisplayMechanic;
-import net.minecraft.server.v1_13_R1.Entity;
 import org.apache.commons.lang3.Validate;
 import org.bukkit.Location;
 import org.bukkit.World;
-import org.bukkit.craftbukkit.v1_13_R1.CraftWorld;
+import org.bukkit.entity.Entity;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
@@ -72,7 +71,7 @@ public class ParticleFluid extends ParticleShaper {
         for (int i = overallCount; i < locations.size(); i++) {
             Location l = locations.get(i);
             Particle particle = getCurrentParticle();
-            List<Entity> entityList = ((CraftWorld) l.getWorld()).getHandle().entityList;
+            List<Entity> entities = l.getWorld().getEntities();
             int nearby = 0;
 
             //stuck prevention
@@ -132,22 +131,24 @@ public class ParticleFluid extends ParticleShaper {
             locationHelper.subtract(0, gravity, 0);
 
             //entity collision
-            for (int k = 0; k < entityList.size(); k++) {
-                Entity e = entityList.get(k);
+            for (int k = 0; k < entities.size(); k++) {
+                Entity e = entities.get(k);
+
+                e.getLocation(locationHelper2);
 
                 //checking if locationHelper is within range of entity
-                if (locationHelper.getX() < e.locX - (e.width / 2) - repulsion) continue;
-                if (locationHelper.getY() < e.locY - repulsion) continue;
-                if (locationHelper.getZ() < e.locZ - (e.width / 2) - repulsion) continue;
-                if (locationHelper.getX() >= e.locX + (e.width / 2) + repulsion) continue;
-                if (locationHelper.getY() >= e.locY + e.length + repulsion) continue;
-                if (locationHelper.getZ() >= e.locZ + (e.width / 2) + repulsion) continue;
+                if (locationHelper.getX() < locationHelper2.getX() - (e.getWidth() / 2) - repulsion) continue;
+                if (locationHelper.getY() < locationHelper2.getY() - repulsion) continue;
+                if (locationHelper.getZ() < locationHelper2.getZ() - (e.getWidth()/ 2) - repulsion) continue;
+                if (locationHelper.getX() >= locationHelper2.getX() + (e.getWidth() / 2) + repulsion) continue;
+                if (locationHelper.getY() >= locationHelper2.getY() + e.getHeight() + repulsion) continue;
+                if (locationHelper.getZ() >= locationHelper2.getZ() + (e.getWidth() / 2) + repulsion) continue;
 
-                locationHelper2.zero().add(e.locX, e.locY + (e.length / 2), e.locZ);
+                locationHelper2.zero().add(0, (e.getHeight() / 2), 0);
                 LVMath.subtractToVector(vectorHelper, locationHelper, locationHelper2);
                 vectorHelper2.zero().add(vectorHelper);
 
-                double bound = (e.width / 2) + repulsion;
+                double bound = (e.getWidth() / 2) + repulsion;
 
                 if (Math.abs(vectorHelper2.getX()) > Math.abs(vectorHelper2.getZ())) {
                     if (vectorHelper2.getX() < 0) bound = -bound;
