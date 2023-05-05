@@ -1,13 +1,11 @@
 package hm.zelha.particlesfx.particles;
 
 import hm.zelha.particlesfx.particles.parents.Particle;
-import net.minecraft.server.v1_14_R1.IRegistry;
-import net.minecraft.server.v1_14_R1.MinecraftKey;
-import net.minecraft.server.v1_14_R1.ParticleType;
+import net.minecraft.server.v1_14_R1.Particles;
 
 public class ParticleWitchMagic extends Particle {
     public ParticleWitchMagic(double offsetX, double offsetY, double offsetZ, int count) {
-        super((ParticleType) IRegistry.PARTICLE_TYPE.get(new MinecraftKey("witch")), offsetX, offsetY, offsetZ, 1, count, 0);
+        super(Particles.WITCH, offsetX, offsetY, offsetZ, 1, count, 0);
     }
 
     public ParticleWitchMagic(double offsetX, double offsetY, double offsetZ) {

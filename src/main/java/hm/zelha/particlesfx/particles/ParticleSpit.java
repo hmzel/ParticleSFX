@@ -2,19 +2,17 @@ package hm.zelha.particlesfx.particles;
 
 import hm.zelha.particlesfx.particles.parents.Particle;
 import hm.zelha.particlesfx.particles.parents.TravellingParticle;
-import net.minecraft.server.v1_14_R1.IRegistry;
-import net.minecraft.server.v1_14_R1.MinecraftKey;
-import net.minecraft.server.v1_14_R1.ParticleType;
+import net.minecraft.server.v1_14_R1.Particles;
 import org.bukkit.Location;
 import org.bukkit.util.Vector;
 
 public class ParticleSpit extends TravellingParticle {
     public ParticleSpit(Location toGo, double offsetX, double offsetY, double offsetZ, int count) {
-        super((ParticleType) IRegistry.PARTICLE_TYPE.get(new MinecraftKey("spit")), false, 0.14, null, toGo, offsetX, offsetY, offsetZ, count);
+        super(Particles.SPIT, false, 0.14, null, toGo, offsetX, offsetY, offsetZ, count);
     }
 
     public ParticleSpit(Vector velocity, double offsetX, double offsetY, double offsetZ, int count) {
-        super((ParticleType) IRegistry.PARTICLE_TYPE.get(new MinecraftKey("spit")), false, 0.14, velocity, null, offsetX, offsetY, offsetZ, count);
+        super(Particles.SPIT, false, 0.14, velocity, null, offsetX, offsetY, offsetZ, count);
     }
 
     public ParticleSpit(Location toGo, double offsetX, double offsetY, double offsetZ) {

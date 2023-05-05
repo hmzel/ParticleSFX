@@ -1,13 +1,11 @@
 package hm.zelha.particlesfx.particles;
 
 import hm.zelha.particlesfx.particles.parents.Particle;
-import net.minecraft.server.v1_14_R1.IRegistry;
-import net.minecraft.server.v1_14_R1.MinecraftKey;
-import net.minecraft.server.v1_14_R1.ParticleType;
+import net.minecraft.server.v1_14_R1.Particles;
 
 public class ParticleBarrier extends Particle {
     public ParticleBarrier(double offsetX, double offsetY, double offsetZ, int count) {
-        super((ParticleType) IRegistry.PARTICLE_TYPE.get(new MinecraftKey("barrier")), offsetX, offsetY, offsetZ, 0, count, 0);
+        super(Particles.BARRIER, offsetX, offsetY, offsetZ, 0, count, 0);
     }
 
     public ParticleBarrier(double offsetX, double offsetY, double offsetZ) {

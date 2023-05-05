@@ -2,19 +2,17 @@ package hm.zelha.particlesfx.particles;
 
 import hm.zelha.particlesfx.particles.parents.Particle;
 import hm.zelha.particlesfx.particles.parents.TravellingParticle;
-import net.minecraft.server.v1_14_R1.IRegistry;
-import net.minecraft.server.v1_14_R1.MinecraftKey;
-import net.minecraft.server.v1_14_R1.ParticleType;
+import net.minecraft.server.v1_14_R1.Particles;
 import org.bukkit.Location;
 import org.bukkit.util.Vector;
 
 public class ParticleSmokeLarge extends TravellingParticle {
     public ParticleSmokeLarge(Location toGo, double offsetX, double offsetY, double offsetZ, int count) {
-        super((ParticleType) IRegistry.PARTICLE_TYPE.get(new MinecraftKey("large_smoke")), false, 0.05, null, toGo, offsetX, offsetY, offsetZ, count);
+        super(Particles.LARGE_SMOKE, false, 0.05, null, toGo, offsetX, offsetY, offsetZ, count);
     }
 
     public ParticleSmokeLarge(Vector velocity, double offsetX, double offsetY, double offsetZ, int count) {
-        super((ParticleType) IRegistry.PARTICLE_TYPE.get(new MinecraftKey("large_smoke")), false, 0.05, velocity, null, offsetX, offsetY, offsetZ, count);
+        super(Particles.LARGE_SMOKE, false, 0.05, velocity, null, offsetX, offsetY, offsetZ, count);
     }
 
     public ParticleSmokeLarge(Location toGo, double offsetX, double offsetY, double offsetZ) {

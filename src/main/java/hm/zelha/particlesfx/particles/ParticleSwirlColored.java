@@ -3,15 +3,13 @@ package hm.zelha.particlesfx.particles;
 import hm.zelha.particlesfx.particles.parents.ColorableParticle;
 import hm.zelha.particlesfx.particles.parents.Particle;
 import hm.zelha.particlesfx.util.Color;
-import net.minecraft.server.v1_14_R1.IRegistry;
-import net.minecraft.server.v1_14_R1.MinecraftKey;
-import net.minecraft.server.v1_14_R1.ParticleType;
+import net.minecraft.server.v1_14_R1.Particles;
 
 import javax.annotation.Nullable;
 
 public class ParticleSwirlColored extends ColorableParticle {
     public ParticleSwirlColored(@Nullable Color color, int brightness, double offsetX, double offsetY, double offsetZ, int count) {
-        super((ParticleType) IRegistry.PARTICLE_TYPE.get(new MinecraftKey("entity_effect")), color, brightness, offsetX, offsetY, offsetZ, count);
+        super(Particles.ENTITY_EFFECT, color, brightness, offsetX, offsetY, offsetZ, count);
     }
 
     public ParticleSwirlColored(double offsetX, double offsetY, double offsetZ, int count) {

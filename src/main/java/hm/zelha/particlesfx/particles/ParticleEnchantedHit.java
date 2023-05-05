@@ -2,19 +2,17 @@ package hm.zelha.particlesfx.particles;
 
 import hm.zelha.particlesfx.particles.parents.Particle;
 import hm.zelha.particlesfx.particles.parents.TravellingParticle;
-import net.minecraft.server.v1_14_R1.IRegistry;
-import net.minecraft.server.v1_14_R1.MinecraftKey;
-import net.minecraft.server.v1_14_R1.ParticleType;
+import net.minecraft.server.v1_14_R1.Particles;
 import org.bukkit.Location;
 import org.bukkit.util.Vector;
 
 public class ParticleEnchantedHit extends TravellingParticle {
     public ParticleEnchantedHit(Location toGo, double offsetX, double offsetY, double offsetZ, int count) {
-        super((ParticleType) IRegistry.PARTICLE_TYPE.get(new MinecraftKey("enchanted_hit")), false, 0.83, null, toGo, offsetX, offsetY, offsetZ, count);
+        super(Particles.ENCHANTED_HIT, false, 0.83, null, toGo, offsetX, offsetY, offsetZ, count);
     }
 
     public ParticleEnchantedHit(Vector velocity, double offsetX, double offsetY, double offsetZ, int count) {
-        super((ParticleType) IRegistry.PARTICLE_TYPE.get(new MinecraftKey("enchanted_hit")), false, 0.83, velocity, null, offsetX, offsetY, offsetZ, count);
+        super(Particles.ENCHANTED_HIT, false, 0.83, velocity, null, offsetX, offsetY, offsetZ, count);
     }
 
     public ParticleEnchantedHit(Location toGo, double offsetX, double offsetY, double offsetZ) {
