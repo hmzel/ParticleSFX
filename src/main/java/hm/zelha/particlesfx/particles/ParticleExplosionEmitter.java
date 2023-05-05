@@ -1,7 +1,7 @@
 package hm.zelha.particlesfx.particles;
 
 import hm.zelha.particlesfx.particles.parents.Particle;
-import net.minecraft.server.v1_14_R1.Particles;
+import net.minecraft.server.v1_15_R1.Particles;
 
 public class ParticleExplosionEmitter extends Particle {
     public ParticleExplosionEmitter(double offsetX, double offsetY, double offsetZ, int count) {

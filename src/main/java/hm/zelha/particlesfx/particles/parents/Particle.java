@@ -1,12 +1,12 @@
 package hm.zelha.particlesfx.particles.parents;
 
 import hm.zelha.particlesfx.util.LVMath;
-import net.minecraft.server.v1_14_R1.*;
+import net.minecraft.server.v1_15_R1.*;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.craftbukkit.v1_14_R1.CraftServer;
-import org.bukkit.craftbukkit.v1_14_R1.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_15_R1.CraftServer;
+import org.bukkit.craftbukkit.v1_15_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
@@ -97,7 +97,7 @@ public abstract class Particle {
                 if (!location.getWorld().getName().equals(p.world.getWorld().getName())) continue;
 
                 if (radius != 0) {
-                    double distance = Math.pow(location.getX() - p.locX, 2) + Math.pow(location.getY() - p.locY, 2) + Math.pow(location.getZ() - p.locZ, 2);
+                    double distance = Math.pow(location.getX() - p.locX(), 2) + Math.pow(location.getY() - p.locY(), 2) + Math.pow(location.getZ() - p.locZ(), 2);
 
                     if (distance > Math.pow(radius, 2)) continue;
                 }

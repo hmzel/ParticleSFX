@@ -5,9 +5,9 @@ import hm.zelha.particlesfx.particles.parents.Particle;
 import hm.zelha.particlesfx.particles.parents.SizeableParticle;
 import hm.zelha.particlesfx.util.Color;
 import hm.zelha.particlesfx.util.LVMath;
-import net.minecraft.server.v1_14_R1.ParticleParamRedstone;
+import net.minecraft.server.v1_15_R1.ParticleParamRedstone;
 import org.bukkit.Location;
-import org.bukkit.craftbukkit.v1_14_R1.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_15_R1.entity.CraftPlayer;
 import org.bukkit.util.Vector;
 
 import javax.annotation.Nullable;
