@@ -4,7 +4,7 @@ import hm.zelha.particlesfx.particles.parents.Particle;
 import hm.zelha.particlesfx.util.LocationSafe;
 import hm.zelha.particlesfx.util.ParticleShapeCompound;
 import hm.zelha.particlesfx.util.ShapeDisplayMechanic;
-import org.apache.commons.lang3.Validate;
+import org.apache.commons.lang.Validate;
 
 import java.util.ArrayList;
 import java.util.List;

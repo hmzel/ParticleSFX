@@ -1,6 +1,6 @@
 package hm.zelha.particlesfx.util;
 
-import org.apache.commons.lang3.Validate;
+import org.apache.commons.lang.Validate;
 
 /**
  * only used in one of ParticlePolygon's constructors for more customizability

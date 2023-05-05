@@ -1,12 +1,12 @@
 package hm.zelha.particlesfx.shapers.parents;
 
-import hm.zelha.particlesfx.util.ParticleSFX;
 import hm.zelha.particlesfx.particles.parents.Particle;
+import hm.zelha.particlesfx.util.ParticleSFX;
 import hm.zelha.particlesfx.util.ShapeDisplayMechanic;
-import org.apache.commons.lang3.Validate;
-import org.apache.commons.lang3.tuple.Pair;
+import org.apache.commons.lang.Validate;
 import org.bukkit.Location;
 import org.bukkit.World;
+import org.bukkit.craftbukkit.libs.org.apache.commons.lang3.tuple.Pair;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;

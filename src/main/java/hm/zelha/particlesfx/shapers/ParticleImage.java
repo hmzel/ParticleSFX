@@ -5,7 +5,7 @@ import hm.zelha.particlesfx.particles.parents.ColorableParticle;
 import hm.zelha.particlesfx.particles.parents.Particle;
 import hm.zelha.particlesfx.shapers.parents.ParticleShaper;
 import hm.zelha.particlesfx.util.*;
-import org.apache.commons.lang3.Validate;
+import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 
@@ -225,7 +225,7 @@ public class ParticleImage extends ParticleShaper {
 
     @Override
     public void addParticle(Particle particle, int particlesUntilDisplay) {
-        Validate.isInstanceOf(ColorableParticle.class, particle, "ParticleImage particles must be colorable!");
+        Validate.isTrue(particle instanceof ColorableParticle, "ParticleImage particles must be colorable!");
 
         super.addParticle(particle, particlesUntilDisplay);
     }

@@ -1,7 +1,7 @@
 package hm.zelha.particlesfx.util;
 
 import hm.zelha.particlesfx.shapers.parents.Shape;
-import org.apache.commons.lang3.Validate;
+import org.apache.commons.lang.Validate;
 import org.bukkit.util.Vector;
 
 public class Rotation {

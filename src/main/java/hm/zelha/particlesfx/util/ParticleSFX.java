@@ -3,7 +3,7 @@ package hm.zelha.particlesfx.util;
 import hm.zelha.particlesfx.particles.parents.Particle;
 import hm.zelha.particlesfx.particles.parents.TravellingParticle;
 import hm.zelha.particlesfx.shapers.*;
-import org.apache.commons.lang3.Validate;
+import org.apache.commons.lang.Validate;
 import org.bukkit.Location;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.util.NumberConversions;
