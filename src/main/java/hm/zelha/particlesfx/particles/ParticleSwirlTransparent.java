@@ -3,7 +3,7 @@ package hm.zelha.particlesfx.particles;
 import hm.zelha.particlesfx.particles.parents.ColorableParticle;
 import hm.zelha.particlesfx.particles.parents.Particle;
 import hm.zelha.particlesfx.util.Color;
-import net.minecraft.server.v1_15_R1.Particles;
+import net.minecraft.server.v1_16_R1.Particles;
 
 import javax.annotation.Nullable;
 
