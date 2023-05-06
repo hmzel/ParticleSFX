@@ -59,6 +59,9 @@ public class ParticlePortal extends TravellingParticle {
         return new ParticlePortal().inherit(this);
     }
 
+    /**
+     * @param inverse whether this class uses REVERSE_PORTAL or PORTAL, default false (REVERSE_PORTAL)
+     */
     public void setInverse(boolean inverse) {
         this.inverse = inverse;
 
@@ -69,6 +72,9 @@ public class ParticlePortal extends TravellingParticle {
         }
     }
 
+    /**
+     * @return whether this class uses REVERSE_PORTAL or PORTAL, default false (REVERSE_PORTAL)
+     */
     public boolean isInverse() {
         return inverse;
     }
