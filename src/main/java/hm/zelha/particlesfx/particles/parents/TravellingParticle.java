@@ -11,8 +11,8 @@ import javax.annotation.Nullable;
 public abstract class TravellingParticle extends Particle {
 
     //some travelling particles have to be handled differently due to minecraft jank
-    protected final boolean inverse;
     protected final double control;
+    protected boolean inverse;
     protected Location toGo;
     protected Vector velocity;
 

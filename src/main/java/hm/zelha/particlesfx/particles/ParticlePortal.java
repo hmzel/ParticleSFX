@@ -58,4 +58,18 @@ public class ParticlePortal extends TravellingParticle {
     public ParticlePortal clone() {
         return new ParticlePortal().inherit(this);
     }
+
+    public void setInverse(boolean inverse) {
+        this.inverse = inverse;
+
+        if (inverse) {
+            particle = Particles.PORTAL;
+        } else {
+            particle = Particles.REVERSE_PORTAL;
+        }
+    }
+
+    public boolean isInverse() {
+        return inverse;
+    }
 }
