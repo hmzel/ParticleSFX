@@ -1,7 +1,7 @@
 package hm.zelha.particlesfx.particles;
 
 import hm.zelha.particlesfx.particles.parents.Particle;
-import net.minecraft.server.v1_16_R1.Particles;
+import net.minecraft.server.v1_16_R2.Particles;
 
 public class ParticleAsh extends Particle {
     public ParticleAsh(double offsetX, double offsetY, double offsetZ, int count) {
