@@ -1,7 +1,7 @@
 package hm.zelha.particlesfx.particles.parents;
 
 import hm.zelha.particlesfx.util.LVMath;
-import net.minecraft.server.v1_16_R2.ParticleParam;
+import net.minecraft.server.v1_16_R3.ParticleParam;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
