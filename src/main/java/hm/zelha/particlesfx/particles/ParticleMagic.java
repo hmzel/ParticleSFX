@@ -1,11 +1,13 @@
 package hm.zelha.particlesfx.particles;
 
 import hm.zelha.particlesfx.particles.parents.Particle;
-import net.minecraft.server.v1_16_R3.Particles;
+import net.minecraft.core.IRegistry;
+import net.minecraft.core.particles.ParticleType;
+import net.minecraft.resources.MinecraftKey;
 
 public class ParticleMagic extends Particle {
     public ParticleMagic(double offsetX, double offsetY, double offsetZ, int count) {
-        super(Particles.INSTANT_EFFECT, offsetX, offsetY, offsetZ, 1, count, 0);
+        super((ParticleType) IRegistry.ab.get(new MinecraftKey("instant_effect")), offsetX, offsetY, offsetZ, 1, count, 0);
     }
 
     public ParticleMagic(double offsetX, double offsetY, double offsetZ) {

@@ -2,7 +2,9 @@ package hm.zelha.particlesfx.particles;
 
 import hm.zelha.particlesfx.particles.parents.Particle;
 import hm.zelha.particlesfx.particles.parents.TravellingParticle;
-import net.minecraft.server.v1_16_R3.Particles;
+import net.minecraft.core.IRegistry;
+import net.minecraft.core.particles.ParticleType;
+import net.minecraft.resources.MinecraftKey;
 import org.bukkit.Location;
 import org.bukkit.util.Vector;
 
@@ -14,12 +16,12 @@ import org.bukkit.util.Vector;
 public class ParticleWater extends TravellingParticle {
     /**@see ParticleWater*/
     public ParticleWater(Location toGo, double offsetX, double offsetY, double offsetZ, int count) {
-        super(Particles.FISHING, false, 0.05, null, toGo, offsetX, offsetY, offsetZ, count);
+        super((ParticleType) IRegistry.ab.get(new MinecraftKey("fishing")), false, 0.05, null, toGo, offsetX, offsetY, offsetZ, count);
     }
 
     /**@see ParticleWater*/
     public ParticleWater(Vector velocity, double offsetX, double offsetY, double offsetZ, int count) {
-        super(Particles.FISHING, false, 0.05, velocity, null, offsetX, offsetY, offsetZ, count);
+        super((ParticleType) IRegistry.ab.get(new MinecraftKey("fishing")), false, 0.05, velocity, null, offsetX, offsetY, offsetZ, count);
     }
 
     /**@see ParticleWater*/

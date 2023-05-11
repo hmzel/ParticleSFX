@@ -2,17 +2,19 @@ package hm.zelha.particlesfx.particles;
 
 import hm.zelha.particlesfx.particles.parents.Particle;
 import hm.zelha.particlesfx.particles.parents.TravellingParticle;
-import net.minecraft.server.v1_16_R3.Particles;
+import net.minecraft.core.IRegistry;
+import net.minecraft.core.particles.ParticleType;
+import net.minecraft.resources.MinecraftKey;
 import org.bukkit.Location;
 import org.bukkit.util.Vector;
 
 public class ParticlePortal extends TravellingParticle {
     public ParticlePortal(Location toGo, double offsetX, double offsetY, double offsetZ, int count) {
-        super(Particles.REVERSE_PORTAL, false, 0.032, null, toGo, offsetX, offsetY, offsetZ, count);
+        super((ParticleType) IRegistry.ab.get(new MinecraftKey("reverse_portal")), false, 0.032, null, toGo, offsetX, offsetY, offsetZ, count);
     }
 
     public ParticlePortal(Vector velocity, double offsetX, double offsetY, double offsetZ, int count) {
-        super(Particles.REVERSE_PORTAL, false, 0.032, velocity, null, offsetX, offsetY, offsetZ, count);
+        super((ParticleType) IRegistry.ab.get(new MinecraftKey("reverse_portal")), false, 0.032, velocity, null, offsetX, offsetY, offsetZ, count);
     }
 
     public ParticlePortal(Location toGo, double offsetX, double offsetY, double offsetZ) {
@@ -66,9 +68,9 @@ public class ParticlePortal extends TravellingParticle {
         this.inverse = inverse;
 
         if (inverse) {
-            particle = Particles.PORTAL;
+            particle = (ParticleType) IRegistry.ab.get(new MinecraftKey("portal"));
         } else {
-            particle = Particles.REVERSE_PORTAL;
+            particle = (ParticleType) IRegistry.ab.get(new MinecraftKey("reverse_portal"));
         }
     }
 

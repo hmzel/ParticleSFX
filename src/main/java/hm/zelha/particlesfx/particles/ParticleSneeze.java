@@ -2,17 +2,19 @@ package hm.zelha.particlesfx.particles;
 
 import hm.zelha.particlesfx.particles.parents.Particle;
 import hm.zelha.particlesfx.particles.parents.TravellingParticle;
-import net.minecraft.server.v1_16_R3.Particles;
+import net.minecraft.core.IRegistry;
+import net.minecraft.core.particles.ParticleType;
+import net.minecraft.resources.MinecraftKey;
 import org.bukkit.Location;
 import org.bukkit.util.Vector;
 
 public class ParticleSneeze extends TravellingParticle {
     public ParticleSneeze(Location toGo, double offsetX, double offsetY, double offsetZ, int count) {
-        super(Particles.SNEEZE, false, 0.05, null, toGo, offsetX, offsetY, offsetZ, count);
+        super((ParticleType) IRegistry.ab.get(new MinecraftKey("sneeze")), false, 0.05, null, toGo, offsetX, offsetY, offsetZ, count);
     }
 
     public ParticleSneeze(Vector velocity, double offsetX, double offsetY, double offsetZ, int count) {
-        super(Particles.SNEEZE, false, 0.05, velocity, null, offsetX, offsetY, offsetZ, count);
+        super((ParticleType) IRegistry.ab.get(new MinecraftKey("sneeze")), false, 0.05, velocity, null, offsetX, offsetY, offsetZ, count);
     }
 
     public ParticleSneeze(Location toGo, double offsetX, double offsetY, double offsetZ) {

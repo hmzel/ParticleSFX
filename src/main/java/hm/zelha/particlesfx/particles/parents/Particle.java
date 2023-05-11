@@ -1,12 +1,15 @@
 package hm.zelha.particlesfx.particles.parents;
 
 import hm.zelha.particlesfx.util.LVMath;
-import net.minecraft.server.v1_16_R3.*;
+import net.minecraft.core.particles.ParticleParam;
+import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.protocol.game.PacketPlayOutWorldParticles;
+import net.minecraft.server.level.EntityPlayer;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.craftbukkit.v1_16_R3.CraftServer;
-import org.bukkit.craftbukkit.v1_16_R3.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_17_R1.CraftServer;
+import org.bukkit.craftbukkit.v1_17_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
@@ -94,7 +97,7 @@ public abstract class Particle {
                 EntityPlayer p = players.get(k).getHandle();
 
                 if (p == null) continue;
-                if (!location.getWorld().getName().equals(p.world.getWorld().getName())) continue;
+                if (!location.getWorld().getName().equals(p.getWorld().getWorld().getName())) continue;
 
                 if (radius != 0) {
                     double distance = Math.pow(location.getX() - p.locX(), 2) + Math.pow(location.getY() - p.locY(), 2) + Math.pow(location.getZ() - p.locZ(), 2);
@@ -107,9 +110,9 @@ public abstract class Particle {
                 Packet strangePacket = getStrangePacket(location);
 
                 if (strangePacket != null) {
-                    p.playerConnection.sendPacket(strangePacket);
+                    p.b.sendPacket(strangePacket);
                 } else {
-                    p.playerConnection.sendPacket(
+                    p.b.sendPacket(
                             new PacketPlayOutWorldParticles(
                                     particle, true, (float) xyz.getX(), (float) xyz.getY(), (float) xyz.getZ(), (float) offsets.getX(),
                                     (float) offsets.getY(), (float) offsets.getZ(), getPacketSpeed(), getPacketCount()

@@ -1,7 +1,7 @@
 package hm.zelha.particlesfx.particles.parents;
 
 import hm.zelha.particlesfx.util.Color;
-import net.minecraft.server.v1_16_R3.ParticleParam;
+import net.minecraft.core.particles.ParticleParam;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Location;
 import org.bukkit.util.Vector;

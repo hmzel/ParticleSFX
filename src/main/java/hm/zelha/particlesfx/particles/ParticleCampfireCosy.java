@@ -2,17 +2,19 @@ package hm.zelha.particlesfx.particles;
 
 import hm.zelha.particlesfx.particles.parents.Particle;
 import hm.zelha.particlesfx.particles.parents.TravellingParticle;
-import net.minecraft.server.v1_16_R3.Particles;
+import net.minecraft.core.IRegistry;
+import net.minecraft.core.particles.ParticleType;
+import net.minecraft.resources.MinecraftKey;
 import org.bukkit.Location;
 import org.bukkit.util.Vector;
 
 public class ParticleCampfireCosy extends TravellingParticle {
     public ParticleCampfireCosy(Location toGo, double offsetX, double offsetY, double offsetZ, int count) {
-        super(Particles.CAMPFIRE_COSY_SMOKE, false, 0.009, null, toGo, offsetX, offsetY, offsetZ, count);
+        super((ParticleType) IRegistry.ab.get(new MinecraftKey("campfire_cosy_smoke")), false, 0.009, null, toGo, offsetX, offsetY, offsetZ, count);
     }
 
     public ParticleCampfireCosy(Vector velocity, double offsetX, double offsetY, double offsetZ, int count) {
-        super(Particles.CAMPFIRE_COSY_SMOKE, false, 0.009, velocity, null, offsetX, offsetY, offsetZ, count);
+        super((ParticleType) IRegistry.ab.get(new MinecraftKey("campfire_cosy_smoke")), false, 0.009, velocity, null, offsetX, offsetY, offsetZ, count);
     }
 
     public ParticleCampfireCosy(Location toGo, double offsetX, double offsetY, double offsetZ) {

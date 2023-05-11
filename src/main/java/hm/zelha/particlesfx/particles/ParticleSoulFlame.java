@@ -2,17 +2,19 @@ package hm.zelha.particlesfx.particles;
 
 import hm.zelha.particlesfx.particles.parents.Particle;
 import hm.zelha.particlesfx.particles.parents.TravellingParticle;
-import net.minecraft.server.v1_16_R3.Particles;
+import net.minecraft.core.IRegistry;
+import net.minecraft.core.particles.ParticleType;
+import net.minecraft.resources.MinecraftKey;
 import org.bukkit.Location;
 import org.bukkit.util.Vector;
 
 public class ParticleSoulFlame extends TravellingParticle {
     public ParticleSoulFlame(Location toGo, double offsetX, double offsetY, double offsetZ, int count) {
-        super(Particles.SOUL_FIRE_FLAME, false, 0.07, null, toGo, offsetX, offsetY, offsetZ, count);
+        super((ParticleType) IRegistry.ab.get(new MinecraftKey("soul_fire_flame")), false, 0.07, null, toGo, offsetX, offsetY, offsetZ, count);
     }
 
     public ParticleSoulFlame(Vector velocity, double offsetX, double offsetY, double offsetZ, int count) {
-        super(Particles.SOUL_FIRE_FLAME, false, 0.07, velocity, null, offsetX, offsetY, offsetZ, count);
+        super((ParticleType) IRegistry.ab.get(new MinecraftKey("soul_fire_flame")), false, 0.07, velocity, null, offsetX, offsetY, offsetZ, count);
     }
 
     public ParticleSoulFlame(Location toGo, double offsetX, double offsetY, double offsetZ) {

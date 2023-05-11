@@ -3,13 +3,13 @@ package hm.zelha.particlesfx.particles;
 import hm.zelha.particlesfx.particles.parents.MaterialParticle;
 import hm.zelha.particlesfx.particles.parents.Particle;
 import hm.zelha.particlesfx.particles.parents.TravellingParticle;
-import net.minecraft.server.v1_16_R3.IRegistry;
-import net.minecraft.server.v1_16_R3.MinecraftKey;
-import net.minecraft.server.v1_16_R3.ParticleParamItem;
+import net.minecraft.core.IRegistry;
+import net.minecraft.core.particles.ParticleParamItem;
+import net.minecraft.resources.MinecraftKey;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.craftbukkit.v1_16_R3.inventory.CraftItemStack;
+import org.bukkit.craftbukkit.v1_17_R1.inventory.CraftItemStack;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
@@ -148,7 +148,7 @@ public class ParticleItemBreak extends TravellingParticle implements MaterialPar
     public void setMaterial(Material material) {
         Validate.notNull(material, "material cannot be null!");
 
-        particle = new ParticleParamItem((net.minecraft.server.v1_16_R3.Particle) IRegistry.PARTICLE_TYPE.get(new MinecraftKey("item")), CraftItemStack.asNMSCopy(new ItemStack(material)));
+        particle = new ParticleParamItem((net.minecraft.core.particles.Particle) IRegistry.ab.get(new MinecraftKey("item")), CraftItemStack.asNMSCopy(new ItemStack(material)));
     }
 
     public Material getMaterial() {

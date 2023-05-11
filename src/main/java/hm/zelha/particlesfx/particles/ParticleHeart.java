@@ -1,11 +1,13 @@
 package hm.zelha.particlesfx.particles;
 
 import hm.zelha.particlesfx.particles.parents.Particle;
-import net.minecraft.server.v1_16_R3.Particles;
+import net.minecraft.core.IRegistry;
+import net.minecraft.core.particles.ParticleType;
+import net.minecraft.resources.MinecraftKey;
 
 public class ParticleHeart extends Particle {
     public ParticleHeart(double offsetX, double offsetY, double offsetZ, int count) {
-        super(Particles.HEART, offsetX, offsetY, offsetZ, 1, count, 0);
+        super((ParticleType) IRegistry.ab.get(new MinecraftKey("heart")), offsetX, offsetY, offsetZ, 1, count, 0);
     }
 
     public ParticleHeart(double offsetX, double offsetY, double offsetZ) {

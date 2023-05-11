@@ -1,13 +1,14 @@
 package hm.zelha.particlesfx.particles;
 
+import com.mojang.math.Vector3fa;
 import hm.zelha.particlesfx.particles.parents.ColorableParticle;
 import hm.zelha.particlesfx.particles.parents.Particle;
 import hm.zelha.particlesfx.particles.parents.SizeableParticle;
 import hm.zelha.particlesfx.util.Color;
 import hm.zelha.particlesfx.util.LVMath;
-import net.minecraft.server.v1_16_R3.ParticleParamRedstone;
+import net.minecraft.core.particles.ParticleParamRedstone;
 import org.bukkit.Location;
-import org.bukkit.craftbukkit.v1_16_R3.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_17_R1.entity.CraftPlayer;
 import org.bukkit.util.Vector;
 
 import javax.annotation.Nullable;
@@ -184,11 +185,11 @@ public class ParticleDust extends ColorableParticle implements SizeableParticle 
         private final double size;
         private final boolean pureColor;
 
-        public ParticleParamDust(float v, float v1, float v2, float v3, Color color, boolean pureColor) {
-            super(v, v1, v2, v3);
+        public ParticleParamDust(float r, float g, float b, float size, Color color, boolean pureColor) {
+            super(new Vector3fa(r, g, b), size);
 
             this.color = (color == null) ? Color.WHITE : color.clone();
-            this.size = v3;
+            this.size = size;
             this.pureColor = pureColor;
         }
     }

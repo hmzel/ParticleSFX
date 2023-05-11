@@ -1,11 +1,13 @@
 package hm.zelha.particlesfx.particles;
 
 import hm.zelha.particlesfx.particles.parents.Particle;
-import net.minecraft.server.v1_16_R3.Particles;
+import net.minecraft.core.IRegistry;
+import net.minecraft.core.particles.ParticleType;
+import net.minecraft.resources.MinecraftKey;
 
 public class ParticleLandingLava extends Particle {
     public ParticleLandingLava(double offsetX, double offsetY, double offsetZ, int count) {
-        super(Particles.LANDING_LAVA, offsetX, offsetY, offsetZ, 0, count, 0);
+        super((ParticleType) IRegistry.ab.get(new MinecraftKey("landing_lava")), offsetX, offsetY, offsetZ, 0, count, 0);
     }
 
     public ParticleLandingLava(double offsetX, double offsetY, double offsetZ) {

@@ -2,17 +2,19 @@ package hm.zelha.particlesfx.particles;
 
 import hm.zelha.particlesfx.particles.parents.Particle;
 import hm.zelha.particlesfx.particles.parents.TravellingParticle;
-import net.minecraft.server.v1_16_R3.Particles;
+import net.minecraft.core.IRegistry;
+import net.minecraft.core.particles.ParticleType;
+import net.minecraft.resources.MinecraftKey;
 import org.bukkit.Location;
 import org.bukkit.util.Vector;
 
 public class ParticleEndRod extends TravellingParticle {
     public ParticleEndRod(Location toGo, double offsetX, double offsetY, double offsetZ, int count) {
-        super(Particles.END_ROD, false, 0.093, null, toGo, offsetX, offsetY, offsetZ, count);
+        super((ParticleType) IRegistry.ab.get(new MinecraftKey("end_rod")), false, 0.093, null, toGo, offsetX, offsetY, offsetZ, count);
     }
 
     public ParticleEndRod(Vector velocity, double offsetX, double offsetY, double offsetZ, int count) {
-        super(Particles.END_ROD, false, 0.093, velocity, null, offsetX, offsetY, offsetZ, count);
+        super((ParticleType) IRegistry.ab.get(new MinecraftKey("end_rod")), false, 0.093, velocity, null, offsetX, offsetY, offsetZ, count);
     }
 
     public ParticleEndRod(Location toGo, double offsetX, double offsetY, double offsetZ) {

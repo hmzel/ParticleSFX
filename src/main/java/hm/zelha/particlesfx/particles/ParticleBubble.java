@@ -2,7 +2,9 @@ package hm.zelha.particlesfx.particles;
 
 import hm.zelha.particlesfx.particles.parents.Particle;
 import hm.zelha.particlesfx.particles.parents.TravellingParticle;
-import net.minecraft.server.v1_16_R3.Particles;
+import net.minecraft.core.IRegistry;
+import net.minecraft.core.particles.ParticleType;
+import net.minecraft.resources.MinecraftKey;
 import org.bukkit.Location;
 import org.bukkit.util.Vector;
 
@@ -12,12 +14,12 @@ import org.bukkit.util.Vector;
 public class ParticleBubble extends TravellingParticle {
     /**@see ParticleBubble*/
     public ParticleBubble(Location toGo, double offsetX, double offsetY, double offsetZ, int count) {
-        super(Particles.BUBBLE, false, 0.755, null, toGo, offsetX, offsetY, offsetZ, count);
+        super((ParticleType) IRegistry.ab.get(new MinecraftKey("bubble")), false, 0.755, null, toGo, offsetX, offsetY, offsetZ, count);
     }
 
     /**@see ParticleBubble*/
     public ParticleBubble(Vector velocity, double offsetX, double offsetY, double offsetZ, int count) {
-        super(Particles.BUBBLE, false, 0.755, velocity, null, offsetX, offsetY, offsetZ, count);
+        super((ParticleType) IRegistry.ab.get(new MinecraftKey("bubble")), false, 0.755, velocity, null, offsetX, offsetY, offsetZ, count);
     }
 
     /**@see ParticleBubble*/
