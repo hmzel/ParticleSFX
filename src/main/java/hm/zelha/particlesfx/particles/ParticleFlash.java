@@ -7,7 +7,7 @@ import net.minecraft.resources.MinecraftKey;
 
 public class ParticleFlash extends Particle {
     public ParticleFlash(double offsetX, double offsetY, double offsetZ, int count) {
-        super((ParticleType) IRegistry.ab.get(new MinecraftKey("flash")), offsetX, offsetY, offsetZ, 0, count, 0);
+        super("flash", offsetX, offsetY, offsetZ, 0, count, 0);
     }
 
     public ParticleFlash(double offsetX, double offsetY, double offsetZ) {

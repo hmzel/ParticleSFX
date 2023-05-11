@@ -10,11 +10,11 @@ import org.bukkit.util.Vector;
 
 public class ParticlePortal extends TravellingParticle {
     public ParticlePortal(Location toGo, double offsetX, double offsetY, double offsetZ, int count) {
-        super((ParticleType) IRegistry.ab.get(new MinecraftKey("reverse_portal")), false, 0.032, null, toGo, offsetX, offsetY, offsetZ, count);
+        super("reverse_portal", false, 0.032, null, toGo, offsetX, offsetY, offsetZ, count);
     }
 
     public ParticlePortal(Vector velocity, double offsetX, double offsetY, double offsetZ, int count) {
-        super((ParticleType) IRegistry.ab.get(new MinecraftKey("reverse_portal")), false, 0.032, velocity, null, offsetX, offsetY, offsetZ, count);
+        super("reverse_portal", false, 0.032, velocity, null, offsetX, offsetY, offsetZ, count);
     }
 
     public ParticlePortal(Location toGo, double offsetX, double offsetY, double offsetZ) {

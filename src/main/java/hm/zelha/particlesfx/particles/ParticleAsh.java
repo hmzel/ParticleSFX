@@ -1,13 +1,10 @@
 package hm.zelha.particlesfx.particles;
 
 import hm.zelha.particlesfx.particles.parents.Particle;
-import net.minecraft.core.IRegistry;
-import net.minecraft.core.particles.ParticleType;
-import net.minecraft.resources.MinecraftKey;
 
 public class ParticleAsh extends Particle {
     public ParticleAsh(double offsetX, double offsetY, double offsetZ, int count) {
-        super((ParticleType) IRegistry.ab.get(new MinecraftKey("ash")), offsetX, offsetY, offsetZ, 0, count, 0);
+        super("ash", offsetX, offsetY, offsetZ, 0, count, 0);
     }
 
     public ParticleAsh(double offsetX, double offsetY, double offsetZ) {

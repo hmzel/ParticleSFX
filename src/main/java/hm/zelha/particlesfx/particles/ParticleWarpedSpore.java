@@ -7,7 +7,7 @@ import net.minecraft.resources.MinecraftKey;
 
 public class ParticleWarpedSpore extends Particle {
     public ParticleWarpedSpore(double offsetX, double offsetY, double offsetZ, int count) {
-        super((ParticleType) IRegistry.ab.get(new MinecraftKey("warped_spore")), offsetX, offsetY, offsetZ, 0, count, 0);
+        super("warped_spore", offsetX, offsetY, offsetZ, 0, count, 0);
     }
 
     public ParticleWarpedSpore(double offsetX, double offsetY, double offsetZ) {

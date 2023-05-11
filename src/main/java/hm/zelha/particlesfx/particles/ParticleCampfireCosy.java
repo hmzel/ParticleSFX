@@ -10,11 +10,11 @@ import org.bukkit.util.Vector;
 
 public class ParticleCampfireCosy extends TravellingParticle {
     public ParticleCampfireCosy(Location toGo, double offsetX, double offsetY, double offsetZ, int count) {
-        super((ParticleType) IRegistry.ab.get(new MinecraftKey("campfire_cosy_smoke")), false, 0.009, null, toGo, offsetX, offsetY, offsetZ, count);
+        super("campfire_cosy_smoke", false, 0.009, null, toGo, offsetX, offsetY, offsetZ, count);
     }
 
     public ParticleCampfireCosy(Vector velocity, double offsetX, double offsetY, double offsetZ, int count) {
-        super((ParticleType) IRegistry.ab.get(new MinecraftKey("campfire_cosy_smoke")), false, 0.009, velocity, null, offsetX, offsetY, offsetZ, count);
+        super("campfire_cosy_smoke", false, 0.009, velocity, null, offsetX, offsetY, offsetZ, count);
     }
 
     public ParticleCampfireCosy(Location toGo, double offsetX, double offsetY, double offsetZ) {

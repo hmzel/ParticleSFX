@@ -7,7 +7,7 @@ import net.minecraft.resources.MinecraftKey;
 
 public class ParticleLandingHoney extends Particle {
     public ParticleLandingHoney(double offsetX, double offsetY, double offsetZ, int count) {
-        super((ParticleType) IRegistry.ab.get(new MinecraftKey("landing_honey")), offsetX, offsetY, offsetZ, 0, count, 0);
+        super("landing_honey", offsetX, offsetY, offsetZ, 0, count, 0);
     }
 
     public ParticleLandingHoney(double offsetX, double offsetY, double offsetZ) {

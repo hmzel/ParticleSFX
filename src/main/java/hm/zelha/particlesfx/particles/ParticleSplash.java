@@ -7,7 +7,7 @@ import net.minecraft.resources.MinecraftKey;
 
 public class ParticleSplash extends Particle {
     public ParticleSplash(double offsetX, double offsetY, double offsetZ, int count) {
-        super((ParticleType) IRegistry.ab.get(new MinecraftKey("splash")), offsetX, offsetY, offsetZ, 0, count, 0);
+        super("splash", offsetX, offsetY, offsetZ, 0, count, 0);
     }
 
     public ParticleSplash(double offsetX, double offsetY, double offsetZ) {

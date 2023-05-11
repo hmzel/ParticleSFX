@@ -7,7 +7,7 @@ import net.minecraft.resources.MinecraftKey;
 
 public class ParticleVoid extends Particle {
     public ParticleVoid(double offsetX, double offsetY, double offsetZ, int count) {
-        super((ParticleType) IRegistry.ab.get(new MinecraftKey("mycelium")), offsetX, offsetY, offsetZ, 0, count, 0);
+        super("mycelium", offsetX, offsetY, offsetZ, 0, count, 0);
     }
 
     public ParticleVoid(double offsetX, double offsetY, double offsetZ) {

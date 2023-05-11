@@ -7,7 +7,7 @@ import net.minecraft.resources.MinecraftKey;
 
 public class ParticleDrippingWater extends Particle {
     public ParticleDrippingWater(double offsetX, double offsetY, double offsetZ, int count) {
-        super((ParticleType) IRegistry.ab.get(new MinecraftKey("dripping_water")), offsetX, offsetY, offsetZ, 0, count, 0);
+        super("dripping_water", offsetX, offsetY, offsetZ, 0, count, 0);
     }
 
     public ParticleDrippingWater(double offsetX, double offsetY, double offsetZ) {

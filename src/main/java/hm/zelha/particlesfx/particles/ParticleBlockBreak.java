@@ -11,7 +11,7 @@ import org.bukkit.craftbukkit.v1_17_R1.block.data.CraftBlockData;
 
 public class ParticleBlockBreak extends Particle implements MaterialParticle {
     public ParticleBlockBreak(Material material, double offsetX, double offsetY, double offsetZ, int count) {
-        super(null, offsetX, offsetY, offsetZ, 1, count, 0);
+        super("", offsetX, offsetY, offsetZ, 1, count, 0);
 
         setMaterial(material);
     }

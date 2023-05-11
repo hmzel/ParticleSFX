@@ -10,11 +10,11 @@ import org.bukkit.util.Vector;
 
 public class ParticleEnchantedHit extends TravellingParticle {
     public ParticleEnchantedHit(Location toGo, double offsetX, double offsetY, double offsetZ, int count) {
-        super((ParticleType) IRegistry.ab.get(new MinecraftKey("enchanted_hit")), false, 0.83, null, toGo, offsetX, offsetY, offsetZ, count);
+        super("enchanted_hit", false, 0.83, null, toGo, offsetX, offsetY, offsetZ, count);
     }
 
     public ParticleEnchantedHit(Vector velocity, double offsetX, double offsetY, double offsetZ, int count) {
-        super((ParticleType) IRegistry.ab.get(new MinecraftKey("enchanted_hit")), false, 0.83, velocity, null, offsetX, offsetY, offsetZ, count);
+        super("enchanted_hit", false, 0.83, velocity, null, offsetX, offsetY, offsetZ, count);
     }
 
     public ParticleEnchantedHit(Location toGo, double offsetX, double offsetY, double offsetZ) {

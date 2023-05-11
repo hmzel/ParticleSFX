@@ -7,7 +7,7 @@ import net.minecraft.resources.MinecraftKey;
 
 public class ParticleLavaPop extends Particle {
     public ParticleLavaPop(double offsetX, double offsetY, double offsetZ, int count) {
-        super((ParticleType) IRegistry.ab.get(new MinecraftKey("lava")), offsetX, offsetY, offsetZ, 0, count, 0);
+        super("lava", offsetX, offsetY, offsetZ, 0, count, 0);
     }
 
     public ParticleLavaPop(double offsetX, double offsetY, double offsetZ) {

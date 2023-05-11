@@ -10,11 +10,11 @@ import org.bukkit.util.Vector;
 
 public class ParticleCampfireSignal extends TravellingParticle {
     public ParticleCampfireSignal(Location toGo, double offsetX, double offsetY, double offsetZ, int count) {
-        super((ParticleType) IRegistry.ab.get(new MinecraftKey("campfire_signal_smoke")), false, 0.003, null, toGo, offsetX, offsetY, offsetZ, count);
+        super("campfire_signal_smoke", false, 0.003, null, toGo, offsetX, offsetY, offsetZ, count);
     }
 
     public ParticleCampfireSignal(Vector velocity, double offsetX, double offsetY, double offsetZ, int count) {
-        super((ParticleType) IRegistry.ab.get(new MinecraftKey("campfire_signal_smoke")), false, 0.003, velocity, null, offsetX, offsetY, offsetZ, count);
+        super("campfire_signal_smoke", false, 0.003, velocity, null, offsetX, offsetY, offsetZ, count);
     }
 
     public ParticleCampfireSignal(Location toGo, double offsetX, double offsetY, double offsetZ) {

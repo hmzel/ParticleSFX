@@ -7,7 +7,7 @@ import net.minecraft.resources.MinecraftKey;
 
 public class ParticleDrippingLava extends Particle {
     public ParticleDrippingLava(double offsetX, double offsetY, double offsetZ, int count) {
-        super((ParticleType) IRegistry.ab.get(new MinecraftKey("dripping_lava")), offsetX, offsetY, offsetZ, 0, count, 0);
+        super("dripping_lava", offsetX, offsetY, offsetZ, 0, count, 0);
     }
 
     public ParticleDrippingLava(double offsetX, double offsetY, double offsetZ) {

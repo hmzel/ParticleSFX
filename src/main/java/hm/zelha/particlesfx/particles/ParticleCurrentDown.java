@@ -11,7 +11,7 @@ import net.minecraft.resources.MinecraftKey;
 public class ParticleCurrentDown extends Particle {
     /** @see ParticleCurrentDown */
     public ParticleCurrentDown(double offsetX, double offsetY, double offsetZ, int count) {
-        super((ParticleType) IRegistry.ab.get(new MinecraftKey("current_down")), offsetX, offsetY, offsetZ, 0, count, 0);
+        super("current_down", offsetX, offsetY, offsetZ, 0, count, 0);
     }
 
     /** @see ParticleCurrentDown */

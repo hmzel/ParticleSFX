@@ -13,7 +13,7 @@ public class ParticleSweepAttack extends Particle implements SizeableParticle {
     protected double size;
 
     public ParticleSweepAttack(double size, double offsetX, double offsetY, double offsetZ, int count) {
-        super((ParticleType) IRegistry.ab.get(new MinecraftKey("sweep_attack")), offsetX, offsetY, offsetZ, 0, count, 0);
+        super("sweep_attack", offsetX, offsetY, offsetZ, 0, count, 0);
 
         setSize(size);
     }

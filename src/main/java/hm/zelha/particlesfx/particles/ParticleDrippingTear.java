@@ -7,7 +7,7 @@ import net.minecraft.resources.MinecraftKey;
 
 public class ParticleDrippingTear extends Particle {
     public ParticleDrippingTear(double offsetX, double offsetY, double offsetZ, int count) {
-        super((ParticleType) IRegistry.ab.get(new MinecraftKey("dripping_obsidian_tear")), offsetX, offsetY, offsetZ, 0, count, 0);
+        super("dripping_obsidian_tear", offsetX, offsetY, offsetZ, 0, count, 0);
     }
 
     public ParticleDrippingTear(double offsetX, double offsetY, double offsetZ) {

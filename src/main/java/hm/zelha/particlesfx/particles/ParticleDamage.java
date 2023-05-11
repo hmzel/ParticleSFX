@@ -10,11 +10,11 @@ import org.bukkit.util.Vector;
 
 public class ParticleDamage extends TravellingParticle {
     public ParticleDamage(Location toGo, double offsetX, double offsetY, double offsetZ, int count) {
-        super((ParticleType) IRegistry.ab.get(new MinecraftKey("damage_indicator")), false, 0.69, null, toGo, offsetX, offsetY, offsetZ, count);
+        super("damage_indicator", false, 0.69, null, toGo, offsetX, offsetY, offsetZ, count);
     }
 
     public ParticleDamage(Vector velocity, double offsetX, double offsetY, double offsetZ, int count) {
-        super((ParticleType) IRegistry.ab.get(new MinecraftKey("damage_indicator")), false, 0.69, velocity, null, offsetX, offsetY, offsetZ, count);
+        super("damage_indicator", false, 0.69, velocity, null, offsetX, offsetY, offsetZ, count);
     }
 
     public ParticleDamage(Location toGo, double offsetX, double offsetY, double offsetZ) {

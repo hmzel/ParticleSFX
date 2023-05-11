@@ -10,11 +10,11 @@ import org.bukkit.util.Vector;
 
 public class ParticleCloud extends TravellingParticle {
     public ParticleCloud(Location toGo, double offsetX, double offsetY, double offsetZ, int count) {
-        super((ParticleType) IRegistry.ab.get(new MinecraftKey("cloud")), false, 0.05, null, toGo, offsetX, offsetY, offsetZ, count);
+        super("cloud", false, 0.05, null, toGo, offsetX, offsetY, offsetZ, count);
     }
 
     public ParticleCloud(Vector velocity, double offsetX, double offsetY, double offsetZ, int count) {
-        super((ParticleType) IRegistry.ab.get(new MinecraftKey("cloud")), false, 0.05, velocity, null, offsetX, offsetY, offsetZ, count);
+        super("cloud", false, 0.05, velocity, null, offsetX, offsetY, offsetZ, count);
     }
 
     public ParticleCloud(Location toGo, double offsetX, double offsetY, double offsetZ) {

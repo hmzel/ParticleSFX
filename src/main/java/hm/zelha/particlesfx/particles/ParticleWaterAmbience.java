@@ -11,7 +11,7 @@ import net.minecraft.resources.MinecraftKey;
 public class ParticleWaterAmbience extends Particle {
     /**@see ParticleWaterAmbience*/
     public ParticleWaterAmbience(double offsetX, double offsetY, double offsetZ, int count) {
-        super((ParticleType) IRegistry.ab.get(new MinecraftKey("underwater")), offsetX, offsetY, offsetZ, 0, count, 0);
+        super("underwater", offsetX, offsetY, offsetZ, 0, count, 0);
     }
 
     /**@see ParticleWaterAmbience*/

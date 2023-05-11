@@ -7,7 +7,7 @@ import net.minecraft.resources.MinecraftKey;
 
 public class ParticleLandingLava extends Particle {
     public ParticleLandingLava(double offsetX, double offsetY, double offsetZ, int count) {
-        super((ParticleType) IRegistry.ab.get(new MinecraftKey("landing_lava")), offsetX, offsetY, offsetZ, 0, count, 0);
+        super("landing_lava", offsetX, offsetY, offsetZ, 0, count, 0);
     }
 
     public ParticleLandingLava(double offsetX, double offsetY, double offsetZ) {

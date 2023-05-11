@@ -1,9 +1,12 @@
 package hm.zelha.particlesfx.particles.parents;
 
 import hm.zelha.particlesfx.util.LVMath;
+import net.minecraft.core.IRegistry;
 import net.minecraft.core.particles.ParticleParam;
+import net.minecraft.core.particles.ParticleType;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.PacketPlayOutWorldParticles;
+import net.minecraft.resources.MinecraftKey;
 import net.minecraft.server.level.EntityPlayer;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
@@ -34,8 +37,8 @@ public abstract class Particle {
     private final List<CraftPlayer> listHelper = new ArrayList<>();
     private final ThreadLocalRandom rng = ThreadLocalRandom.current();
 
-    protected Particle(ParticleParam particle, double offsetX, double offsetY, double offsetZ, double speed, int count, int radius) {
-        this.particle = particle;
+    protected Particle(String particleID, double offsetX, double offsetY, double offsetZ, double speed, int count, int radius) {
+        this.particle = (ParticleType) IRegistry.ab.get(new MinecraftKey(particleID));
 
         setOffset(offsetX, offsetY, offsetZ);
         setSpeed(speed);

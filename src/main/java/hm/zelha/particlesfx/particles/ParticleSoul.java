@@ -10,11 +10,11 @@ import org.bukkit.util.Vector;
 
 public class ParticleSoul extends TravellingParticle {
     public ParticleSoul(Location toGo, double offsetX, double offsetY, double offsetZ, int count) {
-        super((ParticleType) IRegistry.ab.get(new MinecraftKey("soul")), false, 0.06, null, toGo, offsetX, offsetY, offsetZ, count);
+        super("soul", false, 0.06, null, toGo, offsetX, offsetY, offsetZ, count);
     }
 
     public ParticleSoul(Vector velocity, double offsetX, double offsetY, double offsetZ, int count) {
-        super((ParticleType) IRegistry.ab.get(new MinecraftKey("soul")), false, 0.06, velocity, null, offsetX, offsetY, offsetZ, count);
+        super("soul", false, 0.06, velocity, null, offsetX, offsetY, offsetZ, count);
     }
 
     public ParticleSoul(Location toGo, double offsetX, double offsetY, double offsetZ) {

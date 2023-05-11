@@ -2,19 +2,16 @@ package hm.zelha.particlesfx.particles;
 
 import hm.zelha.particlesfx.particles.parents.Particle;
 import hm.zelha.particlesfx.particles.parents.TravellingParticle;
-import net.minecraft.core.IRegistry;
-import net.minecraft.core.particles.ParticleType;
-import net.minecraft.resources.MinecraftKey;
 import org.bukkit.Location;
 import org.bukkit.util.Vector;
 
 public class ParticleGlyph extends TravellingParticle {
     public ParticleGlyph(Location toGo, double offsetX, double offsetY, double offsetZ, int count) {
-        super((ParticleType) IRegistry.ab.get(new MinecraftKey("enchant")), true, 0, null, toGo, offsetX, offsetY, offsetZ, count);
+        super("enchant", true, 0, null, toGo, offsetX, offsetY, offsetZ, count);
     }
 
     public ParticleGlyph(Vector velocity, double offsetX, double offsetY, double offsetZ, int count) {
-        super((ParticleType) IRegistry.ab.get(new MinecraftKey("enchant")), true, 0, velocity, null, offsetX, offsetY, offsetZ, count);
+        super("enchant", true, 0, velocity, null, offsetX, offsetY, offsetZ, count);
     }
 
     public ParticleGlyph(Location toGo, double offsetX, double offsetY, double offsetZ) {

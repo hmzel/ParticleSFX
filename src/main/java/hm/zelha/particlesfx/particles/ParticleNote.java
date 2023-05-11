@@ -7,7 +7,7 @@ import net.minecraft.resources.MinecraftKey;
 
 public class ParticleNote extends Particle {
     public ParticleNote(double offsetX, double offsetY, double offsetZ, int count) {
-        super((ParticleType) IRegistry.ab.get(new MinecraftKey("note")), offsetX, offsetY, offsetZ, 0, count, 0);
+        super("note", offsetX, offsetY, offsetZ, 0, count, 0);
     }
 
     public ParticleNote(double offsetX, double offsetY, double offsetZ) {

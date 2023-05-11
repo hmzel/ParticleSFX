@@ -7,7 +7,7 @@ import net.minecraft.resources.MinecraftKey;
 
 public class ParticleWitchMagic extends Particle {
     public ParticleWitchMagic(double offsetX, double offsetY, double offsetZ, int count) {
-        super((ParticleType) IRegistry.ab.get(new MinecraftKey("witch")), offsetX, offsetY, offsetZ, 1, count, 0);
+        super("witch", offsetX, offsetY, offsetZ, 1, count, 0);
     }
 
     public ParticleWitchMagic(double offsetX, double offsetY, double offsetZ) {

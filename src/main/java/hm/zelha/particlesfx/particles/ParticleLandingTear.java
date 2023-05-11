@@ -7,7 +7,7 @@ import net.minecraft.resources.MinecraftKey;
 
 public class ParticleLandingTear extends Particle {
     public ParticleLandingTear(double offsetX, double offsetY, double offsetZ, int count) {
-        super((ParticleType) IRegistry.ab.get(new MinecraftKey("landing_obsidian_tear")), offsetX, offsetY, offsetZ, 0, count, 0);
+        super("landing_obsidian_tear", offsetX, offsetY, offsetZ, 0, count, 0);
     }
 
     public ParticleLandingTear(double offsetX, double offsetY, double offsetZ) {

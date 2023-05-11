@@ -7,7 +7,7 @@ import net.minecraft.resources.MinecraftKey;
 
 public class ParticleHappy extends Particle {
     public ParticleHappy(double offsetX, double offsetY, double offsetZ, int count) {
-        super((ParticleType) IRegistry.ab.get(new MinecraftKey("happy_villager")), offsetX, offsetY, offsetZ, 1, count, 0);
+        super("happy_villager", offsetX, offsetY, offsetZ, 1, count, 0);
     }
 
     public ParticleHappy(double offsetX, double offsetY, double offsetZ) {

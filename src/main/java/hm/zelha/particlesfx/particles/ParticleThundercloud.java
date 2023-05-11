@@ -7,7 +7,7 @@ import net.minecraft.resources.MinecraftKey;
 
 public class ParticleThundercloud extends Particle {
     public ParticleThundercloud(double offsetX, double offsetY, double offsetZ, int count) {
-        super((ParticleType) IRegistry.ab.get(new MinecraftKey("angry_villager")), offsetX, offsetY, offsetZ, 1, count, 0);
+        super("angry_villager", offsetX, offsetY, offsetZ, 1, count, 0);
     }
 
     public ParticleThundercloud(double offsetX, double offsetY, double offsetZ) {

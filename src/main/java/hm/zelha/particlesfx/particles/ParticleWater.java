@@ -10,11 +10,11 @@ import org.bukkit.util.Vector;
 
 public class ParticleWater extends TravellingParticle {
     public ParticleWater(Location toGo, double offsetX, double offsetY, double offsetZ, int count) {
-        super((ParticleType) IRegistry.ab.get(new MinecraftKey("fishing")), false, 0.05, null, toGo, offsetX, offsetY, offsetZ, count);
+        super("fishing", false, 0.05, null, toGo, offsetX, offsetY, offsetZ, count);
     }
 
     public ParticleWater(Vector velocity, double offsetX, double offsetY, double offsetZ, int count) {
-        super((ParticleType) IRegistry.ab.get(new MinecraftKey("fishing")), false, 0.05, velocity, null, offsetX, offsetY, offsetZ, count);
+        super("fishing", false, 0.05, velocity, null, offsetX, offsetY, offsetZ, count);
     }
 
     public ParticleWater(Location toGo, double offsetX, double offsetY, double offsetZ) {

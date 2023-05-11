@@ -20,10 +20,14 @@ public class ParticleDust extends ColorableParticle implements SizeableParticle 
     protected double size;
 
     public ParticleDust(@Nullable Color color, double size, double offsetX, double offsetY, double offsetZ, int count) {
-        super(new ParticleParamDust(1, 1, 1, 1, Color.WHITE, false), color, 100, offsetX, offsetY, offsetZ, count);
+        super("", color, 100, offsetX, offsetY, offsetZ, count);
 
         setSize(size);
         setColor(color);
+
+        if (color == null) {
+            setColor(Color.WHITE);
+        }
     }
 
     public ParticleDust(double size, double offsetX, double offsetY, double offsetZ, int count) {

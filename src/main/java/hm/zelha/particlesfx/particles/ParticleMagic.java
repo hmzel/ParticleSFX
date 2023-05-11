@@ -7,7 +7,7 @@ import net.minecraft.resources.MinecraftKey;
 
 public class ParticleMagic extends Particle {
     public ParticleMagic(double offsetX, double offsetY, double offsetZ, int count) {
-        super((ParticleType) IRegistry.ab.get(new MinecraftKey("instant_effect")), offsetX, offsetY, offsetZ, 1, count, 0);
+        super("instant_effect", offsetX, offsetY, offsetZ, 1, count, 0);
     }
 
     public ParticleMagic(double offsetX, double offsetY, double offsetZ) {

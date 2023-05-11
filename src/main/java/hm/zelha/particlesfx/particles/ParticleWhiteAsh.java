@@ -7,7 +7,7 @@ import net.minecraft.resources.MinecraftKey;
 
 public class ParticleWhiteAsh extends Particle {
     public ParticleWhiteAsh(double offsetX, double offsetY, double offsetZ, int count) {
-        super((ParticleType) IRegistry.ab.get(new MinecraftKey("white_ash")), offsetX, offsetY, offsetZ, 0, count, 0);
+        super("white_ash", offsetX, offsetY, offsetZ, 0, count, 0);
     }
 
     public ParticleWhiteAsh(double offsetX, double offsetY, double offsetZ) {

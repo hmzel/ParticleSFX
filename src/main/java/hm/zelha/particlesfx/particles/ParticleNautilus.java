@@ -10,11 +10,11 @@ import org.bukkit.util.Vector;
 
 public class ParticleNautilus extends TravellingParticle {
     public ParticleNautilus(Location toGo, double offsetX, double offsetY, double offsetZ, int count) {
-        super((ParticleType) IRegistry.ab.get(new MinecraftKey("nautilus")), true, 0, null, toGo, offsetX, offsetY, offsetZ, count);
+        super("nautilus", true, 0, null, toGo, offsetX, offsetY, offsetZ, count);
     }
 
     public ParticleNautilus(Vector velocity, double offsetX, double offsetY, double offsetZ, int count) {
-        super((ParticleType) IRegistry.ab.get(new MinecraftKey("nautilus")), true, 0, velocity, null, offsetX, offsetY, offsetZ, count);
+        super("nautilus", true, 0, velocity, null, offsetX, offsetY, offsetZ, count);
     }
 
     public ParticleNautilus(Location toGo, double offsetX, double offsetY, double offsetZ) {

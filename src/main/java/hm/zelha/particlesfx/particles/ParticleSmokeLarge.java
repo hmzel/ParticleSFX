@@ -10,11 +10,11 @@ import org.bukkit.util.Vector;
 
 public class ParticleSmokeLarge extends TravellingParticle {
     public ParticleSmokeLarge(Location toGo, double offsetX, double offsetY, double offsetZ, int count) {
-        super((ParticleType) IRegistry.ab.get(new MinecraftKey("large_smoke")), false, 0.05, null, toGo, offsetX, offsetY, offsetZ, count);
+        super("large_smoke", false, 0.05, null, toGo, offsetX, offsetY, offsetZ, count);
     }
 
     public ParticleSmokeLarge(Vector velocity, double offsetX, double offsetY, double offsetZ, int count) {
-        super((ParticleType) IRegistry.ab.get(new MinecraftKey("large_smoke")), false, 0.05, velocity, null, offsetX, offsetY, offsetZ, count);
+        super("large_smoke", false, 0.05, velocity, null, offsetX, offsetY, offsetZ, count);
     }
 
     public ParticleSmokeLarge(Location toGo, double offsetX, double offsetY, double offsetZ) {

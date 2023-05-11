@@ -10,11 +10,11 @@ import org.bukkit.util.Vector;
 
 public class ParticleDragonBreath extends TravellingParticle {
     public ParticleDragonBreath(Location toGo, double offsetX, double offsetY, double offsetZ, int count) {
-        super((ParticleType) IRegistry.ab.get(new MinecraftKey("dragon_breath")), false, 0.025, null, toGo, offsetX, offsetY, offsetZ, count);
+        super("dragon_breath", false, 0.025, null, toGo, offsetX, offsetY, offsetZ, count);
     }
 
     public ParticleDragonBreath(Vector velocity, double offsetX, double offsetY, double offsetZ, int count) {
-        super((ParticleType) IRegistry.ab.get(new MinecraftKey("dragon_breath")), false, 0.025, velocity, null, offsetX, offsetY, offsetZ, count);
+        super("dragon_breath", false, 0.025, velocity, null, offsetX, offsetY, offsetZ, count);
     }
 
     public ParticleDragonBreath(Location toGo, double offsetX, double offsetY, double offsetZ) {

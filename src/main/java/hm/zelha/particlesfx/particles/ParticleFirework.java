@@ -10,11 +10,11 @@ import org.bukkit.util.Vector;
 
 public class ParticleFirework extends TravellingParticle {
     public ParticleFirework(Location toGo, double offsetX, double offsetY, double offsetZ, int count) {
-        super((ParticleType) IRegistry.ab.get(new MinecraftKey("firework")), false, 0.103, null, toGo, offsetX, offsetY, offsetZ, count);
+        super("firework", false, 0.103, null, toGo, offsetX, offsetY, offsetZ, count);
     }
 
     public ParticleFirework(Vector velocity, double offsetX, double offsetY, double offsetZ, int count) {
-        super((ParticleType) IRegistry.ab.get(new MinecraftKey("firework")), false, 0.103, velocity, null, offsetX, offsetY, offsetZ, count);
+        super("firework", false, 0.103, velocity, null, offsetX, offsetY, offsetZ, count);
     }
 
     public ParticleFirework(Location toGo, double offsetX, double offsetY, double offsetZ) {

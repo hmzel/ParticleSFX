@@ -10,11 +10,11 @@ import org.bukkit.util.Vector;
 
 public class ParticleEndRod extends TravellingParticle {
     public ParticleEndRod(Location toGo, double offsetX, double offsetY, double offsetZ, int count) {
-        super((ParticleType) IRegistry.ab.get(new MinecraftKey("end_rod")), false, 0.093, null, toGo, offsetX, offsetY, offsetZ, count);
+        super("end_rod", false, 0.093, null, toGo, offsetX, offsetY, offsetZ, count);
     }
 
     public ParticleEndRod(Vector velocity, double offsetX, double offsetY, double offsetZ, int count) {
-        super((ParticleType) IRegistry.ab.get(new MinecraftKey("end_rod")), false, 0.093, velocity, null, offsetX, offsetY, offsetZ, count);
+        super("end_rod", false, 0.093, velocity, null, offsetX, offsetY, offsetZ, count);
     }
 
     public ParticleEndRod(Location toGo, double offsetX, double offsetY, double offsetZ) {
