@@ -14,7 +14,7 @@
     <description>A minecraft plugin development dependency meant to grant particle mastery with very few lines of code while still being user-friendly</description>
 
     <properties>
-        <java.version>1.8</java.version>
+        <java.version>16</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 

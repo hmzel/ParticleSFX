@@ -1,14 +1,17 @@
 package hm.zelha.particlesfx.shapers;
 
-import com.sun.imageio.plugins.gif.GIFImageReader;
 import hm.zelha.particlesfx.particles.parents.ColorableParticle;
 import hm.zelha.particlesfx.particles.parents.Particle;
 import hm.zelha.particlesfx.shapers.parents.ParticleShaper;
-import hm.zelha.particlesfx.util.*;
+import hm.zelha.particlesfx.util.Color;
+import hm.zelha.particlesfx.util.LocationSafe;
+import hm.zelha.particlesfx.util.ParticleShapeCompound;
+import hm.zelha.particlesfx.util.ShapeDisplayMechanic;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 
+import javax.imageio.IIOException;
 import javax.imageio.ImageIO;
 import javax.imageio.ImageReader;
 import javax.imageio.stream.ImageInputStream;
@@ -244,31 +247,31 @@ public class ParticleImage extends ParticleShaper {
                 ImageInputStream input = ImageIO.createImageInputStream(toLoad);
                 ImageReader reader = ImageIO.getImageReaders(input).next();
 
-                if (reader instanceof GIFImageReader) {
-                    reader = new PatchedGIFImageReader(null);
-                }
-
                 reader.setInput(input);
 
                 int imageAmount = reader.getNumImages(true);
 
                 for (int i = 0; i < imageAmount; i++) {
-                    BufferedImage image = reader.read(i);
+                    try {
+                        BufferedImage image = reader.read(i);
 
-                    //i know this is slightly janky but if i dont do it this way i'd have to make a completely different method
-                    //that would be like 95% duplicate code
-                    if (remove) {
-                        images.remove(image);
-                    } else {
-                        images.add(index + i, image);
+                        //i know this is slightly janky but if i dont do it this way i'd have to make a completely different method
+                        //that would be like 95% duplicate code
+                        if (remove) {
+                            images.remove(image);
+                        } else {
+                            images.add(index + i, image);
 
-                        if (xRadius == 0 && zRadius == 0) {
-                            setRadius(3);
+                            if (xRadius == 0 && zRadius == 0) {
+                                setRadius(3);
+                            }
                         }
+                    } catch (IIOException err) {
+                        Bukkit.getLogger().warning("frame " + i + " had an error while loading.");
                     }
                 }
             } catch (Throwable ex) {
-                Bukkit.getServer().getLogger().log(Level.SEVERE, "Failed to load image from " + toLoad.toString(), ex);
+                Bukkit.getLogger().log(Level.SEVERE, "Failed to load image from " + toLoad.toString(), ex);
             }
         });
 
