@@ -1,7 +1,6 @@
 package hm.zelha.particlesfx.particles.parents;
 
 import hm.zelha.particlesfx.util.Color;
-import net.minecraft.server.v1_13_R1.ParticleParam;
 import org.apache.commons.lang3.Validate;
 import org.bukkit.Location;
 import org.bukkit.util.Vector;
@@ -13,8 +12,8 @@ public abstract class ColorableParticle extends Particle {
     protected Color color;
     protected int brightness;
 
-    protected ColorableParticle(ParticleParam particle, @Nullable Color color, int brightness, double offsetX, double offsetY, double offsetZ, int count) {
-        super(particle, offsetX, offsetY, offsetZ, 1, count, 0);
+    protected ColorableParticle(String particleID, @Nullable Color color, int brightness, double offsetX, double offsetY, double offsetZ, int count) {
+        super(particleID, offsetX, offsetY, offsetZ, 1, count, 0);
 
         setColor(color);
         setBrightness(brightness);

@@ -2,8 +2,6 @@ package hm.zelha.particlesfx.particles;
 
 import hm.zelha.particlesfx.particles.parents.Particle;
 import hm.zelha.particlesfx.particles.parents.SizeableParticle;
-import net.minecraft.server.v1_13_R1.MinecraftKey;
-import net.minecraft.server.v1_13_R1.ParticleType;
 import org.bukkit.Location;
 import org.bukkit.util.Vector;
 
@@ -12,7 +10,7 @@ public class ParticleExplosion extends Particle implements SizeableParticle {
     protected double size;
 
     public ParticleExplosion(double size, double offsetX, double offsetY, double offsetZ, int count) {
-        super((ParticleType) REGISTRY.get(new MinecraftKey("explosion")), offsetX, offsetY, offsetZ, 0, count, 0);
+        super("explosion", offsetX, offsetY, offsetZ, 0, count, 0);
 
         setSize(size);
     }

@@ -17,7 +17,6 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public abstract class Particle {
 
-    protected static final RegistryMaterials<MinecraftKey, net.minecraft.server.v1_13_R1.Particle<? extends ParticleParam>> REGISTRY = net.minecraft.server.v1_13_R1.Particle.REGISTRY;
     protected final Vector fakeOffsetHelper = new Vector();
     protected final Vector xyzHelper = new Vector();
     protected final Vector offsetHelper = new Vector();
@@ -32,8 +31,8 @@ public abstract class Particle {
     private final List<CraftPlayer> listHelper = new ArrayList<>();
     private final ThreadLocalRandom rng = ThreadLocalRandom.current();
 
-    protected Particle(ParticleParam particle, double offsetX, double offsetY, double offsetZ, double speed, int count, int radius) {
-        this.particle = particle;
+    protected Particle(String particleID, double offsetX, double offsetY, double offsetZ, double speed, int count, int radius) {
+        this.particle = (ParticleType) net.minecraft.server.v1_13_R1.Particle.REGISTRY.get(new MinecraftKey(particleID));
 
         setOffset(offsetX, offsetY, offsetZ);
         setSpeed(speed);

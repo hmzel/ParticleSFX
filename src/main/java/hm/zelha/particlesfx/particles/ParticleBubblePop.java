@@ -2,18 +2,16 @@ package hm.zelha.particlesfx.particles;
 
 import hm.zelha.particlesfx.particles.parents.Particle;
 import hm.zelha.particlesfx.particles.parents.TravellingParticle;
-import net.minecraft.server.v1_13_R1.MinecraftKey;
-import net.minecraft.server.v1_13_R1.ParticleType;
 import org.bukkit.Location;
 import org.bukkit.util.Vector;
 
 public class ParticleBubblePop extends TravellingParticle {
     public ParticleBubblePop(Location toGo, double offsetX, double offsetY, double offsetZ, int count) {
-        super((ParticleType) REGISTRY.get(new MinecraftKey("bubble_pop")), false, 0.26, null, toGo, offsetX, offsetY, offsetZ, count);
+        super("bubble_pop", false, 0.26, null, toGo, offsetX, offsetY, offsetZ, count);
     }
 
     public ParticleBubblePop(Vector velocity, double offsetX, double offsetY, double offsetZ, int count) {
-        super((ParticleType) REGISTRY.get(new MinecraftKey("bubble_pop")), false, 0.26, velocity, null, offsetX, offsetY, offsetZ, count);
+        super("bubble_pop", false, 0.26, velocity, null, offsetX, offsetY, offsetZ, count);
     }
 
     public ParticleBubblePop(Location toGo, double offsetX, double offsetY, double offsetZ) {

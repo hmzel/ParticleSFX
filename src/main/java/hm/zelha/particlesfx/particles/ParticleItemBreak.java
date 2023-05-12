@@ -21,14 +21,14 @@ import org.bukkit.util.Vector;
 public class ParticleItemBreak extends TravellingParticle implements MaterialParticle {
     /**@see ParticleItemBreak*/
     public ParticleItemBreak(Material material, Vector velocity, double offsetX, double offsetY, double offsetZ, int count) {
-        super(null, false, 0.105, velocity, null, offsetX, offsetY, offsetZ, count);
+        super("", false, 0.105, velocity, null, offsetX, offsetY, offsetZ, count);
 
         setMaterial(material);
     }
 
     /**@see ParticleItemBreak*/
     public ParticleItemBreak(Material material, Location toGo, double offsetX, double offsetY, double offsetZ, int count) {
-        super(null, false, 0.105, null, toGo, offsetX, offsetY, offsetZ, count);
+        super("", false, 0.105, null, toGo, offsetX, offsetY, offsetZ, count);
 
         setMaterial(material);
     }
@@ -147,7 +147,7 @@ public class ParticleItemBreak extends TravellingParticle implements MaterialPar
     public void setMaterial(Material material) {
         Validate.notNull(material, "material cannot be null!");
 
-        particle = new ParticleParamItem((net.minecraft.server.v1_13_R1.Particle) REGISTRY.get(new MinecraftKey("item")), CraftItemStack.asNMSCopy(new ItemStack(material)));
+        particle = new ParticleParamItem((net.minecraft.server.v1_13_R1.Particle) net.minecraft.server.v1_13_R1.Particle.REGISTRY.get(new MinecraftKey("item")), CraftItemStack.asNMSCopy(new ItemStack(material)));
     }
 
     public Material getMaterial() {

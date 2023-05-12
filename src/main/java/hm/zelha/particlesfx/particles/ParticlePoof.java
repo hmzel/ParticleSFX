@@ -2,18 +2,16 @@ package hm.zelha.particlesfx.particles;
 
 import hm.zelha.particlesfx.particles.parents.Particle;
 import hm.zelha.particlesfx.particles.parents.TravellingParticle;
-import net.minecraft.server.v1_13_R1.MinecraftKey;
-import net.minecraft.server.v1_13_R1.ParticleType;
 import org.bukkit.Location;
 import org.bukkit.util.Vector;
 
 public class ParticlePoof extends TravellingParticle {
     public ParticlePoof(Location toGo, double offsetX, double offsetY, double offsetZ, int count) {
-        super((ParticleType) REGISTRY.get(new MinecraftKey("poof")), false, 0.085, null, toGo, offsetX, offsetY, offsetZ, count);
+        super("poof", false, 0.085, null, toGo, offsetX, offsetY, offsetZ, count);
     }
 
     public ParticlePoof(Vector velocity, double offsetX, double offsetY, double offsetZ, int count) {
-        super((ParticleType) REGISTRY.get(new MinecraftKey("poof")), false, 0.085, velocity, null, offsetX, offsetY, offsetZ, count);
+        super("poof", false, 0.085, velocity, null, offsetX, offsetY, offsetZ, count);
     }
 
     public ParticlePoof(Location toGo, double offsetX, double offsetY, double offsetZ) {
