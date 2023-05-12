@@ -2,19 +2,16 @@ package hm.zelha.particlesfx.particles;
 
 import hm.zelha.particlesfx.particles.parents.Particle;
 import hm.zelha.particlesfx.particles.parents.TravellingParticle;
-import net.minecraft.server.v1_13_R2.IRegistry;
-import net.minecraft.server.v1_13_R2.MinecraftKey;
-import net.minecraft.server.v1_13_R2.ParticleType;
 import org.bukkit.Location;
 import org.bukkit.util.Vector;
 
 public class ParticleInk extends TravellingParticle {
     public ParticleInk(Location toGo, double offsetX, double offsetY, double offsetZ, int count) {
-        super((ParticleType) IRegistry.PARTICLE_TYPE.get(new MinecraftKey("squid_ink")), false, 0.099, null, toGo, offsetX, offsetY, offsetZ, count);
+        super("squid_ink", false, 0.099, null, toGo, offsetX, offsetY, offsetZ, count);
     }
 
     public ParticleInk(Vector velocity, double offsetX, double offsetY, double offsetZ, int count) {
-        super((ParticleType) IRegistry.PARTICLE_TYPE.get(new MinecraftKey("squid_ink")), false, 0.099, velocity, null, offsetX, offsetY, offsetZ, count);
+        super("squid_ink", false, 0.099, velocity, null, offsetX, offsetY, offsetZ, count);
     }
 
     public ParticleInk(Location toGo, double offsetX, double offsetY, double offsetZ) {

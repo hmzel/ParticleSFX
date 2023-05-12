@@ -22,14 +22,14 @@ import org.bukkit.util.Vector;
 public class ParticleItemBreak extends TravellingParticle implements MaterialParticle {
     /**@see ParticleItemBreak*/
     public ParticleItemBreak(Material material, Vector velocity, double offsetX, double offsetY, double offsetZ, int count) {
-        super(null, false, 0.105, velocity, null, offsetX, offsetY, offsetZ, count);
+        super("", false, 0.105, velocity, null, offsetX, offsetY, offsetZ, count);
 
         setMaterial(material);
     }
 
     /**@see ParticleItemBreak*/
     public ParticleItemBreak(Material material, Location toGo, double offsetX, double offsetY, double offsetZ, int count) {
-        super(null, false, 0.105, null, toGo, offsetX, offsetY, offsetZ, count);
+        super("", false, 0.105, null, toGo, offsetX, offsetY, offsetZ, count);
 
         setMaterial(material);
     }

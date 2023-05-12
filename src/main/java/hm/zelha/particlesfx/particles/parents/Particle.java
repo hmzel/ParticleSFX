@@ -31,8 +31,8 @@ public abstract class Particle {
     private final List<CraftPlayer> listHelper = new ArrayList<>();
     private final ThreadLocalRandom rng = ThreadLocalRandom.current();
 
-    protected Particle(ParticleParam particle, double offsetX, double offsetY, double offsetZ, double speed, int count, int radius) {
-        this.particle = particle;
+    protected Particle(String particleID, double offsetX, double offsetY, double offsetZ, double speed, int count, int radius) {
+        this.particle = (ParticleType) IRegistry.PARTICLE_TYPE.get(new MinecraftKey(particleID));
 
         setOffset(offsetX, offsetY, offsetZ);
         setSpeed(speed);

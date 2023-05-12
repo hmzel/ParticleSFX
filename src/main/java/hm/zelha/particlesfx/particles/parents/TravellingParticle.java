@@ -1,7 +1,6 @@
 package hm.zelha.particlesfx.particles.parents;
 
 import hm.zelha.particlesfx.util.LVMath;
-import net.minecraft.server.v1_13_R2.ParticleParam;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
@@ -16,8 +15,8 @@ public abstract class TravellingParticle extends Particle {
     protected Location toGo;
     protected Vector velocity;
 
-    protected TravellingParticle(ParticleParam particle, boolean inverse, double control, Vector velocity, Location toGo, double offsetX, double offsetY, double offsetZ, int count) {
-        super(particle, offsetX, offsetY, offsetZ, 1, count, 0);
+    protected TravellingParticle(String particleID, boolean inverse, double control, Vector velocity, Location toGo, double offsetX, double offsetY, double offsetZ, int count) {
+        super(particleID, offsetX, offsetY, offsetZ, 1, count, 0);
 
         this.inverse = inverse;
         this.control = control;
