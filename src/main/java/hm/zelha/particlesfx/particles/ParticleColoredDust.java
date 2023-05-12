@@ -13,12 +13,12 @@ import org.bukkit.util.Vector;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class ParticleDust extends ColorableParticle implements SizeableParticle {
+public class ParticleColoredDust extends ColorableParticle implements SizeableParticle {
 
     protected boolean pureColor = false;
     protected double size;
 
-    public ParticleDust(@Nullable Color color, double size, double offsetX, double offsetY, double offsetZ, int count) {
+    public ParticleColoredDust(@Nullable Color color, double size, double offsetX, double offsetY, double offsetZ, int count) {
         super("", color, 100, offsetX, offsetY, offsetZ, count);
 
         particle = new ParticleParamDust(1, 1, 1, (float) size, Color.WHITE, false);
@@ -31,65 +31,65 @@ public class ParticleDust extends ColorableParticle implements SizeableParticle 
         }
     }
 
-    public ParticleDust(double size, double offsetX, double offsetY, double offsetZ, int count) {
+    public ParticleColoredDust(double size, double offsetX, double offsetY, double offsetZ, int count) {
         this(null, size, offsetX, offsetY, offsetZ, count);
     }
 
-    public ParticleDust(@Nullable Color color, double offsetX, double offsetY, double offsetZ, int count) {
+    public ParticleColoredDust(@Nullable Color color, double offsetX, double offsetY, double offsetZ, int count) {
         this(color, 1, offsetX, offsetY, offsetZ, count);
     }
 
-    public ParticleDust(double offsetX, double offsetY, double offsetZ, int count) {
+    public ParticleColoredDust(double offsetX, double offsetY, double offsetZ, int count) {
         this(null, 1, offsetX, offsetY, offsetZ, count);
     }
 
-    public ParticleDust(@Nullable Color color, double offsetX, double offsetY, double offsetZ) {
+    public ParticleColoredDust(@Nullable Color color, double offsetX, double offsetY, double offsetZ) {
         this(color, 1, offsetX, offsetY, offsetZ, 1);
     }
 
-    public ParticleDust(double size, double offsetX, double offsetY, double offsetZ) {
+    public ParticleColoredDust(double size, double offsetX, double offsetY, double offsetZ) {
         this(null, size, offsetX, offsetY, offsetZ, 1);
     }
 
-    public ParticleDust(double offsetX, double offsetY, double offsetZ) {
+    public ParticleColoredDust(double offsetX, double offsetY, double offsetZ) {
         this(null, 1, offsetX, offsetY, offsetZ, 1);
     }
 
-    public ParticleDust(@Nullable Color color, double size, int count) {
+    public ParticleColoredDust(@Nullable Color color, double size, int count) {
         this(color, size, 0, 0, 0, count);
     }
 
-    public ParticleDust(@Nullable Color color, double size) {
+    public ParticleColoredDust(@Nullable Color color, double size) {
         this(color, size, 0, 0, 0, 1);
     }
 
-    public ParticleDust(@Nullable Color color) {
+    public ParticleColoredDust(@Nullable Color color) {
         this(color, 1, 0, 0, 0, 1);
     }
 
-    public ParticleDust(int count) {
+    public ParticleColoredDust(int count) {
         this(null, 1, 0, 0, 0, count);
     }
 
-    public ParticleDust() {
+    public ParticleColoredDust() {
         this(null, 1, 0, 0, 0, 1);
     }
 
     @Override
-    public ParticleDust inherit(Particle particle) {
+    public ParticleColoredDust inherit(Particle particle) {
         super.inherit(particle);
 
-        if (particle instanceof ParticleDust) {
-            pureColor = ((ParticleDust) particle).pureColor;
-            size = ((ParticleDust) particle).size;
+        if (particle instanceof ParticleColoredDust) {
+            pureColor = ((ParticleColoredDust) particle).pureColor;
+            size = ((ParticleColoredDust) particle).size;
         }
 
         return this;
     }
 
     @Override
-    public ParticleDust clone() {
-        return new ParticleDust().inherit(this);
+    public ParticleColoredDust clone() {
+        return new ParticleColoredDust().inherit(this);
     }
 
     @Override
@@ -163,7 +163,7 @@ public class ParticleDust extends ColorableParticle implements SizeableParticle 
      * @param pureColor whether the color should be pure
      * @return this object
      */
-    public ParticleDust setPureColor(boolean pureColor) {
+    public ParticleColoredDust setPureColor(boolean pureColor) {
         this.pureColor = pureColor;
 
         return this;
