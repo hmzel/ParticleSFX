@@ -22,6 +22,8 @@ public class ParticleDust extends ColorableParticle implements SizeableParticle 
     public ParticleDust(@Nullable Color color, double size, double offsetX, double offsetY, double offsetZ, int count) {
         super("", color, 100, offsetX, offsetY, offsetZ, count);
 
+        particle = new ParticleParamDust(1, 1, 1, (float) size, Color.WHITE, false);
+
         setSize(size);
         setColor(color);
 
