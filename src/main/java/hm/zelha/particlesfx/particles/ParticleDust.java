@@ -65,6 +65,8 @@ public class ParticleDust extends ColorableParticle {
     protected Vector getOffsets(Location location) {
         Vector offsets = super.getOffsets(location);
 
+        if (color == null) return offsets;
+
         if (pureColor) {
             offsets.setX(Float.MAX_VALUE * (color.getRed() / 255D));
             offsets.setY(Float.MAX_VALUE * (color.getGreen() / 255D));
