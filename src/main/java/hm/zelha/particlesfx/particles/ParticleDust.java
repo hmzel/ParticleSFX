@@ -94,24 +94,26 @@ public class ParticleDust extends ColorableParticle implements SizeableParticle 
 
     @Override
     protected void display(Location location, List<CraftPlayer> players) {
-        ParticleParamDust dust = (ParticleParamDust) particle;
+        if (particle instanceof ParticleParamDust) {
+            ParticleParamDust dust = (ParticleParamDust) particle;
 
-        if ((color != null && !dust.color.equals(color)) || dust.size != size || dust.pureColor != pureColor) {
-            float red = 1, green = 1, blue = 1;
+            if ((color != null && !dust.color.equals(color)) || dust.size != size || dust.pureColor != pureColor) {
+                float red = 1, green = 1, blue = 1;
 
-            if (color != null) {
-                red = color.getRed() / 255F;
-                green = color.getGreen() / 255F;
-                blue = color.getBlue() / 255F;
+                if (color != null) {
+                    red = color.getRed() / 255F;
+                    green = color.getGreen() / 255F;
+                    blue = color.getBlue() / 255F;
+                }
 
                 if (pureColor) {
                     red *= Float.MAX_VALUE;
                     green *= Float.MAX_VALUE;
                     blue *= Float.MAX_VALUE;
                 }
-            }
 
-            particle = new ParticleParamDust(red, green, blue, (float) size, color, pureColor);
+                particle = new ParticleParamDust(red, green, blue, (float) size, color, pureColor);
+            }
         }
 
         super.display(location, players);
