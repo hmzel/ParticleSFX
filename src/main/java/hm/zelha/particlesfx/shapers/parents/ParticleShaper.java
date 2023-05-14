@@ -1,12 +1,12 @@
 package hm.zelha.particlesfx.shapers.parents;
 
 import hm.zelha.particlesfx.particles.parents.Particle;
+import hm.zelha.particlesfx.util.Pair;
 import hm.zelha.particlesfx.util.ParticleSFX;
 import hm.zelha.particlesfx.util.ShapeDisplayMechanic;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Location;
 import org.bukkit.World;
-import org.bukkit.craftbukkit.libs.org.apache.commons.lang3.tuple.Pair;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
@@ -99,7 +99,7 @@ public abstract class ParticleShaper extends RotationHandler implements Shape {
      * @param particlesUntilDisplay how many particles need to be displayed before this one
      */
     public void addParticle(Particle particle, int particlesUntilDisplay) {
-        secondaryParticles.add(Pair.of(particle, particlesUntilDisplay));
+        secondaryParticles.add(new Pair<>(particle, particlesUntilDisplay));
     }
 
     /**
@@ -118,7 +118,7 @@ public abstract class ParticleShaper extends RotationHandler implements Shape {
      * @param mechanic mechanic to run during display
      */
     public void addMechanic(ShapeDisplayMechanic.Phase phase, ShapeDisplayMechanic mechanic) {
-        mechanics.add(Pair.of(mechanic, phase));
+        mechanics.add(new Pair<>(mechanic, phase));
     }
 
     /**

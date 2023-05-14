@@ -11,8 +11,8 @@ import net.minecraft.server.level.EntityPlayer;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.craftbukkit.v1_17_R1.CraftServer;
-import org.bukkit.craftbukkit.v1_17_R1.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_18_R1.CraftServer;
+import org.bukkit.craftbukkit.v1_18_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
@@ -38,7 +38,7 @@ public abstract class Particle {
     private final ThreadLocalRandom rng = ThreadLocalRandom.current();
 
     protected Particle(String particleID, double offsetX, double offsetY, double offsetZ, double speed, int count, int radius) {
-        this.particle = (ParticleType) IRegistry.ab.get(new MinecraftKey(particleID));
+        this.particle = (ParticleType) IRegistry.ac.a(new MinecraftKey(particleID));
 
         setOffset(offsetX, offsetY, offsetZ);
         setSpeed(speed);
@@ -100,10 +100,10 @@ public abstract class Particle {
                 EntityPlayer p = players.get(k).getHandle();
 
                 if (p == null) continue;
-                if (!location.getWorld().getName().equals(p.getWorld().getWorld().getName())) continue;
+                if (!location.getWorld().getName().equals(p.t.getWorld().getName())) continue;
 
                 if (radius != 0) {
-                    double distance = Math.pow(location.getX() - p.locX(), 2) + Math.pow(location.getY() - p.locY(), 2) + Math.pow(location.getZ() - p.locZ(), 2);
+                    double distance = Math.pow(location.getX() - p.dc(), 2) + Math.pow(location.getY() - p.de(), 2) + Math.pow(location.getZ() - p.di(), 2);
 
                     if (distance > Math.pow(radius, 2)) continue;
                 }
@@ -113,9 +113,9 @@ public abstract class Particle {
                 Packet strangePacket = getStrangePacket(location);
 
                 if (strangePacket != null) {
-                    p.b.sendPacket(strangePacket);
+                    p.b.a(strangePacket);
                 } else {
-                    p.b.sendPacket(
+                    p.b.a(
                             new PacketPlayOutWorldParticles(
                                     particle, true, (float) xyz.getX(), (float) xyz.getY(), (float) xyz.getZ(), (float) offsets.getX(),
                                     (float) offsets.getY(), (float) offsets.getZ(), getPacketSpeed(), getPacketCount()

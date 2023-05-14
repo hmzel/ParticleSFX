@@ -7,7 +7,7 @@ import net.minecraft.core.particles.VibrationParticleOption;
 import net.minecraft.world.level.gameevent.BlockPositionSource;
 import net.minecraft.world.level.gameevent.vibrations.VibrationPath;
 import org.bukkit.Location;
-import org.bukkit.craftbukkit.v1_17_R1.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_18_R1.entity.CraftPlayer;
 import org.bukkit.util.Vector;
 
 import java.util.List;
@@ -79,17 +79,17 @@ public class ParticleVibration extends TravellingParticle {
         BlockPosition destination = vibe.c().a(null).get();
         boolean changed = false;
 
-        if (origin.getX() != (int) location.getX() || origin.getY() != (int) location.getY() || origin.getZ() != (int) location.getZ()) {
+        if (origin.u() != (int) location.getX() || origin.v() != (int) location.getY() || origin.w() != (int) location.getZ()) {
             origin = new BlockPosition(location.getBlockX(), location.getBlockY(), location.getBlockZ());
             changed = true;
         }
 
-        if (toGo != null && (destination.getX() != (int) location.getX() || destination.getY() != (int) location.getY() || destination.getZ() != (int) location.getZ())) {
+        if (toGo != null && (destination.u() != (int) location.getX() || destination.v() != (int) location.getY() || destination.w() != (int) location.getZ())) {
             destination = new BlockPosition(toGo.getBlockX(), toGo.getBlockY(), toGo.getBlockZ());
             changed = true;
         }
 
-        if (velocity != null && (destination.getX() != (int) (location.getX() + velocity.getX()) || destination.getY() != (int) (location.getY() + velocity.getY()) || destination.getZ() != (int) (location.getZ() + velocity.getZ()))) {
+        if (velocity != null && (destination.u() != (int) (location.getX() + velocity.getX()) || destination.v() != (int) (location.getY() + velocity.getY()) || destination.w() != (int) (location.getZ() + velocity.getZ()))) {
             destination = new BlockPosition((int) (location.getX() + velocity.getX()), (int) (location.getY() + velocity.getY()), (int) (location.getZ() + velocity.getZ()));
             changed = true;
         }
