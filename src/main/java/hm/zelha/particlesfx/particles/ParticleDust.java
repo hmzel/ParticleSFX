@@ -74,6 +74,7 @@ public class ParticleDust extends ColorableParticle implements SizeableParticle 
         super.inherit(particle);
 
         if (particle instanceof ParticleDust) {
+            this.particle = ((ParticleDust) particle).particle;
             pureColor = ((ParticleDust) particle).pureColor;
             size = ((ParticleDust) particle).size;
         }
