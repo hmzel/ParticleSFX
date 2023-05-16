@@ -7,7 +7,7 @@ import net.minecraft.core.particles.VibrationParticleOption;
 import net.minecraft.world.level.gameevent.BlockPositionSource;
 import net.minecraft.world.level.gameevent.vibrations.VibrationPath;
 import org.bukkit.Location;
-import org.bukkit.craftbukkit.v1_18_R1.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_18_R2.entity.CraftPlayer;
 import org.bukkit.util.Vector;
 
 import java.util.List;
