@@ -151,7 +151,7 @@ public class ParticleItemBreak extends TravellingParticle implements MaterialPar
     }
 
     public Material getMaterial() {
-        String s = this.particle.a();
+        String s = this.particle.a().toLowerCase();
 
         for (Material m : Material.values()) {
             if (s.contains(m.name().toLowerCase())) {

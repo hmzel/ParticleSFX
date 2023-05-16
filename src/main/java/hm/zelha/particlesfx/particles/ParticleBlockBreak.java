@@ -67,7 +67,7 @@ public class ParticleBlockBreak extends Particle implements MaterialParticle {
     }
 
     public Material getMaterial() {
-        String s = this.particle.a();
+        String s = this.particle.a().toLowerCase();
 
         for (Material m : Material.values()) {
             if (s.contains(m.name().toLowerCase())) {
