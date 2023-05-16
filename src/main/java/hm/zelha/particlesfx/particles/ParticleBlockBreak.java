@@ -48,8 +48,8 @@ public class ParticleBlockBreak extends Particle implements MaterialParticle {
     public ParticleBlockBreak inherit(Particle particle) {
         super.inherit(particle);
 
-        if (particle instanceof ParticleBlockBreak) {
-            this.particle = ((ParticleBlockBreak) particle).particle;
+        if (particle instanceof MaterialParticle) {
+            setMaterial(((MaterialParticle) particle).getMaterial());
         }
 
         return this;
