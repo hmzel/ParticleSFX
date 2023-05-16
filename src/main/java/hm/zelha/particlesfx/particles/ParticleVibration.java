@@ -61,6 +61,10 @@ public class ParticleVibration extends TravellingParticle {
     public ParticleVibration inherit(Particle particle) {
         super.inherit(particle);
 
+        if (particle instanceof ParticleVibration) {
+            this.particle = ((ParticleVibration) particle).particle;
+        }
+
         return this;
     }
 
