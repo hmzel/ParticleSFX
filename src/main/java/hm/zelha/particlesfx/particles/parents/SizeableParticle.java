@@ -7,47 +7,47 @@ import java.util.List;
 import java.util.UUID;
 
 public interface SizeableParticle {
-    public void display(Location location);
+    void display(Location location);
 
-    public void displayForPlayers(Location location, Player... players);
+    void displayForPlayers(Location location, Player... players);
 
-    public void displayForPlayers(Location location, List<UUID> players);
+    void displayForPlayers(Location location, List<UUID> players);
 
     /**
      * @param particle particle for this object to copy data from
      * @return this object
      */
-    public SizeableParticle inherit(Particle particle);
+    SizeableParticle inherit(Particle particle);
 
-    public abstract SizeableParticle clone();
+    SizeableParticle clone();
 
-    public void setSize(double size);
+    void setSize(double size);
 
-    public void setOffset(double x, double y, double z);
+    void setOffset(double x, double y, double z);
 
-    public void setOffsetX(double offsetX);
+    void setOffsetX(double offsetX);
 
-    public void setOffsetY(double offsetY);
+    void setOffsetY(double offsetY);
 
-    public void setOffsetZ(double offsetZ);
+    void setOffsetZ(double offsetZ);
 
-    public void setSpeed(double speed);
+    void setSpeed(double speed);
 
-    public void setCount(int count);
+    void setCount(int count);
 
-    public void setRadius(int radius);
+    void setRadius(int radius);
 
-    public double getSize();
+    double getSize();
 
-    public double getOffsetX();
+    double getOffsetX();
 
-    public double getOffsetY();
+    double getOffsetY();
 
-    public double getOffsetZ();
+    double getOffsetZ();
 
-    public double getSpeed();
+    double getSpeed();
 
-    public int getCount();
+    int getCount();
 
-    public int getRadius();
+    int getRadius();
 }
