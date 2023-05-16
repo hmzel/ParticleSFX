@@ -133,8 +133,8 @@ public class ParticleItemBreak extends TravellingParticle implements MaterialPar
     public ParticleItemBreak inherit(Particle particle) {
         super.inherit(particle);
 
-        if (particle instanceof ParticleItemBreak) {
-            this.particle = ((ParticleItemBreak) particle).particle;
+        if (particle instanceof MaterialParticle) {
+            setMaterial(((MaterialParticle) particle).getMaterial());
         }
 
         return this;
