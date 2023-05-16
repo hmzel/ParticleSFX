@@ -10,22 +10,22 @@ public interface Shape {
     /**
      * @return this object
      */
-    public Shape start();
+    Shape start();
 
     /**
      * @return this object
      */
-    public Shape stop();
+    Shape stop();
 
-    public void display();
+    void display();
 
-    public void rotate(double pitch, double yaw, double roll);
+    void rotate(double pitch, double yaw, double roll);
 
-    public void rotateAroundLocation(Location around, double pitch, double yaw, double roll);
+    void rotateAroundLocation(Location around, double pitch, double yaw, double roll);
 
-    public void face(Location toFace);
+    void face(Location toFace);
 
-    public void faceAroundLocation(Location toFace, Location around);
+    void faceAroundLocation(Location toFace, Location around);
 
     /**
      * adds the given x, y, z values to every location in the shape
@@ -34,21 +34,21 @@ public interface Shape {
      * @param y y addition
      * @param z z addition
      */
-    public void move(double x, double y, double z);
+    void move(double x, double y, double z);
 
     /**
      * adds the given vector to every location in the shape
      *
      * @param vector vector to add
      */
-    public void move(Vector vector);
+    void move(Vector vector);
 
     /**
      * adds the given location to every location in the shape
      *
      * @param location location to add
      */
-    public void move(Location location);
+    void move(Location location);
 
     /**
      * Rescales this shape such that a shape with the xyz radiuses of 4, 3, 4, resized by 1.25, 1.25, 1.25, would have its
@@ -58,7 +58,7 @@ public interface Shape {
      * @param y y scale
      * @param z z scale
      */
-    public void scale(double x, double y, double z);
+    void scale(double x, double y, double z);
 
     /**
      * Rescales this shape such that a shape with the xyz radiuses of 4, 3, 4, resized by 1.25, would have its
@@ -66,14 +66,14 @@ public interface Shape {
      *
      * @param scale scale amount
      */
-    public void scale(double scale);
+    void scale(double scale);
 
-    public Shape clone();
+    Shape clone();
 
     /**
      * @param delay amount of ticks between {@link ParticleShaper#display()} being called
      */
-    public void setDelay(int delay);
+    void setDelay(int delay);
 
     /**
      * sets the current position of the shape's animation <br>
@@ -81,87 +81,87 @@ public interface Shape {
      *
      * @param position position for shape to display at
      */
-    public void setDisplayPosition(int position);
+    void setDisplayPosition(int position);
 
-    public void setWorld(World world);
+    void setWorld(World world);
 
-    public void setRotation(double pitch, double yaw, double roll);
+    void setRotation(double pitch, double yaw, double roll);
 
-    public void setRotationOrder(Rotation.Axis first, Rotation.Axis second, Rotation.Axis third);
+    void setRotationOrder(Rotation.Axis first, Rotation.Axis second, Rotation.Axis third);
 
-    public void setPitch(double pitch);
+    void setPitch(double pitch);
 
-    public void setYaw(double yaw);
+    void setYaw(double yaw);
 
-    public void setRoll(double roll);
+    void setRoll(double roll);
 
-    public void setAroundRotation(Location around, double pitch, double yaw, double roll);
+    void setAroundRotation(Location around, double pitch, double yaw, double roll);
 
-    public void setAroundRotationOrder(Location around, Rotation.Axis first, Rotation.Axis second, Rotation.Axis third);
+    void setAroundRotationOrder(Location around, Rotation.Axis first, Rotation.Axis second, Rotation.Axis third);
 
-    public void setAroundPitch(Location around, double pitch);
+    void setAroundPitch(Location around, double pitch);
 
-    public void setAroundYaw(Location around, double yaw);
+    void setAroundYaw(Location around, double yaw);
 
-    public void setAroundRoll(Location around, double roll);
+    void setAroundRoll(Location around, double roll);
 
-    public void setAxisRotation(double pitch, double yaw, double roll);
+    void setAxisRotation(double pitch, double yaw, double roll);
 
-    public void setAxisPitch(double pitch);
+    void setAxisPitch(double pitch);
 
-    public void setAxisYaw(double yaw);
+    void setAxisYaw(double yaw);
 
-    public void setAxisRoll(double roll);
+    void setAxisRoll(double roll);
 
-    public void setAroundAxisRotation(Location around, double pitch, double yaw, double roll);
+    void setAroundAxisRotation(Location around, double pitch, double yaw, double roll);
 
-    public void setAroundAxisPitch(Location around, double pitch);
+    void setAroundAxisPitch(Location around, double pitch);
 
-    public void setAroundAxisYaw(Location around, double yaw);
+    void setAroundAxisYaw(Location around, double yaw);
 
-    public void setAroundAxisRoll(Location around, double roll);
+    void setAroundAxisRoll(Location around, double roll);
 
-    public World getWorld();
+    World getWorld();
 
-    public Rotation.Axis[] getRotationOrder();
+    Rotation.Axis[] getRotationOrder();
 
-    public double getPitch();
+    double getPitch();
 
-    public double getYaw();
+    double getYaw();
 
-    public double getRoll();
+    double getRoll();
 
-    public Rotation.Axis[] getAroundRotationOrder();
+    Rotation.Axis[] getAroundRotationOrder();
 
-    public double getAroundPitch();
+    double getAroundPitch();
 
-    public double getAroundYaw();
+    double getAroundYaw();
 
-    public double getAroundRoll();
+    double getAroundRoll();
 
-    public double getAxisPitch();
+    double getAxisPitch();
 
-    public double getAxisYaw();
+    double getAxisYaw();
 
-    public double getAxisRoll();
+    double getAxisRoll();
 
-    public double getAroundAxisPitch();
+    double getAroundAxisPitch();
 
-    public double getAroundAxisYaw();
+    double getAroundAxisYaw();
 
-    public double getAroundAxisRoll();
+    double getAroundAxisRoll();
 
-    public Location[] getLocations();
+    Location[] getLocations();
 
-    public int getLocationAmount();
+    int getLocationAmount();
 
     /**
      * @return the distance between every location in this shape
      */
-    public double getTotalDistance();
+    double getTotalDistance();
 
     /**
      * @return a new Location object set to the center of this shape
      */
-    public Location getClonedCenter();
+    Location getClonedCenter();
 }
