@@ -48,8 +48,8 @@ public class ParticleBlockDust extends Particle implements MaterialParticle {
     public ParticleBlockDust inherit(Particle particle) {
         super.inherit(particle);
 
-        if (particle instanceof ParticleBlockDust) {
-            this.particle = ((ParticleBlockDust) particle).particle;
+        if (particle instanceof MaterialParticle) {
+            setMaterial(((MaterialParticle) particle).getMaterial());
         }
 
         return this;
