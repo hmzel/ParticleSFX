@@ -13,9 +13,9 @@ public interface ShapeDisplayMechanic {
      * @param addition the vector that will be/has been added to the location before the particle is displayed <br><br>
      * @param count current amount of particles that have been displayed (set back to 0 once the entire shape is displayed)
      */
-    public void apply(Particle particle, Location current, Vector addition, int count);
+    void apply(Particle particle, Location current, Vector addition, int count);
 
-    public enum Phase {
+    enum Phase {
         BEFORE_ROTATION,
         AFTER_ROTATION,
         AFTER_DISPLAY
