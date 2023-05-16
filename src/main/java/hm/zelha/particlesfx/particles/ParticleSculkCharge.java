@@ -55,6 +55,10 @@ public class ParticleSculkCharge extends TravellingParticle {
     public ParticleSculkCharge inherit(Particle particle) {
         super.inherit(particle);
 
+        if (particle instanceof ParticleSculkCharge) {
+            this.particle = ((ParticleSculkCharge) particle).particle;
+        }
+
         return this;
     }
 

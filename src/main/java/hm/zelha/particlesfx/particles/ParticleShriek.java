@@ -24,6 +24,10 @@ public class ParticleShriek extends Particle {
     public ParticleShriek inherit(Particle particle) {
         super.inherit(particle);
 
+        if (particle instanceof ParticleShriek) {
+            this.particle = ((ParticleShriek) particle).particle;
+        }
+
         return this;
     }
 
