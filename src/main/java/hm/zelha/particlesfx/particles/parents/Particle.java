@@ -1,9 +1,9 @@
 package hm.zelha.particlesfx.particles.parents;
 
 import hm.zelha.particlesfx.util.LVMath;
-import net.minecraft.core.IRegistry;
 import net.minecraft.core.particles.ParticleParam;
 import net.minecraft.core.particles.ParticleType;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.PacketPlayOutWorldParticles;
 import net.minecraft.resources.MinecraftKey;
@@ -11,8 +11,8 @@ import net.minecraft.server.level.EntityPlayer;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.craftbukkit.v1_19_R1.CraftServer;
-import org.bukkit.craftbukkit.v1_19_R1.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_19_R3.CraftServer;
+import org.bukkit.craftbukkit.v1_19_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
@@ -38,7 +38,7 @@ public abstract class Particle {
     private final ThreadLocalRandom rng = ThreadLocalRandom.current();
 
     protected Particle(String particleID, double offsetX, double offsetY, double offsetZ, double speed, int count, int radius) {
-        this.particle = (ParticleType) IRegistry.aa.a(new MinecraftKey(particleID));
+        this.particle = (ParticleType) BuiltInRegistries.k.a(new MinecraftKey(particleID));
 
         setOffset(offsetX, offsetY, offsetZ);
         setSpeed(speed);
@@ -100,10 +100,10 @@ public abstract class Particle {
                 EntityPlayer p = players.get(k).getHandle();
 
                 if (p == null) continue;
-                if (!location.getWorld().getName().equals(p.s.getWorld().getName())) continue;
+                if (!location.getWorld().getName().equals(p.H.getWorld().getName())) continue;
 
                 if (radius != 0) {
-                    double distance = Math.pow(location.getX() - p.dg(), 2) + Math.pow(location.getY() - p.di(), 2) + Math.pow(location.getZ() - p.dm(), 2);
+                    double distance = Math.pow(location.getX() - p.de().a(), 2) + Math.pow(location.getY() - p.de().b(), 2) + Math.pow(location.getZ() - p.de().c(), 2);
 
                     if (distance > Math.pow(radius, 2)) continue;
                 }

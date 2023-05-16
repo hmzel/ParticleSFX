@@ -2,12 +2,12 @@ package hm.zelha.particlesfx.particles;
 
 import hm.zelha.particlesfx.particles.parents.MaterialParticle;
 import hm.zelha.particlesfx.particles.parents.Particle;
-import net.minecraft.core.IRegistry;
 import net.minecraft.core.particles.ParticleParamBlock;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.MinecraftKey;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Material;
-import org.bukkit.craftbukkit.v1_19_R1.block.data.CraftBlockData;
+import org.bukkit.craftbukkit.v1_19_R3.block.data.CraftBlockData;
 
 public class ParticleBlockMarker extends Particle implements MaterialParticle {
     public ParticleBlockMarker(Material material, double offsetX, double offsetY, double offsetZ, int count) {
@@ -64,7 +64,7 @@ public class ParticleBlockMarker extends Particle implements MaterialParticle {
         Validate.notNull(material, "Material cannot be null!");
         Validate.isTrue(material.isBlock(), "Material must be a block!");
 
-        particle = new ParticleParamBlock((net.minecraft.core.particles.Particle) IRegistry.aa.a(new MinecraftKey("block_marker")), ((CraftBlockData) material.createBlockData()).getState());
+        particle = new ParticleParamBlock((net.minecraft.core.particles.Particle) BuiltInRegistries.k.a(new MinecraftKey("block_marker")), ((CraftBlockData) material.createBlockData()).getState());
     }
 
     public Material getMaterial() {

@@ -6,7 +6,7 @@
 
     <groupId>hm.zelha</groupId>
     <artifactId>ParticleSFX</artifactId>
-    <version>1.19</version>
+    <version>1.19.4</version>
     <packaging>jar</packaging>
 
     <name>ParticleSFX</name>
@@ -97,13 +97,13 @@
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
-            <version>1.19-R0.1-SNAPSHOT</version>
+            <version>1.19.4-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot</artifactId>
-            <version>1.19-R0.1-SNAPSHOT</version>
+            <version>1.19.4-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>

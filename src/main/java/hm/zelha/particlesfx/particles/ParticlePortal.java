@@ -2,8 +2,8 @@ package hm.zelha.particlesfx.particles;
 
 import hm.zelha.particlesfx.particles.parents.Particle;
 import hm.zelha.particlesfx.particles.parents.TravellingParticle;
-import net.minecraft.core.IRegistry;
 import net.minecraft.core.particles.ParticleType;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.MinecraftKey;
 import org.bukkit.Location;
 import org.bukkit.util.Vector;
@@ -72,9 +72,9 @@ public class ParticlePortal extends TravellingParticle {
         this.inverse = inverse;
 
         if (inverse) {
-            particle = (ParticleType) IRegistry.aa.a(new MinecraftKey("portal"));
+            particle = (ParticleType) BuiltInRegistries.k.a(new MinecraftKey("portal"));
         } else {
-            particle = (ParticleType) IRegistry.aa.a(new MinecraftKey("reverse_portal"));
+            particle = (ParticleType) BuiltInRegistries.k.a(new MinecraftKey("reverse_portal"));
         }
     }
 

@@ -8,7 +8,7 @@ import net.minecraft.core.particles.VibrationParticleOption;
 import net.minecraft.world.level.gameevent.BlockPositionSource;
 import net.minecraft.world.phys.Vec3D;
 import org.bukkit.Location;
-import org.bukkit.craftbukkit.v1_19_R1.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_19_R3.entity.CraftPlayer;
 import org.bukkit.util.Vector;
 
 import java.util.List;
@@ -98,7 +98,7 @@ public class ParticleVibration extends TravellingParticle {
         }
 
         if (changed) {
-            particle = new VibrationParticleOption(new BlockPositionSource(new BlockPosition(destination.a(), destination.b(), destination.c())), arrivalTime);
+            particle = new VibrationParticleOption(new BlockPositionSource(new BlockPosition((int) destination.a(), (int) destination.b(), (int) destination.c())), arrivalTime);
         }
 
         super.display(location, players);

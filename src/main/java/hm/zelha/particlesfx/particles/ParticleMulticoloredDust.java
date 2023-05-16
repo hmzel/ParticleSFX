@@ -1,14 +1,14 @@
 package hm.zelha.particlesfx.particles;
 
-import com.mojang.math.Vector3fa;
 import hm.zelha.particlesfx.particles.parents.Particle;
 import hm.zelha.particlesfx.particles.parents.SizeableParticle;
 import hm.zelha.particlesfx.util.Color;
 import hm.zelha.particlesfx.util.LVMath;
 import net.minecraft.core.particles.DustColorTransitionOptions;
 import org.bukkit.Location;
-import org.bukkit.craftbukkit.v1_19_R1.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_19_R3.entity.CraftPlayer;
 import org.bukkit.util.Vector;
+import org.joml.Vector3f;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -157,7 +157,7 @@ public class ParticleMulticoloredDust extends ParticleColoredDust implements Siz
         private final boolean pureColor;
 
         public ParticleParamDustTransition(float r, float g, float b, float r2, float g2, float b2, float size, Color color, Color transition, boolean pureColor) {
-            super(new Vector3fa(r, g, b), new Vector3fa(r2, g2, b2), size);
+            super(new Vector3f(r, g, b), new Vector3f(r2, g2, b2), size);
 
             this.color = (color == null) ? Color.WHITE : color.clone();
             this.transition = (transition == null) ? Color.WHITE : transition.clone();
