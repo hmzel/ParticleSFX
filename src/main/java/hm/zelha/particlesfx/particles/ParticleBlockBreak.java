@@ -130,8 +130,8 @@ public class ParticleBlockBreak extends TravellingParticle implements MaterialPa
     public ParticleBlockBreak inherit(Particle particle) {
         super.inherit(particle);
 
-        if (particle instanceof ParticleBlockBreak) {
-            data = ((ParticleBlockBreak) particle).data;
+        if (particle instanceof MaterialParticle) {
+            data = ((MaterialParticle) particle).getMaterialData();
         }
 
         return this;
