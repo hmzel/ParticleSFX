@@ -53,6 +53,10 @@ public class ParticlePortal extends TravellingParticle {
     public ParticlePortal inherit(Particle particle) {
         super.inherit(particle);
 
+        if (particle instanceof ParticlePortal) {
+            this.particle = ((ParticlePortal) particle).particle;
+        }
+
         return this;
     }
 
