@@ -48,8 +48,8 @@ public class ParticleBlockMarker extends Particle implements MaterialParticle {
     public ParticleBlockMarker inherit(Particle particle) {
         super.inherit(particle);
 
-        if (particle instanceof ParticleBlockMarker) {
-            this.particle = ((ParticleBlockMarker) particle).particle;
+        if (particle instanceof MaterialParticle) {
+            setMaterial(((MaterialParticle) particle).getMaterial());
         }
 
         return this;
