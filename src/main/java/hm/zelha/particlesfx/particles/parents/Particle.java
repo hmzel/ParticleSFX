@@ -11,8 +11,8 @@ import net.minecraft.server.level.EntityPlayer;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.craftbukkit.v1_18_R2.CraftServer;
-import org.bukkit.craftbukkit.v1_18_R2.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_19_R1.CraftServer;
+import org.bukkit.craftbukkit.v1_19_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
@@ -38,7 +38,7 @@ public abstract class Particle {
     private final ThreadLocalRandom rng = ThreadLocalRandom.current();
 
     protected Particle(String particleID, double offsetX, double offsetY, double offsetZ, double speed, int count, int radius) {
-        this.particle = (ParticleType) IRegistry.Z.a(new MinecraftKey(particleID));
+        this.particle = (ParticleType) IRegistry.aa.a(new MinecraftKey(particleID));
 
         setOffset(offsetX, offsetY, offsetZ);
         setSpeed(speed);
@@ -103,7 +103,7 @@ public abstract class Particle {
                 if (!location.getWorld().getName().equals(p.s.getWorld().getName())) continue;
 
                 if (radius != 0) {
-                    double distance = Math.pow(location.getX() - p.dc(), 2) + Math.pow(location.getY() - p.de(), 2) + Math.pow(location.getZ() - p.di(), 2);
+                    double distance = Math.pow(location.getX() - p.dg(), 2) + Math.pow(location.getY() - p.di(), 2) + Math.pow(location.getZ() - p.dm(), 2);
 
                     if (distance > Math.pow(radius, 2)) continue;
                 }

@@ -2,12 +2,13 @@ package hm.zelha.particlesfx.particles;
 
 import hm.zelha.particlesfx.particles.parents.Particle;
 import hm.zelha.particlesfx.particles.parents.TravellingParticle;
+import hm.zelha.particlesfx.util.LVMath;
 import net.minecraft.core.BlockPosition;
 import net.minecraft.core.particles.VibrationParticleOption;
 import net.minecraft.world.level.gameevent.BlockPositionSource;
-import net.minecraft.world.level.gameevent.vibrations.VibrationPath;
+import net.minecraft.world.phys.Vec3D;
 import org.bukkit.Location;
-import org.bukkit.craftbukkit.v1_18_R2.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_19_R1.entity.CraftPlayer;
 import org.bukkit.util.Vector;
 
 import java.util.List;
@@ -71,38 +72,47 @@ public class ParticleVibration extends TravellingParticle {
     @Override
     protected void display(Location location, List<CraftPlayer> players) {
         if (!(particle instanceof VibrationParticleOption)) {
-            particle = new VibrationParticleOption(new VibrationPath(new BlockPosition(location.getBlockX(), location.getBlockY(), location.getBlockZ()), new BlockPositionSource(new BlockPosition(location.getBlockX(), location.getBlockY(), location.getBlockZ())), arrivalTime));
+            particle = new VibrationParticleOption(new BlockPositionSource(new BlockPosition(location.getBlockX(), location.getBlockY(), location.getBlockZ())), arrivalTime);
         }
 
-        VibrationPath vibe = ((VibrationParticleOption) particle).c();
-        BlockPosition origin = vibe.b();
-        BlockPosition destination = vibe.c().a(null).get();
+        VibrationParticleOption vibe = ((VibrationParticleOption) particle);
+        Vec3D destination = vibe.c().a(null).get();
         boolean changed = false;
 
-        if (origin.u() != (int) location.getX() || origin.v() != (int) location.getY() || origin.w() != (int) location.getZ()) {
-            origin = new BlockPosition(location.getBlockX(), location.getBlockY(), location.getBlockZ());
+        if (toGo != null && (destination.a() != (int) location.getX() || destination.b() != (int) location.getY() || destination.c() != (int) location.getZ())) {
+            destination = new Vec3D(toGo.getBlockX(), toGo.getBlockY(), toGo.getBlockZ());
             changed = true;
         }
 
-        if (toGo != null && (destination.u() != (int) location.getX() || destination.v() != (int) location.getY() || destination.w() != (int) location.getZ())) {
-            destination = new BlockPosition(toGo.getBlockX(), toGo.getBlockY(), toGo.getBlockZ());
+        if (velocity != null && (destination.a() != (int) (location.getX() + velocity.getX()) || destination.b() != (int) (location.getY() + velocity.getY()) || destination.c() != (int) (location.getZ() + velocity.getZ()))) {
+            destination = new Vec3D((int) (location.getX() + velocity.getX()), (int) (location.getY() + velocity.getY()), (int) (location.getZ() + velocity.getZ()));
             changed = true;
         }
 
-        if (velocity != null && (destination.u() != (int) (location.getX() + velocity.getX()) || destination.v() != (int) (location.getY() + velocity.getY()) || destination.w() != (int) (location.getZ() + velocity.getZ()))) {
-            destination = new BlockPosition((int) (location.getX() + velocity.getX()), (int) (location.getY() + velocity.getY()), (int) (location.getZ() + velocity.getZ()));
-            changed = true;
-        }
-
-        if (vibe.a() != arrivalTime) {
+        if (vibe.d() != arrivalTime) {
             changed = true;
         }
 
         if (changed) {
-            particle = new VibrationParticleOption(new VibrationPath(origin, new BlockPositionSource(destination), arrivalTime));
+            particle = new VibrationParticleOption(new BlockPositionSource(new BlockPosition(destination.a(), destination.b(), destination.c())), arrivalTime);
         }
 
         super.display(location, players);
+    }
+
+    @Override
+    protected Vector getXYZ(Location location) {
+        return LVMath.toVector(xyzHelper, location);
+    }
+
+    @Override
+    protected Vector getOffsets(Location location) {
+        return offsetHelper.zero().setX(offsetX).setY(offsetY).setZ(offsetZ);
+    }
+
+    @Override
+    public int getPacketCount() {
+        return count;
     }
 
     /**

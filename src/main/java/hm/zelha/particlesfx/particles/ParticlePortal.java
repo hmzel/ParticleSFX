@@ -68,9 +68,9 @@ public class ParticlePortal extends TravellingParticle {
         this.inverse = inverse;
 
         if (inverse) {
-            particle = (ParticleType) IRegistry.Z.a(new MinecraftKey("portal"));
+            particle = (ParticleType) IRegistry.aa.a(new MinecraftKey("portal"));
         } else {
-            particle = (ParticleType) IRegistry.Z.a(new MinecraftKey("reverse_portal"));
+            particle = (ParticleType) IRegistry.aa.a(new MinecraftKey("reverse_portal"));
         }
     }
 
