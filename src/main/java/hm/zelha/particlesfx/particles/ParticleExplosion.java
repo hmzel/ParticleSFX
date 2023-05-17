@@ -5,58 +5,58 @@ import net.minecraft.server.v1_8_R3.EnumParticle;
 import org.bukkit.Location;
 import org.bukkit.util.Vector;
 
-public class ParticleExplosionLarge extends Particle {
+public class ParticleExplosion extends Particle {
 
     private double size;
 
-    public ParticleExplosionLarge(double size, double offsetX, double offsetY, double offsetZ, int count) {
+    public ParticleExplosion(double size, double offsetX, double offsetY, double offsetZ, int count) {
         super(EnumParticle.EXPLOSION_LARGE, offsetX, offsetY, offsetZ, 0, count, 0);
 
         this.size = size;
     }
 
-    public ParticleExplosionLarge(double size, double offsetX, double offsetY, double offsetZ) {
+    public ParticleExplosion(double size, double offsetX, double offsetY, double offsetZ) {
         this(size, offsetX, offsetY, offsetZ, 1);
     }
 
-    public ParticleExplosionLarge(double offsetX, double offsetY, double offsetZ, int count) {
+    public ParticleExplosion(double offsetX, double offsetY, double offsetZ, int count) {
         this(1, offsetX, offsetY, offsetZ, count);
     }
 
-    public ParticleExplosionLarge(double offsetX, double offsetY, double offsetZ) {
+    public ParticleExplosion(double offsetX, double offsetY, double offsetZ) {
         this(1, offsetX, offsetY, offsetZ, 1);
     }
 
-    public ParticleExplosionLarge(double size, int count) {
+    public ParticleExplosion(double size, int count) {
         this(size, 0, 0, 0, count);
     }
 
-    public ParticleExplosionLarge(double size) {
+    public ParticleExplosion(double size) {
         this(size, 0, 0, 0, 1);
     }
 
-    public ParticleExplosionLarge(int count) {
+    public ParticleExplosion(int count) {
         this(1, 0, 0, 0, count);
     }
 
-    public ParticleExplosionLarge() {
+    public ParticleExplosion() {
         this(1, 0, 0, 0, 1);
     }
 
     @Override
-    public ParticleExplosionLarge inherit(Particle particle) {
+    public ParticleExplosion inherit(Particle particle) {
         super.inherit(particle);
 
-        if (particle instanceof ParticleExplosionLarge) {
-            size = ((ParticleExplosionLarge) particle).size;
+        if (particle instanceof ParticleExplosion) {
+            size = ((ParticleExplosion) particle).size;
         }
 
         return this;
     }
 
     @Override
-    public ParticleExplosionLarge clone() {
-        return new ParticleExplosionLarge().inherit(this);
+    public ParticleExplosion clone() {
+        return new ParticleExplosion().inherit(this);
     }
 
     @Override
