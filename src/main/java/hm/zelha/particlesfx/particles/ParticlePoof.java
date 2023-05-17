@@ -6,56 +6,56 @@ import net.minecraft.server.v1_9_R1.EnumParticle;
 import org.bukkit.Location;
 import org.bukkit.util.Vector;
 
-public class ParticleExplosionDust extends TravellingParticle {
-    public ParticleExplosionDust(Location toGo, double offsetX, double offsetY, double offsetZ, int count) {
+public class ParticlePoof extends TravellingParticle {
+    public ParticlePoof(Location toGo, double offsetX, double offsetY, double offsetZ, int count) {
         super(EnumParticle.EXPLOSION_NORMAL, false, 0.085, null, toGo, offsetX, offsetY, offsetZ, count);
     }
 
-    public ParticleExplosionDust(Vector velocity, double offsetX, double offsetY, double offsetZ, int count) {
+    public ParticlePoof(Vector velocity, double offsetX, double offsetY, double offsetZ, int count) {
         super(EnumParticle.EXPLOSION_NORMAL, false, 0.085, velocity, null, offsetX, offsetY, offsetZ, count);
     }
 
-    public ParticleExplosionDust(Location toGo, double offsetX, double offsetY, double offsetZ) {
+    public ParticlePoof(Location toGo, double offsetX, double offsetY, double offsetZ) {
         this(toGo, offsetX, offsetY, offsetZ, 1);
     }
 
-    public ParticleExplosionDust(Vector velocity, double offsetX, double offsetY, double offsetZ) {
+    public ParticlePoof(Vector velocity, double offsetX, double offsetY, double offsetZ) {
         this(velocity, offsetX, offsetY, offsetZ, 1);
     }
 
-    public ParticleExplosionDust(double offsetX, double offsetY, double offsetZ, int count) {
+    public ParticlePoof(double offsetX, double offsetY, double offsetZ, int count) {
         this((Location) null, offsetX, offsetY, offsetZ, count);
     }
 
-    public ParticleExplosionDust(double offsetX, double offsetY, double offsetZ) {
+    public ParticlePoof(double offsetX, double offsetY, double offsetZ) {
         this((Location) null, offsetX, offsetY, offsetZ, 1);
     }
 
-    public ParticleExplosionDust(int count) {
+    public ParticlePoof(int count) {
         this((Location) null, 0, 0, 0, count);
     }
 
-    public ParticleExplosionDust(Location toGo) {
+    public ParticlePoof(Location toGo) {
         this(toGo, 0, 0, 0, 1);
     }
 
-    public ParticleExplosionDust(Vector velocity) {
+    public ParticlePoof(Vector velocity) {
         this(velocity, 0, 0, 0, 1);
     }
 
-    public ParticleExplosionDust() {
+    public ParticlePoof() {
         this((Location) null, 0, 0, 0, 1);
     }
 
     @Override
-    public ParticleExplosionDust inherit(Particle particle) {
+    public ParticlePoof inherit(Particle particle) {
         super.inherit(particle);
 
         return this;
     }
 
     @Override
-    public ParticleExplosionDust clone() {
-        return new ParticleExplosionDust().inherit(this);
+    public ParticlePoof clone() {
+        return new ParticlePoof().inherit(this);
     }
 }
