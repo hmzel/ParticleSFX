@@ -6,56 +6,56 @@ import net.minecraft.server.v1_10_R1.EnumParticle;
 import org.bukkit.Location;
 import org.bukkit.util.Vector;
 
-public class ParticleFireworksSpark extends TravellingParticle {
-    public ParticleFireworksSpark(Location toGo, double offsetX, double offsetY, double offsetZ, int count) {
+public class ParticleFirework extends TravellingParticle {
+    public ParticleFirework(Location toGo, double offsetX, double offsetY, double offsetZ, int count) {
         super(EnumParticle.FIREWORKS_SPARK, false, 0.103, null, toGo, offsetX, offsetY, offsetZ, count);
     }
 
-    public ParticleFireworksSpark(Vector velocity, double offsetX, double offsetY, double offsetZ, int count) {
+    public ParticleFirework(Vector velocity, double offsetX, double offsetY, double offsetZ, int count) {
         super(EnumParticle.FIREWORKS_SPARK, false, 0.103, velocity, null, offsetX, offsetY, offsetZ, count);
     }
 
-    public ParticleFireworksSpark(Location toGo, double offsetX, double offsetY, double offsetZ) {
+    public ParticleFirework(Location toGo, double offsetX, double offsetY, double offsetZ) {
         this(toGo, offsetX, offsetY, offsetZ, 1);
     }
 
-    public ParticleFireworksSpark(Vector velocity, double offsetX, double offsetY, double offsetZ) {
+    public ParticleFirework(Vector velocity, double offsetX, double offsetY, double offsetZ) {
         this(velocity, offsetX, offsetY, offsetZ, 1);
     }
 
-    public ParticleFireworksSpark(double offsetX, double offsetY, double offsetZ, int count) {
+    public ParticleFirework(double offsetX, double offsetY, double offsetZ, int count) {
         this((Location) null, offsetX, offsetY, offsetZ, count);
     }
 
-    public ParticleFireworksSpark(double offsetX, double offsetY, double offsetZ) {
+    public ParticleFirework(double offsetX, double offsetY, double offsetZ) {
         this((Location) null, offsetX, offsetY, offsetZ, 1);
     }
 
-    public ParticleFireworksSpark(int count) {
+    public ParticleFirework(int count) {
         this((Location) null, 0, 0, 0, count);
     }
 
-    public ParticleFireworksSpark(Location toGo) {
+    public ParticleFirework(Location toGo) {
         this(toGo, 0, 0, 0, 1);
     }
 
-    public ParticleFireworksSpark(Vector velocity) {
+    public ParticleFirework(Vector velocity) {
         this(velocity, 0, 0, 0, 1);
     }
 
-    public ParticleFireworksSpark() {
+    public ParticleFirework() {
         this((Location) null, 0, 0, 0, 1);
     }
 
     @Override
-    public ParticleFireworksSpark inherit(Particle particle) {
+    public ParticleFirework inherit(Particle particle) {
         super.inherit(particle);
 
         return this;
     }
 
     @Override
-    public ParticleFireworksSpark clone() {
-        return new ParticleFireworksSpark().inherit(this);
+    public ParticleFirework clone() {
+        return new ParticleFirework().inherit(this);
     }
 }
