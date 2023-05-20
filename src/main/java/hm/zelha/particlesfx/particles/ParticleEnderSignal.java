@@ -15,6 +15,9 @@ import org.bukkit.Location;
  * Type.VISUAL effects are also locked to specific coordinates of the block they're played on because their packet uses BlockPosition
  */
 public class ParticleEnderSignal extends Particle {
+
+    private final BlockPosition.MutableBlockPosition pos = new BlockPosition.MutableBlockPosition(0, 0, 0);
+
     /**@see ParticleEnderSignal*/
     public ParticleEnderSignal(int count) {
         super(null, 0, 0, 0, 0, count, 0);
@@ -40,7 +43,7 @@ public class ParticleEnderSignal extends Particle {
     @Override
     protected Packet getStrangePacket(Location location) {
         return new PacketPlayOutWorldEvent(
-                Effect.ENDER_SIGNAL.getId(), new BlockPosition(location.getBlockX(), location.getBlockY(), location.getBlockZ()),
+                Effect.ENDER_SIGNAL.getId(), pos.d(location.getBlockX(), location.getBlockY(), location.getBlockZ()),
                 Effect.ENDER_SIGNAL.getId(), false
         );
     }
