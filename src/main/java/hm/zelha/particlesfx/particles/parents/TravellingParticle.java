@@ -120,6 +120,10 @@ public abstract class TravellingParticle extends Particle {
     protected Vector getXYZ(Location location) {
         Vector xyz = super.getXYZ(location);
 
+        if (velocity != null || toGo != null) {
+            xyz.add(generateFakeOffset());
+        }
+
         if (inverse) {
             if (velocity != null) {
                 xyz.add(velocity);
@@ -128,10 +132,6 @@ public abstract class TravellingParticle extends Particle {
             if (toGo != null) {
                 LVMath.toVector(xyz, toGo);
             }
-        }
-
-        if (velocity != null || toGo != null) {
-            xyz.add(generateFakeOffset());
         }
 
         return xyz;
