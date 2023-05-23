@@ -16,7 +16,7 @@ public abstract class TravellingParticle extends Particle {
     protected Vector velocity;
 
     protected TravellingParticle(String particleID, boolean inverse, double control, Vector velocity, Location toGo, double offsetX, double offsetY, double offsetZ, int count) {
-        super(particleID, offsetX, offsetY, offsetZ, 1, count, 0);
+        super(particleID, offsetX, offsetY, offsetZ, 0, count, 0);
 
         this.inverse = inverse;
         this.control = control;
