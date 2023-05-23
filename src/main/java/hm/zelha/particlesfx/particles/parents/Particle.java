@@ -126,26 +126,11 @@ public abstract class Particle {
         }
     }
 
-    /**
-     * generates a random number between -offset and +offset <br>
-     * this isnt exactly how its done client-side using the actual packet, but honestly i prefer this because its more controllable
-     *
-     * @return a vector meant to be added to a location to mimic particle offset
-     */
+    /** @return a vector meant to be added to a location to mimic particle offset */
     protected Vector generateFakeOffset() {
-        fakeOffsetHelper.zero();
-
-        if (offsetX != 0) {
-            fakeOffsetHelper.setX(rng.nextDouble(offsetX * 2) - offsetX);
-        }
-
-        if (offsetY != 0) {
-            fakeOffsetHelper.setY(rng.nextDouble(offsetY * 2) - offsetY);
-        }
-
-        if (offsetZ != 0) {
-            fakeOffsetHelper.setZ(rng.nextDouble(offsetZ * 2) - offsetZ);
-        }
+        fakeOffsetHelper.setX(rng.nextGaussian() * offsetX);
+        fakeOffsetHelper.setY(rng.nextGaussian() * offsetY);
+        fakeOffsetHelper.setZ(rng.nextGaussian() * offsetZ);
 
         return fakeOffsetHelper;
     }
