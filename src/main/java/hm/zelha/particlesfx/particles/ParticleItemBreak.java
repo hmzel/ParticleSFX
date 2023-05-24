@@ -10,6 +10,7 @@ import org.apache.commons.lang.Validate;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.craftbukkit.v1_18_R1.inventory.CraftItemStack;
+import org.bukkit.craftbukkit.v1_18_R1.util.CraftMagicNumbers;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
@@ -152,14 +153,6 @@ public class ParticleItemBreak extends TravellingParticle implements MaterialPar
     }
 
     public Material getMaterial() {
-        String s = this.particle.a().toLowerCase();
-
-        for (Material m : Material.values()) {
-            if (s.contains(m.name().toLowerCase())) {
-                return m;
-            }
-        }
-
-        return null;
+        return CraftMagicNumbers.getMaterial(((ParticleParamItem) particle).c().c());
     }
 }
