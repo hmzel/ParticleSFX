@@ -8,6 +8,7 @@ import net.minecraft.resources.MinecraftKey;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Material;
 import org.bukkit.craftbukkit.v1_19_R1.block.data.CraftBlockData;
+import org.bukkit.craftbukkit.v1_19_R1.util.CraftMagicNumbers;
 
 public class ParticleBlockMarker extends Particle implements MaterialParticle {
     public ParticleBlockMarker(Material material, double offsetX, double offsetY, double offsetZ, int count) {
@@ -68,14 +69,6 @@ public class ParticleBlockMarker extends Particle implements MaterialParticle {
     }
 
     public Material getMaterial() {
-        String s = this.particle.a().toLowerCase();
-
-        for (Material m : Material.values()) {
-            if (s.contains(m.name().toLowerCase())) {
-                return m;
-            }
-        }
-
-        return null;
+        return CraftMagicNumbers.getMaterial(((ParticleParamBlock) particle).c().b());
     }
 }
