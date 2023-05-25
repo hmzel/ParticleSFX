@@ -125,7 +125,7 @@ public class ParticleMulticoloredDust extends ParticleColoredDust implements Siz
 
     @Override
     protected Vector getOffsets(Location location) {
-        return offsetHelper.zero().setX(offsetX).setY(offsetY).setZ(offsetZ);
+        return offsetHelper.setX(offsetX).setY(offsetY).setZ(offsetZ);
     }
 
     @Override
