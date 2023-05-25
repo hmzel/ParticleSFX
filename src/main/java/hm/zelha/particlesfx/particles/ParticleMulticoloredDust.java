@@ -1,17 +1,15 @@
 package hm.zelha.particlesfx.particles;
 
-import com.mojang.math.Vector3fa;
 import hm.zelha.particlesfx.particles.parents.Particle;
 import hm.zelha.particlesfx.particles.parents.SizeableParticle;
 import hm.zelha.particlesfx.util.Color;
 import hm.zelha.particlesfx.util.LVMath;
 import net.minecraft.core.particles.DustColorTransitionOptions;
+import net.minecraft.network.PacketDataSerializer;
 import org.bukkit.Location;
-import org.bukkit.craftbukkit.v1_19_R1.entity.CraftPlayer;
 import org.bukkit.util.Vector;
 
 import javax.annotation.Nullable;
-import java.util.List;
 
 public class ParticleMulticoloredDust extends ParticleColoredDust implements SizeableParticle {
 
@@ -20,7 +18,7 @@ public class ParticleMulticoloredDust extends ParticleColoredDust implements Siz
     public ParticleMulticoloredDust(@Nullable Color color, double size, double offsetX, double offsetY, double offsetZ, int count) {
         super(color, size, offsetX, offsetY, offsetZ, count);
 
-        particle = new ParticleParamDustTransition(1, 1, 1, 1, 1, 1, (float) size, Color.WHITE, Color.WHITE, false);
+        particle = new ParticleParamDustTransition();
     }
 
     public ParticleMulticoloredDust(double size, double offsetX, double offsetY, double offsetZ, int count) {
@@ -72,7 +70,7 @@ public class ParticleMulticoloredDust extends ParticleColoredDust implements Siz
         super.inherit(particle);
 
         if (particle instanceof ParticleMulticoloredDust) {
-            this.particle = ((ParticleMulticoloredDust) particle).particle;
+            this.transition = ((ParticleMulticoloredDust) particle).transition;
         }
 
         return this;
@@ -81,41 +79,6 @@ public class ParticleMulticoloredDust extends ParticleColoredDust implements Siz
     @Override
     public ParticleMulticoloredDust clone() {
         return new ParticleMulticoloredDust().inherit(this);
-    }
-
-    @Override
-    protected void display(Location location, List<CraftPlayer> players) {
-        ParticleParamDustTransition dust = (ParticleParamDustTransition) particle;
-
-        if ((color != null && !dust.color.equals(color)) || (transition != null && !dust.transition.equals(transition)) || dust.size != size || dust.pureColor != pureColor) {
-            float red = 1, green = 1, blue = 1, red2, green2, blue2;
-
-            if (color != null) {
-                red = color.getRed() / 255F;
-                green = color.getGreen() / 255F;
-                blue = color.getBlue() / 255F;
-            }
-
-            if (transition != null) {
-                red2 = transition.getRed() / 255F;
-                green2 = transition.getGreen() / 255F;
-                blue2 = transition.getBlue() / 255F;
-            } else {
-                red2 = red;
-                green2 = green;
-                blue2 = blue;
-            }
-
-            if (pureColor) {
-                red *= Float.MAX_VALUE;
-                green *= Float.MAX_VALUE;
-                blue *= Float.MAX_VALUE;
-            }
-
-            particle = new ParticleParamDustTransition(red, green, blue, red2, green2, blue2, (float) size, color, transition, pureColor);
-        }
-
-        super.display(location, players);
     }
 
     @Override
@@ -153,20 +116,44 @@ public class ParticleMulticoloredDust extends ParticleColoredDust implements Siz
     }
 
 
-    private static class ParticleParamDustTransition extends DustColorTransitionOptions {
+    private class ParticleParamDustTransition extends DustColorTransitionOptions {
+        public ParticleParamDustTransition() {
+            super(null, null, 0);
+        }
 
-        private final Color color;
-        private final Color transition;
-        private final double size;
-        private final boolean pureColor;
+        @Override
+        public void a(PacketDataSerializer var0) {
+            float red = 1, green = 1, blue = 1, red2, green2, blue2;
 
-        public ParticleParamDustTransition(float r, float g, float b, float r2, float g2, float b2, float size, Color color, Color transition, boolean pureColor) {
-            super(new Vector3fa(r, g, b), new Vector3fa(r2, g2, b2), size);
+            if (color != null) {
+                red = color.getRed() / 255F;
+                green = color.getGreen() / 255F;
+                blue = color.getBlue() / 255F;
+            }
 
-            this.color = (color == null) ? Color.WHITE : color.clone();
-            this.transition = (transition == null) ? Color.WHITE : transition.clone();
-            this.size = size;
-            this.pureColor = pureColor;
+            if (transition != null) {
+                red2 = transition.getRed() / 255F;
+                green2 = transition.getGreen() / 255F;
+                blue2 = transition.getBlue() / 255F;
+            } else {
+                red2 = red;
+                green2 = green;
+                blue2 = blue;
+            }
+
+            if (pureColor) {
+                red *= Float.MAX_VALUE;
+                green *= Float.MAX_VALUE;
+                blue *= Float.MAX_VALUE;
+            }
+
+            var0.writeFloat(red);
+            var0.writeFloat(green);
+            var0.writeFloat(blue);
+            var0.writeFloat((float) size);
+            var0.writeFloat(red2);
+            var0.writeFloat(green2);
+            var0.writeFloat(blue2);
         }
     }
 }
