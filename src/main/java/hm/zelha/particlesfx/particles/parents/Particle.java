@@ -23,6 +23,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public abstract class Particle {
 
+    protected final ThreadLocalRandom rng = ThreadLocalRandom.current();
     protected final Vector fakeOffsetHelper = new Vector();
     protected final Vector xyzHelper = new Vector();
     protected final Vector offsetHelper = new Vector();
@@ -35,7 +36,6 @@ public abstract class Particle {
     protected int radius;
     private final List<CraftPlayer> players = ((CraftServer) Bukkit.getServer()).getOnlinePlayers();
     private final List<CraftPlayer> listHelper = new ArrayList<>();
-    private final ThreadLocalRandom rng = ThreadLocalRandom.current();
 
     protected Particle(String particleID, double offsetX, double offsetY, double offsetZ, double speed, int count, int radius) {
         this.particle = (ParticleType) IRegistry.ac.a(new MinecraftKey(particleID));
