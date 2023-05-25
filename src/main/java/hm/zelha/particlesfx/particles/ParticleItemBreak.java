@@ -15,10 +15,8 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
 /**
- * this particle can have the material of any tangible item, regardless of if it can break or not <br>
- * ex: stone works fine, but air will not because it isn't an item you can have in your hand. <br><br>
- *
- * warning: the speed of this particle is inconsistent due to gravity and other factors that aren't accounted for
+ * this particle can have the material of any material, regardless of if it can break or not <br>
+ * however, the speed of this particle is inconsistent
  */
 public class ParticleItemBreak extends TravellingParticle implements MaterialParticle {
     /**@see ParticleItemBreak*/
@@ -37,12 +35,12 @@ public class ParticleItemBreak extends TravellingParticle implements MaterialPar
 
     /**@see ParticleItemBreak*/
     public ParticleItemBreak(Vector velocity, double offsetX, double offsetY, double offsetZ, int count) {
-        this(Material.DRAGON_EGG, velocity, offsetX, offsetY, offsetZ, count);
+        this(Material.AIR, velocity, offsetX, offsetY, offsetZ, count);
     }
 
     /**@see ParticleItemBreak*/
     public ParticleItemBreak(Location toGo, double offsetX, double offsetY, double offsetZ, int count) {
-        this(Material.DRAGON_EGG, toGo, offsetX, offsetY, offsetZ, count);
+        this(Material.AIR, toGo, offsetX, offsetY, offsetZ, count);
     }
 
     /**@see ParticleItemBreak*/
@@ -62,12 +60,12 @@ public class ParticleItemBreak extends TravellingParticle implements MaterialPar
 
     /**@see ParticleItemBreak*/
     public ParticleItemBreak(Vector velocity, double offsetX, double offsetY, double offsetZ) {
-        this(Material.DRAGON_EGG, velocity, offsetX, offsetY, offsetZ, 1);
+        this(Material.AIR, velocity, offsetX, offsetY, offsetZ, 1);
     }
 
     /**@see ParticleItemBreak*/
     public ParticleItemBreak(Location toGo, double offsetX, double offsetY, double offsetZ) {
-        this(Material.DRAGON_EGG, toGo, offsetX, offsetY, offsetZ, 1);
+        this(Material.AIR, toGo, offsetX, offsetY, offsetZ, 1);
     }
 
     /**@see ParticleItemBreak*/
@@ -87,12 +85,12 @@ public class ParticleItemBreak extends TravellingParticle implements MaterialPar
 
     /**@see ParticleItemBreak*/
     public ParticleItemBreak(Vector velocity, int count) {
-        this(Material.DRAGON_EGG, velocity, 0, 0, 0, count);
+        this(Material.AIR, velocity, 0, 0, 0, count);
     }
 
     /**@see ParticleItemBreak*/
     public ParticleItemBreak(Location toGo, int count) {
-        this(Material.DRAGON_EGG, toGo, 0, 0, 0, count);
+        this(Material.AIR, toGo, 0, 0, 0, count);
     }
 
     /**@see ParticleItemBreak*/
@@ -112,12 +110,12 @@ public class ParticleItemBreak extends TravellingParticle implements MaterialPar
 
     /**@see ParticleItemBreak*/
     public ParticleItemBreak(Vector velocity) {
-        this(Material.DRAGON_EGG, velocity, 0, 0, 0, 1);
+        this(Material.AIR, velocity, 0, 0, 0, 1);
     }
 
     /**@see ParticleItemBreak*/
     public ParticleItemBreak(Location toGo) {
-        this(Material.DRAGON_EGG, toGo, 0, 0, 0, 1);
+        this(Material.AIR, toGo, 0, 0, 0, 1);
     }
 
     /**@see ParticleItemBreak*/
@@ -127,7 +125,7 @@ public class ParticleItemBreak extends TravellingParticle implements MaterialPar
 
     /**@see ParticleItemBreak*/
     public ParticleItemBreak() {
-        this(Material.DRAGON_EGG, (Location) null, 0, 0, 0, 1);
+        this(Material.AIR, (Location) null, 0, 0, 0, 1);
     }
 
     @Override
