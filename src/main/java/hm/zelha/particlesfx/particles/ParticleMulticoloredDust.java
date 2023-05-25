@@ -71,6 +71,10 @@ public class ParticleMulticoloredDust extends ParticleColoredDust implements Siz
     public ParticleMulticoloredDust inherit(Particle particle) {
         super.inherit(particle);
 
+        if (particle instanceof ParticleMulticoloredDust) {
+            this.particle = ((ParticleMulticoloredDust) particle).particle;
+        }
+
         return this;
     }
 
