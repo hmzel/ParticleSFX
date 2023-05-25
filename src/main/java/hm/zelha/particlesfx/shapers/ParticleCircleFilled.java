@@ -6,6 +6,9 @@ import hm.zelha.particlesfx.util.ParticleShapeCompound;
 import hm.zelha.particlesfx.util.ShapeDisplayMechanic;
 
 public class ParticleCircleFilled extends ParticleCircle {
+
+    private int iterations = 0;
+
     public ParticleCircleFilled(Particle particle, LocationSafe center, double xRadius, double zRadius, double pitch, double yaw, double roll, int particleFrequency) {
         super(particle, center, xRadius, zRadius, pitch, yaw, roll, particleFrequency);
     }
@@ -33,23 +36,19 @@ public class ParticleCircleFilled extends ParticleCircle {
         boolean trackCount = particlesPerDisplay > 0;
         int count = (int) (particleFrequency * 100 / (100 - limit));
 
-        for (int i = overallCount; i < count; i++) {
+        for (; iterations < count; iterations++) {
             //radian = PI * PHI * 2 * i
             //PHI = golden ratio = (1 + Math.sqrt(5)) / 2
-            double radian = Math.PI * (1 + Math.sqrt(5)) * i;
+            double radian = Math.PI * (1 + Math.sqrt(5)) * iterations;
 
-            if (radian - ((int) (radian / (Math.PI * 2))) * (Math.PI * 2) < (Math.PI * 2 * limit / 100)) {
-                overallCount++;
-
-                continue;
-            }
+            if (radian - ((int) (radian / (Math.PI * 2))) * (Math.PI * 2) < (Math.PI * 2 * limit / 100)) continue;
 
             if (limitInverse) {
                 radian = -radian;
             }
 
             Particle particle = getCurrentParticle();
-            double r = Math.sqrt((double) i / count);
+            double r = Math.sqrt((double) iterations / count);
 
             locationHelper.zero().add(getCenter());
             vectorHelper.setX(xRadius * r * Math.cos(radian));
@@ -89,6 +88,7 @@ public class ParticleCircleFilled extends ParticleCircle {
 
         if (!trackCount || !hasRan) {
             overallCount = 0;
+            iterations = 0;
         }
     }
 
@@ -110,5 +110,12 @@ public class ParticleCircleFilled extends ParticleCircle {
         }
 
         return clone;
+    }
+
+    @Override
+    public void setDisplayPosition(int position) {
+        iterations = (int) ((int) (particleFrequency * 100 / (100 - limit)) * ((double) overallCount / particleFrequency));
+
+        super.setDisplayPosition(position);
     }
 }
