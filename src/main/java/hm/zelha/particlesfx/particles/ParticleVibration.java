@@ -2,6 +2,7 @@ package hm.zelha.particlesfx.particles;
 
 import hm.zelha.particlesfx.particles.parents.Particle;
 import hm.zelha.particlesfx.particles.parents.TravellingParticle;
+import hm.zelha.particlesfx.util.LVMath;
 import net.minecraft.core.BlockPosition;
 import net.minecraft.core.particles.VibrationParticleOption;
 import net.minecraft.world.level.gameevent.BlockPositionSource;
@@ -107,6 +108,21 @@ public class ParticleVibration extends TravellingParticle {
         }
 
         super.display(location, players);
+    }
+
+    @Override
+    protected Vector getXYZ(Location location) {
+        return LVMath.toVector(xyzHelper, location);
+    }
+
+    @Override
+    protected Vector getOffsets(Location location) {
+        return offsetHelper.setX(offsetX).setY(offsetY).setZ(offsetZ);
+    }
+
+    @Override
+    public int getPacketCount() {
+        return count;
     }
 
     /**
