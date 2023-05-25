@@ -146,7 +146,7 @@ public abstract class Particle {
      * @return the offsetHelper with the modified offset values
      */
     protected Vector getOffsets(Location location) {
-        return offsetHelper.zero().setX(offsetX).setY(offsetY).setZ(offsetZ);
+        return offsetHelper.setX(offsetX).setY(offsetY).setZ(offsetZ);
     }
 
     /**

@@ -93,7 +93,7 @@ public class ParticleColoredDust extends ColorableParticle implements SizeablePa
 
     @Override
     protected Vector getOffsets(Location location) {
-        return offsetHelper.zero().setX(offsetX).setY(offsetY).setZ(offsetZ);
+        return offsetHelper.setX(offsetX).setY(offsetY).setZ(offsetZ);
     }
 
     @Override
@@ -119,12 +119,8 @@ public class ParticleColoredDust extends ColorableParticle implements SizeablePa
     }
 
     /**
-     * if this is set to true, the display method will use derivatives of Float.MAX_VALUE to try and eliminate the variations
-     * in color when normally using reddust.
-     * <br><br>
-     * however, if this is the case size is unused and will always be 100 internally.
-     * <br><br>
-     * and you're kinda locked into specific colors because lowering the size will make it not pure
+     * if this is set to true, the particle will use derivatives of Float.MAX_VALUE to try and eliminate the variations
+     * in color when normally using colored dust.
      * aka no purple or brown or other colors like that
      *
      * @param pureColor whether the color should be pure
@@ -143,11 +139,19 @@ public class ParticleColoredDust extends ColorableParticle implements SizeablePa
         return 100;
     }
 
+    /** only changes between 0 and 4. */
     @Override
     public double getSize() {
         return size;
     }
 
+    /**
+     * if this is set to true, the particle will use derivatives of Float.MAX_VALUE to try and eliminate the variations
+     * in color when normally using colored dust.
+     * aka no purple or brown or other colors like that
+     *
+     * @return whether the color should be pure
+     */
     public boolean isPureColor() {
         return pureColor;
     }
