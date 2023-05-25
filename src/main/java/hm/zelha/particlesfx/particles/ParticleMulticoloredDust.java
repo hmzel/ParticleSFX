@@ -123,22 +123,21 @@ public class ParticleMulticoloredDust extends ParticleColoredDust implements Siz
 
         @Override
         public void a(PacketDataSerializer var0) {
-            float red = 1, green = 1, blue = 1, red2, green2, blue2;
+            float red = rng.nextFloat(), green = rng.nextFloat(), blue = rng.nextFloat(), red2 = rng.nextFloat(), green2 = rng.nextFloat(), blue2 = rng.nextFloat();
 
             if (color != null) {
                 red = color.getRed() / 255F;
                 green = color.getGreen() / 255F;
                 blue = color.getBlue() / 255F;
+                red2 = red;
+                green2 = green;
+                blue2 = blue;
             }
 
             if (transition != null) {
                 red2 = transition.getRed() / 255F;
                 green2 = transition.getGreen() / 255F;
                 blue2 = transition.getBlue() / 255F;
-            } else {
-                red2 = red;
-                green2 = green;
-                blue2 = blue;
             }
 
             if (pureColor) {
