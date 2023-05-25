@@ -5,13 +5,12 @@ import hm.zelha.particlesfx.particles.parents.Particle;
 import hm.zelha.particlesfx.particles.parents.SizeableParticle;
 import hm.zelha.particlesfx.util.Color;
 import hm.zelha.particlesfx.util.LVMath;
+import net.minecraft.server.v1_13_R1.PacketDataSerializer;
 import net.minecraft.server.v1_13_R1.ParticleParamRedstone;
 import org.bukkit.Location;
-import org.bukkit.craftbukkit.v1_13_R1.entity.CraftPlayer;
 import org.bukkit.util.Vector;
 
 import javax.annotation.Nullable;
-import java.util.List;
 
 public class ParticleColoredDust extends ColorableParticle implements SizeableParticle {
 
@@ -21,14 +20,9 @@ public class ParticleColoredDust extends ColorableParticle implements SizeablePa
     public ParticleColoredDust(@Nullable Color color, double size, double offsetX, double offsetY, double offsetZ, int count) {
         super("", color, 100, offsetX, offsetY, offsetZ, count);
 
-        particle = new ParticleParamDust(1, 1, 1, (float) size, Color.WHITE, false);
+        particle = new ParticleParamDust();
 
         setSize(size);
-        setColor(color);
-
-        if (color == null) {
-            setColor(Color.WHITE);
-        }
     }
 
     public ParticleColoredDust(double size, double offsetX, double offsetY, double offsetZ, int count) {
@@ -90,33 +84,6 @@ public class ParticleColoredDust extends ColorableParticle implements SizeablePa
     @Override
     public ParticleColoredDust clone() {
         return new ParticleColoredDust().inherit(this);
-    }
-
-    @Override
-    protected void display(Location location, List<CraftPlayer> players) {
-        if (particle instanceof ParticleParamDust) {
-            ParticleParamDust dust = (ParticleParamDust) particle;
-
-            if ((color != null && !dust.color.equals(color)) || dust.size != size || dust.pureColor != pureColor) {
-                float red = 1, green = 1, blue = 1;
-
-                if (color != null) {
-                    red = color.getRed() / 255F;
-                    green = color.getGreen() / 255F;
-                    blue = color.getBlue() / 255F;
-                }
-
-                if (pureColor) {
-                    red *= Float.MAX_VALUE;
-                    green *= Float.MAX_VALUE;
-                    blue *= Float.MAX_VALUE;
-                }
-
-                particle = new ParticleParamDust(red, green, blue, (float) size, color, pureColor);
-            }
-        }
-
-        super.display(location, players);
     }
 
     @Override
@@ -186,18 +153,30 @@ public class ParticleColoredDust extends ColorableParticle implements SizeablePa
     }
 
 
-    private static class ParticleParamDust extends ParticleParamRedstone {
+    private class ParticleParamDust extends ParticleParamRedstone {
+        public ParticleParamDust() {
+            super(null, 0);
+        }
 
-        private final Color color;
-        private final double size;
-        private final boolean pureColor;
+        public void a(PacketDataSerializer var0) {
+            float red = 1, green = 1, blue = 1;
 
-        public ParticleParamDust(float v, float v1, float v2, float v3, Color color, boolean pureColor) {
-            super(v, v1, v2, v3);
+            if (color != null) {
+                red = color.getRed() / 255F;
+                green = color.getGreen() / 255F;
+                blue = color.getBlue() / 255F;
+            }
 
-            this.color = (color == null) ? Color.WHITE : color.clone();
-            this.size = v3;
-            this.pureColor = pureColor;
+            if (pureColor) {
+                red *= Float.MAX_VALUE;
+                green *= Float.MAX_VALUE;
+                blue *= Float.MAX_VALUE;
+            }
+
+            var0.writeFloat(red);
+            var0.writeFloat(green);
+            var0.writeFloat(blue);
+            var0.writeFloat((float) size);
         }
     }
 }
