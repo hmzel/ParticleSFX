@@ -10,10 +10,8 @@ import org.bukkit.material.MaterialData;
 import org.bukkit.util.Vector;
 
 /**
- * this particle can have the material of any tangible item, regardless of if it can break or not <br>
- * ex: stone works fine, but air will not because it isn't an item you can have in your hand. <br><br>
- *
- * warning: the speed of this particle is inconsistent due to gravity and other factors that aren't accounted for
+ * this particle can have the material of any material, regardless of if it can break or not <br>
+ * however, the speed of this particle is inconsistent
  */
 public class ParticleItemBreak extends TravellingParticle implements MaterialParticle {
 
