@@ -5,8 +5,8 @@ import hm.zelha.particlesfx.particles.parents.TravellingParticle;
 import hm.zelha.particlesfx.util.LVMath;
 import net.minecraft.core.BlockPosition;
 import net.minecraft.core.particles.VibrationParticleOption;
-import net.minecraft.world.level.gameevent.BlockPositionSource;
-import net.minecraft.world.phys.Vec3D;
+import net.minecraft.network.PacketDataSerializer;
+import net.minecraft.resources.MinecraftKey;
 import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_19_R1.entity.CraftPlayer;
 import org.bukkit.util.Vector;
@@ -19,10 +19,14 @@ public class ParticleVibration extends TravellingParticle {
 
     public ParticleVibration(Location toGo, double offsetX, double offsetY, double offsetZ, int count) {
         super("", false, 0, null, toGo, offsetX, offsetY, offsetZ, count);
+
+        particle = new NMSVibrationParticle();
     }
 
     public ParticleVibration(Vector velocity, double offsetX, double offsetY, double offsetZ, int count) {
         super("", false, 0, velocity, null, offsetX, offsetY, offsetZ, count);
+
+        particle = new NMSVibrationParticle();
     }
 
     public ParticleVibration(Location toGo, double offsetX, double offsetY, double offsetZ) {
@@ -62,7 +66,7 @@ public class ParticleVibration extends TravellingParticle {
         super.inherit(particle);
 
         if (particle instanceof ParticleVibration) {
-            this.particle = ((ParticleVibration) particle).particle;
+            this.arrivalTime = ((ParticleVibration) particle).arrivalTime;
         }
 
         return this;
@@ -75,32 +79,7 @@ public class ParticleVibration extends TravellingParticle {
 
     @Override
     protected void display(Location location, List<CraftPlayer> players) {
-        if (!(particle instanceof VibrationParticleOption)) {
-            particle = new VibrationParticleOption(new BlockPositionSource(new BlockPosition(location.getBlockX(), location.getBlockY(), location.getBlockZ())), arrivalTime);
-        }
-
-        VibrationParticleOption vibe = ((VibrationParticleOption) particle);
-        Vec3D destination = vibe.c().a(null).get();
-        boolean changed = false;
-
-        if (toGo != null && (destination.a() != (int) location.getX() || destination.b() != (int) location.getY() || destination.c() != (int) location.getZ())) {
-            destination = new Vec3D(toGo.getBlockX(), toGo.getBlockY(), toGo.getBlockZ());
-            changed = true;
-        }
-
-        if (velocity != null && (destination.a() != (int) (location.getX() + velocity.getX()) || destination.b() != (int) (location.getY() + velocity.getY()) || destination.c() != (int) (location.getZ() + velocity.getZ()))) {
-            destination = new Vec3D((int) (location.getX() + velocity.getX()), (int) (location.getY() + velocity.getY()), (int) (location.getZ() + velocity.getZ()));
-            changed = true;
-        }
-
-        if (vibe.d() != arrivalTime) {
-            changed = true;
-        }
-
-        if (changed) {
-            particle = new VibrationParticleOption(new BlockPositionSource(new BlockPosition(destination.a(), destination.b(), destination.c())), arrivalTime);
-        }
-
+        ((NMSVibrationParticle) particle).location = location;
         super.display(location, players);
     }
 
@@ -131,5 +110,31 @@ public class ParticleVibration extends TravellingParticle {
      */
     public int getArrivalTime() {
         return arrivalTime;
+    }
+
+
+    private class NMSVibrationParticle extends VibrationParticleOption {
+
+        private final BlockPosition.MutableBlockPosition pos = new BlockPosition.MutableBlockPosition();
+        private Location location = null;
+
+        public NMSVibrationParticle() {
+            super(null, 0);
+        }
+
+        @Override
+        public void a(PacketDataSerializer data) {
+            if (toGo != null) {
+                pos.d(toGo.getBlockX(), toGo.getBlockY(), toGo.getBlockZ());
+            } else if (velocity != null) {
+                pos.d((int) (location.getX() + velocity.getX()), (int) (location.getY() + velocity.getY()), (int) (location.getZ() + velocity.getZ()));
+            } else {
+                pos.d(location.getBlockX(), location.getBlockY(), location.getBlockZ());
+            }
+
+            data.a(new MinecraftKey("block"));
+            data.a(pos);
+            data.d(arrivalTime);
+        }
     }
 }

@@ -8,7 +8,7 @@ import org.bukkit.util.Vector;
 
 public class ParticleSculkCharge extends TravellingParticle {
     public ParticleSculkCharge(Location toGo, double offsetX, double offsetY, double offsetZ, int count) {
-        super("s", false, 0.08, null, toGo, offsetX, offsetY, offsetZ, count);
+        super("", false, 0.08, null, toGo, offsetX, offsetY, offsetZ, count);
 
         setRoll(0);
     }
