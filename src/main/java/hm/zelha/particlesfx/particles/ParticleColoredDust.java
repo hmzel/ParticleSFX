@@ -157,7 +157,7 @@ public class ParticleColoredDust extends ColorableParticle implements SizeablePa
         }
 
         public void a(PacketDataSerializer var0) {
-            float red = 1, green = 1, blue = 1;
+            float red = rng.nextFloat(), green = rng.nextFloat(), blue = rng.nextFloat();
 
             if (color != null) {
                 red = color.getRed() / 255F;
