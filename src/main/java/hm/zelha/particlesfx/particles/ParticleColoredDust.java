@@ -5,12 +5,14 @@ import hm.zelha.particlesfx.particles.parents.Particle;
 import hm.zelha.particlesfx.particles.parents.SizeableParticle;
 import hm.zelha.particlesfx.util.Color;
 import hm.zelha.particlesfx.util.LVMath;
-import net.minecraft.server.v1_13_R1.PacketDataSerializer;
 import net.minecraft.server.v1_13_R1.ParticleParamRedstone;
 import org.bukkit.Location;
+import org.bukkit.craftbukkit.v1_13_R1.entity.CraftPlayer;
 import org.bukkit.util.Vector;
 
 import javax.annotation.Nullable;
+import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class ParticleColoredDust extends ColorableParticle implements SizeableParticle {
 
@@ -87,6 +89,19 @@ public class ParticleColoredDust extends ColorableParticle implements SizeablePa
     }
 
     @Override
+    protected void display(Location location, List<CraftPlayer> players) {
+        if (particle instanceof ParticleParamDust) {
+            ParticleParamDust dust = ((ParticleParamDust) particle);
+
+            if ((color != null && !color.equals(dust.color)) || (color == null && dust.color != null) || size != dust.size || pureColor != dust.pureColor) {
+                particle = new ParticleParamDust(color, size, pureColor);
+            }
+        }
+
+        super.display(location, players);
+    }
+
+    @Override
     protected Vector getXYZ(Location location) {
         return LVMath.toVector(xyzHelper, location);
     }
@@ -157,30 +172,31 @@ public class ParticleColoredDust extends ColorableParticle implements SizeablePa
     }
 
 
-    private class ParticleParamDust extends ParticleParamRedstone {
-        public ParticleParamDust() {
-            super(null, 0);
-        }
+    private static class ParticleParamDust extends ParticleParamRedstone {
 
-        public void a(PacketDataSerializer var0) {
-            float red = rng.nextFloat(), green = rng.nextFloat(), blue = rng.nextFloat();
+        private static final ThreadLocalRandom rng = ThreadLocalRandom.current();
+        private final Color color;
+        private final double size;
+        private final boolean pureColor;
+
+        public ParticleParamDust(Color color, double size, boolean pureColor) {
+            super(new Vector3f(rng.nextFloat(), rng.nextFloat(), rng.nextFloat()), (float) size);
+
+            this.color = (color != null) ? color.clone() : null;
+            this.size = size;
+            this.pureColor = pureColor;
 
             if (color != null) {
-                red = color.getRed() / 255F;
-                green = color.getGreen() / 255F;
-                blue = color.getBlue() / 255F;
+                g.x = color.getRed() / 255F;
+                g.y = color.getGreen() / 255F;
+                g.z = color.getBlue() / 255F;
             }
 
             if (pureColor) {
-                red *= Float.MAX_VALUE;
-                green *= Float.MAX_VALUE;
-                blue *= Float.MAX_VALUE;
+                g.x *= Float.MAX_VALUE;
+                g.y *= Float.MAX_VALUE;
+                g.z *= Float.MAX_VALUE;
             }
-
-            var0.writeFloat(red);
-            var0.writeFloat(green);
-            var0.writeFloat(blue);
-            var0.writeFloat((float) size);
         }
     }
 }
