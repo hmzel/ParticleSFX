@@ -86,9 +86,7 @@ public class ParticleMulticoloredDust extends ParticleColoredDust implements Siz
 
     @Override
     protected void display(Location location, List<CraftPlayer> players) {
-        ParticleParamDustTransition dust = ((ParticleParamDustTransition) particle);
-
-        if (dust.check(color, transition, size, pureColor)) {
+        if (((ParticleParamDustTransition) particle).check(color, transition, size, pureColor)) {
             particle = new ParticleParamDustTransition(color, transition, size, pureColor);
         }
 
