@@ -123,7 +123,7 @@ public class ParticleVibration extends TravellingParticle {
         public NMSVibrationParticle(Location location, Vector velocity, Location toGo, int arrivalTime) {
             super(null, 0);
 
-            this.location = location;
+            this.location = location.clone();
             this.velocity = (velocity != null) ? velocity.clone() : null;
             this.toGo = (toGo != null) ? toGo.clone() : null;
             this.arrivalTime = arrivalTime;
