@@ -185,15 +185,12 @@ public class ParticleColoredDust extends ColorableParticle implements SizeablePa
             this.pureColor = pureColor;
 
             if (color != null) {
-                g.x = color.getRed() / 255F;
-                g.y = color.getGreen() / 255F;
-                g.z = color.getBlue() / 255F;
+                g.set(color.getRed(), color.getGreen(), color.getBlue());
+                g.div(255F);
             }
 
             if (pureColor) {
-                g.x *= Float.MAX_VALUE;
-                g.y *= Float.MAX_VALUE;
-                g.z *= Float.MAX_VALUE;
+                g.mul(Float.MAX_VALUE);
             }
         }
     }
