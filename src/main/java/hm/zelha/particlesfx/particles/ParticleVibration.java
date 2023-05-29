@@ -19,14 +19,10 @@ public class ParticleVibration extends TravellingParticle {
 
     public ParticleVibration(Location toGo, double offsetX, double offsetY, double offsetZ, int count) {
         super("", false, 0, null, toGo, offsetX, offsetY, offsetZ, count);
-
-        particle = new NMSVibrationParticle();
     }
 
     public ParticleVibration(Vector velocity, double offsetX, double offsetY, double offsetZ, int count) {
         super("", false, 0, velocity, null, offsetX, offsetY, offsetZ, count);
-
-        particle = new NMSVibrationParticle();
     }
 
     public ParticleVibration(Location toGo, double offsetX, double offsetY, double offsetZ) {
@@ -79,7 +75,10 @@ public class ParticleVibration extends TravellingParticle {
 
     @Override
     protected void display(Location location, List<CraftPlayer> players) {
-        ((NMSVibrationParticle) particle).location = location;
+        if (!(particle instanceof NMSVibrationParticle) || ((NMSVibrationParticle) particle).check(location, velocity, toGo, arrivalTime)) {
+            particle = new NMSVibrationParticle(location, velocity, toGo, arrivalTime);
+        }
+
         super.display(location, players);
     }
 
@@ -113,28 +112,45 @@ public class ParticleVibration extends TravellingParticle {
     }
 
 
-    private class NMSVibrationParticle extends VibrationParticleOption {
+    private static class NMSVibrationParticle extends VibrationParticleOption {
 
-        private final BlockPosition.MutableBlockPosition pos = new BlockPosition.MutableBlockPosition();
-        private Location location = null;
+        private final BlockPosition destination;
+        private final Location location;
+        private final Vector velocity;
+        private final Location toGo;
+        private final int arrivalTime;
 
-        public NMSVibrationParticle() {
+        public NMSVibrationParticle(Location location, Vector velocity, Location toGo, int arrivalTime) {
             super(null, 0);
+
+            this.location = location;
+            this.velocity = (velocity != null) ? velocity.clone() : null;
+            this.toGo = (toGo != null) ? toGo.clone() : null;
+            this.arrivalTime = arrivalTime;
+
+            if (toGo != null) {
+                destination = new BlockPosition(toGo.getBlockX(), toGo.getBlockY(), toGo.getBlockZ());
+            } else if (velocity != null) {
+                destination = new BlockPosition((int) (location.getX() + velocity.getX()), (int) (location.getY() + velocity.getY()), (int) (location.getZ() + velocity.getZ()));
+            } else {
+                destination = new BlockPosition(location.getBlockX(), location.getBlockY(), location.getBlockZ());
+            }
         }
 
         @Override
         public void a(PacketDataSerializer data) {
-            if (toGo != null) {
-                pos.d(toGo.getBlockX(), toGo.getBlockY(), toGo.getBlockZ());
-            } else if (velocity != null) {
-                pos.d((int) (location.getX() + velocity.getX()), (int) (location.getY() + velocity.getY()), (int) (location.getZ() + velocity.getZ()));
-            } else {
-                pos.d(location.getBlockX(), location.getBlockY(), location.getBlockZ());
-            }
-
             data.a(new MinecraftKey("block"));
-            data.a(pos);
+            data.a(destination);
             data.d(arrivalTime);
+        }
+
+        public boolean check(Location location, Vector velocity, Location toGo, int arrivalTime) {
+            if (velocity != null && !velocity.equals(this.velocity)) return true;
+            if (toGo != null && !toGo.equals(this.toGo)) return true;
+            if (velocity == null && this.velocity != null) return true;
+            if (toGo == null && (this.toGo != null || !location.equals(this.location))) return true;
+
+            return arrivalTime != this.arrivalTime;
         }
     }
 }
