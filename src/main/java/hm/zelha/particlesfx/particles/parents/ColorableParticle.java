@@ -24,9 +24,8 @@ public abstract class ColorableParticle extends Particle {
         super.inherit(particle);
 
         if (particle instanceof ColorableParticle) {
-            ColorableParticle inheritance = (ColorableParticle) particle;
-            color = inheritance.color;
-            brightness = inheritance.brightness;
+            color = ((ColorableParticle) particle).color;
+            brightness = ((ColorableParticle) particle).brightness;
         }
 
         return this;
