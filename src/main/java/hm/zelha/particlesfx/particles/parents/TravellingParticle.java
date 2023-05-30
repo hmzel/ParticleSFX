@@ -31,9 +31,8 @@ public abstract class TravellingParticle extends Particle {
         super.inherit(particle);
 
         if (particle instanceof TravellingParticle) {
-            TravellingParticle inheritance = (TravellingParticle) particle;
-            toGo = inheritance.toGo;
-            velocity = inheritance.velocity;
+            toGo = ((TravellingParticle) particle).toGo;
+            velocity = ((TravellingParticle) particle).velocity;
         }
 
         return this;
@@ -49,15 +48,7 @@ public abstract class TravellingParticle extends Particle {
      * @param toGo location for this particle to go to after being displayed
      */
     public void display(Location location, Location toGo) {
-        Location old = this.toGo;
-        Vector oldVelocity = velocity;
-        this.velocity = null;
-        this.toGo = toGo;
-
-        display(location);
-
-        this.toGo = old;
-        this.velocity = oldVelocity;
+        display(location, toGo, null);
     }
 
     /**
@@ -68,15 +59,7 @@ public abstract class TravellingParticle extends Particle {
      * @param players players to display this particle to
      */
     public void displayForPlayers(Location location, Location toGo, Player... players) {
-        Location old = this.toGo;
-        Vector oldVelocity = velocity;
-        this.velocity = null;
-        this.toGo = toGo;
-
-        displayForPlayers(location, players);
-
-        this.toGo = old;
-        this.velocity = oldVelocity;
+        display(location, toGo, null, players);
     }
 
     /**
@@ -86,15 +69,7 @@ public abstract class TravellingParticle extends Particle {
      * @param velocity velocity of particle
      */
     public void display(Location location, Vector velocity) {
-        Vector old = this.velocity;
-        Location oldToGo = toGo;
-        this.toGo = null;
-        this.velocity = velocity;
-
-        display(location);
-
-        this.toGo = oldToGo;
-        this.velocity = old;
+        display(location, null, velocity);
     }
 
     /**
@@ -105,15 +80,7 @@ public abstract class TravellingParticle extends Particle {
      * @param players players to display this particle to
      */
     public void displayForPlayers(Location location, Vector velocity, Player... players) {
-        Vector old = this.velocity;
-        Location oldToGo = toGo;
-        this.toGo = null;
-        this.velocity = velocity;
-
-        displayForPlayers(location, players);
-
-        this.toGo = oldToGo;
-        this.velocity = old;
+        display(location, null, velocity, players);
     }
 
     @Override
@@ -166,6 +133,22 @@ public abstract class TravellingParticle extends Particle {
         if (velocity != null || toGo != null) return 0;
 
         return super.getPacketCount();
+    }
+
+    private void display(Location location, Location toGo, Vector velocity, Player... players) {
+        Vector old = this.velocity;
+        Location oldToGo = this.toGo;
+        this.velocity = velocity;
+        this.toGo = toGo;
+
+        if (players.length != 0) {
+            displayForPlayers(location, players);
+        } else {
+            display(location);
+        }
+
+        this.velocity = old;
+        this.toGo = oldToGo;
     }
 
     /**
