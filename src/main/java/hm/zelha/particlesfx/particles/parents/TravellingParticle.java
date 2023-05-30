@@ -159,6 +159,15 @@ public abstract class TravellingParticle extends Particle {
     }
 
     /**
+     * @param x where you want the particle to go in X
+     * @param y where you want the particle to go in Y
+     * @param z where you want the particle to go in Z
+     */
+    public void setLocationToGo(double x, double y, double z) {
+        setLocationToGo(new Location(null, x, y, z));
+    }
+
+    /**
      * @param velocity how much you want the particle to travel
      */
     public void setVelocity(@Nullable Vector velocity) {
@@ -172,8 +181,7 @@ public abstract class TravellingParticle extends Particle {
      * @param z how much you want the particle to travel in Z
      */
     public void setVelocity(double x, double y, double z) {
-        this.velocity = new Vector(x, y, z);
-        this.toGo = null;
+        setVelocity(new Vector(x, y, z));
     }
 
     /**
