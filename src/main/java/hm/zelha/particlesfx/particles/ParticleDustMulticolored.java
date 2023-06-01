@@ -14,74 +14,74 @@ import javax.annotation.Nullable;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
-public class ParticleMulticoloredDust extends ParticleColoredDust implements SizeableParticle {
+public class ParticleDustMulticolored extends ParticleDustColored implements SizeableParticle {
 
     private Color transition = null;
 
-    public ParticleMulticoloredDust(@Nullable Color color, double size, double offsetX, double offsetY, double offsetZ, int count) {
+    public ParticleDustMulticolored(@Nullable Color color, double size, double offsetX, double offsetY, double offsetZ, int count) {
         super(color, size, offsetX, offsetY, offsetZ, count);
 
         particle = new ParticleParamDustTransition(color, transition, size, pureColor);
     }
 
-    public ParticleMulticoloredDust(double size, double offsetX, double offsetY, double offsetZ, int count) {
+    public ParticleDustMulticolored(double size, double offsetX, double offsetY, double offsetZ, int count) {
         this(null, size, offsetX, offsetY, offsetZ, count);
     }
 
-    public ParticleMulticoloredDust(@Nullable Color color, double offsetX, double offsetY, double offsetZ, int count) {
+    public ParticleDustMulticolored(@Nullable Color color, double offsetX, double offsetY, double offsetZ, int count) {
         this(color, 1, offsetX, offsetY, offsetZ, count);
     }
 
-    public ParticleMulticoloredDust(double offsetX, double offsetY, double offsetZ, int count) {
+    public ParticleDustMulticolored(double offsetX, double offsetY, double offsetZ, int count) {
         this(null, 1, offsetX, offsetY, offsetZ, count);
     }
 
-    public ParticleMulticoloredDust(@Nullable Color color, double offsetX, double offsetY, double offsetZ) {
+    public ParticleDustMulticolored(@Nullable Color color, double offsetX, double offsetY, double offsetZ) {
         this(color, 1, offsetX, offsetY, offsetZ, 1);
     }
 
-    public ParticleMulticoloredDust(double size, double offsetX, double offsetY, double offsetZ) {
+    public ParticleDustMulticolored(double size, double offsetX, double offsetY, double offsetZ) {
         this(null, size, offsetX, offsetY, offsetZ, 1);
     }
 
-    public ParticleMulticoloredDust(double offsetX, double offsetY, double offsetZ) {
+    public ParticleDustMulticolored(double offsetX, double offsetY, double offsetZ) {
         this(null, 1, offsetX, offsetY, offsetZ, 1);
     }
 
-    public ParticleMulticoloredDust(@Nullable Color color, double size, int count) {
+    public ParticleDustMulticolored(@Nullable Color color, double size, int count) {
         this(color, size, 0, 0, 0, count);
     }
 
-    public ParticleMulticoloredDust(@Nullable Color color, double size) {
+    public ParticleDustMulticolored(@Nullable Color color, double size) {
         this(color, size, 0, 0, 0, 1);
     }
 
-    public ParticleMulticoloredDust(@Nullable Color color) {
+    public ParticleDustMulticolored(@Nullable Color color) {
         this(color, 1, 0, 0, 0, 1);
     }
 
-    public ParticleMulticoloredDust(int count) {
+    public ParticleDustMulticolored(int count) {
         this(null, 1, 0, 0, 0, count);
     }
 
-    public ParticleMulticoloredDust() {
+    public ParticleDustMulticolored() {
         this(null, 1, 0, 0, 0, 1);
     }
 
     @Override
-    public ParticleMulticoloredDust inherit(Particle particle) {
+    public ParticleDustMulticolored inherit(Particle particle) {
         super.inherit(particle);
 
-        if (particle instanceof ParticleMulticoloredDust) {
-            this.transition = ((ParticleMulticoloredDust) particle).transition;
+        if (particle instanceof ParticleDustMulticolored) {
+            this.transition = ((ParticleDustMulticolored) particle).transition;
         }
 
         return this;
     }
 
     @Override
-    public ParticleMulticoloredDust clone() {
-        return new ParticleMulticoloredDust().inherit(this);
+    public ParticleDustMulticolored clone() {
+        return new ParticleDustMulticolored().inherit(this);
     }
 
     @Override
