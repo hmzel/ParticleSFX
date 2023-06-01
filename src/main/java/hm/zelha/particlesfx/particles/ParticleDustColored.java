@@ -14,7 +14,7 @@ import javax.annotation.Nullable;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
-public class ParticleColoredDust extends ColorableParticle implements SizeableParticle {
+public class ParticleDustColored extends ColorableParticle implements SizeableParticle {
 
     protected boolean pureColor = false;
     protected double size;
@@ -27,56 +27,56 @@ public class ParticleColoredDust extends ColorableParticle implements SizeablePa
         setSize(size);
     }
 
-    public ParticleColoredDust(double size, double offsetX, double offsetY, double offsetZ, int count) {
+    public ParticleDustColored(double size, double offsetX, double offsetY, double offsetZ, int count) {
         this(null, size, offsetX, offsetY, offsetZ, count);
     }
 
-    public ParticleColoredDust(@Nullable Color color, double offsetX, double offsetY, double offsetZ, int count) {
+    public ParticleDustColored(@Nullable Color color, double offsetX, double offsetY, double offsetZ, int count) {
         this(color, 1, offsetX, offsetY, offsetZ, count);
     }
 
-    public ParticleColoredDust(double offsetX, double offsetY, double offsetZ, int count) {
+    public ParticleDustColored(double offsetX, double offsetY, double offsetZ, int count) {
         this(null, 1, offsetX, offsetY, offsetZ, count);
     }
 
-    public ParticleColoredDust(@Nullable Color color, double offsetX, double offsetY, double offsetZ) {
+    public ParticleDustColored(@Nullable Color color, double offsetX, double offsetY, double offsetZ) {
         this(color, 1, offsetX, offsetY, offsetZ, 1);
     }
 
-    public ParticleColoredDust(double size, double offsetX, double offsetY, double offsetZ) {
+    public ParticleDustColored(double size, double offsetX, double offsetY, double offsetZ) {
         this(null, size, offsetX, offsetY, offsetZ, 1);
     }
 
-    public ParticleColoredDust(double offsetX, double offsetY, double offsetZ) {
+    public ParticleDustColored(double offsetX, double offsetY, double offsetZ) {
         this(null, 1, offsetX, offsetY, offsetZ, 1);
     }
 
-    public ParticleColoredDust(@Nullable Color color, double size, int count) {
+    public ParticleDustColored(@Nullable Color color, double size, int count) {
         this(color, size, 0, 0, 0, count);
     }
 
-    public ParticleColoredDust(@Nullable Color color, double size) {
+    public ParticleDustColored(@Nullable Color color, double size) {
         this(color, size, 0, 0, 0, 1);
     }
 
-    public ParticleColoredDust(@Nullable Color color) {
+    public ParticleDustColored(@Nullable Color color) {
         this(color, 1, 0, 0, 0, 1);
     }
 
-    public ParticleColoredDust(int count) {
+    public ParticleDustColored(int count) {
         this(null, 1, 0, 0, 0, count);
     }
 
-    public ParticleColoredDust() {
+    public ParticleDustColored() {
         this(null, 1, 0, 0, 0, 1);
     }
 
     @Override
-    public ParticleColoredDust inherit(Particle particle) {
+    public ParticleDustColored inherit(Particle particle) {
         super.inherit(particle);
 
-        if (particle instanceof ParticleColoredDust) {
-            pureColor = ((ParticleColoredDust) particle).pureColor;
+        if (particle instanceof ParticleDustColored) {
+            pureColor = ((ParticleDustColored) particle).pureColor;
         }
 
         if (particle instanceof SizeableParticle) {
@@ -87,8 +87,8 @@ public class ParticleColoredDust extends ColorableParticle implements SizeablePa
     }
 
     @Override
-    public ParticleColoredDust clone() {
-        return new ParticleColoredDust().inherit(this);
+    public ParticleDustColored clone() {
+        return new ParticleDustColored().inherit(this);
     }
 
     @Override
@@ -144,7 +144,7 @@ public class ParticleColoredDust extends ColorableParticle implements SizeablePa
      * @param pureColor whether the color should be pure
      * @return this object
      */
-    public ParticleColoredDust setPureColor(boolean pureColor) {
+    public ParticleDustColored setPureColor(boolean pureColor) {
         this.pureColor = pureColor;
 
         return this;
