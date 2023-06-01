@@ -2,9 +2,6 @@ package hm.zelha.particlesfx.particles;
 
 import hm.zelha.particlesfx.particles.parents.Particle;
 import hm.zelha.particlesfx.particles.parents.SizeableParticle;
-import net.minecraft.core.IRegistry;
-import net.minecraft.core.particles.ParticleType;
-import net.minecraft.resources.MinecraftKey;
 import org.bukkit.Location;
 import org.bukkit.util.Vector;
 
@@ -50,8 +47,8 @@ public class ParticleExplosion extends Particle implements SizeableParticle {
     public ParticleExplosion inherit(Particle particle) {
         super.inherit(particle);
 
-        if (particle instanceof ParticleExplosion) {
-            size = ((ParticleExplosion) particle).size;
+        if (particle instanceof SizeableParticle) {
+            setSize(((SizeableParticle) particle).getSize());
         }
 
         return this;
