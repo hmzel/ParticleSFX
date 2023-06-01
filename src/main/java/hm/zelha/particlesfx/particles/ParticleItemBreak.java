@@ -10,7 +10,7 @@ import org.bukkit.material.MaterialData;
 import org.bukkit.util.Vector;
 
 /**
- * this particle can have the material of any material, regardless of if it can break or not <br>
+ * this particle can have any material, regardless of if it can break or not <br>
  * however, the speed of this particle is inconsistent
  */
 public class ParticleItemBreak extends TravellingParticle implements MaterialParticle {
