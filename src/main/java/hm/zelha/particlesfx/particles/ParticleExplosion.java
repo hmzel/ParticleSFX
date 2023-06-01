@@ -48,8 +48,8 @@ public class ParticleExplosion extends Particle implements SizeableParticle {
     public ParticleExplosion inherit(Particle particle) {
         super.inherit(particle);
 
-        if (particle instanceof ParticleExplosion) {
-            size = ((ParticleExplosion) particle).size;
+        if (particle instanceof SizeableParticle) {
+            setSize(((SizeableParticle) particle).getSize());
         }
 
         return this;
