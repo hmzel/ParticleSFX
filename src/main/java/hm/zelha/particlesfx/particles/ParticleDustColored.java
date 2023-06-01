@@ -9,56 +9,56 @@ import org.bukkit.util.Vector;
 
 import javax.annotation.Nullable;
 
-public class ParticleColoredDust extends ColorableParticle {
+public class ParticleDustColored extends ColorableParticle {
 
     private boolean pureColor = false;
 
-    public ParticleColoredDust(@Nullable Color color, int brightness, double offsetX, double offsetY, double offsetZ, int count) {
+    public ParticleDustColored(@Nullable Color color, int brightness, double offsetX, double offsetY, double offsetZ, int count) {
         super(EnumParticle.REDSTONE, color, brightness, offsetX, offsetY, offsetZ, count);
     }
 
-    public ParticleColoredDust(double offsetX, double offsetY, double offsetZ, int count) {
+    public ParticleDustColored(double offsetX, double offsetY, double offsetZ, int count) {
         this(null, 100, offsetX, offsetY, offsetZ, count);
     }
 
-    public ParticleColoredDust(double offsetX, double offsetY, double offsetZ) {
+    public ParticleDustColored(double offsetX, double offsetY, double offsetZ) {
         this(null, 100, offsetX, offsetY, offsetZ, 1);
     }
 
-    public ParticleColoredDust(@Nullable Color color, int brightness, int count) {
+    public ParticleDustColored(@Nullable Color color, int brightness, int count) {
         this(color, brightness, 0, 0, 0, count);
     }
 
-    public ParticleColoredDust(@Nullable Color color, int brightness) {
+    public ParticleDustColored(@Nullable Color color, int brightness) {
         this(color, brightness, 0, 0, 0, 1);
     }
 
-    public ParticleColoredDust(@Nullable Color color) {
+    public ParticleDustColored(@Nullable Color color) {
         this(color, 100, 0, 0, 0, 1);
     }
 
-    public ParticleColoredDust(int count) {
+    public ParticleDustColored(int count) {
         this(null, 100, 0, 0, 0, count);
     }
 
-    public ParticleColoredDust() {
+    public ParticleDustColored() {
         this(null, 100, 0, 0, 0, 1);
     }
 
     @Override
-    public ParticleColoredDust inherit(Particle particle) {
+    public ParticleDustColored inherit(Particle particle) {
         super.inherit(particle);
 
-        if (particle instanceof ParticleColoredDust) {
-            pureColor = ((ParticleColoredDust) particle).pureColor;
+        if (particle instanceof ParticleDustColored) {
+            pureColor = ((ParticleDustColored) particle).pureColor;
         }
 
         return this;
     }
 
     @Override
-    public ParticleColoredDust clone() {
-        return new ParticleColoredDust().inherit(this);
+    public ParticleDustColored clone() {
+        return new ParticleDustColored().inherit(this);
     }
 
     @Override
@@ -109,7 +109,7 @@ public class ParticleColoredDust extends ColorableParticle {
      * @param pureColor whether the color should be pure
      * @return this object
      */
-    public ParticleColoredDust setPureColor(boolean pureColor) {
+    public ParticleDustColored setPureColor(boolean pureColor) {
         this.pureColor = pureColor;
 
         return this;
