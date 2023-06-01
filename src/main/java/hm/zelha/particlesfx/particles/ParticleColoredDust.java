@@ -78,7 +78,10 @@ public class ParticleColoredDust extends ColorableParticle implements SizeablePa
 
         if (particle instanceof ParticleColoredDust) {
             pureColor = ((ParticleColoredDust) particle).pureColor;
-            size = ((ParticleColoredDust) particle).size;
+        }
+
+        if (particle instanceof SizeableParticle) {
+            setSize(((SizeableParticle) particle).getSize());
         }
 
         return this;
