@@ -41,6 +41,10 @@ public class ParticleSweepAttack extends SizeableParticle {
     public ParticleSweepAttack inherit(Particle particle) {
         super.inherit(particle);
 
+        if (particle instanceof SizeableParticle) {
+            setSize(((SizeableParticle) particle).getSize());
+        }
+
         return this;
     }
 
