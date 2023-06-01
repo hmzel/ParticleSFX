@@ -53,6 +53,7 @@ public class ParticlePortal extends TravellingParticle {
 
         if (particle instanceof ParticlePortal) {
             this.particle = ((ParticlePortal) particle).particle;
+            this.inverse = ((ParticlePortal) particle).inverse;
         }
 
         return this;
