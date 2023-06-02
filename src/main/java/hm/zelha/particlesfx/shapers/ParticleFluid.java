@@ -54,12 +54,9 @@ public class ParticleFluid extends ParticleShaper {
         animator = new BukkitRunnable() {
             @Override
             public void run() {
-                //literally cant do anything about this error so
-                try {
-                    display();
-                } catch (IllegalStateException ignored) {}
+                display();
             }
-        }.runTaskTimerAsynchronously(ParticleSFX.getPlugin(), 1, 1);
+        }.runTaskTimer(ParticleSFX.getPlugin(), 1, delay);
 
         return this;
     }
