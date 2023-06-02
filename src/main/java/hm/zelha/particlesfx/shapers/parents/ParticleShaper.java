@@ -33,7 +33,7 @@ public abstract class ParticleShaper extends RotationHandler implements Shape {
     protected int particlesPerDisplay = 0;
     protected int currentCount = 0;
     protected int overallCount = 0;
-    private int delay = 1;
+    protected int delay = 1;
 
     public ParticleShaper(Particle particle, int particleFrequency) {
         setParticle(particle);
