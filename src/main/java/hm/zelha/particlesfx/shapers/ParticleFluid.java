@@ -9,6 +9,7 @@ import hm.zelha.particlesfx.util.ParticleSFX;
 import hm.zelha.particlesfx.util.ShapeDisplayMechanic;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.entity.Entity;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -17,7 +18,7 @@ import org.bukkit.util.Vector;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
-import static org.bukkit.Material.AIR;
+import static org.bukkit.Material.*;
 
 public class ParticleFluid extends ParticleShaper {
 
@@ -75,7 +76,7 @@ public class ParticleFluid extends ParticleShaper {
             //for some reason some particles still get lodged inside of blocks
             //and i cant figure out why or how to fix it for the life of me
             //i seem to have at least mostly fixed it though
-            while (l.getBlock().getType() != AIR) {
+            while (isntAir(l.getBlock().getType())) {
                 l.setY((int) (l.getY() + 1));
             }
 
@@ -141,7 +142,7 @@ public class ParticleFluid extends ParticleShaper {
                 if (locationHelper.getY() >= locationHelper2.getY() + e.getHeight() + repulsion) continue;
                 if (locationHelper.getZ() >= locationHelper2.getZ() + (e.getWidth() / 2) + repulsion) continue;
 
-                locationHelper2.zero().add(0, (e.getHeight() / 2), 0);
+                locationHelper2.add(0, (e.getHeight() / 2), 0);
                 LVMath.subtractToVector(vectorHelper, locationHelper, locationHelper2);
                 vectorHelper2.zero().add(vectorHelper);
 
@@ -177,27 +178,27 @@ public class ParticleFluid extends ParticleShaper {
             for (double k = 0; k < absoluteSum; k += increase) {
                 locationHelper2.zero().add(l);
 
-                if (locationHelper2.add(increase, 0, 0).getBlock().getType() != AIR && vectorHelper.getX() > 0) {
+                if (isntAir(locationHelper2.add(increase, 0, 0).getBlock().getType()) && vectorHelper.getX() > 0) {
                     vectorHelper.setX(0);
                 }
 
-                if (locationHelper2.subtract(increase * 2, 0, 0).getBlock().getType() != AIR && vectorHelper.getX() < 0) {
+                if (isntAir(locationHelper2.subtract(increase * 2, 0, 0).getBlock().getType()) && vectorHelper.getX() < 0) {
                     vectorHelper.setX(0);
                 }
 
-                if (locationHelper2.add(increase, increase, 0).getBlock().getType() != AIR && vectorHelper.getY() > 0) {
+                if (isntAir(locationHelper2.add(increase, increase, 0).getBlock().getType()) && vectorHelper.getY() > 0) {
                     vectorHelper.setY(0);
                 }
 
-                if (locationHelper2.subtract(0, increase * 2, 0).getBlock().getType() != AIR && vectorHelper.getY() < 0) {
+                if (isntAir(locationHelper2.subtract(0, increase * 2, 0).getBlock().getType()) && vectorHelper.getY() < 0) {
                     vectorHelper.setY(0);
                 }
 
-                if (locationHelper2.add(0, increase, increase).getBlock().getType() != AIR && vectorHelper.getZ() > 0) {
+                if (isntAir(locationHelper2.add(0, increase, increase).getBlock().getType()) && vectorHelper.getZ() > 0) {
                     vectorHelper.setZ(0);
                 }
 
-                if (locationHelper2.subtract(0, 0, increase * 2).getBlock().getType() != AIR && vectorHelper.getZ() < 0) {
+                if (isntAir(locationHelper2.subtract(0, 0, increase * 2).getBlock().getType()) && vectorHelper.getZ() < 0) {
                     vectorHelper.setZ(0);
                 }
 
@@ -292,6 +293,10 @@ public class ParticleFluid extends ParticleShaper {
         super.setWorld(world);
         spawnLocation.setWorld(world);
         locationHelper2.setWorld(world);
+    }
+
+    private boolean isntAir(Material mat) {
+        return mat != AIR && mat != CAVE_AIR && mat != VOID_AIR && mat != LEGACY_AIR;
     }
 
     /**
