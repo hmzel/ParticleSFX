@@ -38,23 +38,15 @@ public class ParticleImage extends ParticleShaper {
     protected Thread currentThread = null;
 
     public ParticleImage(ColorableParticle particle, LocationSafe center, String link, double xRadius, double zRadius, int particleFrequency) {
-        super(particle, particleFrequency);
+        this(particle, center, xRadius, zRadius, particleFrequency);
 
-        setCenter(center);
-        setXRadius(xRadius);
-        setZRadius(zRadius);
         addImage(link);
-        start();
     }
 
     public ParticleImage(ColorableParticle particle, LocationSafe center, File path, double xRadius, double zRadius, int particleFrequency) {
-        super(particle, particleFrequency);
+        this(particle, center, xRadius, zRadius, particleFrequency);
 
-        setCenter(center);
-        setXRadius(xRadius);
-        setZRadius(zRadius);
         addImage(path);
-        start();
     }
 
     public ParticleImage(ColorableParticle particle, LocationSafe center, String link, double radius, int particleFrequency) {
