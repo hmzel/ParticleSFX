@@ -1,16 +1,16 @@
 package hm.zelha.particlesfx.util;
 
+import hm.zelha.particlesfx.particles.parents.Particle;
 import hm.zelha.particlesfx.shapers.parents.RotationHandler;
 import hm.zelha.particlesfx.shapers.parents.Shape;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.entity.Player;
 
 import javax.annotation.Nullable;
 import java.lang.reflect.Field;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.logging.Level;
 
 public class ParticleShapeCompound extends RotationHandler implements Shape {
@@ -73,7 +73,7 @@ public class ParticleShapeCompound extends RotationHandler implements Shape {
     public void scale(double x, double y, double z) {
         super.scale(x, y, z);
 
-        //Some shapes have extra code in their scale methods, we need to run that without modifying the locations twice.
+        //some shapes have extra code in their scale methods, we need to run that without modifying the locations twice
 
         for (Shape shape : shapeLocationIndex.keySet()) {
             try {
@@ -104,6 +104,75 @@ public class ParticleShapeCompound extends RotationHandler implements Shape {
     }
 
     @Override
+    public void addMechanic(ShapeDisplayMechanic.Phase phase, ShapeDisplayMechanic mechanic) {
+        for (Shape shape : shapeLocationIndex.keySet()) {
+            shape.addMechanic(phase, mechanic);
+        }
+    }
+
+    @Override
+    public void addPlayer(Player player) {
+        for (Shape shape : shapeLocationIndex.keySet()) {
+            shape.addPlayer(player);
+        }
+    }
+
+    @Override
+    public void addPlayer(UUID uuid) {
+        for (Shape shape : shapeLocationIndex.keySet()) {
+            shape.addPlayer(uuid);
+        }
+    }
+
+    @Override
+    public void removeMechanic(int index) {
+        for (Shape shape : shapeLocationIndex.keySet()) {
+            shape.removeMechanic(index);
+        }
+    }
+
+    @Override
+    public void removePlayer(int index) {
+        for (Shape shape : shapeLocationIndex.keySet()) {
+            shape.removePlayer(index);
+        }
+    }
+
+    @Override
+    public void removePlayer(Player player) {
+        for (Shape shape : shapeLocationIndex.keySet()) {
+            shape.removePlayer(player);
+        }
+    }
+
+    @Override
+    public void setParticle(Particle particle) {
+        for (Shape shape : shapeLocationIndex.keySet()) {
+            shape.setParticle(particle);
+        }
+    }
+
+    @Override
+    public void setParticleFrequency(int particleFrequency) {
+        int totalFrequency = 0;
+
+        for (Shape shape : shapeLocationIndex.keySet()) {
+            totalFrequency += shape.getParticleFrequency();
+        }
+
+        for (Shape shape : shapeLocationIndex.keySet()) {
+            shape.setParticleFrequency((int) Math.max(shape.getParticleFrequency() * ((double) totalFrequency / shape.getParticleFrequency()), 2));
+        }
+    }
+
+    @Override
+    public void setParticlesPerDisplay(int particlesPerDisplay) {
+        for (Shape shape : shapeLocationIndex.keySet()) {
+            shape.setParticlesPerDisplay(particlesPerDisplay);
+        }
+    }
+
+    @Override
     public void setDelay(int delay) {
         for (Shape shape : shapeLocationIndex.keySet()) {
             shape.setDelay(delay);
@@ -115,6 +184,56 @@ public class ParticleShapeCompound extends RotationHandler implements Shape {
         for (Shape shape : shapeLocationIndex.keySet()) {
             shape.setDisplayPosition(position);
         }
+    }
+
+    @Override
+    @Deprecated
+    public Particle getParticle() {
+        return null;
+    }
+
+    @Override
+    public int getParticleFrequency() {
+        int totalFrequency = 0;
+
+        for (Shape shape : shapeLocationIndex.keySet()) {
+            totalFrequency += shape.getParticleFrequency();
+        }
+
+        return totalFrequency;
+    }
+
+    @Override
+    public int getParticlesPerDisplay() {
+        int particles = 0;
+
+        for (Shape shape : shapeLocationIndex.keySet()) {
+            if (particles < shape.getParticlesPerDisplay()) {
+                particles = shape.getParticlesPerDisplay();
+            }
+        }
+
+        return particles;
+    }
+
+    @Override
+    public List<UUID> getPlayers() {
+        List<UUID> players = new ArrayList<>();
+
+        for (Shape shape : shapeLocationIndex.keySet()) {
+            for (UUID uuid : shape.getPlayers()) {
+                if (!players.contains(uuid)) {
+                    players.add(uuid);
+                }
+            }
+        }
+
+        return players;
+    }
+
+    @Override
+    public int getPlayerAmount() {
+        return getPlayers().size();
     }
 
     @Override
