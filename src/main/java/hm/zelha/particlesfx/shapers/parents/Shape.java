@@ -1,9 +1,15 @@
 package hm.zelha.particlesfx.shapers.parents;
 
+import hm.zelha.particlesfx.particles.parents.Particle;
 import hm.zelha.particlesfx.util.Rotation;
+import hm.zelha.particlesfx.util.ShapeDisplayMechanic;
 import org.bukkit.Location;
 import org.bukkit.World;
+import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
+
+import java.util.List;
+import java.util.UUID;
 
 public interface Shape {
 
@@ -18,6 +24,8 @@ public interface Shape {
     Shape stop();
 
     void display();
+
+    Shape clone();
 
     void rotate(double pitch, double yaw, double roll);
 
@@ -68,10 +76,69 @@ public interface Shape {
      */
     void scale(double scale);
 
-    Shape clone();
+    /**
+     * Similar to {@link java.util.function.Consumer} <br>
+     * in the case of phases {@link ShapeDisplayMechanic.Phase#BEFORE_ROTATION} and {@link ShapeDisplayMechanic.Phase#AFTER_ROTATION}
+     * the given mechanic will run before the location is modified to display the next particle, allowing you to modify the
+     * addition vector however you want, though doing so may be very volatile
+     * <br><br>
+     * keep in mind that all changes to the given objects will be reflected in the display() method, and considering that
+     * the display() method often displays hundreds of particles, try to make sure the mechanic isn't very
+     * resource-intensive
+     * <br><br>
+     * {@link ShapeDisplayMechanic#apply(Particle, Location, Vector, int)}
+     *
+     * @param phase phase that the mechanic should run at
+     * @param mechanic mechanic to run during display
+     */
+    void addMechanic(ShapeDisplayMechanic.Phase phase, ShapeDisplayMechanic mechanic);
 
     /**
-     * @param delay amount of ticks between {@link ParticleShaper#display()} being called
+     * adds a player for this shape to display to, defaults to all online players in the shape's world if the list is empty
+     *
+     * @param player player to add
+     */
+    void addPlayer(Player player);
+
+    /**
+     * adds a player for this shape to display to, defaults to all online players in the shape's world if the list is empty
+     *
+     * @param uuid ID of player to add
+     */
+    void addPlayer(UUID uuid);
+
+    /**
+     * @see Shape#addMechanic(ShapeDisplayMechanic.Phase, ShapeDisplayMechanic)
+     * @param index index of mechanic in list
+     */
+    void removeMechanic(int index);
+
+    /**
+     * @see Shape#addPlayer(Player)
+     * @param index index of player to remove from list
+     */
+    void removePlayer(int index);
+
+    /**
+     * @see Shape#addPlayer(Player)
+     * @param player player to remove from list
+     */
+    void removePlayer(Player player);
+
+    void setParticle(Particle particle);
+
+    /** @param particleFrequency amount of times to display the particle per full animation */
+    void setParticleFrequency(int particleFrequency);
+
+    /**
+     * 0 means that the entire animation will be played when .display() is called
+     *
+     * @param particlesPerDisplay amount of particles that will be shown per display
+     */
+    void setParticlesPerDisplay(int particlesPerDisplay);
+
+    /**
+     * @param delay amount of ticks between {@link Shape#display()} being called
      */
     void setDelay(int delay);
 
@@ -122,6 +189,26 @@ public interface Shape {
     void setAroundAxisRoll(Location around, double roll);
 
     World getWorld();
+
+    Particle getParticle();
+
+    int getParticleFrequency();
+
+    /**
+     * @see Shape#setParticlesPerDisplay(int)
+     * @return the amount of particles per display
+     */
+    int getParticlesPerDisplay();
+
+    /**
+     * @return the UUIDs of all the players that this shape displays to. displays to all players if this list is empty
+     */
+    List<UUID> getPlayers();
+
+    /**
+     * @return amount of players this shape displays to
+     */
+    int getPlayerAmount();
 
     Rotation.Axis[] getRotationOrder();
 
