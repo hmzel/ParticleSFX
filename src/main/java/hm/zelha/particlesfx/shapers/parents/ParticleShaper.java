@@ -66,7 +66,7 @@ public abstract class ParticleShaper extends RotationHandler implements Shape {
 
     public abstract void display();
 
-    public abstract Shape clone();
+    public abstract ParticleShaper clone();
 
     protected Particle getCurrentParticle() {
         Particle particle = this.particle;
@@ -102,39 +102,14 @@ public abstract class ParticleShaper extends RotationHandler implements Shape {
         secondaryParticles.add(new Pair<>(particle, particlesUntilDisplay));
     }
 
-    /**
-     * Similar to {@link java.util.function.Consumer} <br>
-     * in the case of phases {@link ShapeDisplayMechanic.Phase#BEFORE_ROTATION} and {@link ShapeDisplayMechanic.Phase#AFTER_ROTATION}
-     * the given mechanic will run before the location is modified to display the next particle, allowing you to modify the
-     * addition vector however you want, though doing so may be very volatile
-     * <br><br>
-     * keep in mind that all changes to the given objects will be reflected in the display() method, and considering that
-     * the display() method often displays hundreds of particles, try to make sure the mechanic isn't very
-     * resource-intensive
-     * <br><br>
-     * {@link ShapeDisplayMechanic#apply(Particle, Location, Vector, int)}
-     *
-     * @param phase phase that the mechanic should run at
-     * @param mechanic mechanic to run during display
-     */
     public void addMechanic(ShapeDisplayMechanic.Phase phase, ShapeDisplayMechanic mechanic) {
         mechanics.add(new Pair<>(mechanic, phase));
     }
 
-    /**
-     * adds a player for this shape to display to, defaults to all online players in the shape's world if the list is empty
-     *
-     * @param player player to add
-     */
     public void addPlayer(Player player) {
         players.add(player.getUniqueId());
     }
 
-    /**
-     * adds a player for this shape to display to, defaults to all online players in the shape's world if the list is empty
-     *
-     * @param uuid ID of player to add
-     */
     public void addPlayer(UUID uuid) {
         players.add(uuid);
     }
@@ -147,26 +122,14 @@ public abstract class ParticleShaper extends RotationHandler implements Shape {
         secondaryParticles.remove(index);
     }
 
-    /**
-     * @see ParticleShaper#addMechanic(ShapeDisplayMechanic.Phase, ShapeDisplayMechanic)
-     * @param index index of mechanic in list
-     */
     public void removeMechanic(int index) {
         mechanics.remove(index);
     }
 
-    /**
-     * @see ParticleShaper#addPlayer(Player)
-     * @param index index of player to remove from list
-     */
     public void removePlayer(int index) {
         players.remove(index);
     }
 
-    /**
-     * @see ParticleShaper#addPlayer(Player)
-     * @param player player to remove from list
-     */
     public void removePlayer(Player player) {
         players.remove(player.getUniqueId());
     }
@@ -187,18 +150,12 @@ public abstract class ParticleShaper extends RotationHandler implements Shape {
         this.particle = particle;
     }
 
-    /** @param particleFrequency amount of times to display the particle per full animation */
     public void setParticleFrequency(int particleFrequency) {
         Validate.isTrue(particleFrequency >= 2, "Frequency cannot be less than 2! if you only want one particle, use Particle.display()");
 
         this.particleFrequency = particleFrequency;
     }
 
-    /**
-     * 0 means that the entire animation will be played when .display() is called
-     *
-     * @param particlesPerDisplay amount of particles that will be shown per display
-     */
     public void setParticlesPerDisplay(int particlesPerDisplay) {
         this.particlesPerDisplay = particlesPerDisplay;
     }
@@ -239,10 +196,6 @@ public abstract class ParticleShaper extends RotationHandler implements Shape {
         return particleFrequency;
     }
 
-    /**
-     * @see ParticleShaper#setParticlesPerDisplay(int) 
-     * @return the amount of particles per display
-     */
     public int getParticlesPerDisplay() {
         return particlesPerDisplay;
     }
@@ -262,16 +215,10 @@ public abstract class ParticleShaper extends RotationHandler implements Shape {
         return secondaryParticles.size();
     }
 
-    /**
-     * @return the UUIDs of all the players that this shape displays to. displays to all players if this list is empty
-     */
     public List<UUID> getPlayers() {
         return new ArrayList<>(players);
     }
 
-    /**
-     * @return amount of players this shape displays to
-     */
     public int getPlayerAmount() {
         if (players.isEmpty()) return locationHelper.getWorld().getPlayers().size();
 
