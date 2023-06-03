@@ -65,6 +65,10 @@ public class ParticleDustColored extends ColorableParticle implements SizeablePa
         this(null, 1, 0, 0, 0, count);
     }
 
+    public ParticleDustColored(double size) {
+        this(null, size, 0, 0, 0, 1);
+    }
+
     public ParticleDustColored() {
         this(null, 1, 0, 0, 0, 1);
     }
