@@ -64,6 +64,10 @@ public class ParticleDustMulticolored extends ParticleDustColored implements Siz
         this(null, 1, 0, 0, 0, count);
     }
 
+    public ParticleDustMulticolored(double size) {
+        this(null, size, 0, 0, 0, 1);
+    }
+
     public ParticleDustMulticolored() {
         this(null, 1, 0, 0, 0, 1);
     }
