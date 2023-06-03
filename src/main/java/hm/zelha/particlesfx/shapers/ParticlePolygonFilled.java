@@ -189,7 +189,7 @@ public class ParticlePolygonFilled extends ParticlePolygon {
             double currentConnection = 0;
 
             for (int i = 0; i < layer.getCornerAmount(); i++) {
-                double radian = Math.PI * 2 / layer.getCornerAmount() * i;
+                double radian = (Math.PI / 4) + Math.PI * 2 / layer.getCornerAmount() * i;
 
                 vectorHelper.setX(layer.getXRadius() * Math.cos(radian));
                 vectorHelper.setY(layer.getYPosition());
