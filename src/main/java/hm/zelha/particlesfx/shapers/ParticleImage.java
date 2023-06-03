@@ -225,6 +225,13 @@ public class ParticleImage extends ParticleShaper {
         super.addParticle(particle, particlesUntilDisplay);
     }
 
+    @Override
+    public void setParticle(Particle particle) {
+        Validate.isTrue(particle instanceof ColorableParticle, "ParticleImage particles must be colorable!");
+
+        super.setParticle(particle);
+    }
+
     protected void addOrRemoveImages(Object toLoad, boolean remove, int index) {
         if (currentThread != null && currentThread != Thread.currentThread()) {
             try {
