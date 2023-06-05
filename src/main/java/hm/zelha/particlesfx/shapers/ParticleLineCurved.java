@@ -159,16 +159,11 @@ public class ParticleLineCurved extends ParticleLine {
     @Override
     public void scale(double x, double y, double z) {
         super.scale(x, y, z);
-    }
-
-    @Override
-    public void scale(double scale) {
-        super.scale(scale);
 
         for (CurveInfo curve : curves) {
-            curve.setLength(curve.getLength() * scale);
-            curve.setHeight(curve.getHeight() * scale);
-            curve.setApexPosition(curve.getApexPosition() * scale);
+            curve.setLength(curve.getLength() * (x + y + z) / 3);
+            curve.setHeight(curve.getHeight() * (x + y + z) / 3);
+            curve.setApexPosition(curve.getApexPosition() * (x + y + z) / 3);
         }
     }
 
