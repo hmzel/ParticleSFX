@@ -22,12 +22,16 @@ public class CircleInfo {
         setZRadius(zRadius);
     }
 
+    public CircleInfo(LocationSafe center, double radius, double pitch, double yaw, double roll) {
+        this(center, radius, radius, pitch, yaw, roll);
+    }
+
     public CircleInfo(LocationSafe center, double xRadius, double zRadius) {
         this(center, xRadius, zRadius, 0, 0, 0);
     }
 
-    public CircleInfo clone() {
-        return new CircleInfo(center.clone(), xRadius, zRadius, pitch, yaw, roll);
+    public CircleInfo(LocationSafe center, double radius) {
+        this(center, radius, radius, 0, 0, 0);
     }
 
     /**
