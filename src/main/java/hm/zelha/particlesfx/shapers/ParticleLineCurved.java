@@ -154,6 +154,24 @@ public class ParticleLineCurved extends ParticleLine {
         return clone;
     }
 
+    /** @deprecated Doesn't work correctly with curves, and I don't know how to fix it. */
+    @Deprecated
+    @Override
+    public void scale(double x, double y, double z) {
+        super.scale(x, y, z);
+    }
+
+    @Override
+    public void scale(double scale) {
+        super.scale(scale);
+
+        for (CurveInfo curve : curves) {
+            curve.setLength(curve.getLength() * scale);
+            curve.setHeight(curve.getHeight() * scale);
+            curve.setApexPosition(curve.getApexPosition() * scale);
+        }
+    }
+
     public void addCurve(int index, CurveInfo curve) {
         curves.add(index, curve);
     }
