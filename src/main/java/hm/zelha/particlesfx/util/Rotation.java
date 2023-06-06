@@ -8,15 +8,9 @@ public class Rotation {
 
     private final Rotation axisRotation;
     private final Axis[] axes = {Axis.PITCH, Axis.YAW, Axis.ROLL};
-    private final double[] oldPitchCosAndSin = {0, 0};
-    private final double[] oldYawCosAndSin = {0, 0};
-    private final double[] oldRollCosAndSin = {0, 0};
     private double pitch;
     private double yaw;
     private double roll;
-    private double oldPitch = 0;
-    private double oldYaw = 0;
-    private double oldRoll = 0;
 
     public Rotation(double pitch, double yaw, double roll) {
         setPitch(pitch);
@@ -50,18 +44,9 @@ public class Rotation {
         axes[0] = rotation.axes[0];
         axes[1] = rotation.axes[1];
         axes[2] = rotation.axes[2];
-        oldPitchCosAndSin[0] = rotation.oldPitchCosAndSin[0];
-        oldPitchCosAndSin[1] = rotation.oldPitchCosAndSin[1];
-        oldYawCosAndSin[0] = rotation.oldYawCosAndSin[0];
-        oldYawCosAndSin[1] = rotation.oldYawCosAndSin[1];
-        oldRollCosAndSin[0] = rotation.oldRollCosAndSin[0];
-        oldRollCosAndSin[1] = rotation.oldRollCosAndSin[1];
         pitch = rotation.pitch;
         yaw = rotation.yaw;
         roll = rotation.roll;
-        oldPitch = rotation.oldPitch;
-        oldYaw = rotation.oldYaw;
-        oldRoll = rotation.oldRoll;
 
         return this;
     }
@@ -102,26 +87,13 @@ public class Rotation {
     public void applyPitch(Vector v) {
         if (pitch == 0) return;
 
-        double y, z, cos, sin, angle;
-
-        if (pitch != oldPitch) {
-            angle = Math.toRadians(pitch);
-            cos = Math.cos(angle);
-            sin = Math.sin(angle);
-            oldPitchCosAndSin[0] = cos;
-            oldPitchCosAndSin[1] = sin;
-            oldPitch = pitch;
-        } else {
-            cos = oldPitchCosAndSin[0];
-            sin = oldPitchCosAndSin[1];
-        }
-
-        y = v.getY() * cos - v.getZ() * sin;
-        z = v.getY() * sin + v.getZ() * cos;
+        double cos = Math.cos(Math.toRadians(pitch));
+        double sin = Math.sin(Math.toRadians(pitch));
+        double y = v.getY() * cos - v.getZ() * sin;
+        double z = v.getY() * sin + v.getZ() * cos;
 
         v.setY(y).setZ(z);
     }
-
 
     /**
      * @param v vector for this rotation's yaw to be applied to
@@ -129,22 +101,10 @@ public class Rotation {
     public void applyYaw(Vector v) {
         if (yaw == 0) return;
 
-        double x, z, cos, sin, angle;
-
-        if (yaw != oldYaw) {
-            angle = Math.toRadians(-yaw);
-            cos = Math.cos(angle);
-            sin = Math.sin(angle);
-            oldYawCosAndSin[0] = cos;
-            oldYawCosAndSin[1] = sin;
-            oldYaw = yaw;
-        } else {
-            cos = oldYawCosAndSin[0];
-            sin = oldYawCosAndSin[1];
-        }
-
-        x = v.getX() * cos + v.getZ() * sin;
-        z = v.getX() * -sin + v.getZ() * cos;
+        double cos = Math.cos(Math.toRadians(-yaw));
+        double sin = Math.sin(Math.toRadians(-yaw));
+        double x = v.getX() * cos + v.getZ() * sin;
+        double z = v.getX() * -sin + v.getZ() * cos;
 
         v.setX(x).setZ(z);
     }
@@ -155,22 +115,10 @@ public class Rotation {
     public void applyRoll(Vector v) {
         if (roll == 0) return;
 
-        double x, y, cos, sin, angle;
-
-        if (roll != oldRoll) {
-            angle = Math.toRadians(roll);
-            cos = Math.cos(angle);
-            sin = Math.sin(angle);
-            oldRollCosAndSin[0] = cos;
-            oldRollCosAndSin[1] = sin;
-            oldRoll = roll;
-        } else {
-            cos = oldRollCosAndSin[0];
-            sin = oldRollCosAndSin[1];
-        }
-
-        x = v.getX() * cos - v.getY() * sin;
-        y = v.getX() * sin + v.getY() * cos;
+        double cos = Math.cos(Math.toRadians(roll));
+        double sin = Math.sin(Math.toRadians(roll));
+        double x = v.getX() * cos - v.getY() * sin;
+        double y = v.getX() * sin + v.getY() * cos;
 
         v.setX(x).setY(y);
     }
@@ -178,13 +126,9 @@ public class Rotation {
     private void applyForAxis(Axis axis, Vector v) {
         if (axis == Axis.PITCH) {
             applyPitch(v);
-        }
-
-        if (axis == Axis.YAW) {
+        } else if (axis == Axis.YAW) {
             applyYaw(v);
-        }
-
-        if (axis == Axis.ROLL) {
+        } else if (axis == Axis.ROLL) {
             applyRoll(v);
         }
     }
