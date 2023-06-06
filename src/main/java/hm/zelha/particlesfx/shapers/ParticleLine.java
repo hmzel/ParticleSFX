@@ -23,7 +23,7 @@ public class ParticleLine extends ParticleShaper {
     }
 
     public ParticleLine(Particle particle, LocationSafe... locations) {
-        this(particle, 50, locations);
+        this(particle, locations.length * 25, locations);
     }
 
     @Override
