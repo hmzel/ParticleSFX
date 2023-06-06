@@ -378,17 +378,3 @@ public class ParticleText extends ParticleShaper {
         return text.size();
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
