@@ -552,19 +552,3 @@ public class ParticleImage extends ParticleShaper {
         return images.size();
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
