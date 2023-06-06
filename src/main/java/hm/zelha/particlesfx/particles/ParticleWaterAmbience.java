@@ -9,7 +9,7 @@ import net.minecraft.server.v1_8_R3.EnumParticle;
 public class ParticleWaterAmbience extends Particle {
     /**@see ParticleWaterAmbience*/
     public ParticleWaterAmbience(double offsetX, double offsetY, double offsetZ, int count) {
-        super(EnumParticle.SUSPENDED, offsetX, offsetY, offsetZ, 0, count);
+        super(EnumParticle.SUSPENDED, offsetX, offsetY, offsetZ, count);
     }
 
     /**@see ParticleWaterAmbience*/

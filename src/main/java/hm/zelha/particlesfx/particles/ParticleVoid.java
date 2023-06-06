@@ -5,7 +5,7 @@ import net.minecraft.server.v1_8_R3.EnumParticle;
 
 public class ParticleVoid extends Particle {
     public ParticleVoid(double offsetX, double offsetY, double offsetZ, int count) {
-        super(EnumParticle.SUSPENDED_DEPTH, offsetX, offsetY, offsetZ, 0, count);
+        super(EnumParticle.SUSPENDED_DEPTH, offsetX, offsetY, offsetZ, count);
     }
 
     public ParticleVoid(double offsetX, double offsetY, double offsetZ) {

@@ -10,7 +10,7 @@ public class ParticleExplosion extends Particle {
     private double size;
 
     public ParticleExplosion(double size, double offsetX, double offsetY, double offsetZ, int count) {
-        super(EnumParticle.EXPLOSION_LARGE, offsetX, offsetY, offsetZ, 0, count);
+        super(EnumParticle.EXPLOSION_LARGE, offsetX, offsetY, offsetZ, count);
 
         this.size = size;
     }

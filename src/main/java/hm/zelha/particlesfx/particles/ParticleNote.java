@@ -24,7 +24,7 @@ public class ParticleNote extends Particle {
 
     /**@see ParticleNote*/
     public ParticleNote(NoteColor color, int count) {
-        super(EnumParticle.NOTE, 0, 0, 0, 0, count);
+        super(EnumParticle.NOTE, 0, 0, 0, count);
 
         setNoteColor(color);
     }

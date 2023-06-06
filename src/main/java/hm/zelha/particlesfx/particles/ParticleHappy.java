@@ -5,7 +5,7 @@ import net.minecraft.server.v1_8_R3.EnumParticle;
 
 public class ParticleHappy extends Particle {
     public ParticleHappy(double offsetX, double offsetY, double offsetZ, int count) {
-        super(EnumParticle.VILLAGER_HAPPY, offsetX, offsetY, offsetZ, 1, count);
+        super(EnumParticle.VILLAGER_HAPPY, offsetX, offsetY, offsetZ, count);
     }
 
     public ParticleHappy(double offsetX, double offsetY, double offsetZ) {
