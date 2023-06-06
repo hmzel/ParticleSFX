@@ -4,7 +4,7 @@ import hm.zelha.particlesfx.particles.parents.Particle;
 
 public class ParticleVoid extends Particle {
     public ParticleVoid(double offsetX, double offsetY, double offsetZ, int count) {
-        super("mycelium", offsetX, offsetY, offsetZ, 0, count, 0);
+        super("mycelium", offsetX, offsetY, offsetZ, 0, count);
     }
 
     public ParticleVoid(double offsetX, double offsetY, double offsetZ) {

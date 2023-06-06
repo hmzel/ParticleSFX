@@ -4,7 +4,7 @@ import hm.zelha.particlesfx.particles.parents.Particle;
 
 public class ParticleLandingCherry extends Particle {
     public ParticleLandingCherry(double offsetX, double offsetY, double offsetZ, int count) {
-        super("landing_cherry_leaves", offsetX, offsetY, offsetZ, 0, count, 0);
+        super("landing_cherry_leaves", offsetX, offsetY, offsetZ, 0, count);
     }
 
     public ParticleLandingCherry(double offsetX, double offsetY, double offsetZ) {

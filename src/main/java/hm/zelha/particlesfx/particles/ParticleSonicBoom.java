@@ -4,7 +4,7 @@ import hm.zelha.particlesfx.particles.parents.Particle;
 
 public class ParticleSonicBoom extends Particle {
     public ParticleSonicBoom(double offsetX, double offsetY, double offsetZ, int count) {
-        super("sonic_boom", offsetX, offsetY, offsetZ, 0, count, 0);
+        super("sonic_boom", offsetX, offsetY, offsetZ, 0, count);
     }
 
     public ParticleSonicBoom(double offsetX, double offsetY, double offsetZ) {

@@ -33,17 +33,16 @@ public abstract class Particle {
     protected double offsetZ;
     protected double speed;
     protected int count;
-    protected int radius;
+    protected int radius = 0;
     private final List<CraftPlayer> players = ((CraftServer) Bukkit.getServer()).getOnlinePlayers();
     private final List<CraftPlayer> listHelper = new ArrayList<>();
 
-    protected Particle(String particleID, double offsetX, double offsetY, double offsetZ, double speed, int count, int radius) {
+    protected Particle(String particleID, double offsetX, double offsetY, double offsetZ, double speed, int count) {
         this.particle = (ParticleType) BuiltInRegistries.k.a(new MinecraftKey(particleID));
 
         setOffset(offsetX, offsetY, offsetZ);
         setSpeed(speed);
         setCount(count);
-        setRadius(radius);
     }
 
     public void display(Location location) {
