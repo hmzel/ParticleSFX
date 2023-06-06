@@ -16,7 +16,7 @@ import java.util.List;
 public class ParticleNull extends Particle {
     /**@see ParticleNull*/
     public ParticleNull() {
-        super(EnumParticle.HEART, 0, 0, 0, 0, 0, 0);
+        super(EnumParticle.HEART, 0, 0, 0, 0, 0);
     }
 
     @Override
