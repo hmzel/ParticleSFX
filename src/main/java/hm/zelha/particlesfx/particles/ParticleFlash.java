@@ -5,7 +5,7 @@ import net.minecraft.server.v1_16_R2.Particles;
 
 public class ParticleFlash extends Particle {
     public ParticleFlash(double offsetX, double offsetY, double offsetZ, int count) {
-        super(Particles.FLASH, offsetX, offsetY, offsetZ, 0, count);
+        super(Particles.FLASH, offsetX, offsetY, offsetZ, count);
     }
 
     public ParticleFlash(double offsetX, double offsetY, double offsetZ) {

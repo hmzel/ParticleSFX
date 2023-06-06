@@ -5,7 +5,7 @@ import net.minecraft.server.v1_16_R2.Particles;
 
 public class ParticleSwirl extends Particle {
     public ParticleSwirl(double offsetX, double offsetY, double offsetZ, int count) {
-        super(Particles.EFFECT, offsetX, offsetY, offsetZ, 1, count);
+        super(Particles.EFFECT, offsetX, offsetY, offsetZ, count);
     }
 
     public ParticleSwirl(double offsetX, double offsetY, double offsetZ) {
