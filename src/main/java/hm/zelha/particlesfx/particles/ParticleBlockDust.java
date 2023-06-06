@@ -12,7 +12,7 @@ public class ParticleBlockDust extends Particle implements MaterialParticle {
     protected MaterialData data;
 
     public ParticleBlockDust(MaterialData data, double offsetX, double offsetY, double offsetZ, int count) {
-        super(EnumParticle.FALLING_DUST, offsetX, offsetY, offsetZ, 1, count, 0);
+        super(EnumParticle.FALLING_DUST, offsetX, offsetY, offsetZ, 1, count);
 
         setMaterialData(data);
     }
