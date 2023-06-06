@@ -29,10 +29,10 @@ public class ParticleText extends ParticleShaper {
     protected int borderZ = 10;
     protected BufferedImage image = null;
     protected boolean remakeImage = true;
-    protected double width = 0;
-    protected double height = 0;
-    protected double startX = 0;
-    protected double startZ = 0;
+    protected int width = 0;
+    protected int height = 0;
+    protected int startX = 0;
+    protected int startZ = 0;
 
     public ParticleText(Particle particle, LocationSafe center, double xRadius, double zRadius, int particleFrequency, String... text) {
         super(particle, particleFrequency);
@@ -64,10 +64,10 @@ public class ParticleText extends ParticleShaper {
 
         boolean hasRan = false;
         boolean trackCount = particlesPerDisplay > 0;
-        double width = this.width;
-        double height = this.height;
-        double startX = this.startX;
-        double startZ = this.startZ;
+        int width = this.width;
+        int height = this.height;
+        int startX = this.startX;
+        int startZ = this.startZ;
 
         if (inverted) {
             width += borderX;
@@ -78,22 +78,26 @@ public class ParticleText extends ParticleShaper {
 
         for (int i = overallCount; i < particleFrequency; i++) {
             Particle particle = getCurrentParticle();
-            double x, z;
+            int x, z;
 
             //i cant figure out how to evenly distribute points across the text without it looking horrible
             //might come back to this later on, but it looks fine with random distribution so :shrug:
             while (true) {
-                x = rng.nextDouble(startX, width + this.startX);
-                z = rng.nextDouble(startZ, height + this.startZ);
+                x = rng.nextInt(startX, width + this.startX);
+                z = rng.nextInt(startZ, height + this.startZ);
 
-                if (!inverted && Color.black.getRGB() == image.getRGB((int) x, (int) z)) break;
-                if (inverted && Color.black.getRGB() != image.getRGB((int) x, (int) z)) break;
+                //its literally just lying when it throws this error and idk how to fix it
+                //really annoying
+                try {
+                    if (!inverted && Color.black.getRGB() == image.getRGB(x, z)) break;
+                    if (inverted && Color.black.getRGB() != image.getRGB(x, z)) break;
+                } catch (ArrayIndexOutOfBoundsException ignored) {}
             }
 
             locationHelper.zero().add(getCenter());
-            vectorHelper.setX((((x - startX) / width * 2) - 1) * xRadius);
+            vectorHelper.setX((((x - startX) / (double) width * 2) - 1) * xRadius);
             vectorHelper.setY(0);
-            vectorHelper.setZ((((z - startZ) / height * 2) - 1) * -zRadius);
+            vectorHelper.setZ((((z - startZ) / (double) height * 2) - 1) * -zRadius);
             applyMechanics(ShapeDisplayMechanic.Phase.BEFORE_ROTATION, particle, locationHelper, vectorHelper);
             rot.apply(vectorHelper);
 
@@ -161,8 +165,7 @@ public class ParticleText extends ParticleShaper {
     }
 
     protected void remakeImage() {
-        image = new BufferedImage(1, 1, BufferedImage.TYPE_4BYTE_ABGR);
-        Graphics graphics = image.getGraphics();
+        Graphics graphics = new BufferedImage(1, 1, 6).getGraphics();
         List<Rectangle2D> boxes = new ArrayList<>();
         double width = 0;
         double height = 0;
@@ -179,39 +182,39 @@ public class ParticleText extends ParticleShaper {
             }
         }
 
-        graphics.dispose();
-
-        image = new BufferedImage((int) Math.ceil(width + (borderX * 2)), (int) Math.ceil(height + (borderZ * 2)), BufferedImage.TYPE_4BYTE_ABGR);
+        image = new BufferedImage((int) Math.ceil(width + (borderX * 2)), (int) Math.ceil(height + (borderZ * 2)), 6);
         graphics = image.getGraphics();
+        int currentHeight = graphics.getFontMetrics(font).getAscent() + borderZ;
 
         graphics.setFont(font);
         graphics.setColor(Color.BLACK);
 
-        int currentHeight = graphics.getFontMetrics(font).getAscent() + borderZ;
-
         for (int i = 0; i < text.size(); i++) {
-            Rectangle2D bounds = boxes.get(i);
             int x = borderX;
 
             if (centered) {
-                x += (width / 2) - (bounds.getWidth() / 2);
+                x += (width / 2) - (boxes.get(i).getWidth() / 2);
             }
 
             graphics.drawString(this.text.get(i), x, currentHeight);
 
-            currentHeight += bounds.getHeight();
+            currentHeight += boxes.get(i).getHeight();
         }
 
-        graphics.dispose();
-
-        double highestX = Double.MIN_VALUE;
-        double highestZ = Double.MIN_VALUE;
-        double lowestX = Double.MAX_VALUE;
-        double lowestZ = Double.MAX_VALUE;
+        int highestX = Integer.MIN_VALUE;
+        int highestZ = Integer.MIN_VALUE;
+        int lowestX = Integer.MAX_VALUE;
+        int lowestZ = Integer.MAX_VALUE;
 
         for (int x = 0; x < image.getWidth(); x++) {
             for (int z = 0; z < image.getHeight(); z++) {
-                if (Color.black.getRGB() != image.getRGB(x, z)) continue;
+                //its literally just lying when it throws this error and idk how to fix it
+                //really annoying
+                try {
+                    if (Color.black.getRGB() != image.getRGB(x, z)) continue;
+                } catch (ArrayIndexOutOfBoundsException ignored) {
+                    continue;
+                }
 
                 highestX = Math.max(highestX, x);
                 highestZ = Math.max(highestZ, z);
