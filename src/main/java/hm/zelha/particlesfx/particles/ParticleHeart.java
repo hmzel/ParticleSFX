@@ -5,7 +5,7 @@ import net.minecraft.server.v1_12_R1.EnumParticle;
 
 public class ParticleHeart extends Particle {
     public ParticleHeart(double offsetX, double offsetY, double offsetZ, int count) {
-        super(EnumParticle.HEART, offsetX, offsetY, offsetZ, 1, count);
+        super(EnumParticle.HEART, offsetX, offsetY, offsetZ, count);
     }
 
     public ParticleHeart(double offsetX, double offsetY, double offsetZ) {

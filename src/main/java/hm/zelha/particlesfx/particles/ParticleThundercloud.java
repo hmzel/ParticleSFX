@@ -5,7 +5,7 @@ import net.minecraft.server.v1_12_R1.EnumParticle;
 
 public class ParticleThundercloud extends Particle {
     public ParticleThundercloud(double offsetX, double offsetY, double offsetZ, int count) {
-        super(EnumParticle.VILLAGER_ANGRY, offsetX, offsetY, offsetZ, 1, count);
+        super(EnumParticle.VILLAGER_ANGRY, offsetX, offsetY, offsetZ, count);
     }
 
     public ParticleThundercloud(double offsetX, double offsetY, double offsetZ) {

@@ -6,7 +6,7 @@ import net.minecraft.server.v1_12_R1.EnumParticle;
 
 public class ParticleExplosion extends SizeableParticle {
     public ParticleExplosion(double size, double offsetX, double offsetY, double offsetZ, int count) {
-        super(EnumParticle.EXPLOSION_LARGE, size, offsetX, offsetY, offsetZ, 0, count);
+        super(EnumParticle.EXPLOSION_LARGE, size, offsetX, offsetY, offsetZ, count);
     }
 
     public ParticleExplosion(double size, double offsetX, double offsetY, double offsetZ) {
