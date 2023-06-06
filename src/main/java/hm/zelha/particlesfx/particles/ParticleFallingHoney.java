@@ -5,7 +5,7 @@ import net.minecraft.server.v1_16_R1.Particles;
 
 public class ParticleFallingHoney extends Particle {
     public ParticleFallingHoney(double offsetX, double offsetY, double offsetZ, int count) {
-        super(Particles.FALLING_HONEY, offsetX, offsetY, offsetZ, 0, count);
+        super(Particles.FALLING_HONEY, offsetX, offsetY, offsetZ, count);
     }
 
     public ParticleFallingHoney(double offsetX, double offsetY, double offsetZ) {

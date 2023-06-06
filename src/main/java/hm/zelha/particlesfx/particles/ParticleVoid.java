@@ -5,7 +5,7 @@ import net.minecraft.server.v1_16_R1.Particles;
 
 public class ParticleVoid extends Particle {
     public ParticleVoid(double offsetX, double offsetY, double offsetZ, int count) {
-        super(Particles.MYCELIUM, offsetX, offsetY, offsetZ, 0, count);
+        super(Particles.MYCELIUM, offsetX, offsetY, offsetZ, count);
     }
 
     public ParticleVoid(double offsetX, double offsetY, double offsetZ) {

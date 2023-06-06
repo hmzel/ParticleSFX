@@ -15,7 +15,7 @@ import java.util.List;
 public class ParticleNull extends Particle {
     /**@see ParticleNull*/
     public ParticleNull() {
-        super(null, 0, 0, 0, 0, 0);
+        super(null, 0, 0, 0, 0);
     }
 
     @Override

@@ -20,7 +20,7 @@ public class ParticleEnderSignal extends Particle {
 
     /**@see ParticleEnderSignal*/
     public ParticleEnderSignal(int count) {
-        super(null, 0, 0, 0, 0, count);
+        super(null, 0, 0, 0, count);
     }
 
     /**@see ParticleEnderSignal*/

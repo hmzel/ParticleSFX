@@ -5,7 +5,7 @@ import net.minecraft.server.v1_16_R1.Particles;
 
 public class ParticleWhiteAsh extends Particle {
     public ParticleWhiteAsh(double offsetX, double offsetY, double offsetZ, int count) {
-        super(Particles.WHITE_ASH, offsetX, offsetY, offsetZ, 0, count);
+        super(Particles.WHITE_ASH, offsetX, offsetY, offsetZ, count);
     }
 
     public ParticleWhiteAsh(double offsetX, double offsetY, double offsetZ) {
