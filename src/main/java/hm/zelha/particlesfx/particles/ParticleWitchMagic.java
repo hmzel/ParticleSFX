@@ -5,7 +5,7 @@ import net.minecraft.server.v1_14_R1.Particles;
 
 public class ParticleWitchMagic extends Particle {
     public ParticleWitchMagic(double offsetX, double offsetY, double offsetZ, int count) {
-        super(Particles.WITCH, offsetX, offsetY, offsetZ, 1, count);
+        super(Particles.WITCH, offsetX, offsetY, offsetZ, count);
     }
 
     public ParticleWitchMagic(double offsetX, double offsetY, double offsetZ) {

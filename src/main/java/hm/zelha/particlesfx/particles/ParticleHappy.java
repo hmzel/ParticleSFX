@@ -5,7 +5,7 @@ import net.minecraft.server.v1_14_R1.Particles;
 
 public class ParticleHappy extends Particle {
     public ParticleHappy(double offsetX, double offsetY, double offsetZ, int count) {
-        super(Particles.HAPPY_VILLAGER, offsetX, offsetY, offsetZ, 1, count);
+        super(Particles.HAPPY_VILLAGER, offsetX, offsetY, offsetZ, count);
     }
 
     public ParticleHappy(double offsetX, double offsetY, double offsetZ) {

@@ -25,17 +25,16 @@ public abstract class Particle {
     protected double offsetX;
     protected double offsetY;
     protected double offsetZ;
-    protected double speed;
+    protected double speed = 1;
     protected int count;
     protected int radius = 0;
     private final List<CraftPlayer> players = ((CraftServer) Bukkit.getServer()).getOnlinePlayers();
     private final List<CraftPlayer> listHelper = new ArrayList<>();
 
-    protected Particle(ParticleParam particle, double offsetX, double offsetY, double offsetZ, double speed, int count) {
+    protected Particle(ParticleParam particle, double offsetX, double offsetY, double offsetZ, int count) {
         this.particle = particle;
 
         setOffset(offsetX, offsetY, offsetZ);
-        setSpeed(speed);
         setCount(count);
     }
 

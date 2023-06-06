@@ -5,7 +5,7 @@ import net.minecraft.server.v1_14_R1.Particles;
 
 public class ParticleNote extends Particle {
     public ParticleNote(double offsetX, double offsetY, double offsetZ, int count) {
-        super(Particles.NOTE, offsetX, offsetY, offsetZ, 0, count);
+        super(Particles.NOTE, offsetX, offsetY, offsetZ, count);
     }
 
     public ParticleNote(double offsetX, double offsetY, double offsetZ) {
