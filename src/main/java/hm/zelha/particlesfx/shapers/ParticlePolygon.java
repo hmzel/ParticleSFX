@@ -5,6 +5,7 @@ import hm.zelha.particlesfx.shapers.parents.ParticleShaper;
 import hm.zelha.particlesfx.util.*;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Location;
+import org.bukkit.World;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
@@ -183,6 +184,14 @@ public class ParticlePolygon extends ParticleShaper {
         }
 
         return super.recalculateIfNeeded(around);
+    }
+
+    @Override
+    public void setWorld(World world) {
+        //if this isn't here it might cause errors if setWorld() is called after a corner's location is set to a new location with a different world
+        //gotta cover every base! perfectionist mentality!
+        recalculateIfNeeded(null);
+        super.setWorld(world);
     }
 
     protected void initLayers(LocationSafe center, PolygonLayer... layers) {
