@@ -5,7 +5,7 @@ import net.minecraft.server.v1_9_R1.EnumParticle;
 
 public class ParticleDrippingLava extends Particle {
     public ParticleDrippingLava(double offsetX, double offsetY, double offsetZ, int count) {
-        super(EnumParticle.DRIP_LAVA, offsetX, offsetY, offsetZ, 0, count, 0);
+        super(EnumParticle.DRIP_LAVA, offsetX, offsetY, offsetZ, 0, count);
     }
 
     public ParticleDrippingLava(double offsetX, double offsetY, double offsetZ) {
