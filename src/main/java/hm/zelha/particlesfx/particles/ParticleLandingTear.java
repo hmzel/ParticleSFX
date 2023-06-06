@@ -4,7 +4,7 @@ import hm.zelha.particlesfx.particles.parents.Particle;
 
 public class ParticleLandingTear extends Particle {
     public ParticleLandingTear(double offsetX, double offsetY, double offsetZ, int count) {
-        super("landing_obsidian_tear", offsetX, offsetY, offsetZ, 0, count);
+        super("landing_obsidian_tear", offsetX, offsetY, offsetZ, count);
     }
 
     public ParticleLandingTear(double offsetX, double offsetY, double offsetZ) {

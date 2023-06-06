@@ -4,7 +4,7 @@ import hm.zelha.particlesfx.particles.parents.Particle;
 
 public class ParticleLandingLava extends Particle {
     public ParticleLandingLava(double offsetX, double offsetY, double offsetZ, int count) {
-        super("landing_lava", offsetX, offsetY, offsetZ, 0, count);
+        super("landing_lava", offsetX, offsetY, offsetZ, count);
     }
 
     public ParticleLandingLava(double offsetX, double offsetY, double offsetZ) {

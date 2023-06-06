@@ -4,7 +4,7 @@ import hm.zelha.particlesfx.particles.parents.Particle;
 
 public class ParticleMagic extends Particle {
     public ParticleMagic(double offsetX, double offsetY, double offsetZ, int count) {
-        super("instant_effect", offsetX, offsetY, offsetZ, 1, count);
+        super("instant_effect", offsetX, offsetY, offsetZ, count);
     }
 
     public ParticleMagic(double offsetX, double offsetY, double offsetZ) {

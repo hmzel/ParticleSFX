@@ -4,7 +4,7 @@ import hm.zelha.particlesfx.particles.parents.Particle;
 
 public class ParticleFallingCherry extends Particle {
     public ParticleFallingCherry(double offsetX, double offsetY, double offsetZ, int count) {
-        super("falling_cherry_leaves", offsetX, offsetY, offsetZ, 0, count);
+        super("falling_cherry_leaves", offsetX, offsetY, offsetZ, count);
     }
 
     public ParticleFallingCherry(double offsetX, double offsetY, double offsetZ) {

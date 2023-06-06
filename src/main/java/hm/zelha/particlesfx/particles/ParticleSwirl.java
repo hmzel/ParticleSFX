@@ -4,7 +4,7 @@ import hm.zelha.particlesfx.particles.parents.Particle;
 
 public class ParticleSwirl extends Particle {
     public ParticleSwirl(double offsetX, double offsetY, double offsetZ, int count) {
-        super("effect", offsetX, offsetY, offsetZ, 1, count);
+        super("effect", offsetX, offsetY, offsetZ, count);
     }
 
     public ParticleSwirl(double offsetX, double offsetY, double offsetZ) {

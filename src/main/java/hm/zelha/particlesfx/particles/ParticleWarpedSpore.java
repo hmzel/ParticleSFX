@@ -4,7 +4,7 @@ import hm.zelha.particlesfx.particles.parents.Particle;
 
 public class ParticleWarpedSpore extends Particle {
     public ParticleWarpedSpore(double offsetX, double offsetY, double offsetZ, int count) {
-        super("warped_spore", offsetX, offsetY, offsetZ, 0, count);
+        super("warped_spore", offsetX, offsetY, offsetZ, count);
     }
 
     public ParticleWarpedSpore(double offsetX, double offsetY, double offsetZ) {
