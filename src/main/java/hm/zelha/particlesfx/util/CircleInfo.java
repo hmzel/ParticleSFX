@@ -115,4 +115,8 @@ public class CircleInfo {
     public double getRoll() {
         return roll;
     }
+
+    public boolean isModified() {
+        return modified;
+    }
 }
