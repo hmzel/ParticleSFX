@@ -4,7 +4,7 @@ import hm.zelha.particlesfx.particles.parents.Particle;
 
 public class ParticleThundercloud extends Particle {
     public ParticleThundercloud(double offsetX, double offsetY, double offsetZ, int count) {
-        super("angry_villager", offsetX, offsetY, offsetZ, 1, count);
+        super("angry_villager", offsetX, offsetY, offsetZ, count);
     }
 
     public ParticleThundercloud(double offsetX, double offsetY, double offsetZ) {

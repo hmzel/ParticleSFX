@@ -10,7 +10,7 @@ import org.bukkit.craftbukkit.v1_13_R1.block.data.CraftBlockData;
 
 public class ParticleBlockDust extends Particle implements MaterialParticle {
     public ParticleBlockDust(Material material, double offsetX, double offsetY, double offsetZ, int count) {
-        super("", offsetX, offsetY, offsetZ, 1, count);
+        super("", offsetX, offsetY, offsetZ, count);
 
         setMaterial(material);
     }
