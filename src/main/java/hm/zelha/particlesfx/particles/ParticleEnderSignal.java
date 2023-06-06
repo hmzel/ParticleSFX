@@ -21,7 +21,7 @@ public class ParticleEnderSignal extends Particle {
 
     /**@see ParticleEnderSignal*/
     public ParticleEnderSignal(int count) {
-        super(EnumParticle.HEART, 0, 0, 0, 0, count);
+        super(EnumParticle.HEART, 0, 0, 0, count);
     }
 
     /**@see ParticleEnderSignal*/

@@ -5,7 +5,7 @@ import net.minecraft.server.v1_10_R1.EnumParticle;
 
 public class ParticleSwirl extends Particle {
     public ParticleSwirl(double offsetX, double offsetY, double offsetZ, int count) {
-        super(EnumParticle.SPELL_INSTANT, offsetX, offsetY, offsetZ, 1, count);
+        super(EnumParticle.SPELL_INSTANT, offsetX, offsetY, offsetZ, count);
     }
 
     public ParticleSwirl(double offsetX, double offsetY, double offsetZ) {
