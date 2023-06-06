@@ -4,7 +4,7 @@ import hm.zelha.particlesfx.particles.parents.Particle;
 
 public class ParticleSplash extends Particle {
     public ParticleSplash(double offsetX, double offsetY, double offsetZ, int count) {
-        super("splash", offsetX, offsetY, offsetZ, 0, count);
+        super("splash", offsetX, offsetY, offsetZ, count);
     }
 
     public ParticleSplash(double offsetX, double offsetY, double offsetZ) {
