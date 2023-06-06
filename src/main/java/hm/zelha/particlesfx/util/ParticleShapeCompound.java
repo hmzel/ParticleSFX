@@ -53,7 +53,6 @@ public class ParticleShapeCompound extends RotationHandler implements Shape {
     @Override
     public ParticleShapeCompound clone() {
         Shape[] shapes = new Shape[shapeLocationIndex.size()];
-
         int i = 0;
 
         for (Shape shape : shapeLocationIndex.keySet()) {
@@ -396,7 +395,7 @@ public class ParticleShapeCompound extends RotationHandler implements Shape {
     }
 
     /**
-     * Removes every shape with the given name from this ParticleShapeCompound. will do nothing if there are no shapes with the given name
+     * Removes the shape with the given name from this ParticleShapeCompound. will do nothing if there are no shapes with the given name
      * 
      * @param name name of the shape to remove
      */
@@ -419,18 +418,13 @@ public class ParticleShapeCompound extends RotationHandler implements Shape {
         Shape[] shapes = shapeLocationIndex.keySet().toArray(new Shape[0]);
         Shape shape = shapes[index];
         ArrayListSafe<LocationSafe> locations = reflectLocations(shape);
-        int firstIndex;
+        int firstIndex = (index > 0) ? shapeLocationIndex.get(shapes[index - 1]) + 1 : 0;
 
         if (locations == null) return;
 
-        if (index > 0) {
-            //getting the location index of the last shape and adding 1
-            firstIndex = shapeLocationIndex.get(shapes[index - 1]) + 1;
-        } else {
-            firstIndex = 0;
-        }
-
         locations.removeMechanics(this);
+        shapeLocationIndex.remove(shape);
+        removeCompound(this, (RotationHandler) shape);
 
         for (LocationSafe l : locations) {
             l.removeRecalcMechanic(this);
@@ -438,15 +432,11 @@ public class ParticleShapeCompound extends RotationHandler implements Shape {
             origins.remove(firstIndex);
         }
 
-        shapeLocationIndex.remove(shape);
-
         for (String string : nameMap.keySet()) {
             if (nameMap.get(string) == shape) {
                 nameMap.remove(string);
             }
         }
-
-        removeCompound(this, (RotationHandler) shape);
 
         for (int i = index; i < shapeLocationIndex.size(); i++) {
             //subtracting locAmount from all shape location indexes at 'index' and beyond

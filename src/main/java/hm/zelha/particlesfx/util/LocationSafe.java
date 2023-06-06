@@ -1,6 +1,5 @@
 package hm.zelha.particlesfx.util;
 
-import hm.zelha.particlesfx.shapers.parents.RotationHandler;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.util.Vector;
@@ -30,7 +29,7 @@ public class LocationSafe extends Location {
     }
 
     /**
-     * only meant to be used in {@link RotationHandler} or {@link ParticleShapeCompound}, use at own risk
+     * only meant to be used in {@link LVMath}, use at own risk
      *
      * @param x x coordinate
      * @param y y coordinate
@@ -52,9 +51,7 @@ public class LocationSafe extends Location {
     }
 
     /**
-     * WARNING: DO NOT USE OUTSIDE PARTICLESFX INTERNALS. <br><br>
-     *
-     * DO NOT COME TO ME ABOUT EVERYTHING SCREWING UP IF YOU DO
+     * only meant to be used in {@link ParticleShapeCompound}
      *
      * @param owner the owner of the shape that owns this location
      * @param mechanic mechanic to be ran when this location is modified
@@ -64,14 +61,17 @@ public class LocationSafe extends Location {
     }
 
     /**
-     * WARNING: DO NOT USE OUTSIDE PARTICLESFX INTERNALS. <br><br>
-     *
-     * DO NOT COME TO ME ABOUT EVERYTHING SCREWING UP IF YOU DO
+     * only meant to be used in {@link ParticleShapeCompound}
      *
      * @param owner the owner of the shape that owns this location
      */
     public void removeRecalcMechanic(ParticleShapeCompound owner) {
         recalcMechanics.remove(owner);
+    }
+
+    @Override
+    public LocationSafe clone() {
+        return new LocationSafe(getWorld(), getX(), getY(), getZ());
     }
 
     @Override
@@ -156,15 +156,6 @@ public class LocationSafe extends Location {
         return this;
     }
 
-    @Override
-    public LocationSafe clone() {
-        return new LocationSafe(getWorld(), getX(), getY(), getZ());
-    }
-
-    public boolean isChanged() {
-        return changed;
-    }
-
     public void setChanged(boolean changed) {
         this.changed = changed;
 
@@ -173,5 +164,9 @@ public class LocationSafe extends Location {
                 mechanic.accept(this);
             }
         }
+    }
+
+    public boolean isChanged() {
+        return changed;
     }
 }
