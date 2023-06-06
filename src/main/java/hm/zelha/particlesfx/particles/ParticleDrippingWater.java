@@ -5,7 +5,7 @@ import net.minecraft.server.v1_16_R3.Particles;
 
 public class ParticleDrippingWater extends Particle {
     public ParticleDrippingWater(double offsetX, double offsetY, double offsetZ, int count) {
-        super(Particles.DRIPPING_WATER, offsetX, offsetY, offsetZ, 0, count, 0);
+        super(Particles.DRIPPING_WATER, offsetX, offsetY, offsetZ, 0, count);
     }
 
     public ParticleDrippingWater(double offsetX, double offsetY, double offsetZ) {

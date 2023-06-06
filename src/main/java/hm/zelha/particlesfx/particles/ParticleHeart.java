@@ -5,7 +5,7 @@ import net.minecraft.server.v1_16_R3.Particles;
 
 public class ParticleHeart extends Particle {
     public ParticleHeart(double offsetX, double offsetY, double offsetZ, int count) {
-        super(Particles.HEART, offsetX, offsetY, offsetZ, 1, count, 0);
+        super(Particles.HEART, offsetX, offsetY, offsetZ, 1, count);
     }
 
     public ParticleHeart(double offsetX, double offsetY, double offsetZ) {

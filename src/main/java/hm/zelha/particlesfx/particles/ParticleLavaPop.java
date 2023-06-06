@@ -5,7 +5,7 @@ import net.minecraft.server.v1_16_R3.Particles;
 
 public class ParticleLavaPop extends Particle {
     public ParticleLavaPop(double offsetX, double offsetY, double offsetZ, int count) {
-        super(Particles.LAVA, offsetX, offsetY, offsetZ, 0, count, 0);
+        super(Particles.LAVA, offsetX, offsetY, offsetZ, 0, count);
     }
 
     public ParticleLavaPop(double offsetX, double offsetY, double offsetZ) {
