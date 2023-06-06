@@ -5,7 +5,7 @@ import net.minecraft.server.v1_9_R2.EnumParticle;
 
 public class ParticleWitchMagic extends Particle {
     public ParticleWitchMagic(double offsetX, double offsetY, double offsetZ, int count) {
-        super(EnumParticle.SPELL_WITCH, offsetX, offsetY, offsetZ, 1, count);
+        super(EnumParticle.SPELL_WITCH, offsetX, offsetY, offsetZ, count);
     }
 
     public ParticleWitchMagic(double offsetX, double offsetY, double offsetZ) {

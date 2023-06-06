@@ -27,20 +27,19 @@ public abstract class Particle {
     protected double offsetX;
     protected double offsetY;
     protected double offsetZ;
-    protected double speed;
+    protected double speed = 1;
     protected int count;
     protected int radius = 0;
     private final List<CraftPlayer> players = ((CraftServer) Bukkit.getServer()).getOnlinePlayers();
     private final List<CraftPlayer> listHelper = new ArrayList<>();
     private final ThreadLocalRandom rng = ThreadLocalRandom.current();
 
-    protected Particle(EnumParticle particle, double offsetX, double offsetY, double offsetZ, double speed, int count) {
+    protected Particle(EnumParticle particle, double offsetX, double offsetY, double offsetZ, int count) {
         Validate.notNull(particle, "Particle cannot be null!");
 
         this.particle = particle;
 
         setOffset(offsetX, offsetY, offsetZ);
-        setSpeed(speed);
         setCount(count);
     }
 

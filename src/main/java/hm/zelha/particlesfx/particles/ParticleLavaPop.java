@@ -5,7 +5,7 @@ import net.minecraft.server.v1_9_R2.EnumParticle;
 
 public class ParticleLavaPop extends Particle {
     public ParticleLavaPop(double offsetX, double offsetY, double offsetZ, int count) {
-        super(EnumParticle.LAVA, offsetX, offsetY, offsetZ, 0, count);
+        super(EnumParticle.LAVA, offsetX, offsetY, offsetZ, count);
     }
 
     public ParticleLavaPop(double offsetX, double offsetY, double offsetZ) {
