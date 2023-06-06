@@ -393,8 +393,8 @@ public final class ParticleSFX {
      * @param particleFrequency particle amount
      * @return the shape displaying the sun
      */
-    public static ParticleSphereSFSA sun(TravellingParticle particle, LocationSafe center, double xRadius, double yRadius, double zRadius, int particleFrequency) {
-        ParticleSphereSFSA sun = new ParticleSphereSFSA(particle, center, xRadius, yRadius, zRadius, particleFrequency);
+    public static ParticleSphere sun(TravellingParticle particle, LocationSafe center, double xRadius, double yRadius, double zRadius, int particleFrequency) {
+        ParticleSphere sun = new ParticleSphere(particle, center, xRadius, yRadius, zRadius, particleFrequency);
         Vector v = new Vector();
 
         sun.addMechanic(ShapeDisplayMechanic.Phase.AFTER_ROTATION, ((p, current, addition, count) -> {
@@ -415,12 +415,12 @@ public final class ParticleSFX {
      * @param particleFrequency particle amount
      * @return the shape displaying the sun
      */
-    public static ParticleSphereSFSA sun(TravellingParticle particle, LocationSafe center, double radius, int particleFrequency) {
+    public static ParticleSphere sun(TravellingParticle particle, LocationSafe center, double radius, int particleFrequency) {
         return sun(particle, center, radius, radius, radius, particleFrequency);
     }
 
     /**
-     * The given {@link ParticleShapeCompound} contains a {@link ParticleSphereSFSA}, named "nucleus", and three {@link ParticleCircle}s,
+     * The given {@link ParticleShapeCompound} contains a {@link ParticleSphere}, named "nucleus", and three {@link ParticleCircle}s,
      * named "electron1" to "electron3" <br><br>
      *
      * You can get the individual shapes using {@link ParticleShapeCompound#getShape(String)}
@@ -435,7 +435,7 @@ public final class ParticleSFX {
     public static ParticleShapeCompound atom(Particle nucleus, Particle electron, LocationSafe center, double radius, int particleFrequency) {
         ParticleShapeCompound atom = new ParticleShapeCompound();
 
-        atom.addShape(new ParticleSphereSFSA(nucleus, center, radius * 0.2, (int) (particleFrequency * 0.8)), "nucleus");
+        atom.addShape(new ParticleSphere(nucleus, center, radius * 0.2, (int) (particleFrequency * 0.8)), "nucleus");
 
         for (int i = 0; i < 3; i++) {
             ParticleCircle circle = new ParticleCircle(electron, center, radius, radius, 90 + (120D / 2 * i), 0, 0, particleFrequency);
@@ -452,7 +452,7 @@ public final class ParticleSFX {
     }
 
     /**
-     * The given {@link ParticleShapeCompound} contains a {@link ParticleSphereSFSA}, named "nucleus", and three {@link ParticleCircle}s,
+     * The given {@link ParticleShapeCompound} contains a {@link ParticleSphere}, named "nucleus", and three {@link ParticleCircle}s,
      * named "electron1" to "electron3" <br><br>
      *
      * You can get the individual shapes using {@link ParticleShapeCompound#getShape(String)}
