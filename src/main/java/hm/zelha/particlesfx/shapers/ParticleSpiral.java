@@ -216,6 +216,9 @@ public class ParticleSpiral extends ParticleShaper {
 
     @Override
     public void setWorld(World world) {
+        //if this isn't here it might cause errors if setWorld() is called after a circleInfo's center is set to a new location with a different world
+        //gotta cover every base! perfectionist mentality!
+        recalculateIfNeeded(null);
         super.setWorld(world);
         circleHelper.getCenter().setWorld(world);
     }
