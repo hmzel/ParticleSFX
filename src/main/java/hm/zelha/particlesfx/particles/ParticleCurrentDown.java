@@ -1,9 +1,6 @@
 package hm.zelha.particlesfx.particles;
 
 import hm.zelha.particlesfx.particles.parents.Particle;
-import net.minecraft.core.IRegistry;
-import net.minecraft.core.particles.ParticleType;
-import net.minecraft.resources.MinecraftKey;
 
 /**
  * this particle almost instantly disappears when displayed out of water, which can be displeasing to the eyes
