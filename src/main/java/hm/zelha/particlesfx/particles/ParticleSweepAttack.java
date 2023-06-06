@@ -6,7 +6,7 @@ import net.minecraft.server.v1_9_R1.EnumParticle;
 
 public class ParticleSweepAttack extends SizeableParticle {
     public ParticleSweepAttack(double size, double offsetX, double offsetY, double offsetZ, int count) {
-        super(EnumParticle.SWEEP_ATTACK, size, offsetX, offsetY, offsetZ, 0, count);
+        super(EnumParticle.SWEEP_ATTACK, size, offsetX, offsetY, offsetZ, count);
     }
 
     public ParticleSweepAttack(double size, double offsetX, double offsetY, double offsetZ) {

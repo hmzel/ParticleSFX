@@ -14,7 +14,7 @@ public abstract class ColorableParticle extends Particle {
     protected int brightness;
 
     protected ColorableParticle(EnumParticle particle, @Nullable Color color, int brightness, double offsetX, double offsetY, double offsetZ, int count) {
-        super(particle, offsetX, offsetY, offsetZ, 1, count);
+        super(particle, offsetX, offsetY, offsetZ, count);
 
         setColor(color);
         setBrightness(brightness);

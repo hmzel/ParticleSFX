@@ -5,7 +5,7 @@ import net.minecraft.server.v1_9_R1.EnumParticle;
 
 public class ParticleSplash extends Particle {
     public ParticleSplash(double offsetX, double offsetY, double offsetZ, int count) {
-        super(EnumParticle.WATER_SPLASH, offsetX, offsetY, offsetZ, 0, count);
+        super(EnumParticle.WATER_SPLASH, offsetX, offsetY, offsetZ, count);
     }
 
     public ParticleSplash(double offsetX, double offsetY, double offsetZ) {
