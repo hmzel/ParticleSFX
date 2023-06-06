@@ -5,7 +5,7 @@ import net.minecraft.server.v1_15_R1.Particles;
 
 public class ParticleFallingWater extends Particle {
     public ParticleFallingWater(double offsetX, double offsetY, double offsetZ, int count) {
-        super(Particles.FALLING_WATER, offsetX, offsetY, offsetZ, 0, count);
+        super(Particles.FALLING_WATER, offsetX, offsetY, offsetZ, count);
     }
 
     public ParticleFallingWater(double offsetX, double offsetY, double offsetZ) {
