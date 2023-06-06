@@ -11,7 +11,7 @@ public class ParticleExplosion extends Particle implements SizeableParticle {
     protected double size;
 
     public ParticleExplosion(double size, double offsetX, double offsetY, double offsetZ, int count) {
-        super(Particles.EXPLOSION, offsetX, offsetY, offsetZ, 0, count);
+        super(Particles.EXPLOSION, offsetX, offsetY, offsetZ, count);
 
         setSize(size);
     }

@@ -5,7 +5,7 @@ import net.minecraft.server.v1_16_R3.Particles;
 
 public class ParticleFallingTear extends Particle {
     public ParticleFallingTear(double offsetX, double offsetY, double offsetZ, int count) {
-        super(Particles.FALLING_OBSIDIAN_TEAR, offsetX, offsetY, offsetZ, 0, count);
+        super(Particles.FALLING_OBSIDIAN_TEAR, offsetX, offsetY, offsetZ, count);
     }
 
     public ParticleFallingTear(double offsetX, double offsetY, double offsetZ) {

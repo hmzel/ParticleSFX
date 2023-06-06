@@ -5,7 +5,7 @@ import net.minecraft.server.v1_16_R3.Particles;
 
 public class ParticleMagic extends Particle {
     public ParticleMagic(double offsetX, double offsetY, double offsetZ, int count) {
-        super(Particles.INSTANT_EFFECT, offsetX, offsetY, offsetZ, 1, count);
+        super(Particles.INSTANT_EFFECT, offsetX, offsetY, offsetZ, count);
     }
 
     public ParticleMagic(double offsetX, double offsetY, double offsetZ) {

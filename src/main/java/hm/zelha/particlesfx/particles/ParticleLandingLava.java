@@ -5,7 +5,7 @@ import net.minecraft.server.v1_16_R3.Particles;
 
 public class ParticleLandingLava extends Particle {
     public ParticleLandingLava(double offsetX, double offsetY, double offsetZ, int count) {
-        super(Particles.LANDING_LAVA, offsetX, offsetY, offsetZ, 0, count);
+        super(Particles.LANDING_LAVA, offsetX, offsetY, offsetZ, count);
     }
 
     public ParticleLandingLava(double offsetX, double offsetY, double offsetZ) {

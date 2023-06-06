@@ -9,7 +9,7 @@ import net.minecraft.server.v1_16_R3.Particles;
 public class ParticleWaterAmbience extends Particle {
     /**@see ParticleWaterAmbience*/
     public ParticleWaterAmbience(double offsetX, double offsetY, double offsetZ, int count) {
-        super(Particles.UNDERWATER, offsetX, offsetY, offsetZ, 0, count);
+        super(Particles.UNDERWATER, offsetX, offsetY, offsetZ, count);
     }
 
     /**@see ParticleWaterAmbience*/
