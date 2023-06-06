@@ -4,7 +4,7 @@ import hm.zelha.particlesfx.particles.parents.Particle;
 
 public class ParticleCrimsonSpore extends Particle {
     public ParticleCrimsonSpore(double offsetX, double offsetY, double offsetZ, int count) {
-        super("crimson_spore", offsetX, offsetY, offsetZ, 0, count, 0);
+        super("crimson_spore", offsetX, offsetY, offsetZ, 0, count);
     }
 
     public ParticleCrimsonSpore(double offsetX, double offsetY, double offsetZ) {
