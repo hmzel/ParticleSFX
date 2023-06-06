@@ -8,7 +8,7 @@ import hm.zelha.particlesfx.particles.parents.Particle;
 public class ParticleWaterAmbience extends Particle {
     /**@see ParticleWaterAmbience*/
     public ParticleWaterAmbience(double offsetX, double offsetY, double offsetZ, int count) {
-        super("underwater", offsetX, offsetY, offsetZ, 0, count);
+        super("underwater", offsetX, offsetY, offsetZ, count);
     }
 
     /**@see ParticleWaterAmbience*/

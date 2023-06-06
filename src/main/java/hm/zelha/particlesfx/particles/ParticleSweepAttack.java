@@ -10,7 +10,7 @@ public class ParticleSweepAttack extends Particle implements SizeableParticle {
     protected double size;
 
     public ParticleSweepAttack(double size, double offsetX, double offsetY, double offsetZ, int count) {
-        super("sweep_attack", offsetX, offsetY, offsetZ, 0, count);
+        super("sweep_attack", offsetX, offsetY, offsetZ, count);
 
         setSize(size);
     }

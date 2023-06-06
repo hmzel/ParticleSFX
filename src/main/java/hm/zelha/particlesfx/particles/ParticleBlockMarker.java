@@ -12,7 +12,7 @@ import org.bukkit.craftbukkit.v1_18_R2.util.CraftMagicNumbers;
 
 public class ParticleBlockMarker extends Particle implements MaterialParticle {
     public ParticleBlockMarker(Material material, double offsetX, double offsetY, double offsetZ, int count) {
-        super("", offsetX, offsetY, offsetZ, 1, count);
+        super("", offsetX, offsetY, offsetZ, count);
 
         setMaterial(material);
     }

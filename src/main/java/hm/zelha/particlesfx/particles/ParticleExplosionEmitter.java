@@ -4,7 +4,7 @@ import hm.zelha.particlesfx.particles.parents.Particle;
 
 public class ParticleExplosionEmitter extends Particle {
     public ParticleExplosionEmitter(double offsetX, double offsetY, double offsetZ, int count) {
-        super("explosion_emitter", offsetX, offsetY, offsetZ, 0, count);
+        super("explosion_emitter", offsetX, offsetY, offsetZ, count);
     }
 
     public ParticleExplosionEmitter(double offsetX, double offsetY, double offsetZ) {
