@@ -38,6 +38,16 @@ public class Color {
         setRGB(rgb);
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Color)) return false;
+
+        Color color = (Color) o;
+
+        return red == color.red && green == color.green && blue == color.blue;
+    }
+
     public Color clone() {
         return new Color(red, green, blue);
     }
