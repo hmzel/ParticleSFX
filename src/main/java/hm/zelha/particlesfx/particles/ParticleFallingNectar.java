@@ -5,7 +5,7 @@ import net.minecraft.server.v1_16_R1.Particles;
 
 public class ParticleFallingNectar extends Particle {
     public ParticleFallingNectar(double offsetX, double offsetY, double offsetZ, int count) {
-        super(Particles.FALLING_NECTAR, offsetX, offsetY, offsetZ, 0, count, 0);
+        super(Particles.FALLING_NECTAR, offsetX, offsetY, offsetZ, 0, count);
     }
 
     public ParticleFallingNectar(double offsetX, double offsetY, double offsetZ) {

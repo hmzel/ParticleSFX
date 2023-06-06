@@ -5,7 +5,7 @@ import net.minecraft.server.v1_16_R1.Particles;
 
 public class ParticleLandingTear extends Particle {
     public ParticleLandingTear(double offsetX, double offsetY, double offsetZ, int count) {
-        super(Particles.LANDING_OBSIDIAN_TEAR, offsetX, offsetY, offsetZ, 0, count, 0);
+        super(Particles.LANDING_OBSIDIAN_TEAR, offsetX, offsetY, offsetZ, 0, count);
     }
 
     public ParticleLandingTear(double offsetX, double offsetY, double offsetZ) {
