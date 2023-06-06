@@ -305,6 +305,10 @@ public class ParticleShapeCompound extends RotationHandler implements Shape {
      * @param name name of shape
      */
     public void addShape(Shape shape, String name) {
+        for (String string : nameMap.keySet()) {
+            Validate.isTrue(!string.equals(name), "Shapes can't have the same name!");
+        }
+
         nameMap.put(name, shape);
         addShape(shape);
     }
