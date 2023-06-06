@@ -4,7 +4,7 @@ import hm.zelha.particlesfx.particles.parents.Particle;
 
 public class ParticleLandingHoney extends Particle {
     public ParticleLandingHoney(double offsetX, double offsetY, double offsetZ, int count) {
-        super("landing_honey", offsetX, offsetY, offsetZ, 0, count);
+        super("landing_honey", offsetX, offsetY, offsetZ, count);
     }
 
     public ParticleLandingHoney(double offsetX, double offsetY, double offsetZ) {

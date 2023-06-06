@@ -4,7 +4,7 @@ import hm.zelha.particlesfx.particles.parents.Particle;
 
 public class ParticleWhiteAsh extends Particle {
     public ParticleWhiteAsh(double offsetX, double offsetY, double offsetZ, int count) {
-        super("white_ash", offsetX, offsetY, offsetZ, 0, count);
+        super("white_ash", offsetX, offsetY, offsetZ, count);
     }
 
     public ParticleWhiteAsh(double offsetX, double offsetY, double offsetZ) {

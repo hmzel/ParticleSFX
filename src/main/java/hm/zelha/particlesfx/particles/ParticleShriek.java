@@ -5,7 +5,7 @@ import net.minecraft.core.particles.ShriekParticleOption;
 
 public class ParticleShriek extends Particle {
     public ParticleShriek(double offsetX, double offsetY, double offsetZ, int count) {
-        super("", offsetX, offsetY, offsetZ, 0, count);
+        super("", offsetX, offsetY, offsetZ, count);
 
         setDelay(0);
     }
