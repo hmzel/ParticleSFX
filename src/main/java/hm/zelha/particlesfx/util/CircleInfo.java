@@ -51,8 +51,8 @@ public class CircleInfo {
         return this;
     }
 
-    public boolean isModified() {
-        return modified;
+    public CircleInfo clone() {
+        return new CircleInfo(center.clone(), xRadius, zRadius, pitch, yaw, roll);
     }
 
     public void setCenter(LocationSafe center) {
