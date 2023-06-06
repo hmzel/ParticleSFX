@@ -4,7 +4,7 @@ import hm.zelha.particlesfx.particles.parents.Particle;
 
 public class ParticleLavaPop extends Particle {
     public ParticleLavaPop(double offsetX, double offsetY, double offsetZ, int count) {
-        super("lava", offsetX, offsetY, offsetZ, 0, count);
+        super("lava", offsetX, offsetY, offsetZ, count);
     }
 
     public ParticleLavaPop(double offsetX, double offsetY, double offsetZ) {

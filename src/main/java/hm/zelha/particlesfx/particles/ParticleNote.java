@@ -4,7 +4,7 @@ import hm.zelha.particlesfx.particles.parents.Particle;
 
 public class ParticleNote extends Particle {
     public ParticleNote(double offsetX, double offsetY, double offsetZ, int count) {
-        super("note", offsetX, offsetY, offsetZ, 0, count);
+        super("note", offsetX, offsetY, offsetZ, count);
     }
 
     public ParticleNote(double offsetX, double offsetY, double offsetZ) {
