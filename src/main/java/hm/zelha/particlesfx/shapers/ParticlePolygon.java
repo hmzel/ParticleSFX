@@ -127,6 +127,8 @@ public class ParticlePolygon extends ParticleShaper {
                         }
                     }
                 }
+
+                current = 0;
             }
         }
 
