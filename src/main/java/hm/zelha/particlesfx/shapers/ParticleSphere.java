@@ -187,10 +187,7 @@ public class ParticleSphere extends ParticleSphereSFSA {
             if (xRadius == zRadius) {
                 circumference = Math.PI * 2 * Math.abs(xRadius * curve);
             } else {
-                double x = Math.abs(xRadius * curve);
-                double z = Math.abs(zRadius * curve);
-
-                circumference = Math.PI * 2 * Math.sqrt((Math.pow(x, 2) + Math.pow(z, 2)) / 2);
+                circumference = Math.PI * 2 * Math.sqrt((Math.pow(xRadius * curve, 2) + Math.pow(zRadius * curve, 2)) / 2);
             }
 
             cirTracker.add(circumference);
