@@ -129,16 +129,16 @@ public class ParticleSphereSFSA extends ParticleCircle {
         setYRadius(getYRadius() * y);
     }
 
-    public void setYRadius(double yRadius) {
-        this.yRadius = yRadius;
-    }
-
     /**
      * @param limitInverse determines if the limit cuts off at the top or bottom. default false (top)
      */
     @Override
     public void setLimitInverse(boolean limitInverse) {
         super.setLimitInverse(limitInverse);
+    }
+
+    public void setYRadius(double yRadius) {
+        this.yRadius = yRadius;
     }
 
     public double getYRadius() {
