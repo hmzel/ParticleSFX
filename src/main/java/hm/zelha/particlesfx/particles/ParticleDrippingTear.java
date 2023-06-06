@@ -4,7 +4,7 @@ import hm.zelha.particlesfx.particles.parents.Particle;
 
 public class ParticleDrippingTear extends Particle {
     public ParticleDrippingTear(double offsetX, double offsetY, double offsetZ, int count) {
-        super("dripping_obsidian_tear", offsetX, offsetY, offsetZ, 0, count, 0);
+        super("dripping_obsidian_tear", offsetX, offsetY, offsetZ, 0, count);
     }
 
     public ParticleDrippingTear(double offsetX, double offsetY, double offsetZ) {

@@ -4,7 +4,7 @@ import hm.zelha.particlesfx.particles.parents.Particle;
 
 public class ParticleDrippingWater extends Particle {
     public ParticleDrippingWater(double offsetX, double offsetY, double offsetZ, int count) {
-        super("dripping_water", offsetX, offsetY, offsetZ, 0, count, 0);
+        super("dripping_water", offsetX, offsetY, offsetZ, 0, count);
     }
 
     public ParticleDrippingWater(double offsetX, double offsetY, double offsetZ) {

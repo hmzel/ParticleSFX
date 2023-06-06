@@ -4,7 +4,7 @@ import hm.zelha.particlesfx.particles.parents.Particle;
 
 public class ParticleFallingSpore extends Particle {
     public ParticleFallingSpore(double offsetX, double offsetY, double offsetZ, int count) {
-        super("falling_spore_blossom", offsetX, offsetY, offsetZ, 0, count, 0);
+        super("falling_spore_blossom", offsetX, offsetY, offsetZ, 0, count);
     }
 
     public ParticleFallingSpore(double offsetX, double offsetY, double offsetZ) {
