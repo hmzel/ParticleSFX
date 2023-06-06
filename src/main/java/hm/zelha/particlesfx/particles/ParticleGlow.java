@@ -4,7 +4,7 @@ import hm.zelha.particlesfx.particles.parents.Particle;
 
 public class ParticleGlow extends Particle {
     public ParticleGlow(double offsetX, double offsetY, double offsetZ, int count) {
-        super("glow", offsetX, offsetY, offsetZ, 0, count);
+        super("glow", offsetX, offsetY, offsetZ, count);
     }
 
     public ParticleGlow(double offsetX, double offsetY, double offsetZ) {

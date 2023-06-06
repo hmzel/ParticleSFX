@@ -4,7 +4,7 @@ import hm.zelha.particlesfx.particles.parents.Particle;
 
 public class ParticleFallingNectar extends Particle {
     public ParticleFallingNectar(double offsetX, double offsetY, double offsetZ, int count) {
-        super("falling_nectar", offsetX, offsetY, offsetZ, 0, count);
+        super("falling_nectar", offsetX, offsetY, offsetZ, count);
     }
 
     public ParticleFallingNectar(double offsetX, double offsetY, double offsetZ) {

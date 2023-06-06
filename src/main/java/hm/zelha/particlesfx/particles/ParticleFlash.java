@@ -4,7 +4,7 @@ import hm.zelha.particlesfx.particles.parents.Particle;
 
 public class ParticleFlash extends Particle {
     public ParticleFlash(double offsetX, double offsetY, double offsetZ, int count) {
-        super("flash", offsetX, offsetY, offsetZ, 0, count);
+        super("flash", offsetX, offsetY, offsetZ, count);
     }
 
     public ParticleFlash(double offsetX, double offsetY, double offsetZ) {
