@@ -8,7 +8,7 @@ import hm.zelha.particlesfx.particles.parents.Particle;
 public class ParticleCurrentDown extends Particle {
     /** @see ParticleCurrentDown */
     public ParticleCurrentDown(double offsetX, double offsetY, double offsetZ, int count) {
-        super("current_down", offsetX, offsetY, offsetZ, 0, count, 0);
+        super("current_down", offsetX, offsetY, offsetZ, 0, count);
     }
 
     /** @see ParticleCurrentDown */
