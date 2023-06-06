@@ -11,7 +11,6 @@ import java.util.List;
 public class ParticleLineCurved extends ParticleLine {
 
     protected final List<CurveInfo> curves = new ArrayList<>();
-    protected final Rotation rot3 = new Rotation();
     protected final Vector vectorHelper2 = new Vector();
     protected boolean rotateCurves = true;
 
@@ -20,7 +19,7 @@ public class ParticleLineCurved extends ParticleLine {
     }
 
     public ParticleLineCurved(Particle particle, LocationSafe... locations) {
-        this(particle, 100, locations);
+        this(particle, locations.length * 50, locations);
     }
 
     @Override
@@ -77,8 +76,8 @@ public class ParticleLineCurved extends ParticleLine {
                         vectorHelper2.setY(curve.getHeight() * Math.sin((Math.PI / 2) - (Math.PI / 2 * (curveCurrent - curveApex) / (curveEnd - curveApex))));
                     }
 
-                    rot3.set(curve.getPitch(), curve.getYaw(), curve.getRoll());
-                    rot3.apply(vectorHelper2);
+                    rotHelper.set(curve.getPitch(), curve.getYaw(), curve.getRoll());
+                    rotHelper.apply(vectorHelper2);
 
                     if (rotateCurves) {
                         rot.apply(vectorHelper2);
