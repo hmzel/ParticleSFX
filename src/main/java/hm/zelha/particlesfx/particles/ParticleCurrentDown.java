@@ -9,7 +9,7 @@ import net.minecraft.server.v1_14_R1.Particles;
 public class ParticleCurrentDown extends Particle {
     /** @see ParticleCurrentDown */
     public ParticleCurrentDown(double offsetX, double offsetY, double offsetZ, int count) {
-        super(Particles.CURRENT_DOWN, offsetX, offsetY, offsetZ, 0, count, 0);
+        super(Particles.CURRENT_DOWN, offsetX, offsetY, offsetZ, 0, count);
     }
 
     /** @see ParticleCurrentDown */
