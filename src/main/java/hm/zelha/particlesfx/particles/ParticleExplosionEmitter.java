@@ -5,7 +5,7 @@ import net.minecraft.server.v1_11_R1.EnumParticle;
 
 public class ParticleExplosionEmitter extends Particle {
     public ParticleExplosionEmitter(double offsetX, double offsetY, double offsetZ, int count) {
-        super(EnumParticle.EXPLOSION_HUGE, offsetX, offsetY, offsetZ, 0, count, 0);
+        super(EnumParticle.EXPLOSION_HUGE, offsetX, offsetY, offsetZ, 0, count);
     }
 
     public ParticleExplosionEmitter(double offsetX, double offsetY, double offsetZ) {
