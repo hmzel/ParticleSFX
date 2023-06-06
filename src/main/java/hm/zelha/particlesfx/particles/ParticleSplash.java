@@ -5,7 +5,7 @@ import net.minecraft.server.v1_15_R1.Particles;
 
 public class ParticleSplash extends Particle {
     public ParticleSplash(double offsetX, double offsetY, double offsetZ, int count) {
-        super(Particles.SPLASH, offsetX, offsetY, offsetZ, 0, count, 0);
+        super(Particles.SPLASH, offsetX, offsetY, offsetZ, 0, count);
     }
 
     public ParticleSplash(double offsetX, double offsetY, double offsetZ) {
