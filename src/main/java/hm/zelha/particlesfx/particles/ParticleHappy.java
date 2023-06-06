@@ -4,7 +4,7 @@ import hm.zelha.particlesfx.particles.parents.Particle;
 
 public class ParticleHappy extends Particle {
     public ParticleHappy(double offsetX, double offsetY, double offsetZ, int count) {
-        super("happy_villager", offsetX, offsetY, offsetZ, 1, count, 0);
+        super("happy_villager", offsetX, offsetY, offsetZ, 1, count);
     }
 
     public ParticleHappy(double offsetX, double offsetY, double offsetZ) {

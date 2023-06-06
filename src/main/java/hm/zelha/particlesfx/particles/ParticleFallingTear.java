@@ -7,7 +7,7 @@ import net.minecraft.resources.MinecraftKey;
 
 public class ParticleFallingTear extends Particle {
     public ParticleFallingTear(double offsetX, double offsetY, double offsetZ, int count) {
-        super("falling_obsidian_tear", offsetX, offsetY, offsetZ, 0, count, 0);
+        super("falling_obsidian_tear", offsetX, offsetY, offsetZ, 0, count);
     }
 
     public ParticleFallingTear(double offsetX, double offsetY, double offsetZ) {
