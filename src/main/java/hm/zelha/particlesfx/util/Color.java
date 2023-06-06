@@ -44,6 +44,7 @@ public class Color {
         if (!(o instanceof Color)) return false;
 
         Color color = (Color) o;
+
         return red == color.red && green == color.green && blue == color.blue;
     }
 

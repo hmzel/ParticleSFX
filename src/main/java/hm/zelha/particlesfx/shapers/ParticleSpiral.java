@@ -26,16 +26,15 @@ public class ParticleSpiral extends ParticleShaper {
 
         Validate.isTrue(circleInfos != null && circleInfos.length >= 2, "Array must contain 2 or more CircleInfos!");
 
-        setSpin(spin);
-        setCount(count);
-
         for (CircleInfo circle : circleInfos) {
             addCircleInfo(circle);
         }
 
         this.circleHelper = this.circleInfos.get(0).clone();
 
-        setWorld(circleInfos[0].getCenter().getWorld());
+        setSpin(spin);
+        setCount(count);
+        setWorld(circleHelper.getCenter().getWorld());
         start();
     }
 
@@ -244,13 +243,6 @@ public class ParticleSpiral extends ParticleShaper {
         this.rotateCircles = rotateCircles;
     }
 
-    /**
-     * @return whether circles are rotated with the shape, defaults to true
-     */
-    public boolean isRotatingCircles() {
-        return rotateCircles;
-    }
-
     public CircleInfo getCircleInfo(int index) {
         return circleInfos.get(index);
     }
@@ -271,6 +263,13 @@ public class ParticleSpiral extends ParticleShaper {
      */
     public int getCount() {
         return count;
+    }
+
+    /**
+     * @return whether circles are rotated with the shape, defaults to true
+     */
+    public boolean isRotatingCircles() {
+        return rotateCircles;
     }
 
     public int getCircleInfoAmount() {
