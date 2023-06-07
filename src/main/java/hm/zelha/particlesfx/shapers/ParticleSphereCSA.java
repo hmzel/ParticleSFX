@@ -213,10 +213,10 @@ public class ParticleSphereCSA extends ParticleSphere {
     }
 
     @Override
-    public void setLimit(double limit) {
-        super.setLimit(limit);
-
+    public ParticleSphere setLimit(double limit) {
         recalculate = true;
+
+        return super.setLimit(limit);
     }
 
     /**

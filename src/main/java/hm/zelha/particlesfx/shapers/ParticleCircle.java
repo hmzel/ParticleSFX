@@ -147,17 +147,21 @@ public class ParticleCircle extends ParticleShaper {
     /**
      * @param limit percentage of the shape that should generate, such that 0 would be the entire shape and 50 would be half the shape.
      */
-    public void setLimit(double limit) {
+    public ParticleCircle setLimit(double limit) {
         Validate.isTrue(limit >= 0 && limit <= 100, "Limit is meant to be a percentage, and cannot be below 0 or above 100");
 
         this.limit = limit;
+
+        return this;
     }
 
     /**
      * @param limitInverse determines if the limit cuts off at the left or right. default false (left)
      */
-    public void setLimitInverse(boolean limitInverse) {
+    public ParticleCircle setLimitInverse(boolean limitInverse) {
         this.limitInverse = limitInverse;
+
+        return this;
     }
 
     public Location getCenter() {
