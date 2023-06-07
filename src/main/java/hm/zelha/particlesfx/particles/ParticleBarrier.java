@@ -5,7 +5,7 @@ import net.minecraft.server.v1_16_R1.Particles;
 
 public class ParticleBarrier extends Particle {
     public ParticleBarrier(double offsetX, double offsetY, double offsetZ, int count) {
-        super(Particles.BARRIER, offsetX, offsetY, offsetZ, 0, count, 0);
+        super(Particles.BARRIER, offsetX, offsetY, offsetZ, count);
     }
 
     public ParticleBarrier(double offsetX, double offsetY, double offsetZ) {
