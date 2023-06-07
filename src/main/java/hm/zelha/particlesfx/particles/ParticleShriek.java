@@ -41,8 +41,10 @@ public class ParticleShriek extends Particle {
     /**
      * @param delay amount of ticks before this particle displays
      */
-    public void setDelay(int delay) {
+    public ParticleShriek setDelay(int delay) {
         particle = new ShriekParticleOption(delay);
+
+        return this;
     }
 
     /**
