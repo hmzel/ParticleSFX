@@ -153,7 +153,7 @@ public class ParticleVibration extends TravellingParticle {
 
     private static class NMSVibrationParticle extends VibrationParticleOption {
 
-        private final BlockPosition destination;
+        private final BlockPosition.MutableBlockPosition pos = new BlockPosition.MutableBlockPosition();
         private final Location location;
         private final Vector velocity;
         private final Location toGo;
@@ -161,32 +161,32 @@ public class ParticleVibration extends TravellingParticle {
         private final int arrivalTime;
 
         public NMSVibrationParticle(Location location, Vector velocity, Location toGo, Entity entity, int arrivalTime) {
-            super(null, 0);
+            super(null);
 
             this.location = location.clone();
             this.velocity = (velocity != null) ? velocity.clone() : null;
             this.toGo = (toGo != null) ? toGo.clone() : null;
             this.entity = entity;
             this.arrivalTime = arrivalTime;
-
-            if (toGo != null) {
-                destination = new BlockPosition(toGo.getBlockX(), toGo.getBlockY(), toGo.getBlockZ());
-            } else if (velocity != null) {
-                destination = new BlockPosition((int) (location.getX() + velocity.getX()), (int) (location.getY() + velocity.getY()), (int) (location.getZ() + velocity.getZ()));
-            } else {
-                destination = new BlockPosition(location.getBlockX(), location.getBlockY(), location.getBlockZ());
-            }
         }
 
         @Override
         public void a(PacketDataSerializer data) {
+            data.a(pos.d(location.getBlockX(), location.getBlockY(), location.getBlockZ()));
+
             if (entity != null) {
                 data.a(new MinecraftKey("entity"));
                 data.d(entity.getEntityId());
-                data.writeFloat((float) (entity.getHeight() * 0.85));
             } else {
                 data.a(new MinecraftKey("block"));
-                data.a(destination);
+
+                if (toGo != null) {
+                    data.a(pos.d(toGo.getBlockX(), toGo.getBlockY(), toGo.getBlockZ()));
+                } else if (velocity != null) {
+                    data.a(pos.d((int) (location.getX() + velocity.getX()), (int) (location.getY() + velocity.getY()), (int) (location.getZ() + velocity.getZ())));
+                } else {
+                    data.a(pos.d(location.getBlockX(), location.getBlockY(), location.getBlockZ()));
+                }
             }
 
             data.d(arrivalTime);
@@ -197,10 +197,12 @@ public class ParticleVibration extends TravellingParticle {
                 if (velocity != null && !velocity.equals(this.velocity)) return true;
                 if (toGo != null && !toGo.equals(this.toGo)) return true;
                 if (velocity == null && this.velocity != null) return true;
-                if (toGo == null && (this.toGo != null || !location.equals(this.location))) return true;
+                if (toGo == null && this.toGo != null) return true;
             } else {
                 if (!this.entity.equals(entity)) return true;
             }
+
+            if (!location.equals(this.location)) return true;
 
             return arrivalTime != this.arrivalTime;
         }
