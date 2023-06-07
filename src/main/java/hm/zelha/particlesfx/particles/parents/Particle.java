@@ -207,16 +207,20 @@ public abstract class Particle {
         this.offsetZ = Math.abs(offsetZ);
     }
 
-    public void setSpeed(double speed) {
+    public Particle setSpeed(double speed) {
         this.speed = speed;
+
+        return this;
     }
 
     public void setCount(int count) {
         this.count = count;
     }
 
-    public void setRadius(int radius) {
+    public Particle setRadius(int radius) {
         this.radius = radius;
+
+        return this;
     }
 
     public double getOffsetX() {

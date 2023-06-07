@@ -315,15 +315,19 @@ public class ParticleFluid extends ParticleShaper {
     /**
      * @param repulsionDistance how close particles have to be to push each other away
      */
-    public void setRepulsionDistance(double repulsionDistance) {
+    public ParticleFluid setRepulsionDistance(double repulsionDistance) {
         this.repulsionDistance = Math.abs(repulsionDistance);
+
+        return this;
     }
 
     /**
      * @param attraction how much particles move toward each other
      */
-    public void setAttraction(double attraction) {
+    public ParticleFluid setAttraction(double attraction) {
         this.attraction = Math.abs(attraction);
+
+        return this;
     }
 
     /**
