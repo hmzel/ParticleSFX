@@ -4,7 +4,7 @@ import hm.zelha.particlesfx.particles.parents.Particle;
 
 public class ParticleBarrier extends Particle {
     public ParticleBarrier(double offsetX, double offsetY, double offsetZ, int count) {
-        super("barrier", offsetX, offsetY, offsetZ, 0, count, 0);
+        super("barrier", offsetX, offsetY, offsetZ, count);
     }
 
     public ParticleBarrier(double offsetX, double offsetY, double offsetZ) {
