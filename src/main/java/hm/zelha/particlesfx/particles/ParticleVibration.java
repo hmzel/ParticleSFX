@@ -172,9 +172,9 @@ public class ParticleVibration extends TravellingParticle {
 
         @Override
         public void a(PacketDataSerializer data) {
-            pos.p((int) (location.getBlockX() + (rng.nextGaussian() * offsetX)));
-            pos.q((int) (location.getBlockY() + (rng.nextGaussian() * offsetY)));
-            pos.r((int) (location.getBlockZ() + (rng.nextGaussian() * offsetZ)));
+            pos.u((int) (location.getBlockX() + (rng.nextGaussian() * offsetX)));
+            pos.t((int) (location.getBlockY() + (rng.nextGaussian() * offsetY)));
+            pos.s((int) (location.getBlockZ() + (rng.nextGaussian() * offsetZ)));
             data.a(pos);
 
             if (entity != null) {

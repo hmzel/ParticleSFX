@@ -69,6 +69,6 @@ public class ParticleBlockBreak extends Particle implements MaterialParticle {
     }
 
     public Material getMaterial() {
-        return CraftMagicNumbers.getMaterial(((ParticleParamBlock) particle).c().b());
+        return CraftMagicNumbers.getMaterial(((ParticleParamBlock) particle).c().getBlock());
     }
 }

@@ -38,7 +38,7 @@ public abstract class Particle {
     private final List<CraftPlayer> listHelper = new ArrayList<>();
 
     protected Particle(String particleID, double offsetX, double offsetY, double offsetZ, int count) {
-        this.particle = (ParticleType) IRegistry.ab.a(new MinecraftKey(particleID));
+        this.particle = (ParticleType) IRegistry.ab.get(new MinecraftKey(particleID));
 
         setOffset(offsetX, offsetY, offsetZ);
         setCount(count);

@@ -151,6 +151,6 @@ public class ParticleItemBreak extends TravellingParticle implements MaterialPar
     }
 
     public Material getMaterial() {
-        return CraftMagicNumbers.getMaterial(((ParticleParamItem) particle).c().c());
+        return CraftMagicNumbers.getMaterial(((ParticleParamItem) particle).c().getItem());
     }
 }
