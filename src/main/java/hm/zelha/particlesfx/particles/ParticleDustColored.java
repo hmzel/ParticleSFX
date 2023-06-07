@@ -1,5 +1,6 @@
 package hm.zelha.particlesfx.particles;
 
+import com.mojang.math.Vector3fa;
 import hm.zelha.particlesfx.particles.parents.ColorableParticle;
 import hm.zelha.particlesfx.particles.parents.Particle;
 import hm.zelha.particlesfx.particles.parents.SizeableParticle;
@@ -187,19 +188,19 @@ public class ParticleDustColored extends ColorableParticle implements SizeablePa
         private final boolean pureColor;
 
         public ParticleParamDust(Color color, double size, boolean pureColor) {
-            super(new Vector3f(rng.nextFloat(), rng.nextFloat(), rng.nextFloat()), (float) size);
+            super(new Vector3fa(rng.nextFloat(), rng.nextFloat(), rng.nextFloat()), (float) size);
 
             this.color = (color != null) ? color.clone() : null;
             this.size = size;
             this.pureColor = pureColor;
 
             if (color != null) {
-                g.set(color.getRed(), color.getGreen(), color.getBlue());
-                g.div(255F);
+                g.b(color.getRed(), color.getGreen(), color.getBlue());
+                g.a(1 / 255F);
             }
 
             if (pureColor) {
-                g.mul(Float.MAX_VALUE);
+                g.a(Float.MAX_VALUE);
             }
         }
     }
