@@ -344,8 +344,10 @@ public class ParticleCylinder extends ParticleShaper {
     /**
      * @param rotateCircles whether circles are rotated with the shape, defaults to true
      */
-    public void setRotateCircles(boolean rotateCircles) {
+    public ParticleCylinder setRotateCircles(boolean rotateCircles) {
         this.rotateCircles = rotateCircles;
+
+        return this;
     }
 
     /**
