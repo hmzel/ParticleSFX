@@ -1,5 +1,6 @@
 package hm.zelha.particlesfx.particles;
 
+import com.mojang.math.Vector3fa;
 import hm.zelha.particlesfx.particles.parents.Particle;
 import hm.zelha.particlesfx.particles.parents.SizeableParticle;
 import hm.zelha.particlesfx.util.Color;
@@ -8,7 +9,6 @@ import net.minecraft.core.particles.DustColorTransitionOptions;
 import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_17_R1.entity.CraftPlayer;
 import org.bukkit.util.Vector;
-import org.joml.Vector3f;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -143,7 +143,7 @@ public class ParticleDustMulticolored extends ParticleDustColored implements Siz
         private final boolean pureColor;
 
         private ParticleParamDustTransition(Color color, Color transition, double size, boolean pureColor) {
-            super(new Vector3f(rng.nextFloat(), rng.nextFloat(), rng.nextFloat()), new Vector3f(rng.nextFloat(), rng.nextFloat(), rng.nextFloat()), (float) size);
+            super(new Vector3fa(rng.nextFloat(), rng.nextFloat(), rng.nextFloat()), new Vector3fa(rng.nextFloat(), rng.nextFloat(), rng.nextFloat()), (float) size);
 
             this.color = (color != null) ? color.clone() : null;
             this.transition = (transition != null) ? transition.clone() : null;
@@ -151,18 +151,18 @@ public class ParticleDustMulticolored extends ParticleDustColored implements Siz
             this.pureColor = pureColor;
 
             if (color != null) {
-                g.set(color.getRed(), color.getGreen(), color.getBlue());
-                g.div(255F);
-                d().set(g);
+                g.b(color.getRed(), color.getGreen(), color.getBlue());
+                g.a(1 / 255F);
+                d().a(g);
             }
 
             if (transition != null) {
-                d().set(transition.getRed(), transition.getGreen(), transition.getBlue());
-                d().div(255F);
+                d().b(transition.getRed(), transition.getGreen(), transition.getBlue());
+                d().a(1 / 255F);
             }
 
             if (pureColor) {
-                g.mul(Float.MAX_VALUE);
+                g.a(Float.MAX_VALUE);
             }
         }
 
