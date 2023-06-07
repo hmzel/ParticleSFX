@@ -12,8 +12,8 @@ public abstract class ColorableParticle extends Particle {
     protected Color color;
     protected int brightness;
 
-    protected ColorableParticle(String particleID, @Nullable Color color, int brightness, double offsetX, double offsetY, double offsetZ, int count) {
-        super(particleID, offsetX, offsetY, offsetZ, count);
+    protected ColorableParticle(ParticleParam particle, @Nullable Color color, int brightness, double offsetX, double offsetY, double offsetZ, int count) {
+        super(particle, offsetX, offsetY, offsetZ, count);
 
         setColor(color);
         setBrightness(brightness);
