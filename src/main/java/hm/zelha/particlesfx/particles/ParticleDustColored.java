@@ -1,11 +1,11 @@
 package hm.zelha.particlesfx.particles;
 
-import com.mojang.math.Vector3fa;
 import hm.zelha.particlesfx.particles.parents.ColorableParticle;
 import hm.zelha.particlesfx.particles.parents.Particle;
 import hm.zelha.particlesfx.particles.parents.SizeableParticle;
 import hm.zelha.particlesfx.util.Color;
 import hm.zelha.particlesfx.util.LVMath;
+import net.minecraft.server.v1_13_R1.PacketDataSerializer;
 import net.minecraft.server.v1_13_R1.ParticleParamRedstone;
 import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_13_R1.entity.CraftPlayer;
@@ -20,10 +20,10 @@ public class ParticleDustColored extends ColorableParticle implements SizeablePa
     protected boolean pureColor = false;
     protected double size;
 
-    public ParticleColoredDust(@Nullable Color color, double size, double offsetX, double offsetY, double offsetZ, int count) {
+    public ParticleDustColored(@Nullable Color color, double size, double offsetX, double offsetY, double offsetZ, int count) {
         super("", color, 100, offsetX, offsetY, offsetZ, count);
 
-        particle = new ParticleParamDust();
+        particle = new ParticleParamDust(color, size, false);
 
         setSize(size);
     }
@@ -188,20 +188,33 @@ public class ParticleDustColored extends ColorableParticle implements SizeablePa
         private final boolean pureColor;
 
         public ParticleParamDust(Color color, double size, boolean pureColor) {
-            super(new Vector3fa(rng.nextFloat(), rng.nextFloat(), rng.nextFloat()), (float) size);
+            super(0, 0, 0, 0);
 
             this.color = (color != null) ? color.clone() : null;
             this.size = size;
             this.pureColor = pureColor;
+        }
+
+        @Override
+        public void a(PacketDataSerializer var0) {
+            float red = rng.nextFloat(), green = rng.nextFloat(), blue = rng.nextFloat();
 
             if (color != null) {
-                g.b(color.getRed(), color.getGreen(), color.getBlue());
-                g.a(1 / 255F);
+                red = color.getRed() / 255F;
+                green = color.getGreen() / 255F;
+                blue = color.getBlue() / 255F;
             }
 
             if (pureColor) {
-                g.a(Float.MAX_VALUE);
+                red *= Float.MAX_VALUE;
+                green *= Float.MAX_VALUE;
+                blue *= Float.MAX_VALUE;
             }
+
+            var0.writeFloat(red);
+            var0.writeFloat(green);
+            var0.writeFloat(blue);
+            var0.writeFloat((float) size);
         }
     }
 }
