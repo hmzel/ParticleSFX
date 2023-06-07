@@ -151,7 +151,7 @@ public class ParticleVibration extends TravellingParticle {
     }
 
 
-    private static class NMSVibrationParticle extends VibrationParticleOption {
+    private class NMSVibrationParticle extends VibrationParticleOption {
 
         private final BlockPosition.MutableBlockPosition pos = new BlockPosition.MutableBlockPosition();
         private final Location location;
@@ -172,7 +172,10 @@ public class ParticleVibration extends TravellingParticle {
 
         @Override
         public void a(PacketDataSerializer data) {
-            data.a(pos.d(location.getBlockX(), location.getBlockY(), location.getBlockZ()));
+            pos.p((int) (location.getBlockX() + (rng.nextGaussian() * offsetX)));
+            pos.q((int) (location.getBlockY() + (rng.nextGaussian() * offsetY)));
+            pos.r((int) (location.getBlockZ() + (rng.nextGaussian() * offsetZ)));
+            data.a(pos);
 
             if (entity != null) {
                 data.a(new MinecraftKey("entity"));
