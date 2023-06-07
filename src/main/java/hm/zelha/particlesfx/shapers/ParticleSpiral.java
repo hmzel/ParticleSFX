@@ -242,8 +242,10 @@ public class ParticleSpiral extends ParticleShaper {
     /**
      * @param rotateCircles whether circles are rotated with the shape, defaults to true
      */
-    public void setRotateCircles(boolean rotateCircles) {
+    public ParticleSpiral setRotateCircles(boolean rotateCircles) {
         this.rotateCircles = rotateCircles;
+
+        return this;
     }
 
     public CircleInfo getCircleInfo(int index) {

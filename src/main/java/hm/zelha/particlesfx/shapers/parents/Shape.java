@@ -134,13 +134,15 @@ public interface Shape {
      * 0 means that the entire animation will be played when .display() is called
      *
      * @param particlesPerDisplay amount of particles that will be shown per display
+     * @return
      */
-    void setParticlesPerDisplay(int particlesPerDisplay);
+    Shape setParticlesPerDisplay(int particlesPerDisplay);
 
     /**
      * @param delay amount of ticks between {@link Shape#display()} being called
+     * @return
      */
-    void setDelay(int delay);
+    Shape setDelay(int delay);
 
     /**
      * sets the current position of the shape's animation <br>
