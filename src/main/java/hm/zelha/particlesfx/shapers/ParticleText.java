@@ -252,7 +252,7 @@ public class ParticleText extends ParticleShaper {
         remakeImage = true;
     }
 
-    public void setFont(Font font) {
+    public ParticleText setFont(Font font) {
         Validate.notNull(font, "Font can't be null!");
 
         for (String text : text) {
@@ -261,6 +261,8 @@ public class ParticleText extends ParticleShaper {
 
         this.font = font;
         remakeImage = true;
+
+        return this;
     }
 
     public void setLine(int line, String text) {
@@ -297,32 +299,40 @@ public class ParticleText extends ParticleShaper {
     /**
      * @param inverted whether particles should appear within the text or outlining the text, default false
      */
-    public void setInverted(boolean inverted) {
+    public ParticleText setInverted(boolean inverted) {
         this.inverted = inverted;
+
+        return this;
     }
 
     /**
      * @param centered whether the text should be centered or not, default true
      */
-    public void setCentered(boolean centered) {
+    public ParticleText setCentered(boolean centered) {
         this.centered = centered;
         remakeImage = true;
+
+        return this;
     }
 
     /**
      * @param borderX how wide the border around the text should be, only used if {@link ParticleText#isInverted()} is true.
      */
-    public void setBorderX(int borderX) {
+    public ParticleText setBorderX(int borderX) {
         this.borderX = borderX;
         remakeImage = true;
+
+        return this;
     }
 
     /**
      * @param borderZ how tall the border around the text should be, only used if {@link ParticleText#isInverted()} is true.
      */
-    public void setBorderZ(int borderZ) {
+    public ParticleText setBorderZ(int borderZ) {
         this.borderZ = borderZ;
         remakeImage = true;
+
+        return this;
     }
 
     public Font getFont() {
