@@ -159,17 +159,21 @@ public class ParticleShapeCompound extends RotationHandler implements Shape {
     }
 
     @Override
-    public void setParticlesPerDisplay(int particlesPerDisplay) {
+    public Shape setParticlesPerDisplay(int particlesPerDisplay) {
         for (Shape shape : shapeLocationIndex.keySet()) {
             shape.setParticlesPerDisplay(particlesPerDisplay);
         }
+
+        return this;
     }
 
     @Override
-    public void setDelay(int delay) {
+    public Shape setDelay(int delay) {
         for (Shape shape : shapeLocationIndex.keySet()) {
             shape.setDelay(delay);
         }
+
+        return this;
     }
 
     @Override
