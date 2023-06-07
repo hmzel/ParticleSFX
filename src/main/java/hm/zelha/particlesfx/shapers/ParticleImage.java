@@ -333,10 +333,12 @@ public class ParticleImage extends ParticleShaper {
         addImage(getFrameAmount(), path);
     }
 
-    public void addIgnoredColor(Color color) {
+    public ParticleImage addIgnoredColor(Color color) {
         Validate.notNull(color, "Color can't be null!");
 
         ignoredColors.add(color);
+
+        return this;
     }
 
     /**
@@ -433,7 +435,7 @@ public class ParticleImage extends ParticleShaper {
      * 
      * @param radius max radius
      */
-    public void setRadius(double radius) {
+    public ParticleImage setRadius(double radius) {
         if (currentThread != null && currentThread != Thread.currentThread()) {
             try {
                 currentThread.join();
@@ -451,6 +453,8 @@ public class ParticleImage extends ParticleShaper {
             setXRadius(radius);
             setZRadius(radius * ((double) image.getHeight() / image.getWidth()));
         }
+
+        return this;
     }
 
     public void setXRadius(double xRadius) {
@@ -464,15 +468,19 @@ public class ParticleImage extends ParticleShaper {
     /**
      * @param fuzz how similar pixel colors have to be to ignored colors in order to be ignored
      */
-    public void setFuzz(int fuzz) {
+    public ParticleImage setFuzz(int fuzz) {
         this.fuzz = fuzz;
+
+        return this;
     }
 
     /**
      * @param frameDelay amount of times to display before switching to the next frame
      */
-    public void setFrameDelay(int frameDelay) {
+    public ParticleImage setFrameDelay(int frameDelay) {
         this.frameDelay = frameDelay;
+
+        return this;
     }
 
     /**

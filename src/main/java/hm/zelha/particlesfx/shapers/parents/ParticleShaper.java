@@ -156,16 +156,18 @@ public abstract class ParticleShaper extends RotationHandler implements Shape {
         this.particleFrequency = particleFrequency;
     }
 
-    public void setParticlesPerDisplay(int particlesPerDisplay) {
+    public Shape setParticlesPerDisplay(int particlesPerDisplay) {
         this.particlesPerDisplay = particlesPerDisplay;
+
+        return this;
     }
 
-    public void setDelay(int delay) {
+    public Shape setDelay(int delay) {
         stop();
 
         this.delay = delay;
 
-        start();
+        return start();
     }
 
     public void setDisplayPosition(int position) {

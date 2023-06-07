@@ -70,8 +70,10 @@ public class ParticleSculkCharge extends TravellingParticle {
     /**
      * @param degrees how much this particle should be rotated in the Z axis
      */
-    public void setRoll(double degrees) {
+    public ParticleSculkCharge setRoll(double degrees) {
         particle = new SculkChargeParticleOptions((float) Math.toRadians(degrees));
+
+        return this;
     }
 
     /**
