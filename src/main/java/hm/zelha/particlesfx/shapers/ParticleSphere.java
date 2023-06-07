@@ -129,12 +129,17 @@ public class ParticleSphere extends ParticleCircle {
         setYRadius(getYRadius() * y);
     }
 
+    @Override
+    public ParticleSphere setLimit(double limit) {
+        return (ParticleSphere) super.setLimit(limit);
+    }
+
     /**
      * @param limitInverse determines if the limit cuts off at the top or bottom. default false (top)
      */
     @Override
-    public void setLimitInverse(boolean limitInverse) {
-        super.setLimitInverse(limitInverse);
+    public ParticleSphere setLimitInverse(boolean limitInverse) {
+        return (ParticleSphere) super.setLimitInverse(limitInverse);
     }
 
     public void setYRadius(double yRadius) {

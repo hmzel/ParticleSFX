@@ -32,11 +32,11 @@ public interface MaterialParticle {
 
     void setOffsetZ(double offsetZ);
 
-    void setSpeed(double speed);
+    Particle setSpeed(double speed);
 
     void setCount(int count);
 
-    void setRadius(int radius);
+    Particle setRadius(int radius);
 
     MaterialData getMaterialData();
 

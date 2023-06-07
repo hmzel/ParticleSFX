@@ -181,8 +181,10 @@ public class ParticleLineCurved extends ParticleLine {
     /**
      * @param rotateCurves whether curves are rotated with the shape, defaults to true
      */
-    public void setRotateCurves(boolean rotateCurves) {
+    public ParticleLineCurved setRotateCurves(boolean rotateCurves) {
         this.rotateCurves = rotateCurves;
+
+        return this;
     }
 
     /**
