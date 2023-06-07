@@ -119,15 +119,19 @@ public class ParticleVibration extends TravellingParticle {
      *
      * @param entity entity for this particle to track
      */
-    public void setEntity(Entity entity) {
+    public ParticleVibration setEntity(Entity entity) {
         this.entity = entity;
+
+        return this;
     }
 
     /**
      * @param arrivalTime the amount of ticks it takes this particle to go from its origin to its destination, default 20 ticks or 1 second.
      */
-    public void setArrivalTime(int arrivalTime) {
+    public ParticleVibration setArrivalTime(int arrivalTime) {
         this.arrivalTime = arrivalTime;
+
+        return this;
     }
 
     /**

@@ -120,8 +120,10 @@ public class ParticleDustMulticolored extends ParticleDustColored implements Siz
     /**
      * @param transition the color this particle will transition to as it fades. doesn't work with pureColor
      */
-    public void setTransitionColor(@Nullable Color transition) {
+    public ParticleDustMulticolored setTransitionColor(@Nullable Color transition) {
         this.transition = transition;
+
+        return this;
     }
 
     /**
