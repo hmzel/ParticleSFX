@@ -5,7 +5,7 @@ import net.minecraft.server.v1_12_R1.EnumParticle;
 
 public class ParticleBarrier extends Particle {
     public ParticleBarrier(double offsetX, double offsetY, double offsetZ, int count) {
-        super(EnumParticle.BARRIER, offsetX, offsetY, offsetZ, 0, count, 0);
+        super(EnumParticle.BARRIER, offsetX, offsetY, offsetZ, count);
     }
 
     public ParticleBarrier(double offsetX, double offsetY, double offsetZ) {
