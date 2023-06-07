@@ -12,8 +12,8 @@ public abstract class SizeableParticle extends Particle {
 
     protected double size;
 
-    protected SizeableParticle(EnumParticle particle, double size, double offsetX, double offsetY, double offsetZ, double speed, int count, int radius) {
-        super(particle, offsetX, offsetY, offsetZ, speed, count, radius);
+    protected SizeableParticle(EnumParticle particle, double size, double offsetX, double offsetY, double offsetZ, int count) {
+        super(particle, offsetX, offsetY, offsetZ, count);
 
         setSize(size);
     }
