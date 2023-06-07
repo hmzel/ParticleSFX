@@ -41,7 +41,7 @@ public class ParticleEnderSignal extends Particle {
     @Override
     protected Packet getStrangePacket(Location location) {
         return new PacketPlayOutWorldEvent(
-                Effect.ENDER_SIGNAL.getId(), pos.d(location.getBlockX(), location.getBlockY(), location.getBlockZ()),
+                Effect.ENDER_SIGNAL.getId(), pos.c(location.getBlockX(), location.getBlockY(), location.getBlockZ()),
                 Effect.ENDER_SIGNAL.getId(), false
         );
     }
