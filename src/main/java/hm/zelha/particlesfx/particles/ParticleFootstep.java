@@ -5,7 +5,7 @@ import net.minecraft.server.v1_8_R3.EnumParticle;
 
 public class ParticleFootstep extends Particle {
     public ParticleFootstep(double offsetX, double offsetY, double offsetZ, int count) {
-        super(EnumParticle.FOOTSTEP, offsetX, offsetY, offsetZ, 0, count, 0);
+        super(EnumParticle.FOOTSTEP, offsetX, offsetY, offsetZ, count);
     }
 
     public ParticleFootstep(double offsetX, double offsetY, double offsetZ) {
