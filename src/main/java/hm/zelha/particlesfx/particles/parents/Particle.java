@@ -11,8 +11,8 @@ import net.minecraft.server.level.EntityPlayer;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.craftbukkit.v1_19_R3.CraftServer;
-import org.bukkit.craftbukkit.v1_19_R3.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_20_R1.CraftServer;
+import org.bukkit.craftbukkit.v1_20_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
@@ -98,10 +98,10 @@ public abstract class Particle {
                 EntityPlayer p = players.get(k).getHandle();
 
                 if (p == null) continue;
-                if (!location.getWorld().getName().equals(p.H.getWorld().getName())) continue;
+                if (!location.getWorld().getName().equals(p.dI().getWorld().getName())) continue;
 
                 if (radius != 0) {
-                    double distance = Math.pow(location.getX() - p.de().a(), 2) + Math.pow(location.getY() - p.de().b(), 2) + Math.pow(location.getZ() - p.de().c(), 2);
+                    double distance = Math.pow(location.getX() - p.dg().a(), 2) + Math.pow(location.getY() - p.dg().b(), 2) + Math.pow(location.getZ() - p.dg().c(), 2);
 
                     if (distance > Math.pow(radius, 2)) continue;
                 }
@@ -111,9 +111,9 @@ public abstract class Particle {
                 Packet strangePacket = getStrangePacket(location);
 
                 if (strangePacket != null) {
-                    p.b.a(strangePacket);
+                    p.c.a(strangePacket);
                 } else {
-                    p.b.a(
+                    p.c.a(
                             new PacketPlayOutWorldParticles(
                                     particle, true, (float) xyz.getX(), (float) xyz.getY(), (float) xyz.getZ(), (float) offsets.getX(),
                                     (float) offsets.getY(), (float) offsets.getZ(), getPacketSpeed(), getPacketCount()
