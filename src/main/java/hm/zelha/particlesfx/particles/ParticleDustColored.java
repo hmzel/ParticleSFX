@@ -41,10 +41,6 @@ public class ParticleDustColored extends ColorableParticle {
         this(null, 100, 0, 0, 0, count);
     }
 
-    public ParticleDustColored(double size) {
-        this(null, size, 0, 0, 0, 1);
-    }
-
     public ParticleDustColored() {
         this(null, 100, 0, 0, 0, 1);
     }
@@ -72,22 +68,10 @@ public class ParticleDustColored extends ColorableParticle {
         if (color == null) return offsets;
 
         if (pureColor) {
-            offsets.setX(Float.MAX_VALUE * (color.getRed() / 255D));
-            offsets.setY(Float.MAX_VALUE * (color.getGreen() / 255D));
-            offsets.setZ(Float.MAX_VALUE * (color.getBlue() / 255D));
+            offsets.multiply(Float.MAX_VALUE);
+        }
 
-            if (offsets.getX() == 0) {
-                offsets.setX(Float.MIN_VALUE);
-            }
-
-            if (offsets.getY() == 0) {
-                offsets.setY(Float.MIN_VALUE);
-            }
-
-            if (offsets.getZ() == 0) {
-                offsets.setZ(Float.MIN_VALUE);
-            }
-        } else if (color.getRed() == 0) {
+        if (color.getRed() == 0) {
             offsets.setX(0.0001);
         }
 
