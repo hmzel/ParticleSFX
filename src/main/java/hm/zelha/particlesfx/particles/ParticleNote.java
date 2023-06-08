@@ -14,12 +14,11 @@ import java.util.List;
  * feel free to use setOffset() methods though!
  * <br><br>
  * also, all ParticleNotes with a NoteColor other than NoteColor.RANDOM have a fixed radius that is quite small,
- * due to minecraft systems, again.
- * <br><br>
- * (speed is unused regardless)
+ * due to minecraft, again.
  */
 public class ParticleNote extends Particle {
 
+    private final BlockPosition.MutableBlockPosition pos = new BlockPosition.MutableBlockPosition();
     private NoteColor color;
 
     /**@see ParticleNote*/
@@ -61,39 +60,15 @@ public class ParticleNote extends Particle {
     }
 
     @Override
-    protected void display(Location location, List<CraftPlayer> players) {
-        Validate.notNull(location, "Location cannot be null!");
-        Validate.notNull(location.getWorld(), "World cannot be null!");
-
-        Packet packet = null;
-
+    protected Packet getStrangePacket(Location location) {
         if (color != NoteColor.RANDOM) {
-            packet = new PacketPlayOutBlockAction(new BlockPosition(
-                    location.getBlockX(), location.getBlockY(), location.getBlockZ()
-            ), Blocks.NOTEBLOCK, 0, color.getValue());
+            return new PacketPlayOutBlockAction(
+                    pos.c(location.getBlockX(), location.getBlockY(), location.getBlockZ()),
+                    Blocks.NOTEBLOCK, 0, color.getValue()
+            );
         }
 
-        for (int i = 0; i < (((color != NoteColor.RANDOM)) ? count : 1); i++) {
-            for (int i2 = 0; i2 < players.size(); i2++) {
-                EntityPlayer p = players.get(i2).getHandle();
-
-                if (p == null) continue;
-                if (!location.getWorld().getName().equals(p.world.getWorld().getName())) continue;
-
-                if (radius != 0) {
-                    double distance = Math.pow(location.getX() - p.locX, 2) + Math.pow(location.getY() - p.locY, 2) + Math.pow(location.getZ() - p.locZ, 2);
-
-                    if (distance > Math.pow(radius, 2)) continue;
-                }
-
-                p.playerConnection.sendPacket((packet != null) ? packet :
-                        new PacketPlayOutWorldParticles(
-                                EnumParticle.NOTE, true, (float) location.getX(), (float) location.getY(), (float) location.getZ(),
-                                (float) offsetX, (float) offsetY, (float) offsetZ, (float) 1, count
-                        )
-                );
-            }
-        }
+        return null;
     }
 
     public void setNoteColor(NoteColor color) {
