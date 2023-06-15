@@ -7,7 +7,7 @@
 <p align="center">
   <b>A Spigot library for making special effects out of particles</b><br><br>
   <a href="#features">Features</a> •
-  <a href="#gettingstarted">Getting Started</a> •
+  <a href="#getting-started">Getting Started</a> •
   <a href="#usage">Usage</a> •
   <a href="#showcases">Showcases</a>
 </p>
@@ -40,7 +40,7 @@ Once the dependency is added, be sure to download the javadocs and sources by cl
 or by running `mvn dependency:sources dependency:resolve -Dclassifier=javadoc` in your project folder.
 
 ## Usage
-[Shapes](#shapes) • [Simple Particles](#simpleparticles) • [Travelling Particles](#travellingparticles) • [Colorable Particles](#colorableparticles) • [Material Particles](#materialparticles) • [Special Particles](#specialparticles)
+[Shapes](#shapes) • [Simple Particles](#simple-particles) • [Travelling Particles](#travelling-particles) • [Colorable Particles](#colorable-particles) • [Material Particles](#material-particles) • [Special Particles](#special-particles)
 ### Shapes
 Make sure to add `ParticleSFX.setPlugin(this);` to your `onEnable()` method before using any shapes. <br>
 For some complicated code examples of how to use the shape classes, check out the [ParticleSFX class](https://github.com/hmzel/ParticleSFX/blob/master/src/main/java/hm/zelha/particlesfx/util/ParticleSFX.java)
