@@ -109,7 +109,8 @@ You can set how many times ParticleImage has to display before going to the next
 
 <br><b>ParticleText</b><br>
 This class displays text. it can have different fonts, be centered or not centered, and even be inverted so the particles are displayed around the text. <br>
-Every new string object added to ParticleText is displayed on a separate line.
+Every new string object added to ParticleText is displayed on a separate line. <br>
+The font also controls how thick the text is.
 
 <br><b>ParticleFluid</b><br>
 This class gives particles rudimentary fluid mechanics. You can set the gravity, repulsion, attraction, and how close particles have to be to be repulsed. <br>
