@@ -7,7 +7,7 @@ import hm.zelha.particlesfx.util.Color;
 import hm.zelha.particlesfx.util.LVMath;
 import net.minecraft.core.particles.ParticleParamRedstone;
 import org.bukkit.Location;
-import org.bukkit.craftbukkit.v1_20_R1.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_20_R2.entity.CraftPlayer;
 import org.bukkit.util.Vector;
 import org.joml.Vector3f;
 

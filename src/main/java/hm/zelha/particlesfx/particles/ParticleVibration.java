@@ -8,7 +8,7 @@ import net.minecraft.core.particles.VibrationParticleOption;
 import net.minecraft.network.PacketDataSerializer;
 import net.minecraft.resources.MinecraftKey;
 import org.bukkit.Location;
-import org.bukkit.craftbukkit.v1_20_R1.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_20_R2.entity.CraftPlayer;
 import org.bukkit.entity.Entity;
 import org.bukkit.util.Vector;
 
