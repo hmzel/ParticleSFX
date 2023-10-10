@@ -111,9 +111,9 @@ public abstract class Particle {
                 Packet strangePacket = getStrangePacket(location);
 
                 if (strangePacket != null) {
-                    p.c.a(strangePacket);
+                    p.c.b(strangePacket);
                 } else {
-                    p.c.a(
+                    p.c.b(
                             new PacketPlayOutWorldParticles(
                                     particle, true, (float) xyz.getX(), (float) xyz.getY(), (float) xyz.getZ(), (float) offsets.getX(),
                                     (float) offsets.getY(), (float) offsets.getZ(), getPacketSpeed(), getPacketCount()
