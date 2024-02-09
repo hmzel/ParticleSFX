@@ -1,0 +1,119 @@
+@options
+@packages
+-classpath
+'C:/Users/flori/.m2/repository/org/spigotmc/spigot-api/1.20.4-R0.1-SNAPSHOT/spigot-api-1.20.4-R0.1-SNAPSHOT.jar;C:/Users/flori/.m2/repository/com/google/guava/guava/32.1.2-jre/guava-32.1.2-jre.jar;C:/Users/flori/.m2/repository/com/google/guava/failureaccess/1.0.1/failureaccess-1.0.1.jar;C:/Users/flori/.m2/repository/com/google/guava/listenablefuture/9999.0-empty-to-avoid-conflict-with-guava/listenablefuture-9999.0-empty-to-avoid-conflict-with-guava.jar;C:/Users/flori/.m2/repository/com/google/code/findbugs/jsr305/3.0.2/jsr305-3.0.2.jar;C:/Users/flori/.m2/repository/org/checkerframework/checker-qual/3.33.0/checker-qual-3.33.0.jar;C:/Users/flori/.m2/repository/com/google/errorprone/error_prone_annotations/2.18.0/error_prone_annotations-2.18.0.jar;C:/Users/flori/.m2/repository/com/google/j2objc/j2objc-annotations/2.8/j2objc-annotations-2.8.jar;C:/Users/flori/.m2/repository/com/google/code/gson/gson/2.10.1/gson-2.10.1.jar;C:/Users/flori/.m2/repository/org/joml/joml/1.10.5/joml-1.10.5.jar;C:/Users/flori/.m2/repository/net/md-5/bungeecord-chat/1.20-R0.2/bungeecord-chat-1.20-R0.2.jar;C:/Users/flori/.m2/repository/org/yaml/snakeyaml/2.2/snakeyaml-2.2.jar;C:/Users/flori/.m2/repository/org/spigotmc/spigot/1.20.4-R0.1-SNAPSHOT/spigot-1.20.4-R0.1-SNAPSHOT.jar;C:/Users/flori/.m2/repository/jline/jline/2.12.1/jline-2.12.1.jar;C:/Users/flori/.m2/repository/org/apache/logging/log4j/log4j-iostreams/2.19.0/log4j-iostreams-2.19.0.jar;C:/Users/flori/.m2/repository/org/apache/logging/log4j/log4j-api/2.19.0/log4j-api-2.19.0.jar;C:/Users/flori/.m2/repository/org/ow2/asm/asm-commons/9.5/asm-commons-9.5.jar;C:/Users/flori/.m2/repository/org/ow2/asm/asm/9.5/asm-9.5.jar;C:/Users/flori/.m2/repository/org/ow2/asm/asm-tree/9.5/asm-tree-9.5.jar;C:/Users/flori/.m2/repository/com/github/oshi/oshi-core/6.4.5/oshi-core-6.4.5.jar;C:/Users/flori/.m2/repository/com/mojang/authlib/5.0.51/authlib-5.0.51.jar;C:/Users/flori/.m2/repository/com/mojang/brigadier/1.2.9/brigadier-1.2.9.jar;C:/Users/flori/.m2/repository/com/mojang/datafixerupper/6.0.8/datafixerupper-6.0.8.jar;C:/Users/flori/.m2/repository/com/mojang/logging/1.1.1/logging-1.1.1.jar;C:/Users/flori/.m2/repository/commons-io/commons-io/2.13.0/commons-io-2.13.0.jar;C:/Users/flori/.m2/repository/io/netty/netty-buffer/4.1.97.Final/netty-buffer-4.1.97.Final.jar;C:/Users/flori/.m2/repository/io/netty/netty-codec/4.1.97.Final/netty-codec-4.1.97.Final.jar;C:/Users/flori/.m2/repository/io/netty/netty-common/4.1.97.Final/netty-common-4.1.97.Final.jar;C:/Users/flori/.m2/repository/io/netty/netty-handler/4.1.97.Final/netty-handler-4.1.97.Final.jar;C:/Users/flori/.m2/repository/io/netty/netty-resolver/4.1.97.Final/netty-resolver-4.1.97.Final.jar;C:/Users/flori/.m2/repository/io/netty/netty-transport/4.1.97.Final/netty-transport-4.1.97.Final.jar;C:/Users/flori/.m2/repository/io/netty/netty-transport-classes-epoll/4.1.97.Final/netty-transport-classes-epoll-4.1.97.Final.jar;C:/Users/flori/.m2/repository/io/netty/netty-transport-native-epoll/4.1.97.Final/netty-transport-native-epoll-4.1.97.Final-linux-x86_64.jar;C:/Users/flori/.m2/repository/io/netty/netty-transport-native-epoll/4.1.97.Final/netty-transport-native-epoll-4.1.97.Final-linux-aarch_64.jar;C:/Users/flori/.m2/repository/io/netty/netty-transport-native-unix-common/4.1.97.Final/netty-transport-native-unix-common-4.1.97.Final.jar;C:/Users/flori/.m2/repository/it/unimi/dsi/fastutil/8.5.12/fastutil-8.5.12.jar;C:/Users/flori/.m2/repository/net/java/dev/jna/jna/5.13.0/jna-5.13.0.jar;C:/Users/flori/.m2/repository/net/java/dev/jna/jna-platform/5.13.0/jna-platform-5.13.0.jar;C:/Users/flori/.m2/repository/net/sf/jopt-simple/jopt-simple/5.0.4/jopt-simple-5.0.4.jar;C:/Users/flori/.m2/repository/org/apache/commons/commons-lang3/3.13.0/commons-lang3-3.13.0.jar;C:/Users/flori/.m2/repository/org/apache/logging/log4j/log4j-core/2.19.0/log4j-core-2.19.0.jar;C:/Users/flori/.m2/repository/org/apache/logging/log4j/log4j-slf4j2-impl/2.19.0/log4j-slf4j2-impl-2.19.0.jar;C:/Users/flori/.m2/repository/org/slf4j/slf4j-api/2.0.7/slf4j-api-2.0.7.jar;C:/Users/flori/.m2/repository/commons-lang/commons-lang/2.6/commons-lang-2.6.jar;C:/Users/flori/.m2/repository/com/googlecode/json-simple/json-simple/1.1.1/json-simple-1.1.1.jar;C:/Users/flori/.m2/repository/org/xerial/sqlite-jdbc/3.42.0.1/sqlite-jdbc-3.42.0.1.jar;C:/Users/flori/.m2/repository/com/mysql/mysql-connector-j/8.2.0/mysql-connector-j-8.2.0.jar;C:/Users/flori/.m2/repository/com/google/protobuf/protobuf-java/3.21.9/protobuf-java-3.21.9.jar;C:/Users/flori/.m2/repository/org/apache/maven/maven-resolver-provider/3.9.6/maven-resolver-provider-3.9.6.jar;C:/Users/flori/.m2/repository/org/apache/maven/maven-model/3.9.6/maven-model-3.9.6.jar;C:/Users/flori/.m2/repository/org/apache/maven/maven-model-builder/3.9.6/maven-model-builder-3.9.6.jar;C:/Users/flori/.m2/repository/org/codehaus/plexus/plexus-interpolation/1.26/plexus-interpolation-1.26.jar;C:/Users/flori/.m2/repository/org/apache/maven/maven-artifact/3.9.6/maven-artifact-3.9.6.jar;C:/Users/flori/.m2/repository/org/apache/maven/maven-builder-support/3.9.6/maven-builder-support-3.9.6.jar;C:/Users/flori/.m2/repository/org/eclipse/sisu/org.eclipse.sisu.inject/0.9.0.M2/org.eclipse.sisu.inject-0.9.0.M2.jar;C:/Users/flori/.m2/repository/org/apache/maven/maven-repository-metadata/3.9.6/maven-repository-metadata-3.9.6.jar;C:/Users/flori/.m2/repository/org/apache/maven/resolver/maven-resolver-api/1.9.18/maven-resolver-api-1.9.18.jar;C:/Users/flori/.m2/repository/org/apache/maven/resolver/maven-resolver-spi/1.9.18/maven-resolver-spi-1.9.18.jar;C:/Users/flori/.m2/repository/org/apache/maven/resolver/maven-resolver-util/1.9.18/maven-resolver-util-1.9.18.jar;C:/Users/flori/.m2/repository/org/apache/maven/resolver/maven-resolver-impl/1.9.18/maven-resolver-impl-1.9.18.jar;C:/Users/flori/.m2/repository/org/apache/maven/resolver/maven-resolver-named-locks/1.9.18/maven-resolver-named-locks-1.9.18.jar;C:/Users/flori/.m2/repository/org/codehaus/plexus/plexus-utils/3.5.1/plexus-utils-3.5.1.jar;C:/Users/flori/.m2/repository/javax/inject/javax.inject/1/javax.inject-1.jar;C:/Users/flori/.m2/repository/org/apache/maven/resolver/maven-resolver-connector-basic/1.9.18/maven-resolver-connector-basic-1.9.18.jar;C:/Users/flori/.m2/repository/org/apache/maven/resolver/maven-resolver-transport-http/1.9.18/maven-resolver-transport-http-1.9.18.jar;C:/Users/flori/.m2/repository/org/apache/httpcomponents/httpclient/4.5.14/httpclient-4.5.14.jar;C:/Users/flori/.m2/repository/org/apache/httpcomponents/httpcore/4.4.16/httpcore-4.4.16.jar;C:/Users/flori/.m2/repository/commons-codec/commons-codec/1.16.0/commons-codec-1.16.0.jar;C:/Users/flori/.m2/repository/org/slf4j/jcl-over-slf4j/1.7.36/jcl-over-slf4j-1.7.36.jar'
+-encoding
+'UTF-8'
+-protected
+-sourcepath
+'F:/Programmieren/Java/Workspace/ParticleSFX/src/main/java;F:/Programmieren/Java/Workspace/ParticleSFX/target/generated-sources/annotations'
+-author
+-bottom
+'Copyright &#169; 2024. All rights reserved.'
+-charset
+'UTF-8'
+-d
+'F:/Programmieren/Java/Workspace/ParticleSFX/target/apidocs'
+-docencoding
+'UTF-8'
+-doctitle
+'ParticleSFX 1.20.4 API'
+-use
+-version
+-windowtitle
+'ParticleSFX 1.20.4 API'
+hm.zelha.particlesfx.particles.parents
+hm.zelha.particlesfx.particles
+hm.zelha.particlesfx.shapers.parents
+hm.zelha.particlesfx.shapers
+hm.zelha.particlesfx.util
+C:\Users\flori\.m2\repository\org\spigotmc\spigot-api\1.20.4-R0.1-SNAPSHOT\spigot-api-1.20.4-R0.1-SNAPSHOT.jar = 1707499326226
+C:\Users\flori\.m2\repository\com\google\guava\guava\32.1.2-jre\guava-32.1.2-jre.jar = 1698317575428
+C:\Users\flori\.m2\repository\com\google\guava\failureaccess\1.0.1\failureaccess-1.0.1.jar = 1645546700385
+C:\Users\flori\.m2\repository\com\google\guava\listenablefuture\9999.0-empty-to-avoid-conflict-with-guava\listenablefuture-9999.0-empty-to-avoid-conflict-with-guava.jar = 1645546700315
+C:\Users\flori\.m2\repository\com\google\code\findbugs\jsr305\3.0.2\jsr305-3.0.2.jar = 1645546700308
+C:\Users\flori\.m2\repository\org\checkerframework\checker-qual\3.33.0\checker-qual-3.33.0.jar = 1701525358757
+C:\Users\flori\.m2\repository\com\google\errorprone\error_prone_annotations\2.18.0\error_prone_annotations-2.18.0.jar = 1701525358392
+C:\Users\flori\.m2\repository\com\google\j2objc\j2objc-annotations\2.8\j2objc-annotations-2.8.jar = 1701525358323
+C:\Users\flori\.m2\repository\com\google\code\gson\gson\2.10.1\gson-2.10.1.jar = 1698317573482
+C:\Users\flori\.m2\repository\org\joml\joml\1.10.5\joml-1.10.5.jar = 1672859103480
+C:\Users\flori\.m2\repository\net\md-5\bungeecord-chat\1.20-R0.2\bungeecord-chat-1.20-R0.2.jar = 1706555282591
+C:\Users\flori\.m2\repository\org\yaml\snakeyaml\2.2\snakeyaml-2.2.jar = 1698317573402
+C:\Users\flori\.m2\repository\org\spigotmc\spigot\1.20.4-R0.1-SNAPSHOT\spigot-1.20.4-R0.1-SNAPSHOT.jar = 1704984774349
+C:\Users\flori\.m2\repository\jline\jline\2.12.1\jline-2.12.1.jar = 1665310741347
+C:\Users\flori\.m2\repository\org\apache\logging\log4j\log4j-iostreams\2.19.0\log4j-iostreams-2.19.0.jar = 1672859095477
+C:\Users\flori\.m2\repository\org\apache\logging\log4j\log4j-api\2.19.0\log4j-api-2.19.0.jar = 1672859103207
+C:\Users\flori\.m2\repository\org\ow2\asm\asm-commons\9.5\asm-commons-9.5.jar = 1704984775221
+C:\Users\flori\.m2\repository\org\ow2\asm\asm\9.5\asm-9.5.jar = 1698167503532
+C:\Users\flori\.m2\repository\org\ow2\asm\asm-tree\9.5\asm-tree-9.5.jar = 1707499873546
+C:\Users\flori\.m2\repository\com\github\oshi\oshi-core\6.4.5\oshi-core-6.4.5.jar = 1698167504070
+C:\Users\flori\.m2\repository\com\mojang\authlib\5.0.51\authlib-5.0.51.jar = 1702222882491
+C:\Users\flori\.m2\repository\com\mojang\brigadier\1.2.9\brigadier-1.2.9.jar = 1702222882270
+C:\Users\flori\.m2\repository\com\mojang\datafixerupper\6.0.8\datafixerupper-6.0.8.jar = 1686761951844
+C:\Users\flori\.m2\repository\com\mojang\logging\1.1.1\logging-1.1.1.jar = 1672859111586
+C:\Users\flori\.m2\repository\commons-io\commons-io\2.13.0\commons-io-2.13.0.jar = 1698167504269
+C:\Users\flori\.m2\repository\io\netty\netty-buffer\4.1.97.Final\netty-buffer-4.1.97.Final.jar = 1698167503943
+C:\Users\flori\.m2\repository\io\netty\netty-codec\4.1.97.Final\netty-codec-4.1.97.Final.jar = 1698167504731
+C:\Users\flori\.m2\repository\io\netty\netty-common\4.1.97.Final\netty-common-4.1.97.Final.jar = 1698167504904
+C:\Users\flori\.m2\repository\io\netty\netty-handler\4.1.97.Final\netty-handler-4.1.97.Final.jar = 1698167504849
+C:\Users\flori\.m2\repository\io\netty\netty-resolver\4.1.97.Final\netty-resolver-4.1.97.Final.jar = 1698167504722
+C:\Users\flori\.m2\repository\io\netty\netty-transport\4.1.97.Final\netty-transport-4.1.97.Final.jar = 1698167505126
+C:\Users\flori\.m2\repository\io\netty\netty-transport-classes-epoll\4.1.97.Final\netty-transport-classes-epoll-4.1.97.Final.jar = 1698167505231
+C:\Users\flori\.m2\repository\io\netty\netty-transport-native-epoll\4.1.97.Final\netty-transport-native-epoll-4.1.97.Final-linux-x86_64.jar = 1698167505287
+C:\Users\flori\.m2\repository\io\netty\netty-transport-native-epoll\4.1.97.Final\netty-transport-native-epoll-4.1.97.Final-linux-aarch_64.jar = 1698167505238
+C:\Users\flori\.m2\repository\io\netty\netty-transport-native-unix-common\4.1.97.Final\netty-transport-native-unix-common-4.1.97.Final.jar = 1698167505273
+C:\Users\flori\.m2\repository\it\unimi\dsi\fastutil\8.5.12\fastutil-8.5.12.jar = 1698167521998
+C:\Users\flori\.m2\repository\net\java\dev\jna\jna\5.13.0\jna-5.13.0.jar = 1698167508595
+C:\Users\flori\.m2\repository\net\java\dev\jna\jna-platform\5.13.0\jna-platform-5.13.0.jar = 1698167507730
+C:\Users\flori\.m2\repository\net\sf\jopt-simple\jopt-simple\5.0.4\jopt-simple-5.0.4.jar = 1665310743654
+C:\Users\flori\.m2\repository\org\apache\commons\commons-lang3\3.13.0\commons-lang3-3.13.0.jar = 1694957285943
+C:\Users\flori\.m2\repository\org\apache\logging\log4j\log4j-core\2.19.0\log4j-core-2.19.0.jar = 1672859102195
+C:\Users\flori\.m2\repository\org\apache\logging\log4j\log4j-slf4j2-impl\2.19.0\log4j-slf4j2-impl-2.19.0.jar = 1672859102623
+C:\Users\flori\.m2\repository\org\slf4j\slf4j-api\2.0.7\slf4j-api-2.0.7.jar = 1698167505817
+C:\Users\flori\.m2\repository\commons-lang\commons-lang\2.6\commons-lang-2.6.jar = 1631956218696
+C:\Users\flori\.m2\repository\com\googlecode\json-simple\json-simple\1.1.1\json-simple-1.1.1.jar = 1665310745617
+C:\Users\flori\.m2\repository\org\xerial\sqlite-jdbc\3.42.0.1\sqlite-jdbc-3.42.0.1.jar = 1698167518859
+C:\Users\flori\.m2\repository\com\mysql\mysql-connector-j\8.2.0\mysql-connector-j-8.2.0.jar = 1704984775916
+C:\Users\flori\.m2\repository\com\google\protobuf\protobuf-java\3.21.9\protobuf-java-3.21.9.jar = 1686761952287
+C:\Users\flori\.m2\repository\org\apache\maven\maven-resolver-provider\3.9.6\maven-resolver-provider-3.9.6.jar = 1704984775036
+C:\Users\flori\.m2\repository\org\apache\maven\maven-model\3.9.6\maven-model-3.9.6.jar = 1707499873937
+C:\Users\flori\.m2\repository\org\apache\maven\maven-model-builder\3.9.6\maven-model-builder-3.9.6.jar = 1707499874018
+C:\Users\flori\.m2\repository\org\codehaus\plexus\plexus-interpolation\1.26\plexus-interpolation-1.26.jar = 1665310729094
+C:\Users\flori\.m2\repository\org\apache\maven\maven-artifact\3.9.6\maven-artifact-3.9.6.jar = 1707499874012
+C:\Users\flori\.m2\repository\org\apache\maven\maven-builder-support\3.9.6\maven-builder-support-3.9.6.jar = 1707499874137
+C:\Users\flori\.m2\repository\org\eclipse\sisu\org.eclipse.sisu.inject\0.9.0.M2\org.eclipse.sisu.inject-0.9.0.M2.jar = 1707429109781
+C:\Users\flori\.m2\repository\org\apache\maven\maven-repository-metadata\3.9.6\maven-repository-metadata-3.9.6.jar = 1707499874458
+C:\Users\flori\.m2\repository\org\apache\maven\resolver\maven-resolver-api\1.9.18\maven-resolver-api-1.9.18.jar = 1707499876432
+C:\Users\flori\.m2\repository\org\apache\maven\resolver\maven-resolver-spi\1.9.18\maven-resolver-spi-1.9.18.jar = 1707499875807
+C:\Users\flori\.m2\repository\org\apache\maven\resolver\maven-resolver-util\1.9.18\maven-resolver-util-1.9.18.jar = 1707499876128
+C:\Users\flori\.m2\repository\org\apache\maven\resolver\maven-resolver-impl\1.9.18\maven-resolver-impl-1.9.18.jar = 1707499875261
+C:\Users\flori\.m2\repository\org\apache\maven\resolver\maven-resolver-named-locks\1.9.18\maven-resolver-named-locks-1.9.18.jar = 1707499875409
+C:\Users\flori\.m2\repository\org\codehaus\plexus\plexus-utils\3.5.1\plexus-utils-3.5.1.jar = 1686761949427
+C:\Users\flori\.m2\repository\javax\inject\javax.inject\1\javax.inject-1.jar = 1665310738189
+C:\Users\flori\.m2\repository\org\apache\maven\resolver\maven-resolver-connector-basic\1.9.18\maven-resolver-connector-basic-1.9.18.jar = 1704984775138
+C:\Users\flori\.m2\repository\org\apache\maven\resolver\maven-resolver-transport-http\1.9.18\maven-resolver-transport-http-1.9.18.jar = 1704984775154
+C:\Users\flori\.m2\repository\org\apache\httpcomponents\httpclient\4.5.14\httpclient-4.5.14.jar = 1707429110073
+C:\Users\flori\.m2\repository\org\apache\httpcomponents\httpcore\4.4.16\httpcore-4.4.16.jar = 1707429109918
+C:\Users\flori\.m2\repository\commons-codec\commons-codec\1.16.0\commons-codec-1.16.0.jar = 1707499876413
+C:\Users\flori\.m2\repository\org\slf4j\jcl-over-slf4j\1.7.36\jcl-over-slf4j-1.7.36.jar = 1683985653118
+F:\Programmieren\Java\Workspace\ParticleSFX\src\main\java = 1707500200275
+F:\Programmieren\Java\Workspace\ParticleSFX\target\generated-sources\annotations = 1707504141046
+F:\Programmieren\Java\Workspace\ParticleSFX\target\apidocs\allclasses-index.html = 1707504379973
+F:\Programmieren\Java\Workspace\ParticleSFX\target\apidocs\allpackages-index.html = 1707504379978
+F:\Programmieren\Java\Workspace\ParticleSFX\target\apidocs\deprecated-list.html = 1707504379762
+F:\Programmieren\Java\Workspace\ParticleSFX\target\apidocs\element-list = 1707504378832
+F:\Programmieren\Java\Workspace\ParticleSFX\target\apidocs\help-doc.html = 1707504380209
+F:\Programmieren\Java\Workspace\ParticleSFX\target\apidocs\index-all.html = 1707504380200
+F:\Programmieren\Java\Workspace\ParticleSFX\target\apidocs\index.html = 1707504379767
+F:\Programmieren\Java\Workspace\ParticleSFX\target\apidocs\jquery-ui.overrides.css = 1707504380239
+F:\Programmieren\Java\Workspace\ParticleSFX\target\apidocs\member-search-index.js = 1707504379993
+F:\Programmieren\Java\Workspace\ParticleSFX\target\apidocs\module-search-index.js = 1707504379982
+F:\Programmieren\Java\Workspace\ParticleSFX\target\apidocs\overview-summary.html = 1707504380203
+F:\Programmieren\Java\Workspace\ParticleSFX\target\apidocs\overview-tree.html = 1707504379756
+F:\Programmieren\Java\Workspace\ParticleSFX\target\apidocs\package-search-index.js = 1707504379984
+F:\Programmieren\Java\Workspace\ParticleSFX\target\apidocs\script.js = 1707504380216
+F:\Programmieren\Java\Workspace\ParticleSFX\target\apidocs\search.js = 1707504380219
+F:\Programmieren\Java\Workspace\ParticleSFX\target\apidocs\serialized-form.html = 1707504378945
+F:\Programmieren\Java\Workspace\ParticleSFX\target\apidocs\stylesheet.css = 1707504380213
+F:\Programmieren\Java\Workspace\ParticleSFX\target\apidocs\tag-search-index.js = 1707504379995
+F:\Programmieren\Java\Workspace\ParticleSFX\target\apidocs\type-search-index.js = 1707504379986
