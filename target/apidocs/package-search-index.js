@@ -1,1 +1,0 @@
-packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"hm.zelha.particlesfx.particles"},{"l":"hm.zelha.particlesfx.particles.parents"},{"l":"hm.zelha.particlesfx.shapers"},{"l":"hm.zelha.particlesfx.shapers.parents"},{"l":"hm.zelha.particlesfx.util"}];updateSearchResults();
