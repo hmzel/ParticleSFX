@@ -9,8 +9,8 @@ import net.minecraft.resources.MinecraftKey;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.craftbukkit.v1_20_R2.inventory.CraftItemStack;
-import org.bukkit.craftbukkit.v1_20_R2.util.CraftMagicNumbers;
+import org.bukkit.craftbukkit.v1_20_R3.inventory.CraftItemStack;
+import org.bukkit.craftbukkit.v1_20_R3.util.CraftMagicNumbers;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
@@ -147,7 +147,7 @@ public class ParticleItemBreak extends TravellingParticle implements MaterialPar
     public void setMaterial(Material material) {
         Validate.notNull(material, "material cannot be null!");
 
-        particle = new ParticleParamItem((net.minecraft.core.particles.Particle) BuiltInRegistries.k.a(new MinecraftKey("item")), CraftItemStack.asNMSCopy(new ItemStack(material)));
+        particle = new ParticleParamItem((net.minecraft.core.particles.Particle) BuiltInRegistries.j.a(new MinecraftKey("item")), CraftItemStack.asNMSCopy(new ItemStack(material)));
     }
 
     public Material getMaterial() {
