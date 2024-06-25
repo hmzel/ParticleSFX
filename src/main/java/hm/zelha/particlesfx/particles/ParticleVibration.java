@@ -5,8 +5,9 @@ import hm.zelha.particlesfx.particles.parents.TravellingParticle;
 import hm.zelha.particlesfx.util.LVMath;
 import net.minecraft.core.BlockPosition;
 import net.minecraft.core.particles.VibrationParticleOption;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.PacketDataSerializer;
-import net.minecraft.resources.MinecraftKey;
+import net.minecraft.world.level.gameevent.PositionSourceType;
 import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_20_R3.entity.CraftPlayer;
 import org.bukkit.entity.Entity;
@@ -180,15 +181,15 @@ public class ParticleVibration extends TravellingParticle {
         @Override
         public void a(PacketDataSerializer data) {
             if (entity != null) {
-                data.a(new MinecraftKey("entity"));
+                data.a(BuiltInRegistries.v, PositionSourceType.b);
                 data.c(entity.getEntityId());
-                data.writeFloat((float) (entity.getHeight() * 0.5));
+                data.a((float) (entity.getHeight() * 0.5));
             } else {
-                data.a(new MinecraftKey("block"));
+                data.a(BuiltInRegistries.v, PositionSourceType.a);
                 data.a(destination);
             }
 
-            data.c(arrivalTime);
+            data.c(this.arrivalTime);
         }
 
         public boolean check(Location location, Vector velocity, Location toGo, Entity entity, int arrivalTime) {
