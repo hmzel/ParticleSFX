@@ -181,14 +181,14 @@ public class ParticleVibration extends TravellingParticle {
         public void a(PacketDataSerializer data) {
             if (entity != null) {
                 data.a(new MinecraftKey("entity"));
-                data.d(entity.getEntityId());
-                data.writeFloat((float) (entity.getHeight() * 0.85));
+                data.c(entity.getEntityId());
+                data.writeFloat((float) (entity.getHeight() * 0.5));
             } else {
                 data.a(new MinecraftKey("block"));
                 data.a(destination);
             }
 
-            data.d(arrivalTime);
+            data.c(arrivalTime);
         }
 
         public boolean check(Location location, Vector velocity, Location toGo, Entity entity, int arrivalTime) {
