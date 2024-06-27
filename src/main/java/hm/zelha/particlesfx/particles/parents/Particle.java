@@ -8,12 +8,11 @@ import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.PacketPlayOutWorldParticles;
 import net.minecraft.resources.MinecraftKey;
 import net.minecraft.server.level.EntityPlayer;
-import net.minecraft.world.phys.Vec3D;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.craftbukkit.v1_20_R3.CraftServer;
-import org.bukkit.craftbukkit.v1_20_R3.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_20_R4.CraftServer;
+import org.bukkit.craftbukkit.v1_20_R4.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
@@ -99,12 +98,12 @@ public abstract class Particle {
                 EntityPlayer p = players.get(k).getHandle();
 
                 if (p == null) continue;
-                if (!location.getWorld().getName().equals(p.dM().getWorld().getName())) continue;
+                if (!location.getWorld().getName().equals(p.dP().getWorld().getName())) continue;
 
                 if (radius != 0) {
-                    double distance = Math.pow(location.getX() - p.bH().a(), 2) +
-                            Math.pow(location.getY() - p.bH().b(), 2) +
-                            Math.pow(location.getZ() - p.bH().c(), 2);
+                    double distance = Math.pow(location.getX() - p.dn().a(), 2) +
+                            Math.pow(location.getY() - p.dn().b(), 2) +
+                            Math.pow(location.getZ() - p.dn().c(), 2);
 
                     if (distance > Math.pow(radius, 2)) continue;
                 }

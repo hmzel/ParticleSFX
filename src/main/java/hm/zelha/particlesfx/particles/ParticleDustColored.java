@@ -7,7 +7,7 @@ import hm.zelha.particlesfx.util.Color;
 import hm.zelha.particlesfx.util.LVMath;
 import net.minecraft.core.particles.ParticleParamRedstone;
 import org.bukkit.Location;
-import org.bukkit.craftbukkit.v1_20_R3.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_20_R4.entity.CraftPlayer;
 import org.bukkit.util.Vector;
 import org.joml.Vector3f;
 
@@ -195,12 +195,12 @@ public class ParticleDustColored extends ColorableParticle implements SizeablePa
             this.pureColor = pureColor;
 
             if (color != null) {
-                g.set(color.getRed(), color.getGreen(), color.getBlue());
-                g.div(255F);
+                b().set(color.getRed(), color.getGreen(), color.getBlue());
+                b().div(255F);
             }
 
             if (pureColor) {
-                g.mul(Float.MAX_VALUE);
+                b().mul(Float.MAX_VALUE);
             }
         }
     }

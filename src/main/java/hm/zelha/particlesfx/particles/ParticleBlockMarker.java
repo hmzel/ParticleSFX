@@ -7,8 +7,8 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.MinecraftKey;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Material;
-import org.bukkit.craftbukkit.v1_20_R3.block.data.CraftBlockData;
-import org.bukkit.craftbukkit.v1_20_R3.util.CraftMagicNumbers;
+import org.bukkit.craftbukkit.v1_20_R4.block.data.CraftBlockData;
+import org.bukkit.craftbukkit.v1_20_R4.util.CraftMagicNumbers;
 
 public class ParticleBlockMarker extends Particle implements MaterialParticle {
     public ParticleBlockMarker(Material material, double offsetX, double offsetY, double offsetZ, int count) {
@@ -69,6 +69,6 @@ public class ParticleBlockMarker extends Particle implements MaterialParticle {
     }
 
     public Material getMaterial() {
-        return CraftMagicNumbers.getMaterial(((ParticleParamBlock) particle).c().b());
+        return CraftMagicNumbers.getMaterial(((ParticleParamBlock) particle).b().b());
     }
 }

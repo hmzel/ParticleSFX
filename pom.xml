@@ -6,7 +6,7 @@
 
     <groupId>hm.zelha</groupId>
     <artifactId>particlesfx</artifactId>
-    <version>1.20.4</version>
+    <version>1.20.6</version>
     <packaging>jar</packaging>
 
     <name>ParticleSFX</name>
@@ -14,7 +14,7 @@
     <description>A minecraft plugin development dependency meant to grant particle mastery with very few lines of code while still being user-friendly</description>
 
     <properties>
-        <java.version>17</java.version>
+        <java.version>21</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
@@ -105,13 +105,13 @@
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
-            <version>1.20.4-R0.1-SNAPSHOT</version>
+            <version>1.20.6-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot</artifactId>
-            <version>1.20.4-R0.1-SNAPSHOT</version>
+            <version>1.20.6-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>

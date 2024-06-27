@@ -5,11 +5,12 @@ import hm.zelha.particlesfx.particles.parents.TravellingParticle;
 import hm.zelha.particlesfx.util.LVMath;
 import net.minecraft.core.BlockPosition;
 import net.minecraft.core.particles.VibrationParticleOption;
-import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.network.PacketDataSerializer;
-import net.minecraft.world.level.gameevent.PositionSourceType;
+import net.minecraft.world.level.gameevent.BlockPositionSource;
+import net.minecraft.world.level.gameevent.EntityPositionSource;
+import net.minecraft.world.level.gameevent.PositionSource;
 import org.bukkit.Location;
-import org.bukkit.craftbukkit.v1_20_R3.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_20_R4.entity.CraftEntity;
+import org.bukkit.craftbukkit.v1_20_R4.entity.CraftPlayer;
 import org.bukkit.entity.Entity;
 import org.bukkit.util.Vector;
 
@@ -179,17 +180,17 @@ public class ParticleVibration extends TravellingParticle {
         }
 
         @Override
-        public void a(PacketDataSerializer data) {
+        public PositionSource b() {
             if (entity != null) {
-                data.a(BuiltInRegistries.v, PositionSourceType.b);
-                data.c(entity.getEntityId());
-                data.a((float) (entity.getHeight() * 0.5));
-            } else {
-                data.a(BuiltInRegistries.v, PositionSourceType.a);
-                data.a(destination);
+                return new EntityPositionSource(((CraftEntity) entity).getHandle(), entity.getEntityId());
+            }  else {
+                return new BlockPositionSource(destination);
             }
+        }
 
-            data.c(this.arrivalTime);
+        @Override
+        public int c() {
+            return arrivalTime;
         }
 
         public boolean check(Location location, Vector velocity, Location toGo, Entity entity, int arrivalTime) {

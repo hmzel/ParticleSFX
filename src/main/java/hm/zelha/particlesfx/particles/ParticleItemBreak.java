@@ -9,8 +9,8 @@ import net.minecraft.resources.MinecraftKey;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.craftbukkit.v1_20_R3.inventory.CraftItemStack;
-import org.bukkit.craftbukkit.v1_20_R3.util.CraftMagicNumbers;
+import org.bukkit.craftbukkit.v1_20_R4.inventory.CraftItemStack;
+import org.bukkit.craftbukkit.v1_20_R4.util.CraftMagicNumbers;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
@@ -151,6 +151,6 @@ public class ParticleItemBreak extends TravellingParticle implements MaterialPar
     }
 
     public Material getMaterial() {
-        return CraftMagicNumbers.getMaterial(((ParticleParamItem) particle).c().d());
+        return CraftMagicNumbers.getMaterial(((ParticleParamItem) particle).b().g());
     }
 }

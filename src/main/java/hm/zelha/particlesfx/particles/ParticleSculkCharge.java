@@ -80,6 +80,6 @@ public class ParticleSculkCharge extends TravellingParticle {
      * @return how much this particle is rotated in the Z axis
      */
     public double getRoll() {
-        return Math.toDegrees(((SculkChargeParticleOptions) particle).c());
+        return Math.toDegrees(((SculkChargeParticleOptions) particle).b());
     }
 }

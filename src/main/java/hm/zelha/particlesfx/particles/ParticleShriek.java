@@ -51,6 +51,6 @@ public class ParticleShriek extends Particle {
      * @return amount of ticks before this particle displays
      */
     public int getDelay() {
-        return ((ShriekParticleOption) particle).c();
+        return ((ShriekParticleOption) particle).b();
     }
 }
