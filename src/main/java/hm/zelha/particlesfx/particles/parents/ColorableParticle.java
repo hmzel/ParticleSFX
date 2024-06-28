@@ -1,7 +1,6 @@
 package hm.zelha.particlesfx.particles.parents;
 
 import hm.zelha.particlesfx.util.Color;
-import org.apache.commons.lang.Validate;
 import org.bukkit.Location;
 import org.bukkit.util.Vector;
 
@@ -10,13 +9,11 @@ import javax.annotation.Nullable;
 public abstract class ColorableParticle extends Particle {
 
     protected Color color;
-    protected int brightness;
 
-    protected ColorableParticle(String particleID, @Nullable Color color, int brightness, double offsetX, double offsetY, double offsetZ, int count) {
+    protected ColorableParticle(String particleID, @Nullable Color color, double offsetX, double offsetY, double offsetZ, int count) {
         super(particleID, offsetX, offsetY, offsetZ, count);
 
         setColor(color);
-        setBrightness(brightness);
     }
 
     @Override
@@ -25,7 +22,6 @@ public abstract class ColorableParticle extends Particle {
 
         if (particle instanceof ColorableParticle) {
             color = ((ColorableParticle) particle).color;
-            brightness = ((ColorableParticle) particle).brightness;
         }
 
         return this;
@@ -59,13 +55,6 @@ public abstract class ColorableParticle extends Particle {
     }
 
     @Override
-    protected float getPacketSpeed() {
-        if (color != null) return (float) (brightness * 0.01);
-
-        return super.getPacketSpeed();
-    }
-
-    @Override
     protected int getPacketCount() {
         if (color != null) return 0;
 
@@ -90,15 +79,6 @@ public abstract class ColorableParticle extends Particle {
     }
 
     /**
-     * @param brightness how saturated the color should be, from 0-100
-     */
-    public void setBrightness(int brightness) {
-        Validate.isTrue(brightness >= 0 && brightness <= 100, "Brightness must be between 0 and 100!");
-
-        this.brightness = brightness;
-    }
-
-    /**
      * nullable to allow for randomly colored particles without being complicated
      *
      * @return color this particle is using
@@ -106,9 +86,5 @@ public abstract class ColorableParticle extends Particle {
     @Nullable
     public Color getColor() {
         return color;
-    }
-
-    public int getBrightness() {
-        return brightness;
     }
 }

@@ -21,7 +21,7 @@ public class ParticleDustColored extends ColorableParticle implements SizeablePa
     protected double size;
 
     public ParticleDustColored(@Nullable Color color, double size, double offsetX, double offsetY, double offsetZ, int count) {
-        super("", color, 100, offsetX, offsetY, offsetZ, count);
+        super("", color, offsetX, offsetY, offsetZ, count);
 
         particle = new ParticleParamDust(color, size, pureColor);
 
@@ -129,12 +129,6 @@ public class ParticleDustColored extends ColorableParticle implements SizeablePa
         return count;
     }
 
-    /** @deprecated Unused in this class. */
-    @Deprecated
-    @Override
-    public void setBrightness(int brightness) {
-    }
-
     /** only changes between 0 and 4. */
     @Override
     public void setSize(double size) {
@@ -153,13 +147,6 @@ public class ParticleDustColored extends ColorableParticle implements SizeablePa
         this.pureColor = pureColor;
 
         return this;
-    }
-
-    /** @deprecated Unused in this class. */
-    @Deprecated
-    @Override
-    public int getBrightness() {
-        return 100;
     }
 
     /** only changes between 0 and 4. */

@@ -7,36 +7,32 @@ import hm.zelha.particlesfx.util.Color;
 import javax.annotation.Nullable;
 
 public class ParticleSwirlColored extends ColorableParticle {
-    public ParticleSwirlColored(@Nullable Color color, int brightness, double offsetX, double offsetY, double offsetZ, int count) {
-        super("entity_effect", color, brightness, offsetX, offsetY, offsetZ, count);
+    public ParticleSwirlColored(@Nullable Color color, double offsetX, double offsetY, double offsetZ, int count) {
+        super("entity_effect", color, offsetX, offsetY, offsetZ, count);
     }
 
     public ParticleSwirlColored(double offsetX, double offsetY, double offsetZ, int count) {
-        this(null, 100, offsetX, offsetY, offsetZ, count);
+        this(null, offsetX, offsetY, offsetZ, count);
+    }
+
+    public ParticleSwirlColored(@Nullable Color color, double offsetX, double offsetY, double offsetZ) {
+        this(color, offsetX, offsetY, offsetZ, 1);
     }
 
     public ParticleSwirlColored(double offsetX, double offsetY, double offsetZ) {
-        this(null, 100, offsetX, offsetY, offsetZ, 1);
-    }
-
-    public ParticleSwirlColored(@Nullable Color color, int brightness, int count) {
-        this(color, brightness, 0, 0, 0, count);
-    }
-
-    public ParticleSwirlColored(@Nullable Color color, int brightness) {
-        this(color, brightness, 0, 0, 0, 1);
+        this(null, offsetX, offsetY, offsetZ, 1);
     }
 
     public ParticleSwirlColored(@Nullable Color color) {
-        this(color, 100, 0, 0, 0, 1);
+        this(color, 0, 0, 0, 1);
     }
 
     public ParticleSwirlColored(int count) {
-        this(null, 100, 0, 0, 0, count);
+        this(null, 0, 0, 0, count);
     }
 
     public ParticleSwirlColored() {
-        this(null, 100, 0, 0, 0, 1);
+        this(null, 0, 0, 0, 1);
     }
 
     @Override
