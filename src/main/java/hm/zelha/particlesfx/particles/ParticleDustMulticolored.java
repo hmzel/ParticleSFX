@@ -3,11 +3,9 @@ package hm.zelha.particlesfx.particles;
 import hm.zelha.particlesfx.particles.parents.Particle;
 import hm.zelha.particlesfx.particles.parents.SizeableParticle;
 import hm.zelha.particlesfx.util.Color;
-import hm.zelha.particlesfx.util.LVMath;
 import net.minecraft.core.particles.DustColorTransitionOptions;
 import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_20_R4.entity.CraftPlayer;
-import org.bukkit.util.Vector;
 import org.joml.Vector3f;
 
 import javax.annotation.Nullable;
@@ -97,26 +95,6 @@ public class ParticleDustMulticolored extends ParticleDustColored implements Siz
         super.display(location, players);
     }
 
-    @Override
-    protected Vector getXYZ(Location location) {
-        return LVMath.toVector(xyzHelper, location);
-    }
-
-    @Override
-    protected Vector getOffsets(Location location) {
-        return offsetHelper.setX(offsetX).setY(offsetY).setZ(offsetZ);
-    }
-
-    @Override
-    protected float getPacketSpeed() {
-        return (float) speed;
-    }
-
-    @Override
-    protected int getPacketCount() {
-        return count;
-    }
-
     /**
      * @param transition the color this particle will transition to as it fades. doesn't work with pureColor
      */
@@ -163,6 +141,7 @@ public class ParticleDustMulticolored extends ParticleDustColored implements Siz
 
             if (pureColor) {
                 b().mul(Float.MAX_VALUE);
+                c().mul(Float.MAX_VALUE);
             }
         }
 

@@ -4,11 +4,9 @@ import hm.zelha.particlesfx.particles.parents.ColorableParticle;
 import hm.zelha.particlesfx.particles.parents.Particle;
 import hm.zelha.particlesfx.particles.parents.SizeableParticle;
 import hm.zelha.particlesfx.util.Color;
-import hm.zelha.particlesfx.util.LVMath;
 import net.minecraft.core.particles.ParticleParamRedstone;
 import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_20_R4.entity.CraftPlayer;
-import org.bukkit.util.Vector;
 import org.joml.Vector3f;
 
 import javax.annotation.Nullable;
@@ -107,26 +105,6 @@ public class ParticleDustColored extends ColorableParticle implements SizeablePa
         }
 
         super.display(location, players);
-    }
-
-    @Override
-    protected Vector getXYZ(Location location) {
-        return LVMath.toVector(xyzHelper, location);
-    }
-
-    @Override
-    protected Vector getOffsets(Location location) {
-        return offsetHelper.setX(offsetX).setY(offsetY).setZ(offsetZ);
-    }
-
-    @Override
-    protected float getPacketSpeed() {
-        return (float) speed;
-    }
-
-    @Override
-    protected int getPacketCount() {
-        return count;
     }
 
     /** only changes between 0 and 4. */

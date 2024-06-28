@@ -1,8 +1,6 @@
 package hm.zelha.particlesfx.particles.parents;
 
 import hm.zelha.particlesfx.util.Color;
-import org.bukkit.Location;
-import org.bukkit.util.Vector;
 
 import javax.annotation.Nullable;
 
@@ -29,37 +27,6 @@ public abstract class ColorableParticle extends Particle {
 
     @Override
     public abstract ColorableParticle clone();
-
-    @Override
-    protected Vector getXYZ(Location location) {
-        Vector xyz = super.getXYZ(location);
-
-        if (color != null) {
-            xyz.add(generateFakeOffset());
-        }
-
-        return xyz;
-    }
-
-    @Override
-    protected Vector getOffsets(Location location) {
-        Vector offsets = super.getOffsets(location);
-
-        if (color != null) {
-            offsets.setX(color.getRed() / 255D);
-            offsets.setY(color.getGreen() / 255D);
-            offsets.setZ(color.getBlue() / 255D);
-        }
-
-        return offsets;
-    }
-
-    @Override
-    protected int getPacketCount() {
-        if (color != null) return 0;
-
-        return super.getCount();
-    }
 
     /**
      * @param color color to set, null if you want random coloring
