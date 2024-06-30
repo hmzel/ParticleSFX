@@ -5,7 +5,7 @@ import hm.zelha.particlesfx.particles.parents.SizeableParticle;
 import hm.zelha.particlesfx.util.Color;
 import net.minecraft.core.particles.DustColorTransitionOptions;
 import org.bukkit.Location;
-import org.bukkit.craftbukkit.v1_20_R4.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_21_R1.entity.CraftPlayer;
 import org.joml.Vector3f;
 
 import javax.annotation.Nullable;

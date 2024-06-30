@@ -7,14 +7,14 @@ import net.minecraft.core.particles.ColorParticleOption;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.MinecraftKey;
 import org.bukkit.Location;
-import org.bukkit.craftbukkit.v1_20_R4.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_21_R1.entity.CraftPlayer;
 
 import javax.annotation.Nullable;
 import java.util.List;
 
 public class ParticleSwirlColored extends ColorableParticle {
 
-    private final net.minecraft.core.particles.Particle<ColorParticleOption> registryParticle = (net.minecraft.core.particles.Particle<ColorParticleOption>) BuiltInRegistries.j.a(new MinecraftKey("entity_effect"));
+    private final net.minecraft.core.particles.Particle<ColorParticleOption> registryParticle = (net.minecraft.core.particles.Particle<ColorParticleOption>) BuiltInRegistries.i.a(MinecraftKey.a("minecraft", "entity_effect"));
     private int transparency = 255;
 
     public ParticleSwirlColored(@Nullable Color color, int transparency, double offsetX, double offsetY, double offsetZ, int count) {
