@@ -57,4 +57,18 @@ public class ParticleNautilus extends TravellingParticle {
     public ParticleNautilus clone() {
         return new ParticleNautilus().inherit(this);
     }
+
+    @Override
+    protected Vector getXYZ(Location location) {
+        Vector vec = super.getXYZ(location);
+
+        return vec.setY(vec.getY() + 1.2);
+    }
+
+    @Override
+    protected Vector getOffsets(Location location) {
+        Vector vec = super.getOffsets(location);
+
+        return vec.setY(vec.getY() - 1.2);
+    }
 }
