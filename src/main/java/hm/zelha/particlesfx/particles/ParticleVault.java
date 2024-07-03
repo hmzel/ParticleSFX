@@ -62,19 +62,13 @@ public class ParticleVault extends TravellingParticle {
     protected Vector getXYZ(Location location) {
         Vector vec = super.getXYZ(location);
 
-        vec.setY(vec.getY() + 1.2);
-
-        return vec;
+        return vec.setY(vec.getY() + 1.2);
     }
 
     @Override
     protected Vector getOffsets(Location location) {
         Vector vec = super.getOffsets(location);
 
-        vec.setX(vec.getX() * 1.5);
-        vec.setY((vec.getY() - 1.2) * 1.5);
-        vec.setZ(vec.getZ() * 1.5);
-
-        return vec;
+        return vec.setY(vec.getY() - 1.2).multiply(1.5);
     }
 }
