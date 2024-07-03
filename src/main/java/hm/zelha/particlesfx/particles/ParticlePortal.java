@@ -58,4 +58,15 @@ public class ParticlePortal extends TravellingParticle {
     public ParticlePortal clone() {
         return new ParticlePortal().inherit(this);
     }
+
+    @Override
+    protected Vector getOffsets(Location location) {
+        Vector vec = super.getOffsets(location);
+
+        if (inverse) {
+            vec.setY(vec.getY() - 1);
+        }
+
+        return vec;
+    }
 }
