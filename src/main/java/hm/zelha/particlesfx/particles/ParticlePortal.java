@@ -64,10 +64,21 @@ public class ParticlePortal extends TravellingParticle {
         return new ParticlePortal().inherit(this);
     }
 
+    @Override
+    protected Vector getOffsets(Location location) {
+        Vector vec = super.getOffsets(location);
+
+        if (inverse) {
+            vec.setY(vec.getY() - 1);
+        }
+
+        return vec;
+    }
+
     /**
      * @param inverse whether this class uses REVERSE_PORTAL or PORTAL, default false (REVERSE_PORTAL)
      */
-    public void setInverse(boolean inverse) {
+    public ParticlePortal setInverse(boolean inverse) {
         this.inverse = inverse;
 
         if (inverse) {
@@ -75,6 +86,8 @@ public class ParticlePortal extends TravellingParticle {
         } else {
             particle = Particles.REVERSE_PORTAL;
         }
+
+        return this;
     }
 
     /**
