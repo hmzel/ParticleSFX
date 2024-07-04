@@ -6,57 +6,57 @@ import net.minecraft.server.v1_8_R3.EnumParticle;
 import org.bukkit.Location;
 import org.bukkit.util.Vector;
 
-public class ParticleGlyph extends TravellingParticle {
-    public ParticleGlyph(Location toGo, double offsetX, double offsetY, double offsetZ, int count) {
+public class ParticleEnchant extends TravellingParticle {
+    public ParticleEnchant(Location toGo, double offsetX, double offsetY, double offsetZ, int count) {
         super(EnumParticle.ENCHANTMENT_TABLE, true, 0, null, toGo, offsetX, offsetY, offsetZ, count);
     }
 
-    public ParticleGlyph(Vector velocity, double offsetX, double offsetY, double offsetZ, int count) {
+    public ParticleEnchant(Vector velocity, double offsetX, double offsetY, double offsetZ, int count) {
         super(EnumParticle.ENCHANTMENT_TABLE, true, 0, velocity, null, offsetX, offsetY, offsetZ, count);
     }
 
-    public ParticleGlyph(Location toGo, double offsetX, double offsetY, double offsetZ) {
+    public ParticleEnchant(Location toGo, double offsetX, double offsetY, double offsetZ) {
         this(toGo, offsetX, offsetY, offsetZ, 1);
     }
 
-    public ParticleGlyph(Vector velocity, double offsetX, double offsetY, double offsetZ) {
+    public ParticleEnchant(Vector velocity, double offsetX, double offsetY, double offsetZ) {
         this(velocity, offsetX, offsetY, offsetZ, 1);
     }
 
-    public ParticleGlyph(double offsetX, double offsetY, double offsetZ, int count) {
+    public ParticleEnchant(double offsetX, double offsetY, double offsetZ, int count) {
         this((Location) null, offsetX, offsetY, offsetZ, count);
     }
 
-    public ParticleGlyph(double offsetX, double offsetY, double offsetZ) {
+    public ParticleEnchant(double offsetX, double offsetY, double offsetZ) {
         this((Location) null, offsetX, offsetY, offsetZ, 1);
     }
 
-    public ParticleGlyph(int count) {
+    public ParticleEnchant(int count) {
         this((Location) null, 0, 0, 0, count);
     }
 
-    public ParticleGlyph(Location toGo) {
+    public ParticleEnchant(Location toGo) {
         this(toGo, 0, 0, 0, 1);
     }
 
-    public ParticleGlyph(Vector velocity) {
+    public ParticleEnchant(Vector velocity) {
         this(velocity, 0, 0, 0, 1);
     }
 
-    public ParticleGlyph() {
+    public ParticleEnchant() {
         this((Location) null, 0, 0, 0, 1);
     }
 
     @Override
-    public ParticleGlyph inherit(Particle particle) {
+    public ParticleEnchant inherit(Particle particle) {
         super.inherit(particle);
 
         return this;
     }
 
     @Override
-    public ParticleGlyph clone() {
-        return new ParticleGlyph().inherit(this);
+    public ParticleEnchant clone() {
+        return new ParticleEnchant().inherit(this);
     }
 
     @Override
