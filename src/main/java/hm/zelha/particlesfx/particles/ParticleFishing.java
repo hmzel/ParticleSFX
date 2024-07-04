@@ -6,56 +6,56 @@ import net.minecraft.server.v1_16_R3.Particles;
 import org.bukkit.Location;
 import org.bukkit.util.Vector;
 
-public class ParticleWater extends TravellingParticle {
-    public ParticleWater(Location toGo, double offsetX, double offsetY, double offsetZ, int count) {
+public class ParticleFishing extends TravellingParticle {
+    public ParticleFishing(Location toGo, double offsetX, double offsetY, double offsetZ, int count) {
         super(Particles.FISHING, false, 0.05, null, toGo, offsetX, offsetY, offsetZ, count);
     }
 
-    public ParticleWater(Vector velocity, double offsetX, double offsetY, double offsetZ, int count) {
+    public ParticleFishing(Vector velocity, double offsetX, double offsetY, double offsetZ, int count) {
         super(Particles.FISHING, false, 0.05, velocity, null, offsetX, offsetY, offsetZ, count);
     }
 
-    public ParticleWater(Location toGo, double offsetX, double offsetY, double offsetZ) {
+    public ParticleFishing(Location toGo, double offsetX, double offsetY, double offsetZ) {
         this(toGo, offsetX, offsetY, offsetZ, 1);
     }
 
-    public ParticleWater(Vector velocity, double offsetX, double offsetY, double offsetZ) {
+    public ParticleFishing(Vector velocity, double offsetX, double offsetY, double offsetZ) {
         this(velocity, offsetX, offsetY, offsetZ, 1);
     }
 
-    public ParticleWater(double offsetX, double offsetY, double offsetZ, int count) {
+    public ParticleFishing(double offsetX, double offsetY, double offsetZ, int count) {
         this((Location) null, offsetX, offsetY, offsetZ, count);
     }
 
-    public ParticleWater(double offsetX, double offsetY, double offsetZ) {
+    public ParticleFishing(double offsetX, double offsetY, double offsetZ) {
         this((Location) null, offsetX, offsetY, offsetZ, 1);
     }
 
-    public ParticleWater(int count) {
+    public ParticleFishing(int count) {
         this((Location) null, 0, 0, 0, count);
     }
 
-    public ParticleWater(Location toGo) {
+    public ParticleFishing(Location toGo) {
         this(toGo, 0, 0, 0, 1);
     }
 
-    public ParticleWater(Vector velocity) {
+    public ParticleFishing(Vector velocity) {
         this(velocity, 0, 0, 0, 1);
     }
 
-    public ParticleWater() {
+    public ParticleFishing() {
         this((Location) null, 0, 0, 0, 1);
     }
 
     @Override
-    public ParticleWater inherit(Particle particle) {
+    public ParticleFishing inherit(Particle particle) {
         super.inherit(particle);
 
         return this;
     }
 
     @Override
-    public ParticleWater clone() {
-        return new ParticleWater().inherit(this);
+    public ParticleFishing clone() {
+        return new ParticleFishing().inherit(this);
     }
 }
