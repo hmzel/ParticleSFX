@@ -3,32 +3,32 @@ package hm.zelha.particlesfx.particles;
 import hm.zelha.particlesfx.particles.parents.Particle;
 import net.minecraft.server.v1_14_R1.Particles;
 
-public class ParticleSwirl extends Particle {
-    public ParticleSwirl(double offsetX, double offsetY, double offsetZ, int count) {
+public class ParticleEffect extends Particle {
+    public ParticleEffect(double offsetX, double offsetY, double offsetZ, int count) {
         super(Particles.EFFECT, offsetX, offsetY, offsetZ, count);
     }
 
-    public ParticleSwirl(double offsetX, double offsetY, double offsetZ) {
+    public ParticleEffect(double offsetX, double offsetY, double offsetZ) {
         this(offsetX, offsetY, offsetZ, 1);
     }
 
-    public ParticleSwirl(int count) {
+    public ParticleEffect(int count) {
         this(0, 0, 0, count);
     }
 
-    public ParticleSwirl() {
+    public ParticleEffect() {
         this(0, 0, 0, 1);
     }
 
     @Override
-    public ParticleSwirl inherit(Particle particle) {
+    public ParticleEffect inherit(Particle particle) {
         super.inherit(particle);
 
         return this;
     }
 
     @Override
-    public ParticleSwirl clone() {
-        return new ParticleSwirl().inherit(this);
+    public ParticleEffect clone() {
+        return new ParticleEffect().inherit(this);
     }
 }
