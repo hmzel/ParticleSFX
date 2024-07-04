@@ -7,48 +7,48 @@ import net.minecraft.server.v1_11_R1.EnumParticle;
 
 import javax.annotation.Nullable;
 
-public class ParticleSwirlColored extends ColorableParticle {
-    public ParticleSwirlColored(@Nullable Color color, int brightness, double offsetX, double offsetY, double offsetZ, int count) {
+public class ParticleEffectColored extends ColorableParticle {
+    public ParticleEffectColored(@Nullable Color color, int brightness, double offsetX, double offsetY, double offsetZ, int count) {
         super(EnumParticle.SPELL_MOB, color, brightness, offsetX, offsetY, offsetZ, count);
     }
 
-    public ParticleSwirlColored(double offsetX, double offsetY, double offsetZ, int count) {
+    public ParticleEffectColored(double offsetX, double offsetY, double offsetZ, int count) {
         this(null, 100, offsetX, offsetY, offsetZ, count);
     }
 
-    public ParticleSwirlColored(double offsetX, double offsetY, double offsetZ) {
+    public ParticleEffectColored(double offsetX, double offsetY, double offsetZ) {
         this(null, 100, offsetX, offsetY, offsetZ, 1);
     }
 
-    public ParticleSwirlColored(@Nullable Color color, int brightness, int count) {
+    public ParticleEffectColored(@Nullable Color color, int brightness, int count) {
         this(color, brightness, 0, 0, 0, count);
     }
 
-    public ParticleSwirlColored(@Nullable Color color, int brightness) {
+    public ParticleEffectColored(@Nullable Color color, int brightness) {
         this(color, brightness, 0, 0, 0, 1);
     }
 
-    public ParticleSwirlColored(@Nullable Color color) {
+    public ParticleEffectColored(@Nullable Color color) {
         this(color, 100, 0, 0, 0, 1);
     }
 
-    public ParticleSwirlColored(int count) {
+    public ParticleEffectColored(int count) {
         this(null, 100, 0, 0, 0, count);
     }
 
-    public ParticleSwirlColored() {
+    public ParticleEffectColored() {
         this(null, 100, 0, 0, 0, 1);
     }
 
     @Override
-    public ParticleSwirlColored inherit(Particle particle) {
+    public ParticleEffectColored inherit(Particle particle) {
         super.inherit(particle);
 
         return this;
     }
 
     @Override
-    public ParticleSwirlColored clone() {
-        return new ParticleSwirlColored().inherit(this);
+    public ParticleEffectColored clone() {
+        return new ParticleEffectColored().inherit(this);
     }
 }
