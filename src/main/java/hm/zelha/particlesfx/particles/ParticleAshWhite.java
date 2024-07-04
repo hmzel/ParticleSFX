@@ -3,32 +3,32 @@ package hm.zelha.particlesfx.particles;
 import hm.zelha.particlesfx.particles.parents.Particle;
 import net.minecraft.server.v1_16_R2.Particles;
 
-public class ParticleWhiteAsh extends Particle {
-    public ParticleWhiteAsh(double offsetX, double offsetY, double offsetZ, int count) {
+public class ParticleAshWhite extends Particle {
+    public ParticleAshWhite(double offsetX, double offsetY, double offsetZ, int count) {
         super(Particles.WHITE_ASH, offsetX, offsetY, offsetZ, count);
     }
 
-    public ParticleWhiteAsh(double offsetX, double offsetY, double offsetZ) {
+    public ParticleAshWhite(double offsetX, double offsetY, double offsetZ) {
         this(offsetX, offsetY, offsetZ, 1);
     }
 
-    public ParticleWhiteAsh(int count) {
+    public ParticleAshWhite(int count) {
         this(0, 0, 0, count);
     }
 
-    public ParticleWhiteAsh() {
+    public ParticleAshWhite() {
         this(0, 0, 0, 1);
     }
 
     @Override
-    public ParticleWhiteAsh inherit(Particle particle) {
+    public ParticleAshWhite inherit(Particle particle) {
         super.inherit(particle);
 
         return this;
     }
 
     @Override
-    public ParticleWhiteAsh clone() {
-        return new ParticleWhiteAsh().inherit(this);
+    public ParticleAshWhite clone() {
+        return new ParticleAshWhite().inherit(this);
     }
 }

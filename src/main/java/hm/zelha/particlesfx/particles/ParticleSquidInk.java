@@ -6,56 +6,56 @@ import net.minecraft.server.v1_16_R2.Particles;
 import org.bukkit.Location;
 import org.bukkit.util.Vector;
 
-public class ParticleInk extends TravellingParticle {
-    public ParticleInk(Location toGo, double offsetX, double offsetY, double offsetZ, int count) {
+public class ParticleSquidInk extends TravellingParticle {
+    public ParticleSquidInk(Location toGo, double offsetX, double offsetY, double offsetZ, int count) {
         super(Particles.SQUID_INK, false, 0.099, null, toGo, offsetX, offsetY, offsetZ, count);
     }
 
-    public ParticleInk(Vector velocity, double offsetX, double offsetY, double offsetZ, int count) {
+    public ParticleSquidInk(Vector velocity, double offsetX, double offsetY, double offsetZ, int count) {
         super(Particles.SQUID_INK, false, 0.099, velocity, null, offsetX, offsetY, offsetZ, count);
     }
 
-    public ParticleInk(Location toGo, double offsetX, double offsetY, double offsetZ) {
+    public ParticleSquidInk(Location toGo, double offsetX, double offsetY, double offsetZ) {
         this(toGo, offsetX, offsetY, offsetZ, 1);
     }
 
-    public ParticleInk(Vector velocity, double offsetX, double offsetY, double offsetZ) {
+    public ParticleSquidInk(Vector velocity, double offsetX, double offsetY, double offsetZ) {
         this(velocity, offsetX, offsetY, offsetZ, 1);
     }
 
-    public ParticleInk(double offsetX, double offsetY, double offsetZ, int count) {
+    public ParticleSquidInk(double offsetX, double offsetY, double offsetZ, int count) {
         this((Location) null, offsetX, offsetY, offsetZ, count);
     }
 
-    public ParticleInk(double offsetX, double offsetY, double offsetZ) {
+    public ParticleSquidInk(double offsetX, double offsetY, double offsetZ) {
         this((Location) null, offsetX, offsetY, offsetZ, 1);
     }
 
-    public ParticleInk(int count) {
+    public ParticleSquidInk(int count) {
         this((Location) null, 0, 0, 0, count);
     }
 
-    public ParticleInk(Location toGo) {
+    public ParticleSquidInk(Location toGo) {
         this(toGo, 0, 0, 0, 1);
     }
 
-    public ParticleInk(Vector velocity) {
+    public ParticleSquidInk(Vector velocity) {
         this(velocity, 0, 0, 0, 1);
     }
 
-    public ParticleInk() {
+    public ParticleSquidInk() {
         this((Location) null, 0, 0, 0, 1);
     }
 
     @Override
-    public ParticleInk inherit(Particle particle) {
+    public ParticleSquidInk inherit(Particle particle) {
         super.inherit(particle);
 
         return this;
     }
 
     @Override
-    public ParticleInk clone() {
-        return new ParticleInk().inherit(this);
+    public ParticleSquidInk clone() {
+        return new ParticleSquidInk().inherit(this);
     }
 }
