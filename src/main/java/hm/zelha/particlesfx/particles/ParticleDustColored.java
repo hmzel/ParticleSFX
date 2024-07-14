@@ -101,7 +101,7 @@ public class ParticleDustColored extends ColorableParticle implements SizeablePa
         if (particle instanceof ParticleParamDust) {
             ParticleParamDust dust = ((ParticleParamDust) particle);
 
-            if ((color != null && !color.equals(dust.color)) || (color == null && dust.color != null) || size != dust.size || pureColor != dust.pureColor) {
+            if (color == null || !color.equals(dust.color) || size != dust.size || pureColor != dust.pureColor) {
                 particle = new ParticleParamDust(color, size, pureColor);
             }
         }
