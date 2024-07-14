@@ -88,7 +88,9 @@ public class ParticleDustMulticolored extends ParticleDustColored implements Siz
 
     @Override
     protected void display(Location location, List<CraftPlayer> players) {
-        if (((ParticleParamDustTransition) particle).check(color, transition, size, pureColor)) {
+        ParticleParamDustTransition p = (ParticleParamDustTransition) particle;
+
+        if (color == null || transition == null || !color.equals(p.color) || !transition.equals(p.transition) || size != p.size || pureColor != p.pureColor) {
             particle = new ParticleParamDustTransition(color, transition, size, pureColor);
         }
 
@@ -131,7 +133,6 @@ public class ParticleDustMulticolored extends ParticleDustColored implements Siz
             if (color != null) {
                 b().set(color.getRed(), color.getGreen(), color.getBlue());
                 b().div(255F);
-                c().set(b());
             }
 
             if (transition != null) {
@@ -143,16 +144,6 @@ public class ParticleDustMulticolored extends ParticleDustColored implements Siz
                 b().mul(Float.MAX_VALUE);
                 c().mul(Float.MAX_VALUE);
             }
-        }
-
-        public boolean check(Color color, Color transition, double size, boolean pureColor) {
-            if (color != null && !color.equals(this.color)) return true;
-            if (transition != null && !transition.equals(this.transition)) return true;
-            if (color == null && this.color != null) return true;
-            if (transition == null && this.transition != null) return true;
-            if (size != this.size) return true;
-
-            return pureColor != this.pureColor;
         }
     }
 }
