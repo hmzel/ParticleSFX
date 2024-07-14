@@ -81,11 +81,7 @@ public class ParticleImage extends ParticleShaper {
 
     @Override
     public void display() {
-        if (images.size() == 0) return;
-
-        if (frame >= images.size()) {
-            frame = 0;
-        }
+        if (images.isEmpty()) return;
 
         BufferedImage image = images.get(frame);
         boolean hasRan = false;
@@ -166,6 +162,10 @@ public class ParticleImage extends ParticleShaper {
                 displaysThisFrame = 0;
                 frame++;
             }
+        }
+
+        if (frame >= images.size()) {
+            frame = 0;
         }
     }
 
