@@ -1,6 +1,8 @@
 package hm.zelha.particlesfx.shapers;
 
 import com.sun.imageio.plugins.gif.GIFImageReader;
+import hm.zelha.particlesfx.particles.ParticleDustColored;
+import hm.zelha.particlesfx.particles.ParticleEffectColored;
 import hm.zelha.particlesfx.particles.parents.ColorableParticle;
 import hm.zelha.particlesfx.particles.parents.Particle;
 import hm.zelha.particlesfx.shapers.parents.ParticleShaper;
@@ -21,6 +23,12 @@ import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.logging.Level;
 
+/**
+ * This class is generally meant to be used with particles that extend ColorableParticle to properly display a colored image <br>
+ * ({@link ParticleDustColored}, {@link ParticleEffectColored}) <br>
+ * however it allows you to use normal particles to draw detailed objects by reading transparent images <br>
+ * (or by using {@link ParticleImage#addIgnoredColor(Color)} and {@link ParticleImage#setFuzz(int)})
+ */
 public class ParticleImage extends ParticleShaper {
 
     protected final ThreadLocalRandom rng = ThreadLocalRandom.current();
@@ -34,43 +42,51 @@ public class ParticleImage extends ParticleShaper {
     protected int displaysThisFrame = 0;
     protected Thread currentThread = null;
 
-    public ParticleImage(ColorableParticle particle, LocationSafe center, String link, double xRadius, double zRadius, int particleFrequency) {
+    /**@see ParticleImage */
+    public ParticleImage(Particle particle, LocationSafe center, String link, double xRadius, double zRadius, int particleFrequency) {
         this(particle, center, xRadius, zRadius, particleFrequency);
 
         addImage(link);
     }
 
-    public ParticleImage(ColorableParticle particle, LocationSafe center, File path, double xRadius, double zRadius, int particleFrequency) {
+    /**@see ParticleImage */
+    public ParticleImage(Particle particle, LocationSafe center, File path, double xRadius, double zRadius, int particleFrequency) {
         this(particle, center, xRadius, zRadius, particleFrequency);
 
         addImage(path);
     }
 
-    public ParticleImage(ColorableParticle particle, LocationSafe center, String link, double radius, int particleFrequency) {
+    /**@see ParticleImage */
+    public ParticleImage(Particle particle, LocationSafe center, String link, double radius, int particleFrequency) {
         this(particle, center, link, radius, radius, particleFrequency);
     }
 
-    public ParticleImage(ColorableParticle particle, LocationSafe center, File path, double radius, int particleFrequency) {
+    /**@see ParticleImage */
+    public ParticleImage(Particle particle, LocationSafe center, File path, double radius, int particleFrequency) {
         this(particle, center, path, radius, radius, particleFrequency);
     }
 
-    public ParticleImage(ColorableParticle particle, LocationSafe center, String link, int particleFrequency) {
+    /**@see ParticleImage */
+    public ParticleImage(Particle particle, LocationSafe center, String link, int particleFrequency) {
         this(particle, center, link, 0, 0, particleFrequency);
     }
 
-    public ParticleImage(ColorableParticle particle, LocationSafe center, File path, int particleFrequency) {
+    /**@see ParticleImage */
+    public ParticleImage(Particle particle, LocationSafe center, File path, int particleFrequency) {
         this(particle, center, path, 0, 0, particleFrequency);
     }
 
-    public ParticleImage(ColorableParticle particle, LocationSafe center, String link) {
+    /**@see ParticleImage */
+    public ParticleImage(Particle particle, LocationSafe center, String link) {
         this(particle, center, link, 0, 0, 2000);
     }
 
-    public ParticleImage(ColorableParticle particle, LocationSafe center, File path) {
+    /**@see ParticleImage */
+    public ParticleImage(Particle particle, LocationSafe center, File path) {
         this(particle, center, path, 0, 0, 2000);
     }
 
-    protected ParticleImage(ColorableParticle particle, LocationSafe center, double xRadius, double zRadius, int particleFrequency) {
+    protected ParticleImage(Particle particle, LocationSafe center, double xRadius, double zRadius, int particleFrequency) {
         super(particle, particleFrequency);
 
         setCenter(center);
@@ -89,7 +105,7 @@ public class ParticleImage extends ParticleShaper {
 
         main:
         for (int i = overallCount; i < particleFrequency; i++) {
-            ColorableParticle particle = (ColorableParticle) getCurrentParticle();
+            Particle particle = getCurrentParticle();
             double x = rng.nextDouble(image.getWidth());
             double z = rng.nextDouble(image.getHeight());
             Object data = image.getRaster().getDataElements((int) x, (int) z, null);
@@ -117,7 +133,10 @@ public class ParticleImage extends ParticleShaper {
                 continue main;
             }
 
-            particle.setColor(red, green, blue);
+            if (particle instanceof ColorableParticle) {
+                ((ColorableParticle) particle).setColor(red, green, blue);
+            }
+
             locationHelper.zero().add(getCenter());
             vectorHelper.setX(((x / image.getWidth() * 2) - 1) * xRadius);
             vectorHelper.setY(0);
@@ -183,7 +202,7 @@ public class ParticleImage extends ParticleShaper {
             }
         }
 
-        ParticleImage clone = new ParticleImage((ColorableParticle) particle, locations.get(0).clone(), xRadius, zRadius, particleFrequency);
+        ParticleImage clone = new ParticleImage(particle, locations.get(0).clone(), xRadius, zRadius, particleFrequency);
 
         clone.frame = frame;
         clone.displaysThisFrame = displaysThisFrame;
@@ -215,20 +234,6 @@ public class ParticleImage extends ParticleShaper {
         setZRadius(getZRadius() * z);
     }
 
-    @Override
-    public void addParticle(Particle particle, int particlesUntilDisplay) {
-        Validate.isInstanceOf(ColorableParticle.class, particle, "ParticleImage particles must be colorable!");
-
-        super.addParticle(particle, particlesUntilDisplay);
-    }
-
-    @Override
-    public void setParticle(Particle particle) {
-        Validate.isTrue(particle instanceof ColorableParticle, "ParticleImage particles must be colorable!");
-
-        super.setParticle(particle);
-    }
-
     protected void addOrRemoveImages(Object toLoad, boolean remove, int index) {
         if (currentThread != null && currentThread != Thread.currentThread()) {
             try {
@@ -239,8 +244,7 @@ public class ParticleImage extends ParticleShaper {
         }
 
         Thread thread = new Thread(() -> {
-            try {
-                ImageInputStream input = ImageIO.createImageInputStream(toLoad);
+            try (ImageInputStream input = ImageIO.createImageInputStream(toLoad)) {
                 ImageReader reader = ImageIO.getImageReaders(input).next();
 
                 if (reader instanceof GIFImageReader) {
@@ -422,14 +426,14 @@ public class ParticleImage extends ParticleShaper {
             origins.remove(0);
         }
     }
-    
+
     /**
      * <strong> using this method will cause the current thread to stall until any currently running image production is finished. <br></strong>
      * If you don't want to cause lag, use an asynchronous BukkitRunnable!
      * <br><br>
      * This method uses the current image's aspect ratio to set the X/Z radius, such that the largest side is set to the given radius
      * and the smallest side is set to (smallest / largest) * radius.
-     * 
+     *
      * @param radius max radius
      */
     public ParticleImage setRadius(double radius) {
