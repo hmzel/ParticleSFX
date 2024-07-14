@@ -154,7 +154,7 @@ public class ParticleShapeCompound extends RotationHandler implements Shape {
         }
 
         for (Shape shape : shapeLocationIndex.keySet()) {
-            shape.setParticleFrequency((int) Math.max(shape.getParticleFrequency() * ((double) totalFrequency / shape.getParticleFrequency()), 2));
+            shape.setParticleFrequency((int) Math.max(Math.round(shape.getParticleFrequency() * ((double) particleFrequency / totalFrequency)), 2));
         }
     }
 
