@@ -4,14 +4,11 @@ import hm.zelha.particlesfx.particles.parents.Particle;
 import hm.zelha.particlesfx.shapers.parents.RotationHandler;
 import hm.zelha.particlesfx.shapers.parents.Shape;
 import org.apache.commons.lang3.Validate;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 import javax.annotation.Nullable;
-import java.lang.reflect.Field;
 import java.util.*;
-import java.util.logging.Level;
 
 public class ParticleShapeCompound extends RotationHandler implements Shape {
 
@@ -280,28 +277,6 @@ public class ParticleShapeCompound extends RotationHandler implements Shape {
     }
 
     /**
-     * wondering why im using reflection? laziness! <br><br>
-     *
-     * i REALLY, *REALLY* do not want to make a List class that can handle everything the end user
-     * can do without breaking everything. <br><br>
-     *
-     * i might later. at some point. we'll see. but im already going insane enough trying to make this spawn of hell.
-     */
-    protected ArrayListSafe<LocationSafe> reflectLocations(Shape shape) {
-        try {
-            Field f = RotationHandler.class.getDeclaredField("locations");
-
-            f.setAccessible(true);
-
-            return (ArrayListSafe<LocationSafe>) f.get(shape);
-        } catch (NoSuchFieldException | IllegalAccessException ex) {
-            Bukkit.getLogger().log(Level.SEVERE, "Something went wrong getting shape's locations, this should never happen", ex);
-
-            return null;
-        }
-    }
-
-    /**
      * Adds the given shape to this ParticleShapeCompound under the given name, so that you can easily access the shape via
      * {@link ParticleShapeCompound#getShape(String)}
      *
@@ -324,7 +299,7 @@ public class ParticleShapeCompound extends RotationHandler implements Shape {
             Validate.isTrue(shape != mapShape, "ParticleShapeCompounds can't hold the same shape twice!");
         }
 
-        ArrayListSafe<LocationSafe> locations = reflectLocations(shape);
+        ArrayListSafe<LocationSafe> locations = getLocationsList((RotationHandler) shape);
 
         if (locations == null) return;
 
@@ -419,7 +394,7 @@ public class ParticleShapeCompound extends RotationHandler implements Shape {
     public void removeShape(int index) {
         Shape[] shapes = shapeLocationIndex.keySet().toArray(new Shape[0]);
         Shape shape = shapes[index];
-        ArrayListSafe<LocationSafe> locations = reflectLocations(shape);
+        ArrayListSafe<LocationSafe> locations = getLocationsList((RotationHandler) shape);
         int firstIndex = (index > 0) ? shapeLocationIndex.get(shapes[index - 1]) + 1 : 0;
 
         if (locations == null) return;
