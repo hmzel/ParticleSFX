@@ -31,7 +31,7 @@ public abstract class Particle {
     protected double offsetX;
     protected double offsetY;
     protected double offsetZ;
-    protected double speed = 1;
+    protected double speed = 0;
     protected int count;
     protected int radius = 0;
     private final List<CraftPlayer> players = ((CraftServer) Bukkit.getServer()).getOnlinePlayers();
