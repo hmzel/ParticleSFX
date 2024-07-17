@@ -437,6 +437,10 @@ public class ParticleShapeCompound extends RotationHandler implements Shape {
         return (Shape) shapeLocationIndex.keySet().toArray()[index];
     }
 
+    public Shape[] getShapes() {
+        return shapeLocationIndex.keySet().toArray(new Shape[0]);
+    }
+
     public int getShapeAmount() {
         return shapeLocationIndex.size();
     }
