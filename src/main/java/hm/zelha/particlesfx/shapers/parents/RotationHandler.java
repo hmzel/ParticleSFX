@@ -223,6 +223,10 @@ public class RotationHandler {
         shape.compounds.remove(compound);
     }
 
+    protected ArrayListSafe<LocationSafe> getLocationsList(RotationHandler other) {
+        return (ArrayListSafe<LocationSafe>) other.locations;
+    }
+
     public void setWorld(World world) {
         lastRotatedAround.setWorld(world);
         centroid.setWorld(world);
