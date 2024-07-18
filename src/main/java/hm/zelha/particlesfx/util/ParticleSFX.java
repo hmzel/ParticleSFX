@@ -482,7 +482,7 @@ public final class ParticleSFX {
         ParticleFluid rain = new ParticleFluid(rainParticle, center, 0.75, 0.5, 1);
         Vector v = new Vector();
 
-        rain.addMechanic(ShapeDisplayMechanic.Phase.AFTER_DISPLAY, ((particle, current, addition, count) -> {
+        rain.addMechanic(ShapeDisplayMechanic.Phase.AFTER_DISPLAY_PARTICLE, ((particle, current, addition, count) -> {
             if (count == 1) {
                 Location l = rain.getSpawnLocation();
 
@@ -570,7 +570,7 @@ public final class ParticleSFX {
                 new CircleInfo(bottom.clone().add(0, height, 0), xRadius, zRadius)
         );
 
-        spi.addMechanic(ShapeDisplayMechanic.Phase.AFTER_DISPLAY, ((mechParticle, current, addition, count) -> {
+        spi.addMechanic(ShapeDisplayMechanic.Phase.AFTER_DISPLAY_PARTICLE, ((mechParticle, current, addition, count) -> {
             CircleInfo top = spi.getCircleInfo(spi.getCircleInfoAmount() - 1);
 
             if (count == 1) {
