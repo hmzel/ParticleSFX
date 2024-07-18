@@ -55,6 +55,7 @@ public class ParticleCircleFilled extends ParticleCircle {
             vectorHelper.setY(0);
             vectorHelper.setZ(zRadius * r * Math.sin(radian));
 
+            if (overallCount == 0) applyMechanics(ShapeDisplayMechanic.Phase.BEFORE_DISPLAY_FULL, particle, locationHelper, vectorHelper);
             if (currentCount == 0) applyMechanics(ShapeDisplayMechanic.Phase.BEFORE_DISPLAY, particle, locationHelper, vectorHelper);
 
             applyMechanics(ShapeDisplayMechanic.Phase.BEFORE_ROTATION, particle, locationHelper, vectorHelper);
