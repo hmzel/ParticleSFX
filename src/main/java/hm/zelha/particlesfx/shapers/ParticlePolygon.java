@@ -104,6 +104,8 @@ public class ParticlePolygon extends ParticleShaper {
                 for (int k = current; k < particleAmount; k++) {
                     Particle particle = getCurrentParticle();
 
+                    if (currentCount == 0) applyMechanics(ShapeDisplayMechanic.Phase.BEFORE_DISPLAY, particle, locationHelper, vectorHelper);
+
                     applyMechanics(ShapeDisplayMechanic.Phase.BEFORE_ROTATION, particle, locationHelper, vectorHelper);
 
                     if (!players.isEmpty()) {
@@ -113,12 +115,12 @@ public class ParticlePolygon extends ParticleShaper {
                     }
 
                     overallCount++;
+                    currentCount++;
 
                     locationHelper.add(vectorHelper);
                     applyMechanics(ShapeDisplayMechanic.Phase.AFTER_DISPLAY_PARTICLE, particle, locationHelper, vectorHelper);
 
                     if (trackCount) {
-                        currentCount++;
                         hasRan = true;
 
                         if (currentCount >= particlesPerDisplay) {
@@ -139,6 +141,7 @@ public class ParticlePolygon extends ParticleShaper {
             applyMechanics(ShapeDisplayMechanic.Phase.AFTER_DISPLAY_FULL, particle, locationHelper, vectorHelper);
 
             overallCount = 0;
+            currentCount = 0;
         }
     }
 
