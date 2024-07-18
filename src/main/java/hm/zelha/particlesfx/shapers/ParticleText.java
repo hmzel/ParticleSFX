@@ -116,7 +116,7 @@ public class ParticleText extends ParticleShaper {
 
             overallCount++;
 
-            applyMechanics(ShapeDisplayMechanic.Phase.AFTER_DISPLAY, particle, locationHelper, vectorHelper);
+            applyMechanics(ShapeDisplayMechanic.Phase.AFTER_DISPLAY_PARTICLE, particle, locationHelper, vectorHelper);
 
             if (trackCount) {
                 currentCount++;
