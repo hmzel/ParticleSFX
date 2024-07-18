@@ -90,6 +90,8 @@ public class ParticleCircle extends ParticleShaper {
             }
         }
 
+        applyMechanics(ShapeDisplayMechanic.Phase.AFTER_DISPLAY, particle, locationHelper, vectorHelper);
+
         if (!trackCount || !hasRan) {
             applyMechanics(ShapeDisplayMechanic.Phase.AFTER_DISPLAY_FULL, particle, locationHelper, vectorHelper);
 
