@@ -18,7 +18,7 @@ public interface ShapeDisplayMechanic {
     enum Phase {
         BEFORE_ROTATION,
         AFTER_ROTATION,
-        AFTER_DISPLAY,
+        AFTER_DISPLAY_PARTICLE,
         AFTER_DISPLAY_FULL
     }
 }
