@@ -149,6 +149,9 @@ public class ParticleImage extends ParticleShaper {
             vectorHelper.setX(((x / image.getWidth() * 2) - 1) * xRadius);
             vectorHelper.setY(0);
             vectorHelper.setZ(((z / image.getHeight() * 2) - 1) * -zRadius);
+
+            if (currentCount == 0) applyMechanics(ShapeDisplayMechanic.Phase.BEFORE_DISPLAY, particle, locationHelper, vectorHelper);
+
             applyMechanics(ShapeDisplayMechanic.Phase.BEFORE_ROTATION, particle, locationHelper, vectorHelper);
             rot.apply(vectorHelper);
 
@@ -166,11 +169,11 @@ public class ParticleImage extends ParticleShaper {
             }
 
             overallCount++;
+            currentCount++;
 
             applyMechanics(ShapeDisplayMechanic.Phase.AFTER_DISPLAY_PARTICLE, particle, locationHelper, vectorHelper);
 
             if (trackCount) {
-                currentCount++;
                 hasRan = true;
 
                 if (currentCount >= particlesPerDisplay) {
@@ -187,6 +190,7 @@ public class ParticleImage extends ParticleShaper {
             applyMechanics(ShapeDisplayMechanic.Phase.AFTER_DISPLAY_FULL, particle, locationHelper, vectorHelper);
 
             overallCount = 0;
+            currentCount = 0;
             displaysThisFrame++;
 
             if (displaysThisFrame >= frameDelay) {
