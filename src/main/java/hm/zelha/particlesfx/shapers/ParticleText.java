@@ -99,6 +99,7 @@ public class ParticleText extends ParticleShaper {
             vectorHelper.setY(0);
             vectorHelper.setZ((((z - startZ) / (double) height * 2) - 1) * -zRadius);
 
+            if (overallCount == 0) applyMechanics(ShapeDisplayMechanic.Phase.BEFORE_DISPLAY_FULL, particle, locationHelper, vectorHelper);
             if (currentCount == 0) applyMechanics(ShapeDisplayMechanic.Phase.BEFORE_DISPLAY, particle, locationHelper, vectorHelper);
 
             applyMechanics(ShapeDisplayMechanic.Phase.BEFORE_ROTATION, particle, locationHelper, vectorHelper);
