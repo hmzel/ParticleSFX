@@ -54,6 +54,9 @@ public class ParticleCircleFilled extends ParticleCircle {
             vectorHelper.setX(xRadius * r * Math.cos(radian));
             vectorHelper.setY(0);
             vectorHelper.setZ(zRadius * r * Math.sin(radian));
+
+            if (currentCount == 0) applyMechanics(ShapeDisplayMechanic.Phase.BEFORE_DISPLAY, particle, locationHelper, vectorHelper);
+
             applyMechanics(ShapeDisplayMechanic.Phase.BEFORE_ROTATION, particle, locationHelper, vectorHelper);
             rot.apply(vectorHelper);
 
@@ -71,11 +74,11 @@ public class ParticleCircleFilled extends ParticleCircle {
             }
 
             overallCount++;
+            currentCount++;
 
             applyMechanics(ShapeDisplayMechanic.Phase.AFTER_DISPLAY_PARTICLE, particle, locationHelper, vectorHelper);
 
             if (trackCount) {
-                currentCount++;
                 hasRan = true;
 
                 if (currentCount >= particlesPerDisplay) {
@@ -92,6 +95,7 @@ public class ParticleCircleFilled extends ParticleCircle {
             applyMechanics(ShapeDisplayMechanic.Phase.AFTER_DISPLAY_FULL, particle, locationHelper, vectorHelper);
 
             overallCount = 0;
+            currentCount = 0;
             iterations = 0;
         }
     }
