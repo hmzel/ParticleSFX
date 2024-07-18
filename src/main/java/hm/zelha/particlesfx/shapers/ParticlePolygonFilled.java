@@ -109,6 +109,7 @@ public class ParticlePolygonFilled extends ParticlePolygon {
             LVMath.subtractToVector(vectorHelper, locationHelper2, locationHelper).normalize();
             vectorHelper.multiply(rngDouble(locationHelper.distance(locationHelper2)));
 
+            if (overallCount == 0) applyMechanics(ShapeDisplayMechanic.Phase.BEFORE_DISPLAY_FULL, particle, locationHelper, vectorHelper);
             if (currentCount == 0) applyMechanics(ShapeDisplayMechanic.Phase.BEFORE_DISPLAY, particle, locationHelper, vectorHelper);
 
             applyMechanics(ShapeDisplayMechanic.Phase.BEFORE_ROTATION, particle, locationHelper, vectorHelper);
