@@ -19,6 +19,7 @@ public interface ShapeDisplayMechanic {
         BEFORE_ROTATION,
         AFTER_ROTATION,
         AFTER_DISPLAY_PARTICLE,
+        AFTER_DISPLAY,
         AFTER_DISPLAY_FULL
     }
 }
