@@ -118,7 +118,7 @@ public class ParticleSpiral extends ParticleShaper {
 
                     overallCount++;
 
-                    applyMechanics(ShapeDisplayMechanic.Phase.AFTER_DISPLAY, particle, locationHelper, vectorHelper2);
+                    applyMechanics(ShapeDisplayMechanic.Phase.AFTER_DISPLAY_PARTICLE, particle, locationHelper, vectorHelper2);
 
                     if (trackCount) {
                         currentCount++;
