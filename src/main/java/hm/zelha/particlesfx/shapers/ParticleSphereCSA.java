@@ -110,6 +110,7 @@ public class ParticleSphereCSA extends ParticleSphere {
                 vectorHelper.setY(yRadius * Math.cos(curveRadian));
                 vectorHelper.setZ(zRadius * Math.sin(curveRadian) * Math.sin(radian));
 
+                if (overallCount == 0) applyMechanics(ShapeDisplayMechanic.Phase.BEFORE_DISPLAY_FULL, particle, locationHelper, vectorHelper);
                 if (currentCount == 0) applyMechanics(ShapeDisplayMechanic.Phase.BEFORE_DISPLAY, particle, locationHelper, vectorHelper);
 
                 applyMechanics(ShapeDisplayMechanic.Phase.BEFORE_ROTATION, particle, locationHelper, vectorHelper);
