@@ -16,6 +16,7 @@ public interface ShapeDisplayMechanic {
     void apply(Particle particle, Location current, Vector addition, int count);
 
     enum Phase {
+        BEFORE_DISPLAY,
         BEFORE_ROTATION,
         AFTER_ROTATION,
         AFTER_DISPLAY_PARTICLE,
