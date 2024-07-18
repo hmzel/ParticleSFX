@@ -113,8 +113,9 @@ public class ParticleImage extends ParticleShaper {
             double z = rng.nextDouble(image.getHeight());
             Object data = image.getRaster().getDataElements((int) x, (int) z, null);
             ColorModel model = image.getColorModel();
+            int alpha = model.hasAlpha() ? model.getAlpha(data) : 255;
 
-            if (model.hasAlpha() && model.getAlpha(data) == 0) {
+            if (alpha == 0) {
                 i--;
 
                 continue;
@@ -138,6 +139,10 @@ public class ParticleImage extends ParticleShaper {
 
             if (particle instanceof ColorableParticle) {
                 ((ColorableParticle) particle).setColor(red, green, blue);
+            }
+
+            if (particle instanceof ParticleEffectColored) {
+                ((ParticleEffectColored) particle).setTransparency(alpha);
             }
 
             locationHelper.zero().add(getCenter());
