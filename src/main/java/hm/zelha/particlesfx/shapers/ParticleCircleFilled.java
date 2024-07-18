@@ -87,6 +87,8 @@ public class ParticleCircleFilled extends ParticleCircle {
         }
 
         if (!trackCount || !hasRan) {
+            applyMechanics(ShapeDisplayMechanic.Phase.AFTER_DISPLAY_FULL, particle, locationHelper, vectorHelper);
+
             overallCount = 0;
             iterations = 0;
         }

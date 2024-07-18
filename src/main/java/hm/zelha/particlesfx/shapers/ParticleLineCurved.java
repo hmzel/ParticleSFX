@@ -120,6 +120,8 @@ public class ParticleLineCurved extends ParticleLine {
         }
 
         if (!trackCount || !hasRan) {
+            applyMechanics(ShapeDisplayMechanic.Phase.AFTER_DISPLAY_FULL, particle, locationHelper, vectorHelper);
+
             overallCount = 0;
         }
     }
