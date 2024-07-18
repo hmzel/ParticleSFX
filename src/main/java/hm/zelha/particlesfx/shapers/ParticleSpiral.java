@@ -89,6 +89,7 @@ public class ParticleSpiral extends ParticleShaper {
                     vectorHelper2.setZ(circleHelper.getZRadius() * Math.sin(radian));
                     locationHelper.zero().add(circleHelper.getCenter());
 
+                    if (overallCount == 0) applyMechanics(ShapeDisplayMechanic.Phase.BEFORE_DISPLAY_FULL, particle, locationHelper, vectorHelper2);
                     if (currentCount == 0) applyMechanics(ShapeDisplayMechanic.Phase.BEFORE_DISPLAY, particle, locationHelper, vectorHelper2);
 
                     applyMechanics(ShapeDisplayMechanic.Phase.BEFORE_ROTATION, particle, locationHelper, vectorHelper2);
