@@ -88,6 +88,9 @@ public class ParticleSpiral extends ParticleShaper {
                     vectorHelper2.setY(0);
                     vectorHelper2.setZ(circleHelper.getZRadius() * Math.sin(radian));
                     locationHelper.zero().add(circleHelper.getCenter());
+
+                    if (currentCount == 0) applyMechanics(ShapeDisplayMechanic.Phase.BEFORE_DISPLAY, particle, locationHelper, vectorHelper2);
+
                     applyMechanics(ShapeDisplayMechanic.Phase.BEFORE_ROTATION, particle, locationHelper, vectorHelper2);
                     rotHelper.apply(vectorHelper2);
 
@@ -117,11 +120,11 @@ public class ParticleSpiral extends ParticleShaper {
                     rotHelper.setRoll(circle1.getRoll() + (Math.abs(circle1.getRoll() - circle2.getRoll()) / particleAmount * (k + 1)));
 
                     overallCount++;
+                    currentCount++;
 
                     applyMechanics(ShapeDisplayMechanic.Phase.AFTER_DISPLAY_PARTICLE, particle, locationHelper, vectorHelper2);
 
                     if (trackCount) {
-                        currentCount++;
                         hasRan = true;
 
                         if (currentCount >= particlesPerDisplay) {
@@ -136,12 +139,13 @@ public class ParticleSpiral extends ParticleShaper {
             }
         }
 
-        applyMechanics(ShapeDisplayMechanic.Phase.AFTER_DISPLAY, particle, locationHelper, vectorHelper);
+        applyMechanics(ShapeDisplayMechanic.Phase.AFTER_DISPLAY, particle, locationHelper, vectorHelper2);
 
         if (!trackCount || !hasRan) {
-            applyMechanics(ShapeDisplayMechanic.Phase.AFTER_DISPLAY_FULL, particle, locationHelper, vectorHelper);
+            applyMechanics(ShapeDisplayMechanic.Phase.AFTER_DISPLAY_FULL, particle, locationHelper, vectorHelper2);
 
             overallCount = 0;
+            currentCount = 0;
         }
     }
 

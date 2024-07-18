@@ -66,6 +66,9 @@ public class ParticleSphere extends ParticleCircle {
             vectorHelper.setY(yRadius * Math.cos(curveRadian));
             vectorHelper.setZ(zRadius * Math.sin(curveRadian) * Math.sin(radian));
             locationHelper.zero().add(getCenter());
+
+            if (currentCount == 0) applyMechanics(ShapeDisplayMechanic.Phase.BEFORE_DISPLAY, particle, locationHelper, vectorHelper);
+
             applyMechanics(ShapeDisplayMechanic.Phase.BEFORE_ROTATION, particle, locationHelper, vectorHelper);
             rot.apply(vectorHelper);
 
@@ -83,11 +86,11 @@ public class ParticleSphere extends ParticleCircle {
             }
 
             overallCount++;
+            currentCount++;
 
             applyMechanics(ShapeDisplayMechanic.Phase.AFTER_DISPLAY_PARTICLE, particle, locationHelper, vectorHelper);
 
             if (trackCount) {
-                currentCount++;
                 hasRan = true;
 
                 if (currentCount >= particlesPerDisplay) {
@@ -104,6 +107,7 @@ public class ParticleSphere extends ParticleCircle {
             applyMechanics(ShapeDisplayMechanic.Phase.AFTER_DISPLAY_FULL, particle, locationHelper, vectorHelper);
 
             overallCount = 0;
+            currentCount = 0;
         }
     }
 
