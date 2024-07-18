@@ -228,6 +228,8 @@ public class ParticleFluid extends ParticleShaper {
         }
 
         if (!trackCount || !hasRan) {
+            applyMechanics(ShapeDisplayMechanic.Phase.AFTER_DISPLAY_FULL, particle, locationHelper, vectorHelper);
+
             overallCount = 0;
         }
     }

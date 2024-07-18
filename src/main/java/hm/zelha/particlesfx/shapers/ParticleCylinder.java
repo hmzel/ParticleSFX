@@ -175,6 +175,8 @@ public class ParticleCylinder extends ParticleShaper {
         }
 
         if (!trackCount || !hasRan) {
+            applyMechanics(ShapeDisplayMechanic.Phase.AFTER_DISPLAY_FULL, particle, locationHelper, vectorHelper);
+
             overallCount = 0;
         }
     }
