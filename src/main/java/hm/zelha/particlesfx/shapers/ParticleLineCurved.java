@@ -52,6 +52,8 @@ public class ParticleLineCurved extends ParticleLine {
             for (int k = current; k < particleAmount; k++) {
                 Particle particle = getCurrentParticle();
 
+                if (currentCount == 0) applyMechanics(ShapeDisplayMechanic.Phase.BEFORE_DISPLAY, particle, locationHelper, vectorHelper);
+
                 applyMechanics(ShapeDisplayMechanic.Phase.BEFORE_ROTATION, particle, locationHelper, vectorHelper);
                 vectorHelper2.zero();
 
@@ -98,6 +100,7 @@ public class ParticleLineCurved extends ParticleLine {
                 }
 
                 overallCount++;
+                currentCount++;
                 curveCurrent += control;
 
                 locationHelper.add(vectorHelper);
@@ -105,7 +108,6 @@ public class ParticleLineCurved extends ParticleLine {
                 locationHelper.subtract(vectorHelper2);
 
                 if (trackCount) {
-                    currentCount++;
                     hasRan = true;
 
                     if (currentCount >= particlesPerDisplay) {
@@ -125,6 +127,7 @@ public class ParticleLineCurved extends ParticleLine {
             applyMechanics(ShapeDisplayMechanic.Phase.AFTER_DISPLAY_FULL, particle, locationHelper, vectorHelper);
 
             overallCount = 0;
+            currentCount = 0;
         }
     }
 
