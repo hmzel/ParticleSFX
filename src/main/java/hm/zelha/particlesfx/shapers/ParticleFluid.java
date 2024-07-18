@@ -164,6 +164,9 @@ public class ParticleFluid extends ParticleShaper {
 
             //block collision
             LVMath.subtractToVector(vectorHelper, locationHelper, l);
+
+            if (currentCount == 0) applyMechanics(ShapeDisplayMechanic.Phase.BEFORE_DISPLAY, particle, locationHelper, vectorHelper);
+
             applyMechanics(ShapeDisplayMechanic.Phase.BEFORE_ROTATION, particle, l, vectorHelper);
 
             double increase = 0.1;
@@ -213,11 +216,11 @@ public class ParticleFluid extends ParticleShaper {
             }
 
             overallCount++;
+            currentCount++;
 
             applyMechanics(ShapeDisplayMechanic.Phase.AFTER_DISPLAY_PARTICLE, particle, locationHelper, vectorHelper);
 
             if (trackCount) {
-                currentCount++;
                 hasRan = true;
 
                 if (currentCount >= particlesPerDisplay) {
@@ -234,6 +237,7 @@ public class ParticleFluid extends ParticleShaper {
             applyMechanics(ShapeDisplayMechanic.Phase.AFTER_DISPLAY_FULL, particle, locationHelper, vectorHelper);
 
             overallCount = 0;
+            currentCount = 0;
         }
     }
 
