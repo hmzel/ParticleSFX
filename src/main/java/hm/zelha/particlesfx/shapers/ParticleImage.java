@@ -174,23 +174,32 @@ public class ParticleImage extends ParticleShaper {
             }
         }
 
-        applyMechanics(ShapeDisplayMechanic.Phase.AFTER_DISPLAY, particle, locationHelper, vectorHelper);
+        if (!trackCount || hasRan) {
+            applyMechanics(ShapeDisplayMechanic.Phase.AFTER_DISPLAY, particle, locationHelper, vectorHelper);
+        }
 
         if (!trackCount || !hasRan) {
             applyMechanics(ShapeDisplayMechanic.Phase.AFTER_DISPLAY_FULL, particle, locationHelper, vectorHelper);
 
             overallCount = 0;
-            currentCount = 0;
             displaysThisFrame++;
 
             if (displaysThisFrame >= frameDelay) {
                 displaysThisFrame = 0;
                 frame++;
             }
-        }
 
-        if (frame >= images.size()) {
-            frame = 0;
+            if (frame >= images.size()) {
+                frame = 0;
+            }
+
+            if (trackCount) {
+                display();
+
+                return;
+            }
+
+            currentCount = 0;
         }
     }
 
