@@ -169,14 +169,11 @@ public class ParticleImage extends ParticleShaper {
 
             applyMechanics(ShapeDisplayMechanic.Phase.AFTER_DISPLAY_PARTICLE, particle, locationHelper, vectorHelper);
 
-            if (trackCount) {
+            if (trackCount && currentCount >= particlesPerDisplay) {
+                currentCount = 0;
                 hasRan = true;
 
-                if (currentCount >= particlesPerDisplay) {
-                    currentCount = 0;
-
-                    break;
-                }
+                break;
             }
         }
 
