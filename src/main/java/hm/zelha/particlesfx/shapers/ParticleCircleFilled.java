@@ -87,14 +87,23 @@ public class ParticleCircleFilled extends ParticleCircle {
             }
         }
 
-        applyMechanics(ShapeDisplayMechanic.Phase.AFTER_DISPLAY, particle, locationHelper, vectorHelper);
+        if (!trackCount || hasRan) {
+            applyMechanics(ShapeDisplayMechanic.Phase.AFTER_DISPLAY, particle, locationHelper, vectorHelper);
+        }
 
         if (!trackCount || !hasRan) {
             applyMechanics(ShapeDisplayMechanic.Phase.AFTER_DISPLAY_FULL, particle, locationHelper, vectorHelper);
 
             overallCount = 0;
-            currentCount = 0;
             iterations = 0;
+
+            if (trackCount) {
+                display();
+
+                return;
+            }
+
+            currentCount = 0;
         }
     }
 
