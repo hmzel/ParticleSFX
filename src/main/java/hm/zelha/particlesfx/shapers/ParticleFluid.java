@@ -249,19 +249,17 @@ public class ParticleFluid extends ParticleShaper {
     @Override
     public ParticleFluid clone() {
         ParticleFluid clone = new ParticleFluid(particle, spawnLocation.clone(), gravity, repulsion, 1);
-
+        clone.currentCount = currentCount;
+        clone.overallCount = overallCount;
+        clone.delay = delay;
         clone.particleFrequency = particleFrequency;
 
         clone.locations.clear();
         clone.origins.clear();
-
-        for (LocationSafe l : locations) {
-            clone.locations.add(l.clone());
-            clone.origins.add(l.clone());
-        }
-
         clone.rot.inherit(rot);
         clone.rot2.inherit(rot2);
+        clone.originalCentroid.zero().add(originalCentroid);
+        clone.lastRotatedAround.zero().add(lastRotatedAround);
         clone.secondaryParticles.addAll(secondaryParticles);
         clone.mechanics.addAll(mechanics);
         clone.players.addAll(players);
@@ -269,11 +267,16 @@ public class ParticleFluid extends ParticleShaper {
         clone.setRepulsionDistance(repulsionDistance);
         clone.setAttraction(attraction);
 
+        for (LocationSafe l : locations) {
+            clone.locations.add(l.clone());
+            clone.origins.add(l.clone());
+        }
+
         if (animator == null) {
             clone.stop();
         }
 
-        return null;
+        return clone;
     }
 
     @Override
