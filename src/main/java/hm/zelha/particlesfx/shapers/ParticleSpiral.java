@@ -137,12 +137,21 @@ public class ParticleSpiral extends ParticleShaper {
             }
         }
 
-        applyMechanics(ShapeDisplayMechanic.Phase.AFTER_DISPLAY, particle, locationHelper, vectorHelper2);
+        if (!trackCount || hasRan) {
+            applyMechanics(ShapeDisplayMechanic.Phase.AFTER_DISPLAY, particle, locationHelper, vectorHelper2);
+        }
 
         if (!trackCount || !hasRan) {
             applyMechanics(ShapeDisplayMechanic.Phase.AFTER_DISPLAY_FULL, particle, locationHelper, vectorHelper2);
 
             overallCount = 0;
+
+            if (trackCount) {
+                display();
+
+                return;
+            }
+
             currentCount = 0;
         }
     }
