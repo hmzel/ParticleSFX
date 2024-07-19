@@ -131,12 +131,21 @@ public class ParticleText extends ParticleShaper {
             }
         }
 
-        applyMechanics(ShapeDisplayMechanic.Phase.AFTER_DISPLAY, particle, locationHelper, vectorHelper);
+        if (!trackCount || hasRan) {
+            applyMechanics(ShapeDisplayMechanic.Phase.AFTER_DISPLAY, particle, locationHelper, vectorHelper);
+        }
 
         if (!trackCount || !hasRan) {
             applyMechanics(ShapeDisplayMechanic.Phase.AFTER_DISPLAY_FULL, particle, locationHelper, vectorHelper);
 
             overallCount = 0;
+
+            if (trackCount) {
+                display();
+
+                return;
+            }
+
             currentCount = 0;
         }
     }
