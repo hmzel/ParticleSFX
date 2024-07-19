@@ -147,18 +147,27 @@ public class ParticleLineCurved extends ParticleLine {
         }
 
         ParticleLineCurved clone = new ParticleLineCurved(particle, particleFrequency, locations);
-
-        for (CurveInfo curve : curves) {
-            clone.addCurve(curve.clone());
-        }
+        clone.currentCount = currentCount;
+        clone.overallCount = overallCount;
+        clone.delay = delay;
 
         clone.rot.inherit(rot);
         clone.rot2.inherit(rot2);
+        clone.originalCentroid.zero().add(originalCentroid);
+        clone.lastRotatedAround.zero().add(lastRotatedAround);
         clone.secondaryParticles.addAll(secondaryParticles);
         clone.mechanics.addAll(mechanics);
         clone.players.addAll(players);
         clone.setParticlesPerDisplay(particlesPerDisplay);
         clone.setRotateCurves(rotateCurves);
+
+        for (int i = 0; i < origins.size(); i++) {
+            clone.origins.get(i).zero().add(origins.get(i));
+        }
+
+        for (CurveInfo curve : curves) {
+            clone.addCurve(curve.clone());
+        }
 
         if (animator == null) {
             clone.stop();
