@@ -108,13 +108,22 @@ public class ParticleLine extends ParticleShaper {
         }
 
         ParticleLine clone = new ParticleLine(particle, particleFrequency, locations);
+        clone.currentCount = currentCount;
+        clone.overallCount = overallCount;
+        clone.delay = delay;
 
         clone.rot.inherit(rot);
         clone.rot2.inherit(rot2);
+        clone.originalCentroid.zero().add(originalCentroid);
+        clone.lastRotatedAround.zero().add(lastRotatedAround);
         clone.secondaryParticles.addAll(secondaryParticles);
         clone.mechanics.addAll(mechanics);
         clone.players.addAll(players);
         clone.setParticlesPerDisplay(particlesPerDisplay);
+
+        for (int i = 0; i < origins.size(); i++) {
+            clone.origins.get(i).zero().add(origins.get(i));
+        }
 
         if (animator == null) {
             clone.stop();
