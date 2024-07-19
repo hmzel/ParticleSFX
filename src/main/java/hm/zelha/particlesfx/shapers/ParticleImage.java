@@ -517,11 +517,18 @@ public class ParticleImage extends ParticleShaper {
             }
         }
 
-        Validate.isTrue(index >= 0 && index < images.size(), "Can't get color from frames that don't exist!");
-        Validate.isTrue(x >= 0 && x < images.get(index).getWidth(), "Can't get color from a pixel that doesn't exist!");
-        Validate.isTrue(z >= 0 && z < images.get(index).getHeight(), "Can't get color from a pixel that doesn't exist!");
 
-        return new Color(images.get(index).getRGB(x, z));
+        Validate.isTrue(index >= 0 && index < images.size(), "Can't get color from frames that don't exist!");
+
+        BufferedImage image = images.get(index);
+
+        Validate.isTrue(x >= 0 && x < image.getWidth(), "Can't get color from a pixel that doesn't exist!");
+        Validate.isTrue(z >= 0 && z < image.getHeight(), "Can't get color from a pixel that doesn't exist!");
+
+        Object data = image.getRaster().getDataElements(x, z, null);
+        ColorModel model = image.getColorModel();
+
+        return new Color(model.getRed(data), model.getGreen(data), model.getBlue(data));
     }
 
     public Location getCenter() {
