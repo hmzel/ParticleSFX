@@ -156,6 +156,22 @@ public class ParticlePolygonFilled extends ParticlePolygon {
     @Override
     public ParticlePolygonFilled clone() {
         ParticlePolygonFilled clone = new ParticlePolygonFilled(particle, particleFrequency);
+        clone.currentCount = currentCount;
+        clone.overallCount = overallCount;
+        clone.delay = delay;
+
+        clone.rot.inherit(rot);
+        clone.rot2.inherit(rot2);
+        clone.originalCentroid.zero().add(originalCentroid);
+        clone.lastRotatedAround.zero().add(lastRotatedAround);
+        clone.secondaryParticles.addAll(secondaryParticles);
+        clone.mechanics.addAll(mechanics);
+        clone.players.addAll(players);
+        clone.setParticlesPerDisplay(particlesPerDisplay);
+
+        for (int i = 0; i < origins.size(); i++) {
+            clone.origins.get(i).zero().add(origins.get(i));
+        }
 
         for (Corner corner : corners) {
             clone.addCorner(new Corner((LocationSafe) corner.getLocation().clone()));
@@ -174,13 +190,6 @@ public class ParticlePolygonFilled extends ParticlePolygon {
                 }
             }
         }
-
-        clone.rot.inherit(rot);
-        clone.rot2.inherit(rot2);
-        clone.secondaryParticles.addAll(secondaryParticles);
-        clone.mechanics.addAll(mechanics);
-        clone.players.addAll(players);
-        clone.setParticlesPerDisplay(particlesPerDisplay);
 
         if (animator == null) {
             clone.stop();
