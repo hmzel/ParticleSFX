@@ -112,31 +112,12 @@ public class ParticleCircle extends ParticleShaper {
 
     @Override
     public ParticleCircle clone() {
-        ParticleCircle clone = new ParticleCircle(particle, locations.get(0).clone(), xRadius, zRadius, getPitch(), getYaw(), getRoll(), particleFrequency);
-        clone.currentCount = currentCount;
-        clone.overallCount = overallCount;
-        clone.delay = delay;
+        return ((ParticleCircle) super.clone()).setLimit(limit).setLimitInverse(limitInverse);
+    }
 
-        clone.rot.inherit(rot);
-        clone.rot2.inherit(rot2);
-        clone.originalCentroid.zero().add(originalCentroid);
-        clone.lastRotatedAround.zero().add(lastRotatedAround);
-        clone.secondaryParticles.addAll(secondaryParticles);
-        clone.mechanics.addAll(mechanics);
-        clone.players.addAll(players);
-        clone.setParticlesPerDisplay(particlesPerDisplay);
-        clone.setLimit(limit);
-        clone.setLimitInverse(limitInverse);
-
-        for (int i = 0; i < origins.size(); i++) {
-            clone.origins.get(i).zero().add(origins.get(i));
-        }
-
-        if (animator == null) {
-            clone.stop();
-        }
-
-        return clone;
+    @Override
+    protected ParticleShaper cloneConstructor() {
+        return new ParticleCircle(particle, locations.get(0).clone(), xRadius, zRadius, getPitch(), getYaw(), getRoll(), particleFrequency);
     }
 
     @Override
