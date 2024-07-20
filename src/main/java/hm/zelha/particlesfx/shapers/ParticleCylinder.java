@@ -196,37 +196,18 @@ public class ParticleCylinder extends ParticleShaper {
 
     @Override
     public ParticleCylinder clone() {
+        return ((ParticleCylinder) super.clone()).setRotateCircles(rotateCircles);
+    }
+
+    @Override
+    protected ParticleShaper cloneConstructor() {
         CircleInfo[] circles = new CircleInfo[this.circleInfos.size()];
 
         for (int i = 0; i < this.circleInfos.size(); i++) {
             circles[i] = this.circleInfos.get(i).clone();
         }
 
-        ParticleCylinder clone = new ParticleCylinder(particle, circleFrequency, particleFrequency, circles);
-        clone.currentCount = currentCount;
-        clone.overallCount = overallCount;
-        clone.delay = delay;
-        clone.rotateCircles = rotateCircles;
-
-        clone.rot.inherit(rot);
-        clone.rot2.inherit(rot2);
-        clone.originalCentroid.zero().add(originalCentroid);
-        clone.lastRotatedAround.zero().add(lastRotatedAround);
-        clone.secondaryParticles.addAll(secondaryParticles);
-        clone.mechanics.addAll(mechanics);
-        clone.players.addAll(players);
-        clone.setParticlesPerDisplay(particlesPerDisplay);
-        clone.setRotateCircles(rotateCircles);
-
-        for (int i = 0; i < origins.size(); i++) {
-            clone.origins.get(i).zero().add(origins.get(i));
-        }
-
-        if (animator == null) {
-            clone.stop();
-        }
-
-        return clone;
+        return new ParticleCylinder(particle, circleFrequency, particleFrequency, circles);
     }
 
     @Override
