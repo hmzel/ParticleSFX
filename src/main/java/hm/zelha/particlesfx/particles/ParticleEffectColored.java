@@ -20,11 +20,7 @@ public class ParticleEffectColored extends ColorableParticle {
     public ParticleEffectColored(@Nullable Color color, int transparency, double offsetX, double offsetY, double offsetZ, int count) {
         super("", color, offsetX, offsetY, offsetZ, count);
 
-        if (color != null) {
-            particle = ColorParticleOption.a(registryParticle, transparency << 24 | color.getRGB());
-        } else {
-            particle = ColorParticleOption.a(registryParticle, transparency << 24 | Color.WHITE.getRGB());
-        }
+        particle = ColorParticleOption.a(registryParticle, transparency << 24 | ((color != null) ? color.getRGB() : Color.WHITE.getRGB()));
 
         setTransparency(transparency);
     }
