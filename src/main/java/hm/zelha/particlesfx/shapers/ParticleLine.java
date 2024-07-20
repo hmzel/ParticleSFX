@@ -101,35 +101,18 @@ public class ParticleLine extends ParticleShaper {
 
     @Override
     public ParticleLine clone() {
+        return (ParticleLine) super.clone();
+    }
+
+    @Override
+    protected ParticleShaper cloneConstructor() {
         LocationSafe[] locations = new LocationSafe[this.locations.size()];
 
         for (int i = 0; i < getLocationAmount(); i++) {
             locations[i] = this.locations.get(i).clone();
         }
 
-        ParticleLine clone = new ParticleLine(particle, particleFrequency, locations);
-        clone.currentCount = currentCount;
-        clone.overallCount = overallCount;
-        clone.delay = delay;
-
-        clone.rot.inherit(rot);
-        clone.rot2.inherit(rot2);
-        clone.originalCentroid.zero().add(originalCentroid);
-        clone.lastRotatedAround.zero().add(lastRotatedAround);
-        clone.secondaryParticles.addAll(secondaryParticles);
-        clone.mechanics.addAll(mechanics);
-        clone.players.addAll(players);
-        clone.setParticlesPerDisplay(particlesPerDisplay);
-
-        for (int i = 0; i < origins.size(); i++) {
-            clone.origins.get(i).zero().add(origins.get(i));
-        }
-
-        if (animator == null) {
-            clone.stop();
-        }
-
-        return clone;
+        return new ParticleLine(particle, particleFrequency, locations);
     }
 
     public void addLocation(int index, LocationSafe location) {
