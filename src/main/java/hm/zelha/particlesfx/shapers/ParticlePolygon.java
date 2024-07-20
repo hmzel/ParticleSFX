@@ -154,47 +154,32 @@ public class ParticlePolygon extends ParticleShaper {
 
     @Override
     public ParticlePolygon clone() {
-        ParticlePolygon clone = new ParticlePolygon(particle, particleFrequency);
-        clone.currentCount = currentCount;
-        clone.overallCount = overallCount;
-        clone.delay = delay;
+        return (ParticlePolygon) super.clone();
+    }
 
-        clone.rot.inherit(rot);
-        clone.rot2.inherit(rot2);
-        clone.originalCentroid.zero().add(originalCentroid);
-        clone.lastRotatedAround.zero().add(lastRotatedAround);
-        clone.secondaryParticles.addAll(secondaryParticles);
-        clone.mechanics.addAll(mechanics);
-        clone.players.addAll(players);
-        clone.setParticlesPerDisplay(particlesPerDisplay);
+    @Override
+    protected ParticleShaper cloneConstructor() {
+        Corner[] corners = new Corner[this.corners.size()];
 
-        for (int i = 0; i < origins.size(); i++) {
-            clone.origins.get(i).zero().add(origins.get(i));
+        for (int i = 0; i < this.corners.size(); i++) {
+            corners[i] = new Corner((LocationSafe) this.corners.get(i).getLocation().clone());
         }
 
-        for (Corner corner : corners) {
-            clone.addCorner(new Corner((LocationSafe) corner.getLocation().clone()));
-        }
-
-        for (int i = 0; i < corners.size(); i++) {
-            Corner corner = corners.get(i);
+        for (int i = 0; i < this.corners.size(); i++) {
+            Corner corner = this.corners.get(i);
 
             for (int k = 0; k < corner.getConnectionAmount(); k++) {
                 Corner connection = corner.getConnection(k);
 
-                if (corners.contains(connection)) {
-                    clone.getCorner(i).connect(clone.getCorner(corners.lastIndexOf(connection)));
+                if (this.corners.contains(connection)) {
+                    corners[i].connect(corners[this.corners.lastIndexOf(connection)]);
                 } else {
-                    clone.getCorner(i).connect(connection);
+                    corners[i].connect(connection);
                 }
             }
         }
 
-        if (animator == null) {
-            clone.stop();
-        }
-
-        return clone;
+        return new ParticlePolygon(particle, particleFrequency, corners);
     }
 
     @Override
