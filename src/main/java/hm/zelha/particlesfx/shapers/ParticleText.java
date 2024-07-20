@@ -153,34 +153,20 @@ public class ParticleText extends ParticleShaper {
 
     @Override
     public ParticleText clone() {
-        ParticleText clone = new ParticleText(particle, locations.get(0), xRadius, zRadius, particleFrequency, text.toArray(new String[0]));
-        clone.currentCount = currentCount;
-        clone.overallCount = overallCount;
-        clone.delay = delay;
+        ParticleText clone = (ParticleText) super.clone();
 
-        clone.rot.inherit(rot);
-        clone.rot2.inherit(rot2);
-        clone.originalCentroid.zero().add(originalCentroid);
-        clone.lastRotatedAround.zero().add(lastRotatedAround);
-        clone.secondaryParticles.addAll(secondaryParticles);
-        clone.mechanics.addAll(mechanics);
-        clone.players.addAll(players);
-        clone.setParticlesPerDisplay(particlesPerDisplay);
         clone.setFont(font);
         clone.setInverted(inverted);
         clone.setCentered(centered);
         clone.setBorderX(borderX);
         clone.setBorderZ(borderZ);
 
-        for (int i = 0; i < origins.size(); i++) {
-            clone.origins.get(i).zero().add(origins.get(i));
-        }
-
-        if (animator == null) {
-            clone.stop();
-        }
-
         return clone;
+    }
+
+    @Override
+    protected ParticleShaper cloneConstructor() {
+        return new ParticleText(particle, locations.get(0), xRadius, zRadius, particleFrequency, text.toArray(new String[0]));
     }
 
     @Override
