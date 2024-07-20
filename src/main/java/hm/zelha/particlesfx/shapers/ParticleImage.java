@@ -220,38 +220,24 @@ public class ParticleImage extends ParticleShaper {
             }
         }
 
-        ParticleImage clone = new ParticleImage(particle, locations.get(0).clone(), xRadius, zRadius, particleFrequency);
-        clone.currentCount = currentCount;
-        clone.overallCount = overallCount;
-        clone.delay = delay;
+        ParticleImage clone = (ParticleImage) super.clone();
         clone.frame = frame;
         clone.displaysThisFrame = displaysThisFrame;
 
-        clone.rot.inherit(rot);
-        clone.rot2.inherit(rot2);
-        clone.originalCentroid.zero().add(originalCentroid);
-        clone.lastRotatedAround.zero().add(lastRotatedAround);
-        clone.secondaryParticles.addAll(secondaryParticles);
-        clone.mechanics.addAll(mechanics);
-        clone.players.addAll(players);
         clone.images.addAll(images);
-        clone.setParticlesPerDisplay(particlesPerDisplay);
         clone.setFuzz(fuzz);
         clone.setFrameDelay(frameDelay);
-
-        for (int i = 0; i < origins.size(); i++) {
-            clone.origins.get(i).zero().add(origins.get(i));
-        }
 
         for (Color color : ignoredColors) {
             clone.addIgnoredColor(color.clone());
         }
 
-        if (animator == null) {
-            clone.stop();
-        }
-
         return clone;
+    }
+
+    @Override
+    protected ParticleShaper cloneConstructor() {
+        return new ParticleImage(particle, locations.get(0).clone(), xRadius, zRadius, particleFrequency);
     }
 
     @Override
