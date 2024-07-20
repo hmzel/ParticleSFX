@@ -1,6 +1,7 @@
 package hm.zelha.particlesfx.shapers;
 
 import hm.zelha.particlesfx.particles.parents.Particle;
+import hm.zelha.particlesfx.shapers.parents.ParticleShaper;
 import hm.zelha.particlesfx.util.LocationSafe;
 import hm.zelha.particlesfx.util.ParticleShapeCompound;
 import hm.zelha.particlesfx.util.ShapeDisplayMechanic;
@@ -109,32 +110,15 @@ public class ParticleCircleFilled extends ParticleCircle {
 
     @Override
     public ParticleCircleFilled clone() {
-        ParticleCircleFilled clone = new ParticleCircleFilled(particle, locations.get(0).clone(), xRadius, zRadius, getPitch(), getYaw(), getRoll(), particleFrequency);
-        clone.currentCount = currentCount;
-        clone.overallCount = overallCount;
+        ParticleCircleFilled clone = (ParticleCircleFilled) super.clone();
         clone.iterations = iterations;
-        clone.delay = delay;
-
-        clone.rot.inherit(rot);
-        clone.rot2.inherit(rot2);
-        clone.originalCentroid.zero().add(originalCentroid);
-        clone.lastRotatedAround.zero().add(lastRotatedAround);
-        clone.secondaryParticles.addAll(secondaryParticles);
-        clone.mechanics.addAll(mechanics);
-        clone.players.addAll(players);
-        clone.setParticlesPerDisplay(particlesPerDisplay);
-        clone.setLimit(limit);
-        clone.setLimitInverse(limitInverse);
-
-        for (int i = 0; i < origins.size(); i++) {
-            clone.origins.get(i).zero().add(origins.get(i));
-        }
-
-        if (animator == null) {
-            clone.stop();
-        }
 
         return clone;
+    }
+
+    @Override
+    protected ParticleShaper cloneConstructor() {
+        return new ParticleCircleFilled(particle, locations.get(0).clone(), xRadius, zRadius, getPitch(), getYaw(), getRoll(), particleFrequency);
     }
 
     @Override
