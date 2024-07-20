@@ -109,11 +109,6 @@ public class ParticleVibration extends TravellingParticle {
         return offsetHelper.setX(offsetX).setY(offsetY).setZ(offsetZ);
     }
 
-    @Override
-    public int getPacketCount() {
-        return count;
-    }
-
     /**
      * This particle can track entities client-side, which can make for some really neat effects.
      *
@@ -186,9 +181,9 @@ public class ParticleVibration extends TravellingParticle {
                 if (toGo != null) {
                     data.a(pos.d(toGo.getBlockX(), toGo.getBlockY(), toGo.getBlockZ()));
                 } else if (velocity != null) {
-                    data.a(pos.d((int) (location.getX() + velocity.getX()), (int) (location.getY() + velocity.getY()), (int) (location.getZ() + velocity.getZ())));
+                    data.a(pos.e((int) velocity.getX(), (int) velocity.getY(), (int) velocity.getZ()));
                 } else {
-                    data.a(pos.d(location.getBlockX(), location.getBlockY(), location.getBlockZ()));
+                    data.a(pos);
                 }
             }
 
