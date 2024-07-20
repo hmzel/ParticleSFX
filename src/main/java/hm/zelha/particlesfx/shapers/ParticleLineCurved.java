@@ -1,6 +1,7 @@
 package hm.zelha.particlesfx.shapers;
 
 import hm.zelha.particlesfx.particles.parents.Particle;
+import hm.zelha.particlesfx.shapers.parents.ParticleShaper;
 import hm.zelha.particlesfx.util.*;
 import org.bukkit.Location;
 import org.bukkit.util.Vector;
@@ -140,40 +141,26 @@ public class ParticleLineCurved extends ParticleLine {
 
     @Override
     public ParticleLineCurved clone() {
+        ParticleLineCurved clone = (ParticleLineCurved) super.clone();
+
+        clone.setRotateCurves(rotateCurves);
+
+        for (CurveInfo curve : curves) {
+            clone.addCurve(curve.clone());
+        }
+
+        return clone;
+    }
+
+    @Override
+    protected ParticleShaper cloneConstructor() {
         LocationSafe[] locations = new LocationSafe[this.locations.size()];
 
         for (int i = 0; i < getLocationAmount(); i++) {
             locations[i] = this.locations.get(i).clone();
         }
 
-        ParticleLineCurved clone = new ParticleLineCurved(particle, particleFrequency, locations);
-        clone.currentCount = currentCount;
-        clone.overallCount = overallCount;
-        clone.delay = delay;
-
-        clone.rot.inherit(rot);
-        clone.rot2.inherit(rot2);
-        clone.originalCentroid.zero().add(originalCentroid);
-        clone.lastRotatedAround.zero().add(lastRotatedAround);
-        clone.secondaryParticles.addAll(secondaryParticles);
-        clone.mechanics.addAll(mechanics);
-        clone.players.addAll(players);
-        clone.setParticlesPerDisplay(particlesPerDisplay);
-        clone.setRotateCurves(rotateCurves);
-
-        for (int i = 0; i < origins.size(); i++) {
-            clone.origins.get(i).zero().add(origins.get(i));
-        }
-
-        for (CurveInfo curve : curves) {
-            clone.addCurve(curve.clone());
-        }
-
-        if (animator == null) {
-            clone.stop();
-        }
-
-        return clone;
+        return new ParticleLineCurved(particle, particleFrequency, locations);
     }
 
     /** @deprecated Doesn't work correctly with curves, and I don't know how to fix it. */
