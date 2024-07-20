@@ -6,13 +6,16 @@ import hm.zelha.particlesfx.util.LVMath;
 import net.minecraft.core.BlockPosition;
 import net.minecraft.core.particles.VibrationParticleOption;
 import net.minecraft.network.PacketDataSerializer;
+import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.protocol.game.PacketPlayOutWorldParticles;
 import net.minecraft.resources.MinecraftKey;
+import net.minecraft.world.level.gameevent.BlockPositionSource;
+import net.minecraft.world.level.gameevent.EntityPositionSource;
+import net.minecraft.world.level.gameevent.PositionSource;
+import net.minecraft.world.level.gameevent.vibrations.VibrationPath;
 import org.bukkit.Location;
-import org.bukkit.craftbukkit.v1_18_R2.entity.CraftPlayer;
 import org.bukkit.entity.Entity;
 import org.bukkit.util.Vector;
-
-import java.util.List;
 
 public class ParticleVibration extends TravellingParticle {
 
@@ -91,22 +94,41 @@ public class ParticleVibration extends TravellingParticle {
     }
 
     @Override
-    protected void display(Location location, List<CraftPlayer> players) {
-        if (!(particle instanceof NMSVibrationParticle) || ((NMSVibrationParticle) particle).check(location, velocity, toGo, entity, arrivalTime)) {
-            particle = new NMSVibrationParticle(location, velocity, toGo, entity, arrivalTime);
-        }
-
-        super.display(location, players);
-    }
-
-    @Override
     protected Vector getXYZ(Location location) {
-        return LVMath.toVector(xyzHelper, location);
+        return LVMath.toVector(xyzHelper, location).add(generateFakeOffset());
     }
 
     @Override
     protected Vector getOffsets(Location location) {
-        return offsetHelper.setX(offsetX).setY(offsetY).setZ(offsetZ);
+        return offsetHelper.zero();
+    }
+
+    @Override
+    protected int getPacketCount() {
+        return 0;
+    }
+
+    @Override
+    protected Packet getStrangePacket(Location location) {
+        PositionSource source;
+        Vector xyz = getXYZ(location);
+        BlockPosition.MutableBlockPosition pos = new BlockPosition.MutableBlockPosition(xyz.getBlockX(), xyz.getBlockY(), xyz.getBlockZ());
+
+        if (entity != null) {
+            source = new EntityPositionSource(entity.getEntityId());
+        } else {
+            BlockPosition.MutableBlockPosition destination = new BlockPosition.MutableBlockPosition().g(pos);
+
+            if (toGo != null) {
+                destination.d(toGo.getBlockX(), toGo.getBlockY(), toGo.getBlockZ());
+            } else if (velocity != null) {
+                destination.e((int) velocity.getX(), (int) velocity.getY(), (int) velocity.getZ());
+            }
+
+            source = new BlockPositionSource(destination);
+        }
+
+        return new PacketPlayOutWorldParticles(new VibrationParticleOption(new VibrationPath(pos, source, arrivalTime)), true, 0f, 0f, 0f, 0f, 0f, 0f, 1, 1);
     }
 
     /**
@@ -143,66 +165,5 @@ public class ParticleVibration extends TravellingParticle {
      */
     public int getArrivalTime() {
         return arrivalTime;
-    }
-
-
-    private class NMSVibrationParticle extends VibrationParticleOption {
-
-        private final BlockPosition.MutableBlockPosition pos = new BlockPosition.MutableBlockPosition();
-        private final Location location;
-        private final Vector velocity;
-        private final Location toGo;
-        private final Entity entity;
-        private final int arrivalTime;
-
-        public NMSVibrationParticle(Location location, Vector velocity, Location toGo, Entity entity, int arrivalTime) {
-            super(null);
-
-            this.location = location.clone();
-            this.velocity = (velocity != null) ? velocity.clone() : null;
-            this.toGo = (toGo != null) ? toGo.clone() : null;
-            this.entity = entity;
-            this.arrivalTime = arrivalTime;
-        }
-
-        @Override
-        public void a(PacketDataSerializer data) {
-            pos.p((int) (location.getBlockX() + (rng.nextGaussian() * offsetX)));
-            pos.q((int) (location.getBlockY() + (rng.nextGaussian() * offsetY)));
-            pos.r((int) (location.getBlockZ() + (rng.nextGaussian() * offsetZ)));
-            data.a(pos);
-
-            if (entity != null) {
-                data.a(new MinecraftKey("entity"));
-                data.d(entity.getEntityId());
-            } else {
-                data.a(new MinecraftKey("block"));
-
-                if (toGo != null) {
-                    data.a(pos.d(toGo.getBlockX(), toGo.getBlockY(), toGo.getBlockZ()));
-                } else if (velocity != null) {
-                    data.a(pos.e((int) velocity.getX(), (int) velocity.getY(), (int) velocity.getZ()));
-                } else {
-                    data.a(pos);
-                }
-            }
-
-            data.d(arrivalTime);
-        }
-
-        public boolean check(Location location, Vector velocity, Location toGo, Entity entity, int arrivalTime) {
-            if (this.entity == null) {
-                if (velocity != null && !velocity.equals(this.velocity)) return true;
-                if (toGo != null && !toGo.equals(this.toGo)) return true;
-                if (velocity == null && this.velocity != null) return true;
-                if (toGo == null && this.toGo != null) return true;
-            } else {
-                if (!this.entity.equals(entity)) return true;
-            }
-
-            if (!location.equals(this.location)) return true;
-
-            return arrivalTime != this.arrivalTime;
-        }
     }
 }
