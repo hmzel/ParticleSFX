@@ -29,6 +29,7 @@ public abstract class ParticleShaper extends RotationHandler implements Shape {
     protected final Vector vectorHelper = new Vector();
     protected BukkitTask animator = null;
     protected Particle particle;
+    protected boolean async = true;
     protected int particleFrequency;
     protected int particlesPerDisplay = 0;
     protected int currentCount = 0;
@@ -45,12 +46,18 @@ public abstract class ParticleShaper extends RotationHandler implements Shape {
 
         Validate.isTrue(ParticleSFX.getPlugin() != null, "Plugin is null! please put ParticleSFX.setPlugin(this) in your onEnable() method!");
 
-        animator = new BukkitRunnable() {
+        BukkitRunnable runnable = new BukkitRunnable() {
             @Override
             public void run() {
                 display();
             }
-        }.runTaskTimerAsynchronously(ParticleSFX.getPlugin(), 1, delay);
+        };
+
+        if (async) {
+            animator = runnable.runTaskTimerAsynchronously(ParticleSFX.getPlugin(), 1, delay);
+        } else {
+            animator = runnable.runTaskTimer(ParticleSFX.getPlugin(), 1, delay);
+        }
 
         return this;
     }
@@ -59,6 +66,7 @@ public abstract class ParticleShaper extends RotationHandler implements Shape {
         if (animator == null) return this;
 
         animator.cancel();
+
         animator = null;
 
         return this;
@@ -188,6 +196,14 @@ public abstract class ParticleShaper extends RotationHandler implements Shape {
         return this;
     }
 
+    public Shape setAsync(boolean async) {
+        stop();
+
+        this.async = async;
+
+        return start();
+    }
+
     public Shape setDelay(int delay) {
         stop();
 
@@ -251,6 +267,10 @@ public abstract class ParticleShaper extends RotationHandler implements Shape {
         if (players.isEmpty()) return locationHelper.getWorld().getPlayers().size();
 
         return players.size();
+    }
+
+    public boolean isAsync() {
+        return async;
     }
 
     public boolean isRunning() {
