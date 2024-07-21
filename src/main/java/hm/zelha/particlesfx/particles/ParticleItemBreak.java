@@ -149,7 +149,6 @@ public class ParticleItemBreak extends TravellingParticle implements MaterialPar
 
     public void setMaterialData(MaterialData data) {
         Validate.notNull(data, "Data cannot be null!");
-        Validate.isTrue(data.getItemType().isBlock(), "Material must be a block!");
 
         this.data = data;
     }
