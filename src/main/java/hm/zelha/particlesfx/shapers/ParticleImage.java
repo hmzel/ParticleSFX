@@ -2,7 +2,7 @@ package hm.zelha.particlesfx.shapers;
 
 import com.sun.imageio.plugins.gif.GIFImageReader;
 import hm.zelha.particlesfx.particles.ParticleDustColored;
-import hm.zelha.particlesfx.particles.ParticleEffectColored;
+import hm.zelha.particlesfx.particles.ParticleSpellColored;
 import hm.zelha.particlesfx.particles.parents.ColorableParticle;
 import hm.zelha.particlesfx.particles.parents.Particle;
 import hm.zelha.particlesfx.shapers.parents.ParticleShaper;
@@ -25,7 +25,7 @@ import java.util.logging.Level;
 
 /**
  * This class is generally meant to be used with particles that extend ColorableParticle to properly display a colored image <br>
- * ({@link ParticleDustColored}, {@link ParticleEffectColored}) <br>
+ * ({@link ParticleDustColored}, {@link ParticleSpellColored}) <br>
  * however it allows you to use normal particles to draw detailed objects by reading transparent images <br>
  * (or by using {@link ParticleImage#addIgnoredColor(Color)} and {@link ParticleImage#setFuzz(int)})
  */
