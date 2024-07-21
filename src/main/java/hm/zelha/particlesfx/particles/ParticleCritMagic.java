@@ -6,56 +6,56 @@ import net.minecraft.server.v1_8_R3.EnumParticle;
 import org.bukkit.Location;
 import org.bukkit.util.Vector;
 
-public class ParticleEnchantedHit extends TravellingParticle {
-    public ParticleEnchantedHit(Location toGo, double offsetX, double offsetY, double offsetZ, int count) {
+public class ParticleCritMagic extends TravellingParticle {
+    public ParticleCritMagic(Location toGo, double offsetX, double offsetY, double offsetZ, int count) {
         super(EnumParticle.CRIT_MAGIC, false, 0.83, null, toGo, offsetX, offsetY, offsetZ, count);
     }
 
-    public ParticleEnchantedHit(Vector velocity, double offsetX, double offsetY, double offsetZ, int count) {
+    public ParticleCritMagic(Vector velocity, double offsetX, double offsetY, double offsetZ, int count) {
         super(EnumParticle.CRIT_MAGIC, false, 0.83, velocity, null, offsetX, offsetY, offsetZ, count);
     }
 
-    public ParticleEnchantedHit(Location toGo, double offsetX, double offsetY, double offsetZ) {
+    public ParticleCritMagic(Location toGo, double offsetX, double offsetY, double offsetZ) {
         this(toGo, offsetX, offsetY, offsetZ, 1);
     }
 
-    public ParticleEnchantedHit(Vector velocity, double offsetX, double offsetY, double offsetZ) {
+    public ParticleCritMagic(Vector velocity, double offsetX, double offsetY, double offsetZ) {
         this(velocity, offsetX, offsetY, offsetZ, 1);
     }
 
-    public ParticleEnchantedHit(double offsetX, double offsetY, double offsetZ, int count) {
+    public ParticleCritMagic(double offsetX, double offsetY, double offsetZ, int count) {
         this((Location) null, offsetX, offsetY, offsetZ, count);
     }
 
-    public ParticleEnchantedHit(double offsetX, double offsetY, double offsetZ) {
+    public ParticleCritMagic(double offsetX, double offsetY, double offsetZ) {
         this((Location) null, offsetX, offsetY, offsetZ, 1);
     }
 
-    public ParticleEnchantedHit(int count) {
+    public ParticleCritMagic(int count) {
         this((Location) null, 0, 0, 0, count);
     }
 
-    public ParticleEnchantedHit(Location toGo) {
+    public ParticleCritMagic(Location toGo) {
         this(toGo, 0, 0, 0, 1);
     }
 
-    public ParticleEnchantedHit(Vector velocity) {
+    public ParticleCritMagic(Vector velocity) {
         this(velocity, 0, 0, 0, 1);
     }
 
-    public ParticleEnchantedHit() {
+    public ParticleCritMagic() {
         this((Location) null, 0, 0, 0, 1);
     }
 
     @Override
-    public ParticleEnchantedHit inherit(Particle particle) {
+    public ParticleCritMagic inherit(Particle particle) {
         super.inherit(particle);
 
         return this;
     }
 
     @Override
-    public ParticleEnchantedHit clone() {
-        return new ParticleEnchantedHit().inherit(this);
+    public ParticleCritMagic clone() {
+        return new ParticleCritMagic().inherit(this);
     }
 }
