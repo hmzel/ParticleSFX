@@ -32,7 +32,7 @@ Add this to your pom.xml, replacing `version` with the version you want to use:
 ```
 ParticleSFX versions support every minecraft version between their version number and the next ParticleSFX version.
 for instance, version 1.16.2 supports minecraft 1.16.2 and 1.16.3, but not 1.16.4. <br>
-For a list of every version, look [here](https://github.com/hmzel/ParticleSFX/packages/1878252/versions)
+For a list of every version, look [here](https://github.com/hmzel/ParticleSFX/packages/2209321/versions)
 
 Once the dependency is added, be sure to download the javadocs and sources by clicking these buttons in intellij:
 ![image](https://github.com/hmzel/ParticleSFX/assets/96555008/9267ba98-2c12-4a5a-87e9-24950c4fc770)
