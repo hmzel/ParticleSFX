@@ -1,5 +1,6 @@
 package hm.zelha.particlesfx.particles;
 
+import hm.zelha.particlesfx.particles.parents.ColorableParticle;
 import hm.zelha.particlesfx.particles.parents.Particle;
 import hm.zelha.particlesfx.particles.parents.SizeableParticle;
 import hm.zelha.particlesfx.util.Color;
@@ -12,7 +13,7 @@ import org.bukkit.craftbukkit.v1_21_R2.entity.CraftPlayer;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class ParticleDustMulticolored extends ParticleDustColored implements SizeableParticle {
+public class ParticleDustMulticolored extends ParticleDustColored implements SizeableParticle, ColorableParticle {
 
     protected final Color colorHelper2 = new Color(rng.nextInt(0xffffff));
     private Color transition = null;
@@ -21,8 +22,6 @@ public class ParticleDustMulticolored extends ParticleDustColored implements Siz
         super(color, size, offsetX, offsetY, offsetZ, count);
 
         particle = new DustColorTransitionOptions((color == null) ? rng.nextInt(0xffffff) : color.getRGB(), (transition == null) ? rng.nextInt(0xffffff) : transition.getRGB(), (float) size);
-
-        if (transition != null) colorHelper2.setRGB(transition.getRGB());
     }
 
     public ParticleDustMulticolored(double size, double offsetX, double offsetY, double offsetZ, int count) {

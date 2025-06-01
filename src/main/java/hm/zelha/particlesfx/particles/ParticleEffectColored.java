@@ -12,17 +12,19 @@ import org.bukkit.craftbukkit.v1_21_R2.entity.CraftPlayer;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class ParticleEffectColored extends ColorableParticle {
+public class ParticleEffectColored extends Particle implements ColorableParticle {
 
     private final net.minecraft.core.particles.Particle<ColorParticleOption> registryParticle = (net.minecraft.core.particles.Particle<ColorParticleOption>) BuiltInRegistries.i.a(MinecraftKey.a("minecraft", "entity_effect"));
+    protected Color color;
     private int transparency = 255;
 
     public ParticleEffectColored(@Nullable Color color, int transparency, double offsetX, double offsetY, double offsetZ, int count) {
-        super("", color, offsetX, offsetY, offsetZ, count);
+        super("", offsetX, offsetY, offsetZ, count);
 
         particle = ColorParticleOption.a(registryParticle, transparency << 24 | ((color != null) ? color.getRGB() : Color.WHITE.getRGB()));
 
         setTransparency(transparency);
+        setColor(color);
     }
 
     public ParticleEffectColored(int transparency, double offsetX, double offsetY, double offsetZ, int count) {
@@ -61,6 +63,14 @@ public class ParticleEffectColored extends ColorableParticle {
     public ParticleEffectColored inherit(Particle particle) {
         super.inherit(particle);
 
+        if (particle instanceof ColorableParticle) {
+            color = ((ColorableParticle) particle).getColor();
+        }
+
+        if (particle instanceof ParticleEffectColored) {
+            transparency = ((ParticleEffectColored) particle).transparency;
+        }
+
         return this;
     }
 
@@ -83,6 +93,23 @@ public class ParticleEffectColored extends ColorableParticle {
     }
 
     /**
+     * @param color color to set, null if you want random coloring
+     */
+    public void setColor(@Nullable Color color) {
+        this.color = color;
+    }
+
+    public void setColor(int red, int green, int blue) {
+        if (color != null && !color.isLocked()) {
+            color.setRed(red);
+            color.setGreen(green);
+            color.setBlue(blue);
+        } else {
+            this.color = new Color(red, green, blue);
+        }
+    }
+
+    /**
      * @param transparency the transparency of the particle, from 0 to 255
      * @return this object
      */
@@ -90,6 +117,16 @@ public class ParticleEffectColored extends ColorableParticle {
         this.transparency = Math.min(Math.max(0, transparency), 255);
 
         return this;
+    }
+
+    /**
+     * nullable to allow for randomly colored particles without being complicated
+     *
+     * @return color this particle is using
+     */
+    @Nullable
+    public Color getColor() {
+        return color;
     }
 
     /**

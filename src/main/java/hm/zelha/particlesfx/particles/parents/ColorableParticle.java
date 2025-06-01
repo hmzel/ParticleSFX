@@ -1,49 +1,48 @@
 package hm.zelha.particlesfx.particles.parents;
 
 import hm.zelha.particlesfx.util.Color;
+import org.bukkit.Location;
+import org.bukkit.entity.Player;
 
 import javax.annotation.Nullable;
+import java.util.List;
+import java.util.UUID;
 
-public abstract class ColorableParticle extends Particle {
+public interface ColorableParticle {
+    void display(Location location);
 
-    protected Color color;
+    void displayForPlayers(Location location, Player... players);
 
-    protected ColorableParticle(String particleID, @Nullable Color color, double offsetX, double offsetY, double offsetZ, int count) {
-        super(particleID, offsetX, offsetY, offsetZ, count);
+    void displayForPlayers(Location location, List<UUID> players);
 
-        setColor(color);
-    }
+    /**
+     * @param particle particle for this object to copy data from
+     * @return this object
+     */
+    ColorableParticle inherit(Particle particle);
 
-    @Override
-    public ColorableParticle inherit(Particle particle) {
-        super.inherit(particle);
-
-        if (particle instanceof ColorableParticle) {
-            color = ((ColorableParticle) particle).color;
-        }
-
-        return this;
-    }
-
-    @Override
-    public abstract ColorableParticle clone();
+    ColorableParticle clone();
 
     /**
      * @param color color to set, null if you want random coloring
      */
-    public void setColor(@Nullable Color color) {
-        this.color = color;
-    }
+    void setColor(@Nullable Color color);
 
-    public void setColor(int red, int green, int blue) {
-        if (color != null && !color.isLocked()) {
-            color.setRed(red);
-            color.setGreen(green);
-            color.setBlue(blue);
-        } else {
-            this.color = new Color(red, green, blue);
-        }
-    }
+    void setColor(int red, int green, int blue);
+
+    void setOffset(double x, double y, double z);
+
+    void setOffsetX(double offsetX);
+
+    void setOffsetY(double offsetY);
+
+    void setOffsetZ(double offsetZ);
+
+    Particle setSpeed(double speed);
+
+    void setCount(int count);
+
+    Particle setRadius(int radius);
 
     /**
      * nullable to allow for randomly colored particles without being complicated
@@ -51,7 +50,17 @@ public abstract class ColorableParticle extends Particle {
      * @return color this particle is using
      */
     @Nullable
-    public Color getColor() {
-        return color;
-    }
+    Color getColor();
+
+    double getOffsetX();
+
+    double getOffsetY();
+
+    double getOffsetZ();
+
+    double getSpeed();
+
+    int getCount();
+
+    int getRadius();
 }

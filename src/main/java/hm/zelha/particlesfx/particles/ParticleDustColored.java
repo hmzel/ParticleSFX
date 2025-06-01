@@ -12,18 +12,20 @@ import org.bukkit.craftbukkit.v1_21_R2.entity.CraftPlayer;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class ParticleDustColored extends ColorableParticle implements SizeableParticle {
+public class ParticleDustColored extends Particle implements SizeableParticle, ColorableParticle {
 
     protected final Color colorHelper = new Color(rng.nextInt(0xffffff));
+    protected Color color;
     protected double size;
 
     public ParticleDustColored(@Nullable Color color, double size, double offsetX, double offsetY, double offsetZ, int count) {
-        super("", color, offsetX, offsetY, offsetZ, count);
+        super("", offsetX, offsetY, offsetZ, count);
 
         particle = new ParticleParamRedstone((color == null) ? rng.nextInt(0xffffff) : color.getRGB(), (float) size);
 
         if (color != null) colorHelper.setRGB(color.getRGB());
 
+        setColor(color);
         setSize(size);
     }
 
@@ -79,6 +81,10 @@ public class ParticleDustColored extends ColorableParticle implements SizeablePa
     public ParticleDustColored inherit(Particle particle) {
         super.inherit(particle);
 
+        if (particle instanceof ColorableParticle) {
+            setColor(((ColorableParticle) particle).getColor());
+        }
+
         if (particle instanceof SizeableParticle) {
             setSize(((SizeableParticle) particle).getSize());
         }
@@ -106,10 +112,37 @@ public class ParticleDustColored extends ColorableParticle implements SizeablePa
         super.display(location, players);
     }
 
+    /**
+     * @param color color to set, null if you want random coloring
+     */
+    public void setColor(@Nullable Color color) {
+        this.color = color;
+    }
+
+    public void setColor(int red, int green, int blue) {
+        if (color != null && !color.isLocked()) {
+            color.setRed(red);
+            color.setGreen(green);
+            color.setBlue(blue);
+        } else {
+            this.color = new Color(red, green, blue);
+        }
+    }
+
     /** only changes between 0 and 4. */
     @Override
     public void setSize(double size) {
         this.size = size;
+    }
+
+    /**
+     * nullable to allow for randomly colored particles without being complicated
+     *
+     * @return color this particle is using
+     */
+    @Nullable
+    public Color getColor() {
+        return color;
     }
 
     /** only changes between 0 and 4. */
