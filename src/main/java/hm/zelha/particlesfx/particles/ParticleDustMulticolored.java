@@ -4,22 +4,25 @@ import hm.zelha.particlesfx.particles.parents.Particle;
 import hm.zelha.particlesfx.particles.parents.SizeableParticle;
 import hm.zelha.particlesfx.util.Color;
 import net.minecraft.core.particles.DustColorTransitionOptions;
+import net.minecraft.core.particles.DustParticleOptionsBase;
+import net.minecraft.util.MathHelper;
 import org.bukkit.Location;
-import org.bukkit.craftbukkit.v1_21_R1.entity.CraftPlayer;
-import org.joml.Vector3f;
+import org.bukkit.craftbukkit.v1_21_R2.entity.CraftPlayer;
 
 import javax.annotation.Nullable;
 import java.util.List;
-import java.util.concurrent.ThreadLocalRandom;
 
 public class ParticleDustMulticolored extends ParticleDustColored implements SizeableParticle {
 
+    protected final Color colorHelper2 = new Color(rng.nextInt(0xffffff));
     private Color transition = null;
 
     public ParticleDustMulticolored(@Nullable Color color, double size, double offsetX, double offsetY, double offsetZ, int count) {
         super(color, size, offsetX, offsetY, offsetZ, count);
 
-        particle = new ParticleParamDustTransition(color, transition, size, pureColor);
+        particle = new DustColorTransitionOptions((color == null) ? rng.nextInt(0xffffff) : color.getRGB(), (transition == null) ? rng.nextInt(0xffffff) : transition.getRGB(), (float) size);
+
+        if (transition != null) colorHelper2.setRGB(transition.getRGB());
     }
 
     public ParticleDustMulticolored(double size, double offsetX, double offsetY, double offsetZ, int count) {
@@ -88,17 +91,20 @@ public class ParticleDustMulticolored extends ParticleDustColored implements Siz
 
     @Override
     protected void display(Location location, List<CraftPlayer> players) {
-        ParticleParamDustTransition p = (ParticleParamDustTransition) particle;
+        if (color == null || transition == null) {
+            particle = new DustColorTransitionOptions((color == null) ? rng.nextInt(0xffffff) : color.getRGB(), (transition == null) ? rng.nextInt(0xffffff) : transition.getRGB(), (float) size);
+        } else if (!colorHelper.equals(color) || !colorHelper2.equals(transition) || MathHelper.a(size, 0.01F, 4.0F) != ((DustParticleOptionsBase) particle).d()) {
+            particle = new DustColorTransitionOptions(color.getRGB(), transition.getRGB(), (float) size);
 
-        if (color == null || transition == null || !color.equals(p.color) || !transition.equals(p.transition) || size != p.size || pureColor != p.pureColor) {
-            particle = new ParticleParamDustTransition(color, transition, size, pureColor);
+            colorHelper.setRGB(color.getRGB());
+            colorHelper2.setRGB(transition.getRGB());
         }
 
         super.display(location, players);
     }
 
     /**
-     * @param transition the color this particle will transition to as it fades. doesn't work with pureColor
+     * @param transition the color this particle will transition to as it fades.
      */
     public ParticleDustMulticolored setTransitionColor(@Nullable Color transition) {
         this.transition = transition;
@@ -107,43 +113,9 @@ public class ParticleDustMulticolored extends ParticleDustColored implements Siz
     }
 
     /**
-     * @return the color this particle will transition to as it fades. doesn't work with pureColor
+     * @return the color this particle will transition to as it fades.
      */
     public Color getTransitionColor() {
         return transition;
-    }
-
-
-    private static class ParticleParamDustTransition extends DustColorTransitionOptions {
-
-        private static final ThreadLocalRandom rng = ThreadLocalRandom.current();
-        private final Color color;
-        private final Color transition;
-        private final double size;
-        private final boolean pureColor;
-
-        private ParticleParamDustTransition(Color color, Color transition, double size, boolean pureColor) {
-            super(new Vector3f(rng.nextFloat(), rng.nextFloat(), rng.nextFloat()), new Vector3f(rng.nextFloat(), rng.nextFloat(), rng.nextFloat()), (float) size);
-
-            this.color = (color != null) ? color.clone() : null;
-            this.transition = (transition != null) ? transition.clone() : null;
-            this.size = size;
-            this.pureColor = pureColor;
-
-            if (color != null) {
-                b().set(color.getRed(), color.getGreen(), color.getBlue());
-                b().div(255F);
-            }
-
-            if (transition != null) {
-                c().set(transition.getRed(), transition.getGreen(), transition.getBlue());
-                c().div(255F);
-            }
-
-            if (pureColor) {
-                b().mul(Float.MAX_VALUE);
-                c().mul(Float.MAX_VALUE);
-            }
-        }
     }
 }

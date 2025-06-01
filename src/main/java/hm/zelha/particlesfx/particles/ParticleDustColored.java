@@ -5,23 +5,24 @@ import hm.zelha.particlesfx.particles.parents.Particle;
 import hm.zelha.particlesfx.particles.parents.SizeableParticle;
 import hm.zelha.particlesfx.util.Color;
 import net.minecraft.core.particles.ParticleParamRedstone;
+import net.minecraft.util.MathHelper;
 import org.bukkit.Location;
-import org.bukkit.craftbukkit.v1_21_R1.entity.CraftPlayer;
-import org.joml.Vector3f;
+import org.bukkit.craftbukkit.v1_21_R2.entity.CraftPlayer;
 
 import javax.annotation.Nullable;
 import java.util.List;
-import java.util.concurrent.ThreadLocalRandom;
 
 public class ParticleDustColored extends ColorableParticle implements SizeableParticle {
 
-    protected boolean pureColor = false;
+    protected final Color colorHelper = new Color(rng.nextInt(0xffffff));
     protected double size;
 
     public ParticleDustColored(@Nullable Color color, double size, double offsetX, double offsetY, double offsetZ, int count) {
         super("", color, offsetX, offsetY, offsetZ, count);
 
-        particle = new ParticleParamDust(color, size, pureColor);
+        particle = new ParticleParamRedstone((color == null) ? rng.nextInt(0xffffff) : color.getRGB(), (float) size);
+
+        if (color != null) colorHelper.setRGB(color.getRGB());
 
         setSize(size);
     }
@@ -78,10 +79,6 @@ public class ParticleDustColored extends ColorableParticle implements SizeablePa
     public ParticleDustColored inherit(Particle particle) {
         super.inherit(particle);
 
-        if (particle instanceof ParticleDustColored) {
-            pureColor = ((ParticleDustColored) particle).pureColor;
-        }
-
         if (particle instanceof SizeableParticle) {
             setSize(((SizeableParticle) particle).getSize());
         }
@@ -96,11 +93,13 @@ public class ParticleDustColored extends ColorableParticle implements SizeablePa
 
     @Override
     protected void display(Location location, List<CraftPlayer> players) {
-        if (particle instanceof ParticleParamDust) {
-            ParticleParamDust dust = ((ParticleParamDust) particle);
+        if (particle instanceof ParticleParamRedstone) {
+            if (color == null) {
+                particle = new ParticleParamRedstone(rng.nextInt(0xffffff), (float) size);
+            } else if (!colorHelper.equals(color) || MathHelper.a(size, 0.01F, 4.0F) != ((ParticleParamRedstone) particle).d()) {
+                particle = new ParticleParamRedstone(color.getRGB(), (float) size);
 
-            if (color == null || !color.equals(dust.color) || size != dust.size || pureColor != dust.pureColor) {
-                particle = new ParticleParamDust(color, size, pureColor);
+                colorHelper.setRGB(color.getRGB());
             }
         }
 
@@ -113,60 +112,9 @@ public class ParticleDustColored extends ColorableParticle implements SizeablePa
         this.size = size;
     }
 
-    /**
-     * if this is set to true, the particle will use derivatives of Float.MAX_VALUE to try and eliminate the variations
-     * in color when normally using colored dust.
-     * aka no purple or brown or other colors like that
-     *
-     * @param pureColor whether the color should be pure
-     * @return this object
-     */
-    public ParticleDustColored setPureColor(boolean pureColor) {
-        this.pureColor = pureColor;
-
-        return this;
-    }
-
     /** only changes between 0 and 4. */
     @Override
     public double getSize() {
         return size;
-    }
-
-    /**
-     * if this is set to true, the particle will use derivatives of Float.MAX_VALUE to try and eliminate the variations
-     * in color when normally using colored dust.
-     * aka no purple or brown or other colors like that
-     *
-     * @return whether the color should be pure
-     */
-    public boolean isPureColor() {
-        return pureColor;
-    }
-
-
-    private static class ParticleParamDust extends ParticleParamRedstone {
-
-        private static final ThreadLocalRandom rng = ThreadLocalRandom.current();
-        private final Color color;
-        private final double size;
-        private final boolean pureColor;
-
-        public ParticleParamDust(Color color, double size, boolean pureColor) {
-            super(new Vector3f(rng.nextFloat(), rng.nextFloat(), rng.nextFloat()), (float) size);
-
-            this.color = (color != null) ? color.clone() : null;
-            this.size = size;
-            this.pureColor = pureColor;
-
-            if (color != null) {
-                b().set(color.getRed(), color.getGreen(), color.getBlue());
-                b().div(255F);
-            }
-
-            if (pureColor) {
-                b().mul(Float.MAX_VALUE);
-            }
-        }
     }
 }
