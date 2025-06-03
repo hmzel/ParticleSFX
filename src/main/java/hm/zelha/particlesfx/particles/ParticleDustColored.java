@@ -7,7 +7,7 @@ import hm.zelha.particlesfx.util.Color;
 import net.minecraft.core.particles.ParticleParamRedstone;
 import net.minecraft.util.MathHelper;
 import org.bukkit.Location;
-import org.bukkit.craftbukkit.v1_21_R2.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_21_R3.entity.CraftPlayer;
 
 import javax.annotation.Nullable;
 import java.util.List;

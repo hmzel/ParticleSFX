@@ -11,7 +11,7 @@ import net.minecraft.world.level.gameevent.BlockPositionSource;
 import net.minecraft.world.level.gameevent.EntityPositionSource;
 import net.minecraft.world.level.gameevent.PositionSource;
 import org.bukkit.Location;
-import org.bukkit.craftbukkit.v1_21_R2.entity.CraftEntity;
+import org.bukkit.craftbukkit.v1_21_R3.entity.CraftEntity;
 import org.bukkit.entity.Entity;
 import org.bukkit.util.Vector;
 
@@ -129,7 +129,7 @@ public class ParticleVibration extends TravellingParticle {
         }
 
         return new PacketPlayOutWorldParticles(
-                new VibrationParticleOption(source, arrivalTime), true, (float) xyz.getX(), (float) xyz.getY(), (float) xyz.getZ(), 0f,
+                new VibrationParticleOption(source, arrivalTime), true, false, (float) xyz.getX(), (float) xyz.getY(), (float) xyz.getZ(), 0f,
                 0f, 0f, 1, 1
         );
     }

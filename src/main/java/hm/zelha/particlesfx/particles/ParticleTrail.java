@@ -5,7 +5,7 @@ import hm.zelha.particlesfx.particles.parents.Particle;
 import hm.zelha.particlesfx.particles.parents.TravellingParticle;
 import hm.zelha.particlesfx.util.Color;
 import hm.zelha.particlesfx.util.LVMath;
-import net.minecraft.core.particles.TargetColorParticleOption;
+import net.minecraft.core.particles.TrailParticleOption;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.PacketPlayOutWorldParticles;
 import net.minecraft.world.phys.Vec3D;
@@ -17,6 +17,7 @@ import javax.annotation.Nullable;
 public class ParticleTrail extends TravellingParticle implements ColorableParticle {
 
     protected Color color;
+    private int arrivalTime = 20;
 
     public ParticleTrail(Color color, Location toGo, double offsetX, double offsetY, double offsetZ, int count) {
         super("", false, 1, null, toGo, offsetX, offsetY, offsetZ, count);
@@ -141,8 +142,8 @@ public class ParticleTrail extends TravellingParticle implements ColorablePartic
         }
 
         return new PacketPlayOutWorldParticles(
-                new TargetColorParticleOption(new Vec3D(vec.getX(), vec.getY(), vec.getZ()), (color == null) ? rng.nextInt(0xffffff) : color.getRGB()),
-                true, (float) xyz.getX(), (float) xyz.getY(), (float) xyz.getZ(), 0f, 0f, 0f, 1, 1
+                new TrailParticleOption(new Vec3D(vec.getX(), vec.getY(), vec.getZ()), (color == null) ? rng.nextInt(0xffffff) : color.getRGB(), arrivalTime),
+                true, false, (float) xyz.getX(), (float) xyz.getY(), (float) xyz.getZ(), 0f, 0f, 0f, 1, 1
         );
     }
 
@@ -164,6 +165,15 @@ public class ParticleTrail extends TravellingParticle implements ColorablePartic
     }
 
     /**
+     * @param arrivalTime the amount of ticks it takes this particle to go from its origin to its destination, default 20 ticks or 1 second.
+     */
+    public ParticleTrail setArrivalTime(int arrivalTime) {
+        this.arrivalTime = arrivalTime;
+
+        return this;
+    }
+
+    /**
      * nullable to allow for randomly colored particles without being complicated
      *
      * @return color this particle is using
@@ -171,5 +181,12 @@ public class ParticleTrail extends TravellingParticle implements ColorablePartic
     @Nullable
     public Color getColor() {
         return color;
+    }
+
+    /**
+     * @return the amount of ticks it takes this particle to go from its origin to its destination, default 20 ticks or 1 second.
+     */
+    public int getArrivalTime() {
+        return arrivalTime;
     }
 }
