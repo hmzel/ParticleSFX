@@ -196,10 +196,19 @@ public class ParticlePolygon extends ParticleShaper {
 
     @Override
     public void setWorld(World world) {
-        //if this isn't here it might cause errors if setWorld() is called after a corner's location is set to a new location with a different world
-        //gotta cover every base! perfectionist mentality!
+        locationHelper.setWorld(world);
+        lastRotatedAround.setWorld(world);
+        centroid.setWorld(world);
+        rhLocationHelper.setWorld(world);
+        originalCentroid.setWorld(world);
+        //if this isn't here it might cause errors if setWorld() is called after a corner's location
+        //is set to a new location with a different world
         recalculateIfNeeded(null);
-        super.setWorld(world);
+
+        for (int i = 0; i < locations.size(); i++) {
+            locations.get(i).setWorld(world);
+            origins.get(i).setWorld(world);
+        }
     }
 
     protected void initLayers(LocationSafe center, PolygonLayer... layers) {
