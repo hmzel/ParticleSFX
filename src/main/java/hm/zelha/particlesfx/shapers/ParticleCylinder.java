@@ -340,11 +340,20 @@ public class ParticleCylinder extends ParticleShaper {
 
     @Override
     public void setWorld(World world) {
-        //if this isn't here it might cause errors if setWorld() is called after a circleInfo's center is set to a new location with a different world
-        //gotta cover every base! perfectionist mentality!
-        recalculateIfNeeded(null);
-        super.setWorld(world);
+        lastRotatedAround.setWorld(world);
+        centroid.setWorld(world);
+        rhLocationHelper.setWorld(world);
+        originalCentroid.setWorld(world);
+        locationHelper.setWorld(world);
         circleHelper.getCenter().setWorld(world);
+        //if this isn't here it might cause errors if setWorld() is called after a circleInfo's center is
+        //set to a new location with a different world
+        recalculateIfNeeded(null);
+
+        for (int i = 0; i < locations.size(); i++) {
+            locations.get(i).setWorld(world);
+            origins.get(i).setWorld(world);
+        }
     }
 
     /**
