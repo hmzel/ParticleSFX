@@ -7,8 +7,8 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.MinecraftKey;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Material;
-import org.bukkit.craftbukkit.v1_21_R3.block.data.CraftBlockData;
-import org.bukkit.craftbukkit.v1_21_R3.util.CraftMagicNumbers;
+import org.bukkit.craftbukkit.v1_21_R4.block.data.CraftBlockData;
+import org.bukkit.craftbukkit.v1_21_R4.util.CraftMagicNumbers;
 
 public class ParticleBlockCrumble extends Particle implements MaterialParticle {
     public ParticleBlockCrumble(Material material, double offsetX, double offsetY, double offsetZ, int count) {
