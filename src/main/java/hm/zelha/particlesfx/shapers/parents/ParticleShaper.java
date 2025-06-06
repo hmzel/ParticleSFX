@@ -263,6 +263,14 @@ public abstract class ParticleShaper extends RotationHandler implements Shape {
         return secondaryParticles.size();
     }
 
+    /**
+     * @see ParticleShaper#addMechanic(ShapeDisplayMechanic.Phase, ShapeDisplayMechanic)
+     * @return the amount of mechanics used by this shape
+     */
+    public int getMechanicAmount() {
+        return mechanics.size();
+    }
+
     public List<UUID> getPlayers() {
         return new ArrayList<>(players);
     }
