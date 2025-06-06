@@ -197,19 +197,23 @@ public abstract class ParticleShaper extends RotationHandler implements Shape {
     }
 
     public Shape setAsync(boolean async) {
-        stop();
+        boolean running = isRunning();
+
+        if (running) stop();
 
         this.async = async;
 
-        return start();
+        if (running) return start(); else return stop();
     }
 
     public Shape setDelay(int delay) {
-        stop();
+        boolean running = isRunning();
+
+        if (running) stop();
 
         this.delay = delay;
 
-        return start();
+        if (running) return start(); else return stop();
     }
 
     public void setDisplayPosition(int position) {
