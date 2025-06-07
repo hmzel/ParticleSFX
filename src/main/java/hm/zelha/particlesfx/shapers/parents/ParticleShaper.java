@@ -41,7 +41,7 @@ public abstract class ParticleShaper extends RotationHandler implements Shape {
         setParticleFrequency(particleFrequency);
     }
 
-    public Shape start() {
+    public ParticleShaper start() {
         if (animator != null) return this;
 
         Validate.isTrue(ParticleSFX.getPlugin() != null, "Plugin is null! please put ParticleSFX.setPlugin(this) in your onEnable() method!");
@@ -62,7 +62,7 @@ public abstract class ParticleShaper extends RotationHandler implements Shape {
         return this;
     }
 
-    public Shape stop() {
+    public ParticleShaper stop() {
         if (animator == null) return this;
 
         animator.cancel();
@@ -73,10 +73,11 @@ public abstract class ParticleShaper extends RotationHandler implements Shape {
     }
 
     public ParticleShaper clone() {
-        ParticleShaper clone = cloneConstructor();
+        ParticleShaper clone = cloneConstructor().stop();
         clone.currentCount = currentCount;
         clone.overallCount = overallCount;
         clone.delay = delay;
+        clone.async = async;
 
         clone.rot.inherit(rot);
         clone.rot2.inherit(rot2);
@@ -91,9 +92,7 @@ public abstract class ParticleShaper extends RotationHandler implements Shape {
             clone.origins.get(i).zero().add(origins.get(i));
         }
 
-        if (animator == null) {
-            clone.stop();
-        }
+        if (animator != null) clone.start();
 
         return clone;
     }
@@ -190,13 +189,13 @@ public abstract class ParticleShaper extends RotationHandler implements Shape {
         this.particleFrequency = particleFrequency;
     }
 
-    public Shape setParticlesPerDisplay(int particlesPerDisplay) {
+    public ParticleShaper setParticlesPerDisplay(int particlesPerDisplay) {
         this.particlesPerDisplay = particlesPerDisplay;
 
         return this;
     }
 
-    public Shape setAsync(boolean async) {
+    public ParticleShaper setAsync(boolean async) {
         boolean running = isRunning();
 
         if (running) stop();
@@ -206,7 +205,7 @@ public abstract class ParticleShaper extends RotationHandler implements Shape {
         if (running) return start(); else return stop();
     }
 
-    public Shape setDelay(int delay) {
+    public ParticleShaper setDelay(int delay) {
         boolean running = isRunning();
 
         if (running) stop();
