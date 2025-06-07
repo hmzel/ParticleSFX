@@ -12,7 +12,6 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.entity.Entity;
-import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
 import java.util.List;
@@ -46,19 +45,11 @@ public class ParticleFluid extends ParticleShaper {
     }
 
     @Override
-    public Shape start() {
-        if (animator != null) return this;
+    public ParticleShaper start() {
+        //this breaks if its ever ran asynchronously due to minecraft just Absolutely Hating reading any block data not on the main thread
+        async = false;
 
-        Validate.isTrue(ParticleSFX.getPlugin() != null, "Plugin is null! please put ParticleSFX.setPlugin(this) in your onEnable() method!");
-
-        animator = new BukkitRunnable() {
-            @Override
-            public void run() {
-                display();
-            }
-        }.runTaskTimer(ParticleSFX.getPlugin(), 1, delay);
-
-        return this;
+        return super.start();
     }
 
     @Override
