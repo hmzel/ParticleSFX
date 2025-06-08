@@ -107,6 +107,14 @@ public class ParticleTrail extends TravellingParticle implements ColorablePartic
             setColor(((ColorableParticle) particle).getColor());
         }
 
+        if (particle instanceof ParticleTrail) {
+            ((ParticleTrail) particle).setArrivalTime(arrivalTime);
+        }
+
+        if (particle instanceof ParticleVibration) {
+            ((ParticleVibration) particle).setArrivalTime(arrivalTime);
+        }
+
         return this;
     }
 
