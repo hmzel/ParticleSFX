@@ -82,9 +82,6 @@ public class ParticleTintedLeaves extends Particle implements ColorableParticle 
         super.display(location, players);
     }
 
-    /**
-     * @param color color to set, null if you want random coloring
-     */
     public void setColor(@Nullable Color color) {
         this.color = color;
     }
@@ -99,11 +96,6 @@ public class ParticleTintedLeaves extends Particle implements ColorableParticle 
         }
     }
 
-    /**
-     * nullable to allow for randomly colored particles without being complicated
-     *
-     * @return color this particle is using
-     */
     @Nullable
     public Color getColor() {
         return color;
