@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
 
-public abstract class Particle {
+public abstract class Particle implements IParticle {
 
     protected final EnumParticle particle;
     protected final Vector fakeOffsetHelper = new Vector();
@@ -71,10 +71,6 @@ public abstract class Particle {
         display(location, listHelper);
     }
 
-    /**
-     * @param particle particle for this object to copy data from
-     * @return this object
-     */
     public Particle inherit(Particle particle) {
         offsetX = particle.offsetX;
         offsetY = particle.offsetY;
