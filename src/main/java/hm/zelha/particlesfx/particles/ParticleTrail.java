@@ -155,9 +155,6 @@ public class ParticleTrail extends TravellingParticle implements ColorablePartic
         );
     }
 
-    /**
-     * @param color color to set, null if you want random coloring
-     */
     public void setColor(@Nullable Color color) {
         this.color = color;
     }
@@ -181,11 +178,6 @@ public class ParticleTrail extends TravellingParticle implements ColorablePartic
         return this;
     }
 
-    /**
-     * nullable to allow for randomly colored particles without being complicated
-     *
-     * @return color this particle is using
-     */
     @Nullable
     public Color getColor() {
         return color;
