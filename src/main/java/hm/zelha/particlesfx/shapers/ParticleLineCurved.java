@@ -163,16 +163,18 @@ public class ParticleLineCurved extends ParticleLine {
         return new ParticleLineCurved(particle, particleFrequency, locations);
     }
 
-    /** @deprecated Doesn't work correctly with curves, and I don't know how to fix it. */
-    @Deprecated
     @Override
     public void scale(double x, double y, double z) {
+        double currentDist = getTotalDistance();
+
         super.scale(x, y, z);
 
+        double newDist = getTotalDistance();
+
         for (CurveInfo curve : curves) {
-            curve.setLength(curve.getLength() * (x + y + z) / 3);
-            curve.setHeight(curve.getHeight() * (x + y + z) / 3);
-            curve.setApexPosition(curve.getApexPosition() * (x + y + z) / 3);
+            curve.setLength(curve.getLength() * newDist / currentDist);
+            curve.setHeight(curve.getHeight() * newDist / currentDist);
+            curve.setApexPosition(curve.getApexPosition() * newDist / currentDist);
         }
     }
 
