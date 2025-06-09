@@ -1,6 +1,7 @@
 package hm.zelha.particlesfx.shapers.parents;
 
 import hm.zelha.particlesfx.particles.parents.Particle;
+import hm.zelha.particlesfx.util.Pair;
 import hm.zelha.particlesfx.util.Rotation;
 import hm.zelha.particlesfx.util.ShapeDisplayMechanic;
 import org.bukkit.Location;
@@ -23,9 +24,9 @@ public interface Shape {
      */
     Shape stop();
 
-    void display();
-
     Shape clone();
+
+    void display();
 
     void rotate(double pitch, double yaw, double roll);
 
@@ -77,6 +78,14 @@ public interface Shape {
     void scale(double scale);
 
     /**
+     * adds a particle for this shape to display after a certain amount of other particles
+     *
+     * @param particle particle to add
+     * @param particlesUntilDisplay how many particles need to be displayed before this one
+     */
+    void addParticle(Particle particle, int particlesUntilDisplay);
+
+    /**
      * Similar to {@link java.util.function.Consumer} <br>
      * in the case of phases {@link ShapeDisplayMechanic.Phase#BEFORE_ROTATION} and {@link ShapeDisplayMechanic.Phase#AFTER_ROTATION}
      * the given mechanic will run before the location is modified to display the next particle, allowing you to modify the
@@ -108,6 +117,12 @@ public interface Shape {
     void addPlayer(UUID uuid);
 
     /**
+     * @see ParticleShaper#addParticle(Particle, int)
+     * @param index index of particle in list (main particle is not in list)
+     */
+    void removeParticle(int index);
+
+    /**
      * @see Shape#addMechanic(ShapeDisplayMechanic.Phase, ShapeDisplayMechanic)
      * @param index index of mechanic in list
      */
@@ -125,6 +140,12 @@ public interface Shape {
      */
     void removePlayer(Player player);
 
+    /**
+     * @param player player to check for
+     * @return whether this shape displays to this player
+     */
+    boolean hasPlayer(Player player);
+
     void setParticle(Particle particle);
 
     /** @param particleFrequency amount of times to display the particle per full animation */
@@ -136,6 +157,8 @@ public interface Shape {
      * @param particlesPerDisplay amount of particles that will be shown per display
      */
     Shape setParticlesPerDisplay(int particlesPerDisplay);
+
+    Shape setAsync(boolean async);
 
     /**
      * @param delay amount of ticks between {@link Shape#display()} being called
@@ -192,6 +215,13 @@ public interface Shape {
 
     Particle getParticle();
 
+    /**
+     * @see ParticleShaper#addParticle(Particle, int)
+     * @param index index of particle to get from the list
+     * @return a pair of the particle and the amount of particles before it should be displayed
+     */
+    Pair<Particle, Integer> getSecondaryParticle(int index);
+
     int getParticleFrequency();
 
     /**
@@ -199,6 +229,23 @@ public interface Shape {
      * @return the amount of particles per display
      */
     int getParticlesPerDisplay();
+
+    /**
+     * @return amount of ticks between {@link ParticleShaper#display()} being called
+     */
+    int getDelay();
+
+    /**
+     * @see ParticleShaper#addParticle(Particle, int)
+     * @return the amount of extra particles that this shape uses
+     */
+    int getSecondaryParticleAmount();
+
+    /**
+     * @see ParticleShaper#addMechanic(ShapeDisplayMechanic.Phase, ShapeDisplayMechanic)
+     * @return the amount of mechanics used by this shape
+     */
+    int getMechanicAmount();
 
     /**
      * @return the UUIDs of all the players that this shape displays to. displays to all players if this list is empty
@@ -251,4 +298,8 @@ public interface Shape {
      * @return a new Location object set to the center of this shape
      */
     Location getClonedCenter();
+
+    boolean isAsync();
+
+    boolean isRunning();
 }

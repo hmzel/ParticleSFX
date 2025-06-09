@@ -94,6 +94,23 @@ public class ParticleShapeCompound extends RotationHandler implements Shape {
     }
 
     @Override
+    public void addParticle(Particle particle, int particlesUntilDisplay) {
+        int particles = particlesUntilDisplay;
+
+        for (Shape shape : shapeLocationIndex.keySet()) {
+            if (shape.getParticleFrequency() < particles) {
+                particles -= shape.getParticleFrequency();
+
+                continue;
+            }
+
+            shape.addParticle(particle, particles);
+
+            if (particles > 0) particles = 0;
+        }
+    }
+
+    @Override
     public void addMechanic(ShapeDisplayMechanic.Phase phase, ShapeDisplayMechanic mechanic) {
         for (Shape shape : shapeLocationIndex.keySet()) {
             shape.addMechanic(phase, mechanic);
@@ -111,6 +128,13 @@ public class ParticleShapeCompound extends RotationHandler implements Shape {
     public void addPlayer(UUID uuid) {
         for (Shape shape : shapeLocationIndex.keySet()) {
             shape.addPlayer(uuid);
+        }
+    }
+
+    @Override
+    public void removeParticle(int index) {
+        for (Shape shape : shapeLocationIndex.keySet()) {
+            shape.removeParticle(index);
         }
     }
 
@@ -133,6 +157,17 @@ public class ParticleShapeCompound extends RotationHandler implements Shape {
         for (Shape shape : shapeLocationIndex.keySet()) {
             shape.removePlayer(player);
         }
+    }
+
+    @Override
+    public boolean hasPlayer(Player player) {
+        boolean hasPlayer = false;
+
+        for (Shape shape : shapeLocationIndex.keySet()) {
+            hasPlayer |= shape.hasPlayer(player);
+        }
+
+        return hasPlayer;
     }
 
     @Override
@@ -165,6 +200,15 @@ public class ParticleShapeCompound extends RotationHandler implements Shape {
     }
 
     @Override
+    public Shape setAsync(boolean async) {
+        for (Shape shape : shapeLocationIndex.keySet()) {
+            shape.setAsync(async);
+        }
+
+        return this;
+    }
+
+    @Override
     public Shape setDelay(int delay) {
         for (Shape shape : shapeLocationIndex.keySet()) {
             shape.setDelay(delay);
@@ -183,6 +227,12 @@ public class ParticleShapeCompound extends RotationHandler implements Shape {
     @Override
     @Deprecated
     public Particle getParticle() {
+        return null;
+    }
+
+    @Override
+    @Deprecated
+    public Pair<Particle, Integer> getSecondaryParticle(int index) {
         return null;
     }
 
@@ -211,6 +261,24 @@ public class ParticleShapeCompound extends RotationHandler implements Shape {
     }
 
     @Override
+    @Deprecated
+    public int getDelay() {
+        return 0;
+    }
+
+    @Override
+    @Deprecated
+    public int getSecondaryParticleAmount() {
+        return 0;
+    }
+
+    @Override
+    @Deprecated
+    public int getMechanicAmount() {
+        return 0;
+    }
+
+    @Override
     public List<UUID> getPlayers() {
         List<UUID> players = new ArrayList<>();
 
@@ -228,6 +296,23 @@ public class ParticleShapeCompound extends RotationHandler implements Shape {
     @Override
     public int getPlayerAmount() {
         return getPlayers().size();
+    }
+
+    @Override
+    @Deprecated
+    public boolean isAsync() {
+        return false;
+    }
+
+    @Override
+    public boolean isRunning() {
+        boolean running = false;
+
+        for (Shape shape : shapeLocationIndex.keySet()) {
+            running |= shape.isRunning();
+        }
+
+        return running;
     }
 
     @Override
