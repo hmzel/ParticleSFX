@@ -244,7 +244,7 @@ public abstract class ParticleShaper extends RotationHandler implements Shape {
     }
 
     public int getParticlesPerDisplay() {
-        return particlesPerDisplay;
+        return (particlesPerDisplay == 0) ? particleFrequency : particlesPerDisplay;
     }
 
     /**
