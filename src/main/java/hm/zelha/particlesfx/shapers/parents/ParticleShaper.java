@@ -125,12 +125,6 @@ public abstract class ParticleShaper extends RotationHandler implements Shape {
         }
     }
 
-    /**
-     * adds a particle for this shape to display after a certain amount of other particles
-     *
-     * @param particle particle to add
-     * @param particlesUntilDisplay how many particles need to be displayed before this one
-     */
     public void addParticle(Particle particle, int particlesUntilDisplay) {
         secondaryParticles.add(Pair.of(particle, particlesUntilDisplay));
     }
@@ -147,10 +141,6 @@ public abstract class ParticleShaper extends RotationHandler implements Shape {
         players.add(uuid);
     }
 
-    /**
-     * @see ParticleShaper#addParticle(Particle, int)
-     * @param index index of particle in list (main particle is not in list)
-     */
     public void removeParticle(int index) {
         secondaryParticles.remove(index);
     }
@@ -167,10 +157,6 @@ public abstract class ParticleShaper extends RotationHandler implements Shape {
         players.remove(player.getUniqueId());
     }
 
-    /**
-     * @param player player to check for
-     * @return whether this shape displays to this player
-     */
     public boolean hasPlayer(Player player) {
         if (players.isEmpty()) return true;
 
@@ -230,11 +216,6 @@ public abstract class ParticleShaper extends RotationHandler implements Shape {
         return particle;
     }
 
-    /**
-     * @see ParticleShaper#addParticle(Particle, int) 
-     * @param index index of particle to get from the list
-     * @return a pair of the particle and the amount of particles before it should be displayed
-     */
     public Pair<Particle, Integer> getSecondaryParticle(int index) {
         return secondaryParticles.get(index);
     }
@@ -254,18 +235,10 @@ public abstract class ParticleShaper extends RotationHandler implements Shape {
         return delay;
     }
 
-    /**
-     * @see ParticleShaper#addParticle(Particle, int) 
-     * @return the amount of extra particles that this shape uses
-     */
     public int getSecondaryParticleAmount() {
         return secondaryParticles.size();
     }
 
-    /**
-     * @see ParticleShaper#addMechanic(ShapeDisplayMechanic.Phase, ShapeDisplayMechanic)
-     * @return the amount of mechanics used by this shape
-     */
     public int getMechanicAmount() {
         return mechanics.size();
     }
