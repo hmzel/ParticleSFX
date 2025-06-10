@@ -48,9 +48,9 @@ public class ParticleSporeBlossom extends Particle implements LiquidParticle {
         if (state == LiquidParticleState.LANDING) throw new IllegalArgumentException("The \"LANDING\" state doesn't exist for this particle!");
 
         if (state == LiquidParticleState.DRIPPING) {
-            particle = (ParticleType) BuiltInRegistries.j.a(new MinecraftKey("spore_blossom_air"));
+            particle = (ParticleType) BuiltInRegistries.k.a(new MinecraftKey("spore_blossom_air"));
         } else {
-            particle = (ParticleType) BuiltInRegistries.j.a(new MinecraftKey("falling_spore_blossom"));
+            particle = (ParticleType) BuiltInRegistries.k.a(new MinecraftKey("falling_spore_blossom"));
         }
 
         this.state = state;
