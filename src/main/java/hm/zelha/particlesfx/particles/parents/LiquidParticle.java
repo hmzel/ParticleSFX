@@ -13,10 +13,6 @@ public interface LiquidParticle extends IParticle {
      */
     LiquidParticle setLiquidState(LiquidParticleState state);
 
-    Particle setSpeed(double speed);
-
-    Particle setRadius(int radius);
-
     /**
      * @return The type of liquid particle this object represents, keep in mind some LiquidParticles don't support all states.
      */
