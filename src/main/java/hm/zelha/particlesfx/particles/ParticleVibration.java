@@ -83,6 +83,10 @@ public class ParticleVibration extends TravellingParticle {
             this.arrivalTime = ((ParticleVibration) particle).arrivalTime;
         }
 
+        if (particle instanceof ParticleTrail) {
+            this.arrivalTime = ((ParticleTrail) particle).getArrivalTime();
+        }
+
         return this;
     }
 
