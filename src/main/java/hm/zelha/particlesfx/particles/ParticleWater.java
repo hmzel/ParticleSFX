@@ -3,8 +3,8 @@ package hm.zelha.particlesfx.particles;
 import hm.zelha.particlesfx.particles.parents.LiquidParticle;
 import hm.zelha.particlesfx.particles.parents.Particle;
 import hm.zelha.particlesfx.util.LiquidParticleState;
+import net.minecraft.core.IRegistry;
 import net.minecraft.core.particles.ParticleType;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.MinecraftKey;
 
 import java.util.Locale;
@@ -49,7 +49,7 @@ public class ParticleWater extends Particle implements LiquidParticle {
     public ParticleWater setLiquidState(LiquidParticleState state) {
         if (state == LiquidParticleState.LANDING) throw new IllegalArgumentException("The \"LANDING\" state doesn't exist for this particle!");
 
-        particle = (ParticleType) BuiltInRegistries.k.a(new MinecraftKey(state.name().toLowerCase(Locale.ROOT) + "_water"));
+        particle = (ParticleType) IRegistry.aa.a(new MinecraftKey(state.name().toLowerCase(Locale.ROOT) + "_water"));
         this.state = state;
 
         return this;
