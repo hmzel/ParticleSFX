@@ -47,7 +47,7 @@ public class ParticleHoney extends Particle implements LiquidParticle {
 
     @Override
     public ParticleHoney setLiquidState(LiquidParticleState state) {
-        particle = (ParticleType) IRegistry.ac.a(new MinecraftKey(state.name().toLowerCase(Locale.ROOT) + "_honey"));
+        particle = (ParticleType) IRegistry.ab.get(new MinecraftKey(state.name().toLowerCase(Locale.ROOT) + "_honey"));
         this.state = state;
 
         return this;
