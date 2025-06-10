@@ -16,10 +16,6 @@ public interface ColorableParticle extends IParticle {
 
     void setColor(int red, int green, int blue);
 
-    Particle setSpeed(double speed);
-
-    Particle setRadius(int radius);
-
     /**
      * nullable to allow for randomly colored particles without being complicated
      *
