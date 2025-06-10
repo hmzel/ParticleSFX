@@ -62,7 +62,7 @@ public class ParticleEffectColored extends ColorableParticle {
         super.inherit(particle);
 
         if (particle instanceof ParticleEffectColored) {
-            ((ParticleEffectColored) particle).setTransparency(transparency);
+            setTransparency(((ParticleEffectColored) particle).getTransparency());
         }
 
         return this;
