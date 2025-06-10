@@ -3,8 +3,8 @@ package hm.zelha.particlesfx.particles;
 import hm.zelha.particlesfx.particles.parents.LiquidParticle;
 import hm.zelha.particlesfx.particles.parents.Particle;
 import hm.zelha.particlesfx.util.LiquidParticleState;
+import net.minecraft.core.IRegistry;
 import net.minecraft.core.particles.ParticleType;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.MinecraftKey;
 
 import java.util.Locale;
@@ -50,7 +50,7 @@ public class ParticleNectar extends Particle implements LiquidParticle {
         if (state == LiquidParticleState.DRIPPING) throw new IllegalArgumentException("The \"DRIPPING\" state doesn't exist for this particle!");
         if (state == LiquidParticleState.LANDING) throw new IllegalArgumentException("The \"LANDING\" state doesn't exist for this particle!");
 
-        particle = (ParticleType) BuiltInRegistries.k.a(new MinecraftKey(state.name().toLowerCase(Locale.ROOT) + "_nectar"));
+        particle = (ParticleType) IRegistry.aa.a(new MinecraftKey(state.name().toLowerCase(Locale.ROOT) + "_nectar"));
         this.state = state;
 
         return this;
