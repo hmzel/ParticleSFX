@@ -1,9 +1,9 @@
 package hm.zelha.particlesfx.shapers.parents;
 
 import hm.zelha.particlesfx.particles.parents.Particle;
-import hm.zelha.particlesfx.util.Pair;
 import hm.zelha.particlesfx.util.Rotation;
 import hm.zelha.particlesfx.util.ShapeDisplayMechanic;
+import org.apache.commons.lang3.tuple.Pair;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
