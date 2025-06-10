@@ -47,7 +47,7 @@ public class ParticleObsidianTear extends Particle implements LiquidParticle {
 
     @Override
     public ParticleObsidianTear setLiquidState(LiquidParticleState state) {
-        particle = (ParticleType) BuiltInRegistries.j.a(new MinecraftKey(state.name().toLowerCase(Locale.ROOT) + "_obsidian_tear"));
+        particle = (ParticleType) BuiltInRegistries.k.a(new MinecraftKey(state.name().toLowerCase(Locale.ROOT) + "_obsidian_tear"));
         this.state = state;
 
         return this;
