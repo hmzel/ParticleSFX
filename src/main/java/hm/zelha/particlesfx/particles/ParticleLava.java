@@ -34,7 +34,7 @@ public class ParticleLava extends Particle implements LiquidParticle {
         super.inherit(particle);
 
         if (particle instanceof LiquidParticle) {
-            ((LiquidParticle) particle).setLiquidState(getLiquidState());
+            setLiquidState(((LiquidParticle) particle).getLiquidState());
         }
 
         return this;
