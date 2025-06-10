@@ -47,7 +47,7 @@ public class ParticleLava extends Particle implements LiquidParticle {
 
     @Override
     public ParticleLava setLiquidState(LiquidParticleState state) {
-        particle = (ParticleType) IRegistry.ac.a(new MinecraftKey(state.name().toLowerCase(Locale.ROOT) + "_lava"));
+        particle = (ParticleType) IRegistry.ab.get(new MinecraftKey(state.name().toLowerCase(Locale.ROOT) + "_lava"));
         this.state = state;
 
         return this;
