@@ -50,7 +50,7 @@ public class ParticleNectar extends Particle implements LiquidParticle {
         if (state == LiquidParticleState.DRIPPING) throw new IllegalArgumentException("The \"DRIPPING\" state doesn't exist for this particle!");
         if (state == LiquidParticleState.LANDING) throw new IllegalArgumentException("The \"LANDING\" state doesn't exist for this particle!");
 
-        particle = (ParticleType) BuiltInRegistries.i.a(MinecraftKey.a("minecraft", state.name().toLowerCase(Locale.ROOT) + "_nectar"));
+        particle = (ParticleType) BuiltInRegistries.j.a(new MinecraftKey(state.name().toLowerCase(Locale.ROOT) + "_nectar"));
         this.state = state;
 
         return this;
