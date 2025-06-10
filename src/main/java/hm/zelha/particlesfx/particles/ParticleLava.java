@@ -3,18 +3,14 @@ package hm.zelha.particlesfx.particles;
 import hm.zelha.particlesfx.particles.parents.LiquidParticle;
 import hm.zelha.particlesfx.particles.parents.Particle;
 import hm.zelha.particlesfx.util.LiquidParticleState;
-import net.minecraft.core.IRegistry;
-import net.minecraft.core.particles.ParticleType;
-import net.minecraft.resources.MinecraftKey;
-
-import java.util.Locale;
+import net.minecraft.server.v1_15_R1.Particles;
 
 public class ParticleLava extends Particle implements LiquidParticle {
 
     private LiquidParticleState state = LiquidParticleState.DRIPPING;
 
     public ParticleLava(double offsetX, double offsetY, double offsetZ, int count) {
-        super("dripping_lava", offsetX, offsetY, offsetZ, count);
+        super(Particles.DRIPPING_LAVA, offsetX, offsetY, offsetZ, count);
     }
 
     public ParticleLava(double offsetX, double offsetY, double offsetZ) {
@@ -47,7 +43,17 @@ public class ParticleLava extends Particle implements LiquidParticle {
 
     @Override
     public ParticleLava setLiquidState(LiquidParticleState state) {
-        particle = (ParticleType) IRegistry.ab.get(new MinecraftKey(state.name().toLowerCase(Locale.ROOT) + "_lava"));
+        switch (state) {
+            case DRIPPING:
+                particle = Particles.DRIPPING_LAVA;
+                break;
+            case FALLING:
+                particle = Particles.FALLING_LAVA;
+                break;
+            case LANDING:
+                particle = Particles.LANDING_LAVA;
+        }
+
         this.state = state;
 
         return this;

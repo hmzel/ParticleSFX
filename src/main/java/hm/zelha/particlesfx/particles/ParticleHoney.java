@@ -3,18 +3,14 @@ package hm.zelha.particlesfx.particles;
 import hm.zelha.particlesfx.particles.parents.LiquidParticle;
 import hm.zelha.particlesfx.particles.parents.Particle;
 import hm.zelha.particlesfx.util.LiquidParticleState;
-import net.minecraft.core.IRegistry;
-import net.minecraft.core.particles.ParticleType;
-import net.minecraft.resources.MinecraftKey;
-
-import java.util.Locale;
+import net.minecraft.server.v1_15_R1.Particles;
 
 public class ParticleHoney extends Particle implements LiquidParticle {
 
     private LiquidParticleState state = LiquidParticleState.DRIPPING;
 
     public ParticleHoney(double offsetX, double offsetY, double offsetZ, int count) {
-        super("dripping_honey", offsetX, offsetY, offsetZ, count);
+        super(Particles.DRIPPING_HONEY, offsetX, offsetY, offsetZ, count);
     }
 
     public ParticleHoney(double offsetX, double offsetY, double offsetZ) {
@@ -47,7 +43,17 @@ public class ParticleHoney extends Particle implements LiquidParticle {
 
     @Override
     public ParticleHoney setLiquidState(LiquidParticleState state) {
-        particle = (ParticleType) IRegistry.ab.get(new MinecraftKey(state.name().toLowerCase(Locale.ROOT) + "_honey"));
+        switch (state) {
+            case DRIPPING:
+                particle = Particles.DRIPPING_HONEY;
+                break;
+            case FALLING:
+                particle = Particles.FALLING_HONEY;
+                break;
+            case LANDING:
+                particle = Particles.LANDING_HONEY;
+        }
+
         this.state = state;
 
         return this;
