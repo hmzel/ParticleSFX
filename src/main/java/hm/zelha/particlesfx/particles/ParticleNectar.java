@@ -3,18 +3,14 @@ package hm.zelha.particlesfx.particles;
 import hm.zelha.particlesfx.particles.parents.LiquidParticle;
 import hm.zelha.particlesfx.particles.parents.Particle;
 import hm.zelha.particlesfx.util.LiquidParticleState;
-import net.minecraft.core.IRegistry;
-import net.minecraft.core.particles.ParticleType;
-import net.minecraft.resources.MinecraftKey;
-
-import java.util.Locale;
+import net.minecraft.server.v1_16_R1.Particles;
 
 public class ParticleNectar extends Particle implements LiquidParticle {
 
     private LiquidParticleState state = LiquidParticleState.FALLING;
 
     public ParticleNectar(double offsetX, double offsetY, double offsetZ, int count) {
-        super("falling_nectar", offsetX, offsetY, offsetZ, count);
+        super(Particles.FALLING_NECTAR, offsetX, offsetY, offsetZ, count);
     }
 
     public ParticleNectar(double offsetX, double offsetY, double offsetZ) {
@@ -47,10 +43,14 @@ public class ParticleNectar extends Particle implements LiquidParticle {
 
     @Override
     public ParticleNectar setLiquidState(LiquidParticleState state) {
-        if (state == LiquidParticleState.DRIPPING) throw new IllegalArgumentException("The \"DRIPPING\" state doesn't exist for this particle!");
-        if (state == LiquidParticleState.LANDING) throw new IllegalArgumentException("The \"LANDING\" state doesn't exist for this particle!");
+        switch (state) {
+            case DRIPPING:
+            case LANDING:
+                throw new IllegalArgumentException("The \"" + state.name() + "\" state doesn't exist for this particle!");
+            case FALLING:
+                particle = Particles.FALLING_NECTAR;
+        }
 
-        particle = (ParticleType) IRegistry.ab.get(new MinecraftKey(state.name().toLowerCase(Locale.ROOT) + "_nectar"));
         this.state = state;
 
         return this;
