@@ -3,18 +3,14 @@ package hm.zelha.particlesfx.particles;
 import hm.zelha.particlesfx.particles.parents.LiquidParticle;
 import hm.zelha.particlesfx.particles.parents.Particle;
 import hm.zelha.particlesfx.util.LiquidParticleState;
-import net.minecraft.core.IRegistry;
-import net.minecraft.core.particles.ParticleType;
-import net.minecraft.resources.MinecraftKey;
-
-import java.util.Locale;
+import net.minecraft.server.v1_16_R2.Particles;
 
 public class ParticleWater extends Particle implements LiquidParticle {
 
     private LiquidParticleState state = LiquidParticleState.DRIPPING;
 
     public ParticleWater(double offsetX, double offsetY, double offsetZ, int count) {
-        super("dripping_water", offsetX, offsetY, offsetZ, count);
+        super(Particles.DRIPPING_WATER, offsetX, offsetY, offsetZ, count);
     }
 
     public ParticleWater(double offsetX, double offsetY, double offsetZ) {
@@ -47,9 +43,17 @@ public class ParticleWater extends Particle implements LiquidParticle {
 
     @Override
     public ParticleWater setLiquidState(LiquidParticleState state) {
-        if (state == LiquidParticleState.LANDING) throw new IllegalArgumentException("The \"LANDING\" state doesn't exist for this particle!");
+        switch (state) {
+            case DRIPPING:
+                particle = Particles.DRIPPING_WATER;
+                break;
+            case FALLING:
+                particle = Particles.FALLING_WATER;
+                break;
+            case LANDING:
+                throw new IllegalArgumentException("The \"LANDING\" state doesn't exist for this particle!");
+        }
 
-        particle = (ParticleType) IRegistry.ab.get(new MinecraftKey(state.name().toLowerCase(Locale.ROOT) + "_water"));
         this.state = state;
 
         return this;
