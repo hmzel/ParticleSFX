@@ -9,9 +9,5 @@ public interface MaterialParticle extends IParticle {
 
     void setMaterial(Material material);
 
-    Particle setSpeed(double speed);
-
-    Particle setRadius(int radius);
-
     Material getMaterial();
 }

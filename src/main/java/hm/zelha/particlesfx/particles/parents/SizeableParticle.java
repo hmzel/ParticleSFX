@@ -7,9 +7,5 @@ public interface SizeableParticle extends IParticle {
 
     void setSize(double size);
 
-    Particle setSpeed(double speed);
-
-    Particle setRadius(int radius);
-
     double getSize();
 }
