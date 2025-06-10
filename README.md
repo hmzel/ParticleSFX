@@ -32,7 +32,7 @@ Add this to your pom.xml, replacing `version` with the version you want to use:
 ```
 ParticleSFX versions support every minecraft version between their version number and the next ParticleSFX version.
 for instance, version 1.16.2 supports minecraft 1.16.2 and 1.16.3, but not 1.16.4. <br>
-For a list of every version, look [here](https://github.com/hmzel/ParticleSFX/packages/1878252/versions)
+For a list of every version, look [here](https://github.com/hmzel/ParticleSFX/packages/2209321/versions)
 
 Once the dependency is added, be sure to download the javadocs and sources by clicking these buttons in intellij:
 ![image](https://github.com/hmzel/ParticleSFX/assets/96555008/9267ba98-2c12-4a5a-87e9-24950c4fc770)
@@ -165,8 +165,6 @@ Particles that extend ColorableParticle can have a color, or be randomly colored
 ```java
 new ParticleDustColored(Color.WHITE).display(location);
 ```
-<br>
-ColorableParticles also have a brightness variable that goes from 0-100.
 
 ---
 
@@ -189,6 +187,7 @@ new ParticleBlockBreak(new MaterialData(Material.DIAMOND_BLOCK)).display(locatio
 There are a lot of special particles:
 - ParticleDustColored has a pureColor variable to eliminate the random color differences when it's displayed, and in the latest versions it has a size variable.
 - ParticleDustMulticolored has everything ParticleDustColored has, plus a transition color variable.
+- ParticleEffectColored has a transparency variable post-1.20.4
 - ParticleExplosion and ParticleSweepAttack have size variables.
 - ParticleVibration has an entity variable, which will make the particle track the given entity client-side.
 - ParticleSculkCharge has a roll variable which determines the angle of the particle.
@@ -198,8 +197,8 @@ There are a lot of special particles:
 - ParticleNull displays nothing and is only meant for special use in shape classes.
 
 ## Showcases
-https://github.com/hmzel/ParticleSFX/assets/96555008/583b34ad-c56e-43ce-ad2b-283e3a477011
-
+# [1.8.9 Azazel Bossfight](https://www.youtube.com/watch?v=jDt44qJ054A) <br>
+![maxresdefault](https://github.com/user-attachments/assets/ff12b49a-5711-4cfa-845e-c2d0da46dd71)
 # [beating the eye of cthulhu in minecraft](https://www.youtube.com/watch?v=T1b8xYs3OHU) <br>
 ![2022-11-07_17 21 04](https://github.com/hmzel/ParticleSFX/assets/96555008/51040240-866a-4ffe-a2cd-66d5430ca905)
 ![2022-12-02_16 35 46](https://github.com/hmzel/ParticleSFX/assets/96555008/300cb844-3c8c-44dc-b926-7b7df695d5d6)
