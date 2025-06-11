@@ -4,27 +4,41 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>hm.zelha</groupId>
+    <groupId>io.github.hmzel</groupId>
     <artifactId>particlesfx</artifactId>
     <version>1.9.4</version>
     <packaging>jar</packaging>
 
     <name>ParticleSFX</name>
-    <url>https://github.com/hmzel</url>
     <description>A minecraft plugin development dependency meant to grant particle mastery with very few lines of code while still being user-friendly</description>
+    <url>https://github.com/hmzel/ParticleSFX</url>
+
+    <developers>
+        <developer>
+            <name>Hazel Godis</name>
+            <email>hmzeldev@gmail.com</email>
+            <organization>Github</organization>
+            <organizationUrl>https://github.com/hmzel</organizationUrl>
+        </developer>
+    </developers>
+
+    <scm>
+        <connection>scm:git:git://github.com/hmzel/ParticleSFX.git</connection>
+        <developerConnection>scm:git:ssh://github.com:hmzel/ParticleSFX.git</developerConnection>
+        <url>http://github.com/hmzel/ParticleSFX/tree/1.9.4</url>
+    </scm>
+
+    <licenses>
+        <license>
+            <name>MIT License</name>
+            <url>http://www.opensource.org/licenses/mit-license.php</url>
+        </license>
+    </licenses>
 
     <properties>
         <java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
-
-    <distributionManagement>
-        <repository>
-            <id>github</id>
-            <name>GitHub hmzel Apache Maven Packages</name>
-            <url>https://maven.pkg.github.com/hmzel/ParticleSFX</url>
-        </repository>
-    </distributionManagement>
 
     <build>
         <plugins>
@@ -76,6 +90,37 @@
                         </goals>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <artifactId>maven-install-plugin</artifactId>
+                <version>2.3.1</version>
+                <configuration>
+                    <createChecksum>true</createChecksum>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-gpg-plugin</artifactId>
+                <version>3.2.7</version>
+                <executions>
+                    <execution>
+                        <id>sign-artifacts</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>sign</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.sonatype.central</groupId>
+                <artifactId>central-publishing-maven-plugin</artifactId>
+                <version>0.7.0</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <publishingServerId>central</publishingServerId>
+                    <checksums>required</checksums>
+                </configuration>
             </plugin>
         </plugins>
         <resources>
