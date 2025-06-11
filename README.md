@@ -25,14 +25,14 @@ even novice plugin developers to do things that most servers can only dream of.
 Add this to your pom.xml, replacing `version` with the version you want to use:
 ```xml
 <dependency>
-  <groupId>hm.zelha</groupId>
+  <groupId>io.github.hmzel</groupId>
   <artifactId>particlesfx</artifactId>
   <version>version</version>
 </dependency>
 ```
 ParticleSFX versions support every minecraft version between their version number and the next ParticleSFX version.
 for instance, version 1.16.2 supports minecraft 1.16.2 and 1.16.3, but not 1.16.4. <br>
-For a list of every version, look [here](https://github.com/hmzel/ParticleSFX/packages/1878252/versions)
+For a list of every version, look [here](https://central.sonatype.com/artifact/io.github.hmzel/particlesfx/versions)
 
 Once the dependency is added, be sure to download the javadocs and sources by clicking these buttons in intellij:
 ![image](https://github.com/hmzel/ParticleSFX/assets/96555008/9267ba98-2c12-4a5a-87e9-24950c4fc770)
@@ -40,7 +40,7 @@ Once the dependency is added, be sure to download the javadocs and sources by cl
 or by running `mvn dependency:sources dependency:resolve -Dclassifier=javadoc` in your project folder.
 
 ## Usage
-[Shapes](#shapes) • [Simple Particles](#simple-particles) • [Travelling Particles](#travelling-particles) • [Colorable Particles](#colorable-particles) • [Material Particles](#material-particles) • [Special Particles](#special-particles)
+[Shapes](#shapes) • [Simple Particles](#simple-particles) • [Travelling Particles](#travelling-particles) • [Colorable Particles](#colorable-particles) • [Material Particles](#material-particles) • [Liquid Particles](#liquid-particles) • [Special Particles](#special-particles)
 ### Shapes
 Make sure to add `ParticleSFX.setPlugin(this);` to your `onEnable()` method before using any shapes. <br>
 For some complicated code examples of how to use the shape classes, check out the [ParticleSFX class](https://github.com/hmzel/ParticleSFX/blob/master/src/main/java/hm/zelha/particlesfx/util/ParticleSFX.java)
@@ -49,7 +49,7 @@ All shape classes have an array of rotation methods, from rotate() to face() to 
 
 By default, shapes display particles to all players within their world, but you can change that by using Shape#addPlayer().
 
-You can modify the tick delay between shapes running display() using Shape#setDelay().
+You can modify the tick delay between shapes running display() using Shape#setDelay() and change whether or not its async with Shape#setAsync().
 
 You can set the amount of particles the shape displays when display() is called using Shape#setParticlesPerDisplay(). Assuming the given int is less than ParticleFrequency, display() will display the given amount
 of particles and stop, and continue from there the next time display() is called, and so on, until it reaches the end and restarts. <br>
@@ -165,13 +165,11 @@ Particles that extend ColorableParticle can have a color, or be randomly colored
 ```java
 new ParticleDustColored(Color.WHITE).display(location);
 ```
-<br>
-ColorableParticles also have a brightness variable that goes from 0-100.
 
 ---
 
 ### Material Particles
-Particles that implement MaterialParticle take a Material, or MaterialData pre-1.13.
+Particles that extend MaterialParticle take a Material, or MaterialData pre-1.13.
 
 <b>Examples:</b>
 ```java
@@ -185,12 +183,24 @@ new ParticleBlockBreak(new MaterialData(Material.DIAMOND_BLOCK)).display(locatio
 
 ---
 
+### Liquid Particles
+Particles that extend LiquidParticle allow you to set state of the particle you want to use. Only exists in versions 1.14 and above.
+
+<b>Example:</b>
+```java
+new ParticleLava().setLiquidState(LiquidParticleState.FALLING).display(location);
+```
+
+---
+
 ### Special Particles
 There are a lot of special particles:
-- ParticleDustColored has a pureColor variable to eliminate the random color differences when it's displayed, and in the latest versions it has a size variable.
+- in some versions ParticleDustColored has a pureColor variable to eliminate the random color differences when it's displayed, and in the latest versions it has a size variable.
 - ParticleDustMulticolored has everything ParticleDustColored has, plus a transition color variable.
+- ParticleEffectColored has a transparency variable post-1.20.4
 - ParticleExplosion and ParticleSweepAttack have size variables.
 - ParticleVibration has an entity variable, which will make the particle track the given entity client-side.
+- ParticleTrail and ParticleVibration both have arrivalTime variables which strictly determines how many ticks the particle lasts.
 - ParticleSculkCharge has a roll variable which determines the angle of the particle.
 - ParticleShriek has a delay variable.
 - ParticlePortal has an inverse variable Post-1.16.1 which determines whether or not it uses PORTAL or REVERSE_PORTAL.
@@ -198,8 +208,8 @@ There are a lot of special particles:
 - ParticleNull displays nothing and is only meant for special use in shape classes.
 
 ## Showcases
-https://github.com/hmzel/ParticleSFX/assets/96555008/583b34ad-c56e-43ce-ad2b-283e3a477011
-
+# [1.8.9 Azazel Bossfight](https://www.youtube.com/watch?v=jDt44qJ054A) <br>
+![maxresdefault](https://github.com/user-attachments/assets/ff12b49a-5711-4cfa-845e-c2d0da46dd71)
 # [beating the eye of cthulhu in minecraft](https://www.youtube.com/watch?v=T1b8xYs3OHU) <br>
 ![2022-11-07_17 21 04](https://github.com/hmzel/ParticleSFX/assets/96555008/51040240-866a-4ffe-a2cd-66d5430ca905)
 ![2022-12-02_16 35 46](https://github.com/hmzel/ParticleSFX/assets/96555008/300cb844-3c8c-44dc-b926-7b7df695d5d6)
