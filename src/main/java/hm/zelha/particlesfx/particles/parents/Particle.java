@@ -11,8 +11,8 @@ import net.minecraft.server.level.EntityPlayer;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.craftbukkit.v1_21_R4.CraftServer;
-import org.bukkit.craftbukkit.v1_21_R4.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_21_R5.CraftServer;
+import org.bukkit.craftbukkit.v1_21_R5.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
@@ -94,12 +94,12 @@ public abstract class Particle implements IParticle {
                 EntityPlayer p = players.get(k).getHandle();
 
                 if (p == null) continue;
-                if (!location.getWorld().getName().equals(p.x().getWorld().getName())) continue;
+                if (!location.getWorld().getName().equals(p.y().getWorld().getName())) continue;
 
                 if (radius != 0) {
-                    double distance = Math.pow(location.getX() - p.dt().a(), 2) +
-                            Math.pow(location.getY() - p.dt().b(), 2) +
-                            Math.pow(location.getZ() - p.dt().c(), 2);
+                    double distance = Math.pow(location.getX() - p.dv().a(), 2) +
+                            Math.pow(location.getY() - p.dv().b(), 2) +
+                            Math.pow(location.getZ() - p.dv().c(), 2);
 
                     if (distance > Math.pow(radius, 2)) continue;
                 }
@@ -109,9 +109,9 @@ public abstract class Particle implements IParticle {
                 Packet strangePacket = getStrangePacket(location);
 
                 if (strangePacket != null) {
-                    p.f.sendPacket(strangePacket);
+                    p.g.sendPacket(strangePacket);
                 } else {
-                    p.f.sendPacket(
+                    p.g.sendPacket(
                             new PacketPlayOutWorldParticles(
                                     particle, true, false, (float) xyz.getX(), (float) xyz.getY(), (float) xyz.getZ(), (float) offsets.getX(),
                                     (float) offsets.getY(), (float) offsets.getZ(), getPacketSpeed(), getPacketCount()

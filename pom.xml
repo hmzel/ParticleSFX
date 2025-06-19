@@ -6,7 +6,7 @@
 
     <groupId>io.github.hmzel</groupId>
     <artifactId>particlesfx</artifactId>
-    <version>1.21.5</version>
+    <version>1.21.6</version>
     <packaging>jar</packaging>
 
     <name>ParticleSFX</name>
@@ -25,7 +25,7 @@
     <scm>
         <connection>scm:git:git://github.com/hmzel/ParticleSFX.git</connection>
         <developerConnection>scm:git:ssh://github.com:hmzel/ParticleSFX.git</developerConnection>
-        <url>http://github.com/hmzel/ParticleSFX/tree/1.21.5</url>
+        <url>http://github.com/hmzel/ParticleSFX/tree/1.21.6</url>
     </scm>
 
     <licenses>
@@ -150,13 +150,13 @@
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
-            <version>1.21.5-R0.1-SNAPSHOT</version>
+            <version>1.21.6-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot</artifactId>
-            <version>1.21.5-R0.1-SNAPSHOT</version>
+            <version>1.21.6-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
